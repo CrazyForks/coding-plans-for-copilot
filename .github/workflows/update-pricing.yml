@@ -2,7 +2,7 @@ name: Update Provider Pricing
 
 on:
   schedule:
-    - cron: "0 2 * * 0"
+    - cron: "0 2 * * *"
   workflow_dispatch:
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
             const body = `${marker}
             阿里云百炼的 coding 套餐页面可能已变更，自动抓取出现解析失败。
 
-            - 失败信息：\`${failureMessage}\`
+            - 失败信息：\\`${failureMessage}\\`
             - 工作流运行：${runUrl}
             - 时间（UTC）：${new Date().toISOString()}
 
@@ -89,4 +89,4 @@ jobs:
             exit 0
           fi
           git commit -m "chore: update provider pricing"
-          git push
+          git push on branch update-pricing-daily-schedule
