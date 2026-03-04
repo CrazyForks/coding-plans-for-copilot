@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.14] - 2026-03-04
+- fix(commit-message-generator): 优化仓库上下文解析
+- fix(ci): 修正更新价格推送分支
+- Update workflow for pricing fetching
+
 ## [0.4.13] - 2026-03-03
 - feat(commit-message): 增强模型选择缓存与日志
 
