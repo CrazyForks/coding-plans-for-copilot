@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-03-01T03:04:41.859Z",
+  "generatedAt": "2026-03-04T05:18:07.413Z",
   "providers": [
     {
       "provider": "zhipu-ai",
       "sourceUrls": [
         "https://bigmodel.cn/glm-coding",
-        "https://bigmodel.cn/js/app.43b2bfda.js",
-        "https://bigmodel.cn/js/chunk-0d4f69d1.c1011781.js",
+        "https://bigmodel.cn/js/app.888b4bb8.js",
+        "https://bigmodel.cn/js/chunk-0d4f69d1.69f45323.js",
         "https://docs.bigmodel.cn/cn/coding-plan/overview"
       ],
       "plans": [
@@ -56,7 +56,7 @@
       "sourceUrls": [
         "https://www.kimi.com/code/zh",
         "https://www.kimi.com/apiv2/kimi.gateway.order.v1.GoodsService/ListGoods",
-        "https://statics.moonshot.cn/kimi-web-seo/assets/common-CtJJqHXf.js"
+        "https://statics.moonshot.cn/kimi-web-seo/assets/common-CgSCnX0y.js"
       ],
       "plans": [
         {
@@ -167,7 +167,7 @@
       "provider": "volcengine-ai",
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.160/index.js"
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.162/index.js"
       ],
       "plans": [
         {
@@ -497,18 +497,18 @@
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/0b5732cc42dea580ff2fc50be553d2c4.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/72f06c5ecf1182dba2a99b8dd40d6ebe.js",
         "https://t.aliyun.com/abs/promotion/queryPrice"
       ],
       "plans": [
         {
           "name": "Coding Plan Lite",
-          "currentPrice": 7.9,
-          "currentPriceText": "¥7.9/月",
+          "currentPrice": 40,
+          "currentPriceText": "¥40/月",
           "originalPrice": 40,
-          "originalPriceText": "¥40/月",
+          "originalPriceText": null,
           "unit": "月",
-          "notes": "新人专享",
+          "notes": null,
           "serviceDetails": [
             "能力: 支持 Qwen3.5-Plus、Qwen3-Max、Qwen3-Coder-Next、Qwen3-Coder-Plus、MiniMax M2.5、GLM-5、Kimi-k2.5、GLM-4.7 等模型",
             "场景: 面向处理轻量级工作负载的个人开发者",
@@ -517,15 +517,15 @@
         },
         {
           "name": "Coding Plan Pro",
-          "currentPrice": 39.9,
-          "currentPriceText": "¥39.9/月",
+          "currentPrice": 200,
+          "currentPriceText": "¥200/月",
           "originalPrice": 200,
-          "originalPriceText": "¥200/月",
+          "originalPriceText": null,
           "unit": "月",
-          "notes": "新人专享",
+          "notes": null,
           "serviceDetails": [
             "权益: 享受 Lite 套餐的全部能力与权益",
-            "额度: 用量是 Lite 版的 5 倍，速度更快",
+            "额度: 用量是 Lite 版的 5 倍",
             "场景: 适合大型开发任务，专业级 AI 编程体验"
           ]
         }
