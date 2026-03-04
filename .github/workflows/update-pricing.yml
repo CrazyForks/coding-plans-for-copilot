@@ -89,4 +89,5 @@ jobs:
             exit 0
           fi
           git commit -m "chore: update provider pricing"
-          git push on branch update-pricing-daily-schedule
+          BRANCH_NAME="${GITHUB_REF_NAME:-main}"
+          git push origin "HEAD:${BRANCH_NAME}"
