@@ -17,17 +17,19 @@ interface PrepareLanguageModelChatModelOptionsWithConfiguration extends vscode.P
 }
 
 function toLanguageModelInfo(model: BaseLanguageModel): vscode.LanguageModelChatInformation {
-  return {
+  const info: vscode.LanguageModelChatInformation & { readonly contextSize?: number } = {
     id: model.id,
     name: model.name,
     family: model.family,
     tooltip: model.description,
     detail: model.version,
     version: model.version,
+    contextSize: model.contextSize,
     maxInputTokens: model.maxInputTokens,
     maxOutputTokens: model.maxOutputTokens,
     capabilities: model.capabilities
   };
+  return info;
 }
 
 function getProviderDisplayName(vendor: string): string {
@@ -64,13 +66,14 @@ function isPlaceholderModel(vendor: string, modelId: string): boolean {
 
 function getPlaceholderModel(vendor: string): vscode.LanguageModelChatInformation {
   const providerName = getProviderDisplayName(vendor);
-  return {
+  const info: vscode.LanguageModelChatInformation & { readonly contextSize?: number } = {
     id: getPlaceholderModelId(vendor),
     name: getMessage('setupModelName'),
     family: 'setup',
     tooltip: getMessage('setupModelTooltip', providerName),
     detail: getMessage('setupModelDetail'),
     version: MODEL_VERSION_LABEL,
+    contextSize: 1,
     maxInputTokens: 1,
     maxOutputTokens: 1,
     capabilities: {
@@ -78,17 +81,19 @@ function getPlaceholderModel(vendor: string): vscode.LanguageModelChatInformatio
       imageInput: false
     }
   };
+  return info;
 }
 
 function getNoModelsPlaceholderModel(vendor: string): vscode.LanguageModelChatInformation {
   const providerName = getProviderDisplayName(vendor);
-  return {
+  const info: vscode.LanguageModelChatInformation & { readonly contextSize?: number } = {
     id: getNoModelsPlaceholderModelId(vendor),
     name: getMessage('noModelName'),
     family: 'no-models',
     tooltip: getMessage('noModelTooltip', providerName),
     detail: getMessage('noModelDetail'),
     version: MODEL_VERSION_LABEL,
+    contextSize: 1,
     maxInputTokens: 1,
     maxOutputTokens: 1,
     capabilities: {
@@ -96,17 +101,19 @@ function getNoModelsPlaceholderModel(vendor: string): vscode.LanguageModelChatIn
       imageInput: false
     }
   };
+  return info;
 }
 
 function getUnsupportedPlaceholderModel(vendor: string): vscode.LanguageModelChatInformation {
   const providerName = getProviderDisplayName(vendor);
-  return {
+  const info: vscode.LanguageModelChatInformation & { readonly contextSize?: number } = {
     id: getUnsupportedPlaceholderModelId(vendor),
     name: getMessage('unsupportedModelName'),
     family: 'unsupported',
     tooltip: getMessage('unsupportedModelTooltip', providerName),
     detail: getMessage('unsupportedModelDetail'),
     version: MODEL_VERSION_LABEL,
+    contextSize: 1,
     maxInputTokens: 1,
     maxOutputTokens: 1,
     capabilities: {
@@ -114,16 +121,18 @@ function getUnsupportedPlaceholderModel(vendor: string): vscode.LanguageModelCha
       imageInput: false
     }
   };
+  return info;
 }
 
 function getVendorNotConfiguredPlaceholderModel(vendor: string): vscode.LanguageModelChatInformation {
-  return {
+  const info: vscode.LanguageModelChatInformation & { readonly contextSize?: number } = {
     id: getVendorNotConfiguredPlaceholderModelId(vendor),
     name: getMessage('vendorNotConfiguredName'),
     family: 'vendor-not-configured',
     tooltip: getMessage('vendorNotConfiguredTooltip'),
     detail: getMessage('vendorNotConfiguredDetail'),
     version: MODEL_VERSION_LABEL,
+    contextSize: 1,
     maxInputTokens: 1,
     maxOutputTokens: 1,
     capabilities: {
@@ -131,6 +140,7 @@ function getVendorNotConfiguredPlaceholderModel(vendor: string): vscode.Language
       imageInput: false
     }
   };
+  return info;
 }
 
 export class LMChatProviderAdapter implements vscode.LanguageModelChatProvider, vscode.Disposable {

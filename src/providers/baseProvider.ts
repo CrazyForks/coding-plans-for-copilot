@@ -5,6 +5,7 @@ export const MODEL_VERSION_LABEL = 'Coding Plans for Copilot';
 export const DEFAULT_CONFIGURED_MODELS: readonly string[] = [];
 
 const DEFAULT_MODEL_CONTEXT_SIZE = 200000;
+const DEFAULT_MODEL_CONTEXT_WINDOW_SIZE = 400000;
 
 export interface ModelCapabilities {
   toolCalling?: boolean | number;
@@ -18,7 +19,17 @@ export interface AIModelConfig {
   name: string;
   version?: string;
   maxTokens: number;
+  /**
+   * Total context window size in tokens.
+   */
+  contextSize?: number;
+  /**
+   * @deprecated Use {@link AIModelConfig.contextSize}.
+   */
   maxInputTokens?: number;
+  /**
+   * @deprecated Use {@link AIModelConfig.contextSize}.
+   */
   maxOutputTokens?: number;
   capabilities?: ModelCapabilities;
   description: string;
@@ -111,6 +122,7 @@ export abstract class BaseLanguageModel implements vscode.LanguageModelChat {
   public readonly family: string;
   public readonly name: string;
   public readonly version: string;
+  public readonly contextSize: number;
   public readonly maxInputTokens: number;
   public readonly maxOutputTokens: number;
   public readonly capabilities: vscode.LanguageModelChatCapabilities;
@@ -125,8 +137,9 @@ export abstract class BaseLanguageModel implements vscode.LanguageModelChat {
     this.family = modelInfo.family;
     this.name = modelInfo.name;
     this.version = modelInfo.version || MODEL_VERSION_LABEL;
-    this.maxInputTokens = modelInfo.maxInputTokens ?? modelInfo.maxTokens;
-    this.maxOutputTokens = modelInfo.maxOutputTokens ?? modelInfo.maxTokens;
+    this.contextSize = modelInfo.contextSize ?? modelInfo.maxTokens ?? modelInfo.maxInputTokens ?? modelInfo.maxOutputTokens;
+    this.maxInputTokens = modelInfo.maxInputTokens ?? this.contextSize;
+    this.maxOutputTokens = modelInfo.maxOutputTokens ?? this.contextSize;
     this.capabilities = modelInfo.capabilities ?? {
       toolCalling: true,
       imageInput: true
@@ -191,6 +204,7 @@ interface GenericModelListEntry {
 interface ResolvedModelRuntimeSettings {
   maxInputTokens: number;
   maxOutputTokens: number;
+  contextSize: number;
   toolCalling: boolean | number;
   imageInput: boolean;
 }
@@ -392,7 +406,8 @@ export abstract class BaseAIProvider implements vscode.Disposable {
       family: this.inferModelFamily(modelId, fallbackFamily),
       name: modelId,
       version: MODEL_VERSION_LABEL,
-      maxTokens: Math.max(runtime.maxInputTokens, runtime.maxOutputTokens),
+      maxTokens: runtime.contextSize,
+      contextSize: runtime.contextSize,
       maxInputTokens: runtime.maxInputTokens,
       maxOutputTokens: runtime.maxOutputTokens,
       capabilities: {
@@ -419,12 +434,17 @@ export abstract class BaseAIProvider implements vscode.Disposable {
       1,
       Math.floor(override?.maxOutputTokens ?? discovered?.maxOutputTokens ?? maxInputTokens)
     );
+    const contextSizeLimit = override?.contextSize
+      ?? discovered?.contextSize
+      ?? DEFAULT_MODEL_CONTEXT_WINDOW_SIZE;
+    const contextSize = Math.max(1, Math.floor(contextSizeLimit), maxInputTokens, maxOutputTokens);
     const toolCalling = override?.toolCalling ?? discovered?.toolCalling ?? true;
     const imageInput = override?.imageInput ?? discovered?.imageInput ?? true;
 
     return {
       maxInputTokens,
       maxOutputTokens,
+      contextSize,
       toolCalling,
       imageInput
     };
@@ -457,9 +477,9 @@ export abstract class BaseAIProvider implements vscode.Disposable {
         } | unknown;
       };
 
-      const legacyContextSize = this.readPositiveInteger(parsed.contextSize);
-      const maxInputTokens = this.readPositiveInteger(parsed.maxInputTokens) ?? legacyContextSize;
-      const maxOutputTokens = this.readPositiveInteger(parsed.maxOutputTokens) ?? legacyContextSize;
+      const contextSize = this.readPositiveInteger(parsed.contextSize);
+      const maxInputTokens = this.readPositiveInteger(parsed.maxInputTokens) ?? contextSize;
+      const maxOutputTokens = this.readPositiveInteger(parsed.maxOutputTokens) ?? contextSize;
 
       const capabilities = parsed.capabilities && typeof parsed.capabilities === 'object'
         ? parsed.capabilities as {
@@ -474,6 +494,9 @@ export abstract class BaseAIProvider implements vscode.Disposable {
       const imageInput = this.readBooleanValue(capabilities?.imageInput ?? capabilities?.vision);
 
       const normalized: Partial<ResolvedModelRuntimeSettings> = {};
+      if (contextSize !== undefined) {
+        normalized.contextSize = contextSize;
+      }
       if (maxInputTokens !== undefined) {
         normalized.maxInputTokens = maxInputTokens;
       }
@@ -531,6 +554,10 @@ export abstract class BaseAIProvider implements vscode.Disposable {
   }
 
   private readRuntimeFromGenericModelEntry(entry: GenericModelListEntry): Partial<ResolvedModelRuntimeSettings> {
+    const contextSize = this.pickPositiveInteger([
+      entry.context_length,
+      entry.max_tokens
+    ]);
     const maxInputTokens = this.pickPositiveInteger([
       entry.max_input_tokens,
       entry.input_token_limit,
@@ -558,6 +585,9 @@ export abstract class BaseAIProvider implements vscode.Disposable {
     );
 
     const runtime: Partial<ResolvedModelRuntimeSettings> = {};
+    if (contextSize !== undefined) {
+      runtime.contextSize = contextSize;
+    }
     if (maxInputTokens !== undefined) {
       runtime.maxInputTokens = maxInputTokens;
     }

@@ -7,7 +7,17 @@ export interface VendorModelConfig {
     tools?: boolean;
     vision?: boolean;
   };
+  /**
+   * Context window size in tokens.
+   */
+  contextSize?: number;
+  /**
+   * @deprecated Use {@link VendorModelConfig.contextSize}.
+   */
   maxInputTokens?: number;
+  /**
+   * @deprecated Use {@link VendorModelConfig.contextSize}.
+   */
   maxOutputTokens?: number;
 }
 
@@ -15,6 +25,7 @@ export interface VendorConfig {
   name: string;
   baseUrl: string;
   useModelsEndpoint: boolean;
+  defaultVision: boolean;
   models: VendorModelConfig[];
 }
 
@@ -139,12 +150,13 @@ export class ConfigStore implements vscode.Disposable {
     }
     const baseUrl = typeof obj.baseUrl === 'string' ? obj.baseUrl.trim() : '';
     const useModelsEndpoint = typeof obj.useModelsEndpoint === 'boolean' ? obj.useModelsEndpoint : false;
+    const defaultVision = typeof obj.defaultVision === 'boolean' ? obj.defaultVision : false;
     const models = Array.isArray(obj.models)
       ? obj.models
           .map(m => this.normalizeModel(m))
           .filter((m): m is VendorModelConfig => m !== undefined)
       : [];
-    return { name, baseUrl, useModelsEndpoint, models };
+    return { name, baseUrl, useModelsEndpoint, defaultVision, models };
   }
 
   private normalizeModel(raw: unknown): VendorModelConfig | undefined {
@@ -160,9 +172,9 @@ export class ConfigStore implements vscode.Disposable {
       typeof obj.description === 'string' && obj.description.trim().length > 0
         ? obj.description.trim()
         : undefined;
-    const legacyContextSize = this.readPositiveNumber(obj.contextSize);
-    const maxInputTokens = this.readPositiveNumber(obj.maxInputTokens) ?? legacyContextSize;
-    const maxOutputTokens = this.readPositiveNumber(obj.maxOutputTokens) ?? legacyContextSize;
+    const contextSize = this.readPositiveNumber(obj.contextSize);
+    const maxInputTokens = this.readPositiveNumber(obj.maxInputTokens) ?? contextSize;
+    const maxOutputTokens = this.readPositiveNumber(obj.maxOutputTokens) ?? contextSize;
     let capabilities: VendorModelConfig['capabilities'];
     if (obj.capabilities && typeof obj.capabilities === 'object') {
       const cap = obj.capabilities as Record<string, unknown>;
@@ -172,7 +184,7 @@ export class ConfigStore implements vscode.Disposable {
       };
     }
 
-    return { name, description, capabilities, maxInputTokens, maxOutputTokens };
+    return { name, description, capabilities, contextSize, maxInputTokens, maxOutputTokens };
   }
 
   private withModelDefaults(model: VendorModelConfig): VendorModelConfig {
@@ -181,6 +193,7 @@ export class ConfigStore implements vscode.Disposable {
     return {
       name: model.name,
       description: model.description,
+      contextSize: model.contextSize,
       maxInputTokens,
       maxOutputTokens,
       capabilities: {

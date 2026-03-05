@@ -69,9 +69,10 @@ interface VendorDiscoveryState {
 }
 
 const DEFAULT_CONTEXT_SIZE = 200000;
+const DEFAULT_CONTEXT_WINDOW_SIZE = 400000;
 const DEFAULT_MAX_TOKENS = 4000;
 const DEFAULT_MODEL_TOOLS = true;
-const DEFAULT_MODEL_VISION = false;
+const DEFAULT_MODEL_VISION = true;
 const NON_RETRYABLE_DISCOVERY_STATUS_CODES = new Set([400, 401, 403, 404]);
 
 export class GenericLanguageModel extends BaseLanguageModel {
@@ -262,7 +263,7 @@ export class GenericAIProvider extends BaseAIProvider {
       // When useModelsEndpoint is enabled, discovered model names are the source of truth.
       // Runtime/token/capability overrides from settings are preserved per model.
       const discoveredVendorModels = this.toVendorModelConfigs(discovered.models);
-      const mergedVendorModels = this.mergeConfiguredModelOverrides(vendor.models, discoveredVendorModels);
+      const mergedVendorModels = this.mergeConfiguredModelOverrides(vendor.models, discoveredVendorModels, vendor.defaultVision);
       const resolvedModels = this.buildConfiguredModelsFromVendorModels(vendor, mergedVendorModels);
       const discoveredSignature = this.buildVendorDiscoverySignature({ ...vendor, models: mergedVendorModels }, apiKey);
       logger.info('Using /models discovery results for vendor', {
@@ -324,6 +325,8 @@ export class GenericAIProvider extends BaseAIProvider {
   ): AIModelConfig {
     const maxInputTokens = model.maxInputTokens ?? DEFAULT_CONTEXT_SIZE;
     const maxOutputTokens = model.maxOutputTokens ?? DEFAULT_CONTEXT_SIZE;
+    const configuredContextSize = model.contextSize ?? DEFAULT_CONTEXT_WINDOW_SIZE;
+    const contextSize = Math.max(configuredContextSize, maxInputTokens, maxOutputTokens);
     const toolCalling = model.capabilities?.tools ?? DEFAULT_MODEL_TOOLS;
     const imageInput = model.capabilities?.vision ?? DEFAULT_MODEL_VISION;
 
@@ -333,7 +336,8 @@ export class GenericAIProvider extends BaseAIProvider {
       family: vendor.name,
       name: model.name,
       version: vendor.name,
-      maxTokens: Math.max(maxInputTokens, maxOutputTokens),
+      maxTokens: contextSize,
+      contextSize,
       maxInputTokens,
       maxOutputTokens,
       capabilities: { toolCalling, imageInput },
@@ -409,10 +413,11 @@ export class GenericAIProvider extends BaseAIProvider {
           family: vendor.name,
           name: modelId,
           version: vendor.name,
-          maxTokens: DEFAULT_CONTEXT_SIZE,
+          maxTokens: DEFAULT_CONTEXT_WINDOW_SIZE,
+          contextSize: DEFAULT_CONTEXT_WINDOW_SIZE,
           maxInputTokens: DEFAULT_CONTEXT_SIZE,
           maxOutputTokens: DEFAULT_CONTEXT_SIZE,
-          capabilities: { toolCalling: DEFAULT_MODEL_TOOLS, imageInput: DEFAULT_MODEL_VISION },
+          capabilities: { toolCalling: DEFAULT_MODEL_TOOLS },
           description: getMessage('genericDynamicModelDescription', vendor.name, modelId)
         });
       }
@@ -464,22 +469,27 @@ export class GenericAIProvider extends BaseAIProvider {
 
     const toolCalling = model.capabilities?.toolCalling;
     const tools = typeof toolCalling === 'number' ? toolCalling > 0 : (toolCalling ?? DEFAULT_MODEL_TOOLS);
+    const imageInput = model.capabilities?.imageInput;
+    const vision = typeof imageInput === 'boolean' ? imageInput : undefined;
+    const contextSize = this.readPositiveTokenInteger(model.contextSize ?? model.maxTokens);
 
     return {
       name,
       description: model.description?.trim() || undefined,
+      contextSize,
       maxInputTokens: this.readPositiveTokenInteger(model.maxInputTokens) ?? DEFAULT_CONTEXT_SIZE,
       maxOutputTokens: this.readPositiveTokenInteger(model.maxOutputTokens) ?? DEFAULT_CONTEXT_SIZE,
       capabilities: {
         tools,
-        vision: model.capabilities?.imageInput ?? DEFAULT_MODEL_VISION
+        vision
       }
     };
   }
 
   private mergeConfiguredModelOverrides(
     currentModels: VendorModelConfig[],
-    discoveredModels: VendorModelConfig[]
+    discoveredModels: VendorModelConfig[],
+    defaultVisionForNewModels: boolean
   ): VendorModelConfig[] {
     const configuredByName = new Map<string, VendorModelConfig>();
     for (const model of currentModels) {
@@ -493,12 +503,23 @@ export class GenericAIProvider extends BaseAIProvider {
     return discoveredModels.map(discovered => {
       const configured = configuredByName.get(discovered.name.trim().toLowerCase());
       if (!configured) {
-        return discovered;
+        const discoveredVision = discovered.capabilities?.vision;
+        if (typeof discoveredVision === 'boolean') {
+          return discovered;
+        }
+        return {
+          ...discovered,
+          capabilities: {
+            ...discovered.capabilities,
+            vision: defaultVisionForNewModels
+          }
+        };
       }
 
       return {
         name: discovered.name,
         description: configured.description ?? discovered.description,
+        contextSize: configured.contextSize ?? discovered.contextSize,
         maxInputTokens: configured.maxInputTokens ?? discovered.maxInputTokens,
         maxOutputTokens: configured.maxOutputTokens ?? discovered.maxOutputTokens,
         capabilities: {
