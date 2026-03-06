@@ -10,7 +10,7 @@ import {
   normalizeHttpBaseUrl
 } from './baseProvider';
 import { ConfigStore, VendorConfig, VendorModelConfig } from '../config/configStore';
-import { getMessage } from '../i18n/i18n';
+import { getMessage, isChinese } from '../i18n/i18n';
 import { logger } from '../logging/outputChannelLogger';
 
 interface OpenAIChatRequest {
@@ -44,6 +44,161 @@ interface OpenAIChatResponse {
   };
 }
 
+interface OpenAIResponsesToolDefinition {
+  type: 'function';
+  name: string;
+  description?: string;
+  parameters?: object;
+}
+
+interface OpenAIResponsesInputTextContent {
+  type: 'input_text';
+  text: string;
+}
+
+interface OpenAIResponsesInputToolCallContent {
+  type: 'function_call';
+  call_id: string;
+  name: string;
+  arguments: string;
+}
+
+interface OpenAIResponsesInputToolResultContent {
+  type: 'function_call_output';
+  call_id: string;
+  output: string;
+}
+
+type OpenAIResponsesInputContent = OpenAIResponsesInputTextContent;
+
+interface OpenAIResponsesInputMessage {
+  type?: 'message';
+  role: 'system' | 'user' | 'assistant';
+  content: string | OpenAIResponsesInputContent[];
+}
+
+type OpenAIResponsesInputItem =
+  | OpenAIResponsesInputMessage
+  | OpenAIResponsesInputToolCallContent
+  | OpenAIResponsesInputToolResultContent;
+
+interface OpenAIResponsesRequest {
+  model: string;
+  input: OpenAIResponsesInputItem[];
+  tools?: OpenAIResponsesToolDefinition[];
+  tool_choice?: 'auto' | 'required';
+  temperature?: number;
+  top_p?: number;
+  max_output_tokens?: number;
+}
+
+interface OpenAIResponsesOutputTextContent {
+  type: 'output_text';
+  text?: string;
+}
+
+interface OpenAIResponsesFunctionCallItem {
+  type: 'function_call';
+  call_id?: string;
+  name?: string;
+  arguments?: string;
+}
+
+interface OpenAIResponsesMessageItem {
+  type: 'message';
+  role?: string;
+  content?: Array<{
+    type?: string;
+    text?: string;
+  }>;
+}
+
+type OpenAIResponsesOutputItem = OpenAIResponsesFunctionCallItem | OpenAIResponsesMessageItem;
+
+interface OpenAIResponsesResponse {
+  id: string;
+  output?: OpenAIResponsesOutputItem[];
+  output_text?: string;
+  usage?: {
+    input_tokens?: number;
+    output_tokens?: number;
+    total_tokens?: number;
+  };
+}
+
+interface AnthropicToolDefinition {
+  name: string;
+  description?: string;
+  input_schema?: object;
+}
+
+interface AnthropicTextContentBlock {
+  type: 'text';
+  text: string;
+}
+
+interface AnthropicToolUseContentBlock {
+  type: 'tool_use';
+  id: string;
+  name: string;
+  input?: unknown;
+}
+
+interface AnthropicToolResultContentBlock {
+  type: 'tool_result';
+  tool_use_id: string;
+  content: string;
+}
+
+type AnthropicRequestContentBlock =
+  | AnthropicTextContentBlock
+  | AnthropicToolUseContentBlock
+  | AnthropicToolResultContentBlock;
+
+interface AnthropicChatMessage {
+  role: 'user' | 'assistant';
+  content: string | AnthropicRequestContentBlock[];
+}
+
+interface AnthropicChatRequest {
+  model: string;
+  max_tokens: number;
+  system?: string;
+  messages: AnthropicChatMessage[];
+  tools?: AnthropicToolDefinition[];
+  tool_choice?: AnthropicToolChoice;
+}
+
+interface AnthropicToolChoice {
+  type: 'auto' | 'any' | 'tool' | 'none';
+  name?: string;
+}
+
+interface AnthropicResponseTextContentBlock {
+  type: 'text';
+  text?: string;
+}
+
+interface AnthropicResponseToolUseContentBlock {
+  type: 'tool_use';
+  id?: string;
+  name?: string;
+  input?: unknown;
+}
+
+type AnthropicResponseContentBlock = AnthropicResponseTextContentBlock | AnthropicResponseToolUseContentBlock;
+
+interface AnthropicChatResponse {
+  id: string;
+  role: 'assistant';
+  content: AnthropicResponseContentBlock[];
+  stop_reason?: string;
+  usage?: {
+    input_tokens?: number;
+    output_tokens?: number;
+  };
+}
+
 interface GenericChatRequest {
   modelId: string;
   messages: vscode.LanguageModelChatMessage[];
@@ -70,6 +225,11 @@ interface VendorDiscoveryState {
 
 interface RefreshModelsOptions {
   forceDiscoveryRetry?: boolean;
+}
+
+interface RetryWithV1PromptResult {
+  baseUrl: string;
+  vendor: VendorConfig;
 }
 
 const DEFAULT_CONTEXT_SIZE = 200000;
@@ -327,7 +487,15 @@ export class GenericAIProvider extends BaseAIProvider {
       throw new vscode.LanguageModelError(getMessage('apiKeyRequired', mapping.vendor.name));
     }
 
-    return this.sendOpenAIRequest(request, mapping.modelName, baseUrl, apiKey, token);
+    if (mapping.vendor.apiStyle === 'anthropic') {
+      return this.sendAnthropicRequest(request, mapping.vendor, mapping.modelName, baseUrl, apiKey, token);
+    }
+
+    if (mapping.vendor.apiStyle === 'openai-responses') {
+      return this.sendOpenAIResponsesRequest(request, mapping.vendor, mapping.modelName, baseUrl, apiKey, token);
+    }
+
+    return this.sendOpenAIChatRequest(request, mapping.vendor, mapping.modelName, baseUrl, apiKey, token);
   }
 
   protected createModel(modelInfo: AIModelConfig): BaseLanguageModel {
@@ -393,10 +561,14 @@ export class GenericAIProvider extends BaseAIProvider {
         return { models: [], failed: false };
       }
 
-      const response = await this.fetchJson<any>(`${baseUrl}/models`, {
-        method: 'GET',
-        ...this.buildRequestInit(apiKey)
+      const resolved = await this.withOptionalV1Retry(vendor, baseUrl, async retryBaseUrl => {
+        const response = await this.fetchJson<any>(`${retryBaseUrl}/models`, {
+          method: 'GET',
+          ...this.buildRequestInit(apiKey, vendor.apiStyle)
+        });
+        return { response, baseUrl: retryBaseUrl };
       });
+      const response = resolved.response;
       const data = response.data;
       const entries: any[] = Array.isArray(data?.data)
         ? data.data
@@ -561,7 +733,7 @@ export class GenericAIProvider extends BaseAIProvider {
     const normalizedBaseUrl = normalizeHttpBaseUrl(vendor.baseUrl) || vendor.baseUrl.trim();
     const modelsSignature = this.hashText(JSON.stringify(vendor.models));
     const endpointFlag = vendor.useModelsEndpoint ? '1' : '0';
-    return `${this.toVendorStateKey(vendor.name)}|${normalizedBaseUrl.toLowerCase()}|${endpointFlag}|${modelsSignature}|${this.hashText(apiKey.trim())}`;
+    return `${this.toVendorStateKey(vendor.name)}|${normalizedBaseUrl.toLowerCase()}|${vendor.apiStyle}|${endpointFlag}|${modelsSignature}|${this.hashText(apiKey.trim())}`;
   }
 
   private hashText(value: string): string {
@@ -573,8 +745,9 @@ export class GenericAIProvider extends BaseAIProvider {
     return (hash >>> 0).toString(16);
   }
 
-  private async sendOpenAIRequest(
+  private async sendOpenAIChatRequest(
     request: GenericChatRequest,
+    vendor: VendorConfig,
     modelName: string,
     baseUrl: string,
     apiKey: string,
@@ -595,8 +768,10 @@ export class GenericAIProvider extends BaseAIProvider {
     };
 
     try {
-      const requestInit = this.buildRequestInit(apiKey, token);
-      const response = await this.postWithRetry(`${baseUrl}/chat/completions`, payload, requestInit);
+      const requestInit = this.buildRequestInit(apiKey, 'openai-chat', token);
+      const response = await this.withOptionalV1Retry(vendor, baseUrl, retryBaseUrl => (
+        this.postWithRetry(`${retryBaseUrl}/chat/completions`, payload, requestInit)
+      ));
       const responseMessage = response.choices[0]?.message;
       const content = responseMessage?.content || '';
       const usageData = response.usage;
@@ -631,17 +806,135 @@ export class GenericAIProvider extends BaseAIProvider {
     }
   }
 
+  private async sendOpenAIResponsesRequest(
+    request: GenericChatRequest,
+    vendor: VendorConfig,
+    modelName: string,
+    baseUrl: string,
+    apiKey: string,
+    token?: vscode.CancellationToken
+  ): Promise<vscode.LanguageModelChatResponse> {
+    const providerMessages = this.convertMessages(request.messages);
+    const payload: OpenAIResponsesRequest = {
+      model: modelName,
+      input: this.toOpenAIResponsesInput(providerMessages),
+      tools: request.capabilities.toolCalling ? this.buildOpenAIResponsesToolDefinitions(request.options) : undefined,
+      tool_choice: request.capabilities.toolCalling ? this.buildToolChoice(request.options) : undefined,
+      temperature: 0.7,
+      top_p: 0.9,
+      max_output_tokens: DEFAULT_MAX_TOKENS
+    };
+
+    try {
+      const requestInit = this.buildRequestInit(apiKey, 'openai-responses', token);
+      const response = await this.withOptionalV1Retry(vendor, baseUrl, retryBaseUrl => (
+        this.postWithRetry(`${retryBaseUrl}/responses`, payload, requestInit)
+      ));
+      const parsed = this.parseOpenAIResponsesResponse(response);
+      const responseParts = this.buildResponseParts(parsed.content, parsed.toolCalls);
+
+      async function* streamText(text: string): AsyncIterable<string> {
+        if (text.trim().length > 0) {
+          yield text;
+        }
+      }
+
+      async function* streamParts(parts: vscode.LanguageModelResponsePart[]): AsyncIterable<vscode.LanguageModelResponsePart> {
+        for (const part of parts) {
+          yield part;
+        }
+      }
+
+      const result: vscode.LanguageModelChatResponse = {
+        stream: streamParts(responseParts),
+        text: streamText(parsed.content)
+      };
+
+      if (response.usage) {
+        (result as any).promptTokens = response.usage.input_tokens;
+        (result as any).completionTokens = response.usage.output_tokens;
+        (result as any).totalTokens = response.usage.total_tokens
+          ?? ((response.usage.input_tokens || 0) + (response.usage.output_tokens || 0));
+      }
+
+      return result;
+    } catch (error: any) {
+      throw this.toProviderError(error);
+    }
+  }
+
+  private async sendAnthropicRequest(
+    request: GenericChatRequest,
+    vendor: VendorConfig,
+    modelName: string,
+    baseUrl: string,
+    apiKey: string,
+    token?: vscode.CancellationToken
+  ): Promise<vscode.LanguageModelChatResponse> {
+    const providerMessages = this.convertMessages(request.messages);
+    const { system, messages } = this.toAnthropicMessages(providerMessages);
+    const tools = request.capabilities.toolCalling ? this.buildAnthropicToolDefinitions(request.options) : undefined;
+    const payload: AnthropicChatRequest = {
+      model: modelName,
+      max_tokens: DEFAULT_MAX_TOKENS,
+      system: system || undefined,
+      messages,
+      tools,
+      tool_choice: tools ? this.buildAnthropicToolChoice(request.options) : undefined
+    };
+
+    try {
+      const requestInit = this.buildRequestInit(apiKey, 'anthropic', token);
+      const response = await this.withOptionalV1Retry(vendor, baseUrl, retryBaseUrl => (
+        this.postWithRetry(`${retryBaseUrl}/messages`, payload, requestInit)
+      ));
+      const parsed = this.parseAnthropicResponse(response);
+      const responseParts = this.buildResponseParts(parsed.content, parsed.toolCalls);
+
+      async function* streamText(text: string): AsyncIterable<string> {
+        if (text.trim().length > 0) {
+          yield text;
+        }
+      }
+
+      async function* streamParts(parts: vscode.LanguageModelResponsePart[]): AsyncIterable<vscode.LanguageModelResponsePart> {
+        for (const part of parts) {
+          yield part;
+        }
+      }
+
+      const result: vscode.LanguageModelChatResponse = {
+        stream: streamParts(responseParts),
+        text: streamText(parsed.content)
+      };
+
+      if (response.usage) {
+        const promptTokens = response.usage.input_tokens;
+        const completionTokens = response.usage.output_tokens;
+        (result as any).promptTokens = promptTokens;
+        (result as any).completionTokens = completionTokens;
+        if (typeof promptTokens === 'number' || typeof completionTokens === 'number') {
+          (result as any).totalTokens = (promptTokens || 0) + (completionTokens || 0);
+        }
+      }
+
+      return result;
+    } catch (error: any) {
+      throw this.toProviderError(error);
+    }
+  }
+
   private async postWithRetry(
     url: string,
-    payload: OpenAIChatRequest,
+    payload: unknown,
     requestInit: RequestInit
-  ): Promise<OpenAIChatResponse> {
+  ): Promise<any> {
     const maxRetries = 2;
     let attempt = 0;
 
     while (true) {
       try {
-        const response = await this.fetchJson<OpenAIChatResponse>(url, {
+        const response = await this.fetchJson<any>(url, {
           ...requestInit,
           method: 'POST',
           body: JSON.stringify(payload)
@@ -665,11 +958,137 @@ export class GenericAIProvider extends BaseAIProvider {
     }
   }
 
-  private buildRequestInit(apiKey: string, token?: vscode.CancellationToken): RequestInit {
-    const headers = {
+  private async withOptionalV1Retry<T>(
+    vendor: VendorConfig,
+    baseUrl: string,
+    execute: (resolvedBaseUrl: string) => Promise<T>
+  ): Promise<T> {
+    let currentBaseUrl = baseUrl;
+    let retriedWithV1 = false;
+
+    while (true) {
+      try {
+        return await execute(currentBaseUrl);
+      } catch (error: any) {
+        if (retriedWithV1 || !this.shouldOfferV1Retry(currentBaseUrl, error)) {
+          throw error;
+        }
+
+        const retryTarget = await this.promptToAppendV1(vendor, currentBaseUrl);
+        if (!retryTarget) {
+          throw error;
+        }
+
+        currentBaseUrl = retryTarget.baseUrl;
+        vendor = retryTarget.vendor;
+        retriedWithV1 = true;
+      }
+    }
+  }
+
+  private shouldOfferV1Retry(baseUrl: string, error: any): boolean {
+    if (error?.response?.status !== 404) {
+      return false;
+    }
+
+    try {
+      const url = new URL(baseUrl);
+      return this.canAppendV1ToBaseUrl(url);
+    } catch {
+      return false;
+    }
+  }
+
+  private canAppendV1ToBaseUrl(url: URL): boolean {
+    const segments = url.pathname
+      .split('/')
+      .map(segment => segment.trim().toLowerCase())
+      .filter(segment => segment.length > 0);
+
+    if (segments.includes('v1')) {
+      return false;
+    }
+
+    return segments.length === 0 || (segments.length === 1 && segments[0] === 'api');
+  }
+
+  private buildBaseUrlWithV1(baseUrl: string): string {
+    const url = new URL(baseUrl);
+    const pathname = url.pathname.replace(/\/$/, '');
+    url.pathname = pathname + '/v1';
+    return url.toString().replace(/\/$/, '');
+  }
+
+  private async promptToAppendV1(vendor: VendorConfig, baseUrl: string): Promise<RetryWithV1PromptResult | undefined> {
+    let url: URL;
+    try {
+      url = new URL(baseUrl);
+    } catch {
+      return undefined;
+    }
+
+    if (!this.canAppendV1ToBaseUrl(url)) {
+      return undefined;
+    }
+
+    const nextBaseUrl = this.buildBaseUrlWithV1(baseUrl);
+    const action = this.getRetryWithV1ActionLabel();
+    const picked = await vscode.window.showWarningMessage(
+      this.getRetryWithV1PromptText(vendor.name, nextBaseUrl),
+      action
+    );
+
+    if (picked !== action) {
+      return undefined;
+    }
+
+    await this.configStore.updateVendorBaseUrl(vendor.name, nextBaseUrl);
+    return {
+      baseUrl: nextBaseUrl,
+      vendor: {
+        ...vendor,
+        baseUrl: nextBaseUrl
+      }
+    };
+  }
+
+  private getRetryWithV1PromptText(vendorName: string, nextBaseUrl: string): string {
+    const message = getMessage('retryWithV1Prompt', vendorName, nextBaseUrl);
+    if (message !== 'retryWithV1Prompt') {
+      return message;
+    }
+
+    if (isChinese()) {
+      return `${vendorName} 请求返回 404，当前 baseUrl 可能缺少 /v1。是否改为 ${nextBaseUrl} 并立即重试？`;
+    }
+
+    return `${vendorName} returned 404. The current baseUrl may be missing /v1. Update it to ${nextBaseUrl} and retry now?`;
+  }
+
+  private getRetryWithV1ActionLabel(): string {
+    const action = getMessage('retryWithV1Action');
+    if (action !== 'retryWithV1Action') {
+      return action;
+    }
+
+    return isChinese() ? '添加 /v1 并重试' : 'Add /v1 and retry';
+  }
+
+  private buildRequestInit(
+    apiKey: string,
+    apiStyle: 'openai-chat' | 'openai-responses' | 'anthropic',
+    token?: vscode.CancellationToken
+  ): RequestInit {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiKey}`
     };
+
+    if (apiStyle === 'anthropic') {
+      headers['x-api-key'] = apiKey;
+      headers['anthropic-version'] = '2023-06-01';
+    }
+
     const init: RequestInit = { headers };
 
     if (token) {
@@ -684,20 +1103,21 @@ export class GenericAIProvider extends BaseAIProvider {
   private toProviderError(error: any): vscode.LanguageModelError {
     const detail = this.readApiErrorMessage(error);
     const compactDetail = detail ? getCompactErrorMessage(detail) : undefined;
+    const apiErrorType = this.readApiErrorType(error);
 
     if (this.isAbortError(error)) {
       return new vscode.LanguageModelError(getMessage('requestCancelled'));
     }
 
-    if (error.response?.status === 401 || error.response?.status === 403) {
+    if (error.response?.status === 401 || error.response?.status === 403 || apiErrorType === 'authentication_error' || apiErrorType === 'permission_error') {
       return new vscode.LanguageModelError(compactDetail || getMessage('apiKeyInvalid'));
     }
-    if (error.response?.status === 429) {
+    if (error.response?.status === 429 || apiErrorType === 'rate_limit_error') {
       return vscode.LanguageModelError.Blocked(
         compactDetail ? `${getMessage('rateLimitExceeded')}: ${compactDetail}` : getMessage('rateLimitExceeded')
       );
     }
-    if (error.response?.status === 400) {
+    if (error.response?.status === 400 || apiErrorType === 'invalid_request_error') {
       const invalidDetail = compactDetail || getCompactErrorMessage(error.response.data?.error?.message || '');
       return new vscode.LanguageModelError(getMessage('invalidRequest', invalidDetail));
     }
@@ -722,6 +1142,239 @@ export class GenericAIProvider extends BaseAIProvider {
     }
 
     return undefined;
+  }
+
+  private readApiErrorType(error: any): string | undefined {
+    const type = error?.response?.data?.error?.type;
+    if (typeof type === 'string' && type.trim().length > 0) {
+      return type.trim();
+    }
+    return undefined;
+  }
+
+  private buildAnthropicToolDefinitions(
+    options?: vscode.LanguageModelChatRequestOptions
+  ): AnthropicToolDefinition[] | undefined {
+    const tools = this.buildToolDefinitions(options);
+    if (!tools || tools.length === 0) {
+      return undefined;
+    }
+
+    return tools.map(tool => ({
+      name: tool.function.name,
+      description: tool.function.description,
+      input_schema: tool.function.parameters
+    }));
+  }
+
+  private buildAnthropicToolChoice(
+    options?: vscode.LanguageModelChatRequestOptions
+  ): AnthropicToolChoice | undefined {
+    if (!options?.tools || options.tools.length === 0) {
+      return undefined;
+    }
+
+    if (options.toolMode === vscode.LanguageModelChatToolMode.Required) {
+      return { type: 'any' };
+    }
+
+    return { type: 'auto' };
+  }
+
+  private buildOpenAIResponsesToolDefinitions(
+    options?: vscode.LanguageModelChatRequestOptions
+  ): OpenAIResponsesToolDefinition[] | undefined {
+    const tools = this.buildToolDefinitions(options);
+    if (!tools || tools.length === 0) {
+      return undefined;
+    }
+
+    return tools.map(tool => ({
+      type: 'function',
+      name: tool.function.name,
+      description: tool.function.description,
+      parameters: tool.function.parameters
+    }));
+  }
+
+  private toOpenAIResponsesInput(messages: ChatMessage[]): OpenAIResponsesInputItem[] {
+    const input: OpenAIResponsesInputItem[] = [];
+
+    for (const message of messages) {
+      if (message.role === 'tool') {
+        input.push({
+          type: 'function_call_output',
+          call_id: message.tool_call_id || this.generateToolCallId(),
+          output: message.content
+        });
+        continue;
+      }
+
+      if (message.role === 'assistant' && message.tool_calls && message.tool_calls.length > 0) {
+        if (message.content.trim().length > 0) {
+          input.push({
+            type: 'message',
+            role: 'assistant',
+            content: message.content
+          });
+        }
+
+        for (const toolCall of message.tool_calls) {
+          input.push({
+            type: 'function_call',
+            call_id: toolCall.id || this.generateToolCallId(),
+            name: toolCall.function.name,
+            arguments: toolCall.function.arguments
+          });
+        }
+        continue;
+      }
+
+      input.push({
+        type: 'message',
+        role: message.role,
+        content: message.content
+      });
+    }
+
+    return input;
+  }
+
+  private parseOpenAIResponsesResponse(response: OpenAIResponsesResponse): { content: string; toolCalls: ChatToolCall[] } {
+    const textParts: string[] = [];
+    const toolCalls: ChatToolCall[] = [];
+
+    for (const item of response.output ?? []) {
+      if (item.type === 'function_call' && typeof item.name === 'string' && item.name.trim().length > 0) {
+        toolCalls.push({
+          id: typeof item.call_id === 'string' && item.call_id.trim().length > 0 ? item.call_id : this.generateToolCallId(),
+          type: 'function',
+          function: {
+            name: item.name,
+            arguments: typeof item.arguments === 'string' ? item.arguments : '{}'
+          }
+        });
+        continue;
+      }
+
+      if (item.type === 'message') {
+        for (const contentPart of item.content ?? []) {
+          if ((contentPart.type === 'output_text' || contentPart.type === 'text') && typeof contentPart.text === 'string' && contentPart.text.trim().length > 0) {
+            textParts.push(contentPart.text);
+          }
+        }
+      }
+    }
+
+    if (textParts.length === 0 && typeof response.output_text === 'string' && response.output_text.trim().length > 0) {
+      textParts.push(response.output_text);
+    }
+
+    return {
+      content: textParts.join(''),
+      toolCalls
+    };
+  }
+
+  private toAnthropicMessages(messages: ChatMessage[]): { system: string; messages: AnthropicChatMessage[] } {
+    const systemParts: string[] = [];
+    const normalizedMessages: AnthropicChatMessage[] = [];
+
+    for (const message of messages) {
+      if (message.role === 'system') {
+        if (message.content.trim().length > 0) {
+          systemParts.push(message.content);
+        }
+        continue;
+      }
+
+      if (message.role === 'tool') {
+        normalizedMessages.push({
+          role: 'user',
+          content: [{
+            type: 'tool_result',
+            tool_use_id: message.tool_call_id || this.generateToolCallId(),
+            content: message.content
+          }]
+        });
+        continue;
+      }
+
+      if (message.role === 'assistant' && message.tool_calls && message.tool_calls.length > 0) {
+        const contentBlocks: AnthropicRequestContentBlock[] = [];
+        if (message.content.trim().length > 0) {
+          contentBlocks.push({ type: 'text', text: message.content });
+        }
+        for (const toolCall of message.tool_calls) {
+          contentBlocks.push({
+            type: 'tool_use',
+            id: toolCall.id || this.generateToolCallId(),
+            name: toolCall.function.name,
+            input: this.parseToolArgumentsSafe(toolCall.function.arguments)
+          });
+        }
+        normalizedMessages.push({ role: 'assistant', content: contentBlocks });
+        continue;
+      }
+
+      const role = message.role === 'assistant' ? 'assistant' : 'user';
+      normalizedMessages.push({ role, content: message.content });
+    }
+
+    return {
+      system: systemParts.join('\n\n').trim(),
+      messages: normalizedMessages
+    };
+  }
+
+  private parseAnthropicResponse(response: AnthropicChatResponse): { content: string; toolCalls: ChatToolCall[] } {
+    const textParts: string[] = [];
+    const toolCalls: ChatToolCall[] = [];
+
+    for (const block of response.content ?? []) {
+      if (block.type === 'text') {
+        if (typeof block.text === 'string' && block.text.trim().length > 0) {
+          textParts.push(block.text);
+        }
+        continue;
+      }
+
+      if (block.type === 'tool_use' && typeof block.name === 'string' && block.name.trim().length > 0) {
+        toolCalls.push({
+          id: typeof block.id === 'string' && block.id.trim().length > 0 ? block.id : this.generateToolCallId(),
+          type: 'function',
+          function: {
+            name: block.name,
+            arguments: JSON.stringify(block.input ?? {})
+          }
+        });
+      }
+    }
+
+    return {
+      content: textParts.join(''),
+      toolCalls
+    };
+  }
+
+  private parseToolArgumentsSafe(rawArgs: string): object {
+    if (!rawArgs) {
+      return {};
+    }
+
+    try {
+      const parsed = JSON.parse(rawArgs);
+      if (parsed && typeof parsed === 'object') {
+        return parsed as object;
+      }
+      return { value: parsed };
+    } catch {
+      return { raw: rawArgs };
+    }
+  }
+
+  private generateToolCallId(): string {
+    return `tool_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
   }
 
   private isAbortError(error: any): boolean {

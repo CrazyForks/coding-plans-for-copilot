@@ -62,3 +62,18 @@ npm run publish:marketplace
 - `assets/provider-pricing.json`（扩展和 GitHub Pages 的统一数据源）
 
 GitHub Pages 部署时会将 `assets/provider-pricing.json` 同步到 `docs/provider-pricing.json` 作为站点构建产物（不入库）。
+
+## 多协议供应商接入说明
+
+- `coding-plans.vendors[].apiStyle` 用于声明供应商协议风格：
+  - `openai-chat`：请求 `baseUrl + /chat/completions`
+  - `openai-responses`：请求 `baseUrl + /responses`
+  - `anthropic`：请求 `baseUrl + /messages`
+- 当前无需考虑旧枚举兼容，未配置 `apiStyle` 时默认按 `openai-chat` 处理。
+- `anthropic` 与 `openai-responses` 目前重点覆盖聊天与工具调用；模型发现仍建议使用 `useModelsEndpoint: false` 并手动维护 `models`。
+- 若修改协议相关行为，请同步检查：
+  - `src/providers/genericProvider.ts`
+  - `src/config/configStore.ts`
+  - `package.json`
+  - `README.md`
+  - `README_en.md`

@@ -2,13 +2,13 @@
 
 **Switch between multiple AI model vendors with one click, breaking Copilot plan limitations.**
 
-Supports major domestic AI vendors such as Zhipu z.ai, Kimi, Volcano Cloud, Minimax, and Alibaba Cloud, as well as **any** vendor compatible with the OpenAI API. No need to change usage habits; seamlessly call directly in VS Code Copilot Chat.
+Supports major domestic AI vendors such as Zhipu z.ai, Kimi, Volcano Cloud, Minimax, and Alibaba Cloud, as well as **any** vendor compatible with OpenAI Chat, OpenAI Responses, or Anthropic-style APIs. No need to change usage habits; seamlessly call directly in VS Code Copilot Chat.
 
 ---
 
 ## Core Features
 
-- **Unified multi-vendor access**: Supports **any** provider that complies with the OpenAI API specification. Configure once, use anywhere.
+- **Unified multi-vendor access**: Supports **any** provider that complies with OpenAI Chat, OpenAI Responses, or Anthropic-style API specifications. Configure once, use anywhere.
 - **Coding Plans Dashboard**: Visit the [GitHub Page Dashboard](https://jqknono.github.io/coding-plans-for-copilot/) to explore available AI plans and pricing in the market.
 - **Model Provider Performance Dashboard**: A new tab on the same page shows provider-level `latency_last_30m` and `throughput_last_30m` for selected models.
 - **Zero learning curve**: Fully integrated into VS Code Copilot Chat, no change to any operating habits
@@ -48,6 +48,7 @@ Supports major domestic AI vendors such as Zhipu z.ai, Kimi, Volcano Cloud, Mini
     {
       "name": "zhipu",
       "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiStyle": "openai-chat",
       "useModelsEndpoint": false,
       "models": [
         {
@@ -72,6 +73,64 @@ Supports major domestic AI vendors such as Zhipu z.ai, Kimi, Volcano Cloud, Mini
 }
 ```
 
+### Anthropic-style Configuration Example
+
+```json
+{
+  "coding-plans.vendors": [
+    {
+      "name": "deepseek",
+      "baseUrl": "https://api.deepseek.com/anthropic",
+      "apiStyle": "anthropic",
+      "useModelsEndpoint": false,
+      "models": [
+        {
+          "name": "deepseek-chat",
+          "capabilities": {
+            "tools": true,
+            "vision": false
+          },
+          "contextSize": 200000
+        },
+        {
+          "name": "deepseek-reasoner",
+          "capabilities": {
+            "tools": true,
+            "vision": false
+          },
+          "contextSize": 200000
+        }
+      ]
+    }
+  ]
+}
+```
+
+### OpenAI Responses-style Configuration Example
+
+```json
+{
+  "coding-plans.vendors": [
+    {
+      "name": "openai-responses-demo",
+      "baseUrl": "https://api.openai.com/v1",
+      "apiStyle": "openai-responses",
+      "useModelsEndpoint": false,
+      "models": [
+        {
+          "name": "gpt-5",
+          "capabilities": {
+            "tools": true,
+            "vision": false
+          },
+          "contextSize": 400000
+        }
+      ]
+    }
+  ]
+}
+```
+
 ### Configuration Options
 
 | Config Key | Type | Default | Description |
@@ -79,6 +138,7 @@ Supports major domestic AI vendors such as Zhipu z.ai, Kimi, Volcano Cloud, Mini
 | `coding-plans.vendors` | `array` | Built-in vendor template | Vendor configuration list. |
 | `coding-plans.vendors[].name` | `string` | Required | Unique vendor name (used for matching and selection). |
 | `coding-plans.vendors[].baseUrl` | `string` | Required | Vendor API base URL; can fill in self-built relay station. |
+| `coding-plans.vendors[].apiStyle` | `string` | `openai-chat` | Protocol style. Supports `openai-chat`, `openai-responses`, and `anthropic`, mapping to `/chat/completions`, `/responses`, and `/messages`. |
 | `coding-plans.vendors[].useModelsEndpoint` | `boolean` | `false` | When `true`, refreshing models will request `/models`. |
 | `coding-plans.vendors[].models` | `array` | `[]` | Manual model list. |
 | `coding-plans.vendors[].models[].name` | `string` | Required | Model name. |
@@ -108,6 +168,8 @@ Supports major domestic AI vendors such as Zhipu z.ai, Kimi, Volcano Cloud, Mini
 | `coding-plans.modelSettings` | `object` | `{}` | Advanced fallback: Override token and capability parameters per model. |
 
 `API Key` is not stored in plain text in `settings.json`. Please write it to VS Code Secret Storage via 'Set API Key'.
+
+Note: Multi-protocol support currently focuses on chat and tool calling. For `anthropic` and `openai-responses`, in most cases use `useModelsEndpoint: false` and configure the model list explicitly.
 
 ## Advanced Features
 

@@ -31,6 +31,8 @@
   "invalidRequest": "Invalid request: {0}",
   "unknownError": "Unknown error",
   "requestFailed": "Request failed: {0}",
+  "retryWithV1Prompt": "{0} returned 404. The current baseUrl may be missing /v1. Update it to {1} and retry now?",
+  "retryWithV1Action": "Add /v1 and retry",
   "setupModelName": "Configure API Key",
   "setupModelTooltip": "Set a valid {0} API Key and then refresh the model list.",
   "setupModelDetail": "No models available",

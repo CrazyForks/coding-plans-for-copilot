@@ -2,13 +2,13 @@
 
 **一键切换多厂商 AI 模型，打破 Copilot 套餐限制。**
 
-支持智谱 z.ai、Kimi、火山云、Minimax、阿里云等国产大厂，以及**任何**兼容 OpenAI 接口的供应商。无需改变使用习惯，直接在 VS Code Copilot Chat 中无缝调用。
+支持智谱 z.ai、Kimi、火山云、Minimax、阿里云等国产大厂，以及**任何**兼容 OpenAI Chat、OpenAI Responses 或 Anthropic 接口风格的供应商。无需改变使用习惯，直接在 VS Code Copilot Chat 中无缝调用。
 
 ---
 
 ## 核心特性
 
-- **多厂商统一接入**：支持**任意**符合 OpenAI 接口规范的供应商，配置一次即可使用。
+- **多厂商统一接入**：支持**任意**符合 OpenAI Chat、OpenAI Responses 或 Anthropic 接口规范的供应商，配置一次即可使用。
 - **编码套餐看板（GitHub Pages）**：访问 [GitHub Page 看板](https://jqknono.github.io/coding-plans-for-copilot/) 统一查看多家编码套餐的公开月费与权益信息（自动抓取、定期更新）。
   - 按币种分区：大陆（¥）/ 海外（$）
   - 访问受限或解析失败的海外供应商会进入 Pending 折叠区
@@ -53,6 +53,7 @@
     {
       "name": "zhipu",
       "baseUrl": "https://open.bigmodel.cn/api/coding/paas/v4",
+      "apiStyle": "openai-chat",
       "useModelsEndpoint": false,
       "models": [
         {
@@ -77,6 +78,64 @@
 }
 ```
 
+### Anthropic 风格配置示例（如 DeepSeek Anthropic 兼容入口）
+
+```json
+{
+  "coding-plans.vendors": [
+    {
+      "name": "deepseek",
+      "baseUrl": "https://api.deepseek.com/anthropic",
+      "apiStyle": "anthropic",
+      "useModelsEndpoint": false,
+      "models": [
+        {
+          "name": "deepseek-chat",
+          "capabilities": {
+            "tools": true,
+            "vision": false
+          },
+          "contextSize": 200000
+        },
+        {
+          "name": "deepseek-reasoner",
+          "capabilities": {
+            "tools": true,
+            "vision": false
+          },
+          "contextSize": 200000
+        }
+      ]
+    }
+  ]
+}
+```
+
+### OpenAI Responses 风格配置示例
+
+```json
+{
+  "coding-plans.vendors": [
+    {
+      "name": "openai-responses-demo",
+      "baseUrl": "https://api.openai.com/v1",
+      "apiStyle": "openai-responses",
+      "useModelsEndpoint": false,
+      "models": [
+        {
+          "name": "gpt-5",
+          "capabilities": {
+            "tools": true,
+            "vision": false
+          },
+          "contextSize": 400000
+        }
+      ]
+    }
+  ]
+}
+```
+
 ### 可配置项说明
 
 | 配置键 | 类型 | 默认值 | 说明 |
@@ -84,6 +143,7 @@
 | `coding-plans.vendors` | `array` | 内置供应商模板 | 供应商配置列表。 |
 | `coding-plans.vendors[].name` | `string` | 必填 | 供应商唯一名称（用于匹配与选择）。 |
 | `coding-plans.vendors[].baseUrl` | `string` | 必填 | 供应商 API 基础地址，可填写自建中转站。 |
+| `coding-plans.vendors[].apiStyle` | `string` | `openai-chat` | 接口协议风格，支持 `openai-chat` / `openai-responses` / `anthropic`。分别对应 `/chat/completions`、`/responses`、`/messages`。 |
 | `coding-plans.vendors[].useModelsEndpoint` | `boolean` | `false` | 为 `true` 时刷新模型会请求 `/models`。 |
 | `coding-plans.vendors[].models` | `array` | `[]` | 手动模型清单。 |
 | `coding-plans.vendors[].models[].name` | `string` | 必填 | 模型名称。 |
@@ -113,6 +173,8 @@
 | `coding-plans.modelSettings` | `object` | `{}` | 高级兜底：按模型覆盖 token 与能力参数。 |
 
 `API Key` 不在 `settings.json` 明文存储。请通过「设置 API Key」写入 VS Code Secret Storage。
+
+说明：当前多协议支持重点覆盖聊天与工具调用；对 `anthropic` 与 `openai-responses`，通常建议搭配 `useModelsEndpoint: false` 并手动填写 `models` 列表。
 
 ## 高级功能
 

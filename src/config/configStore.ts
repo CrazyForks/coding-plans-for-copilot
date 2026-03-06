@@ -24,6 +24,7 @@ export interface VendorModelConfig {
 export interface VendorConfig {
   name: string;
   baseUrl: string;
+  apiStyle: 'openai-chat' | 'openai-responses' | 'anthropic';
   useModelsEndpoint: boolean;
   defaultVision: boolean;
   models: VendorModelConfig[];
@@ -154,6 +155,51 @@ export class ConfigStore implements vscode.Disposable {
     this.onDidChangeEmitter.fire();
   }
 
+  async updateVendorBaseUrl(vendorName: string, baseUrl: string): Promise<void> {
+    const config = vscode.workspace.getConfiguration('coding-plans');
+    const rawVendors = config.get<unknown[]>('vendors', []);
+    if (!Array.isArray(rawVendors)) {
+      return;
+    }
+
+    const normalizedVendorName = vendorName.trim();
+    const normalizedBaseUrl = baseUrl.trim();
+    if (normalizedVendorName.length === 0 || normalizedBaseUrl.length === 0) {
+      return;
+    }
+
+    let changed = false;
+    const updatedVendors = rawVendors.map(rawVendor => {
+      if (!rawVendor || typeof rawVendor !== 'object') {
+        return rawVendor;
+      }
+
+      const vendorObj = rawVendor as Record<string, unknown>;
+      const name = typeof vendorObj.name === 'string' ? vendorObj.name.trim() : '';
+      if (name !== normalizedVendorName) {
+        return rawVendor;
+      }
+
+      const currentBaseUrl = typeof vendorObj.baseUrl === 'string' ? vendorObj.baseUrl.trim() : '';
+      if (currentBaseUrl === normalizedBaseUrl) {
+        return rawVendor;
+      }
+
+      changed = true;
+      return {
+        ...vendorObj,
+        baseUrl: normalizedBaseUrl
+      };
+    });
+
+    if (!changed) {
+      return;
+    }
+
+    await config.update('vendors', updatedVendors, this.resolveVendorsConfigTarget());
+    this.onDidChangeEmitter.fire();
+  }
+
   private readModelName(raw: unknown): string | undefined {
     if (!raw || typeof raw !== 'object') {
       return undefined;
@@ -208,6 +254,11 @@ export class ConfigStore implements vscode.Disposable {
       return undefined;
     }
     const baseUrl = typeof obj.baseUrl === 'string' ? obj.baseUrl.trim() : '';
+    const apiStyle = obj.apiStyle === 'anthropic'
+      ? 'anthropic'
+      : obj.apiStyle === 'openai-responses'
+        ? 'openai-responses'
+        : 'openai-chat';
     const useModelsEndpoint = typeof obj.useModelsEndpoint === 'boolean' ? obj.useModelsEndpoint : false;
     const defaultVision = typeof obj.defaultVision === 'boolean' ? obj.defaultVision : false;
     const models = Array.isArray(obj.models)
@@ -215,7 +266,7 @@ export class ConfigStore implements vscode.Disposable {
           .map(m => this.normalizeModel(m))
           .filter((m): m is VendorModelConfig => m !== undefined)
       : [];
-    return { name, baseUrl, useModelsEndpoint, defaultVision, models };
+    return { name, baseUrl, apiStyle, useModelsEndpoint, defaultVision, models };
   }
 
   private normalizeModel(raw: unknown): VendorModelConfig | undefined {

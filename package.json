@@ -2,7 +2,7 @@
     "name": "coding-plans-for-copilot",
     "displayName": "%displayName%",
     "description": "%description%",
-    "version": "0.4.16",
+    "version": "0.5.0",
     "publisher": "techfetch-dev",
     "repository": {
         "type": "git",
@@ -207,6 +207,16 @@
                             },
                             "baseUrl": {
                                 "type": "string"
+                            },
+                            "apiStyle": {
+                                "type": "string",
+                                "enum": [
+                                    "openai-chat",
+                                    "openai-responses",
+                                    "anthropic"
+                                ],
+                                "default": "openai-chat",
+                                "description": "API protocol style used by this vendor. Use openai-chat for /chat/completions, openai-responses for /responses, or anthropic for /messages-compatible endpoints."
                             },
                             "useModelsEndpoint": {
                                 "type": "boolean",

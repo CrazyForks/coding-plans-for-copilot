@@ -31,6 +31,8 @@
   "invalidRequest": "请求参数错误: {0}",
   "unknownError": "未知错误",
   "requestFailed": "请求失败: {0}",
+  "retryWithV1Prompt": "{0} 返回了 404。当前 baseUrl 似乎缺少 /v1，是否改为 {1} 并立即重试？",
+  "retryWithV1Action": "添加 /v1 并重试",
   "setupModelName": "配置 API Key",
   "setupModelTooltip": "请先配置有效的 {0} API Key，然后刷新模型列表。",
   "setupModelDetail": "暂无可用模型",
