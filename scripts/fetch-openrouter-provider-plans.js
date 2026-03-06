@@ -23,6 +23,9 @@ const PRICING_BUNDLE_PROBE_MAX_FILES = Math.max(
   Number.parseInt(process.env.OPENROUTER_PRICING_BUNDLE_PROBE_MAX_FILES || "80", 10),
 );
 
+const HEURISTIC_MIN_SUBSCRIPTION_PRICE = 3;
+const HEURISTIC_MAX_SUBSCRIPTION_PRICE = 10000;
+
 // OpenRouter provider slug => provider-pricing.json provider id
 const OPENROUTER_TO_PRICING_PROVIDER = {
   "z-ai": "zhipu-ai",
@@ -31,12 +34,29 @@ const OPENROUTER_TO_PRICING_PROVIDER = {
   streamlake: "kwaikat-ai",
   alibaba: "aliyun-ai",
   seed: "volcengine-ai",
+  baidu: "baidu-qianfan-ai",
+  qianfan: "baidu-qianfan-ai",
+  tencent: "tencent-cloud-ai",
+  hunyuan: "tencent-cloud-ai",
 };
 
 // Extra fallback when OpenRouter policy/status links are missing.
 const OFFICIAL_WEBSITE_OVERRIDES = {
   "io-net": "https://io.net",
   ionstream: "https://ionstream.ai",
+  venice: "https://venice.ai",
+};
+
+// Provider-specific pricing pages that should be probed first.
+const PRICING_PAGE_OVERRIDES = {
+  mistral: "https://mistral.ai/pricing",
+  venice: "https://venice.ai/pricing",
+  chutes: "https://chutes.ai/pricing",
+};
+
+const PROVIDER_PENDING_OVERRIDES = {
+  gmicloud: "仅提供 GPU 云计算按时计费（$/GPU-hour），无套餐订阅",
+  "google-vertex": "云平台按量计费 + $300 免费试用额度，无套餐订阅",
 };
 
 const PRICING_PATH_CANDIDATES = [
@@ -99,6 +119,22 @@ function normalizeName(value) {
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "");
+}
+
+function normalizeSlug(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase();
+}
+
+function parseProviderSlugFromTag(tag) {
+  const raw = normalizeSlug(tag);
+  if (!raw) {
+    return null;
+  }
+  const slashIndex = raw.indexOf("/");
+  const slug = slashIndex >= 0 ? raw.slice(0, slashIndex) : raw;
+  return slug || null;
 }
 
 function unique(values) {
@@ -202,27 +238,46 @@ function extractFailureReasonByProvider(failures, providerId) {
   return rest.join(":").trim() || String(entry);
 }
 
-function getMetricsProviderNames(metricsData) {
+function getMetricsProviders(metricsData) {
   const models = Array.isArray(metricsData?.models) ? metricsData.models : [];
-  const names = [];
+  const providers = [];
+  const seen = new Set();
   for (const model of models) {
     const endpoints = Array.isArray(model?.endpoints) ? model.endpoints : [];
     for (const endpoint of endpoints) {
       const name = String(endpoint?.providerName || "").trim();
-      if (name) {
-        names.push(name);
+      const slug = normalizeSlug(endpoint?.providerSlug) || parseProviderSlugFromTag(endpoint?.tag);
+      const key = slug ? `slug:${slug}` : `name:${normalizeName(name)}`;
+      if (!name && !slug) {
+        continue;
       }
+      if (seen.has(key)) {
+        continue;
+      }
+      seen.add(key);
+      providers.push({
+        name,
+        slug: slug || null,
+      });
     }
   }
-  return unique(names).sort((left, right) => left.localeCompare(right));
+  return providers.sort((left, right) => {
+    const leftName = left.name || left.slug || "";
+    const rightName = right.name || right.slug || "";
+    return leftName.localeCompare(rightName);
+  });
 }
 
-function resolveOpenrouterProvider(metricsProviderName, providersByName, providersBySlug) {
-  const byName = providersByName.get(normalizeName(metricsProviderName));
+function resolveOpenrouterProvider(metricsProvider, providersByName, providersBySlug) {
+  const byProviderSlug = providersBySlug.get(normalizeSlug(metricsProvider?.slug));
+  if (byProviderSlug) {
+    return byProviderSlug;
+  }
+  const byName = providersByName.get(normalizeName(metricsProvider?.name));
   if (byName) {
     return byName;
   }
-  const bySlug = providersBySlug.get(normalizeName(metricsProviderName));
+  const bySlug = providersBySlug.get(normalizeSlug(metricsProvider?.name));
   if (bySlug) {
     return bySlug;
   }
@@ -302,6 +357,10 @@ function compactText(value) {
     .replace(/&#39;/gi, "'")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function stripHtmlTags(value) {
+  return compactText(String(value || "").replace(/<[^>]+>/g, " "));
 }
 
 function extractTitle(htmlText) {
@@ -419,6 +478,52 @@ function extractTierPlansFromScript(jsText) {
   return deduped;
 }
 
+function extractEnrichedTierPlans(jsText) {
+  const text = String(jsText || "");
+  const tierPattern = /^(free|basic|starter|base|plus|pro|team|business|premium|enterprise)$/i;
+  const results = [];
+  const seen = new Set();
+
+  const planRegex = /id:\s*"([^"]+)"\s*,\s*name:\s*"([^"]+)"\s*,\s*price:\s*(null|[0-9]+(?:\.[0-9]+)?)/g;
+  let match;
+  while ((match = planRegex.exec(text)) !== null) {
+    const id = match[1].trim();
+    const name = match[2].trim();
+    const priceRaw = match[3];
+    if (!tierPattern.test(id) && !tierPattern.test(name)) {
+      continue;
+    }
+    const key = `${id}|${name}|${priceRaw}`;
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+
+    const price = priceRaw === "null" ? null : Number.parseFloat(priceRaw);
+    if (price !== null && (!Number.isFinite(price) || price < 0 || price > 100000)) {
+      continue;
+    }
+
+    const contextEnd = Math.min(text.length, match.index + match[0].length + 4000);
+    const context = text.slice(match.index + match[0].length, contextEnd);
+    let features = [];
+    const featuresMatch = context.match(/,\s*features:\s*\[((?:[^\]]*?))\]/);
+    if (featuresMatch) {
+      features = [...featuresMatch[1].matchAll(/"([^"]{3,200})"/g)]
+        .map((m) => m[1].trim())
+        .filter(Boolean);
+    }
+
+    let description = null;
+    const descMatch = context.match(/,\s*description:\s*"([^"]{5,200})"/);
+    if (descMatch) {
+      description = descMatch[1].trim();
+    }
+    results.push({ id, name, price, features: unique(features), description });
+  }
+  return results;
+}
+
 function normalizePriceToken(rawToken) {
   return String(rawToken || "")
     .replace(/[￥]/g, "¥")
@@ -461,16 +566,181 @@ function extractPricingTokens(htmlText) {
 
   const rawMatches = [
     ...text.matchAll(
-      /((?:US\$|USD|\$|¥)\s*[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?(?:\s*(?:\/|per)?\s*(?:mo|month|monthly|yr|year|yearly|annual|annually|月|年|day|daily|日|hour|hourly|h))?)/gi,
-    ),
-    ...text.matchAll(
-      /([0-9]+(?:\.[0-9]+)?\s*(?:\/|per)\s*(?:mo|month|monthly|yr|year|yearly|annual|annually|月|年|day|daily|日|hour|hourly|h))/gi,
+      /((?:€|US\$|USD|\$|¥)\s*[0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?(?:\s*(?:USD|EUR|CNY|RMB|GBP|JPY|AUD|CAD|HKD|SGD))?(?:\s*(?:\/|per)\s*(?:mo|month|monthly|yr|year|yearly|annual|annually|月|年|day|daily|日|hour|hourly|h))?)/gi,
     ),
   ]
     .map((match) => normalizePriceToken(match[1]))
     .filter(Boolean);
 
   return unique(rawMatches).slice(0, 10);
+}
+
+function extractTierNamedPriceTokens(htmlText, requireRecurringSuffix = true) {
+  const text = compactText(htmlText);
+  if (!text) {
+    return [];
+  }
+
+  const tiers = "free|basic|starter|base|plus|pro|team|business|premium|enterprise|student|students";
+  const recurringSuffix = requireRecurringSuffix
+    ? `(?:\\s*(?:\\/|per)\\s*(?:mo|month|monthly|yr|year|yearly|annual|annually|月|年)|\\s*(?:monthly|yearly|annual|annually))`
+    : `(?:(?:\\s*(?:\\/|per)\\s*(?:mo|month|monthly|yr|year|yearly|annual|annually|月|年)|\\s*(?:monthly|yearly|annual|annually)))?`;
+  const regex = new RegExp(
+    `\\b(${tiers})\\b((?:(?!\\b(?:${tiers})\\b)[\\s\\S]){0,120}?)((?:€|US\\$|USD|\\$|¥)\\s*[0-9]+(?:,[0-9]{3})*(?:\\.[0-9]+)?(?:\\s*(?:USD|EUR|CNY|RMB|GBP|JPY|AUD|CAD|HKD|SGD))?${recurringSuffix})`,
+    "gi",
+  );
+  const results = [];
+  for (const match of text.matchAll(regex)) {
+    const tierName = String(match[1] || "").trim();
+    const rawPrice = normalizePriceToken(match[3] || "");
+    const amount = parsePriceAmount(rawPrice);
+    if (!tierName || !rawPrice || !Number.isFinite(amount)) {
+      continue;
+    }
+    if (amount < HEURISTIC_MIN_SUBSCRIPTION_PRICE || amount > HEURISTIC_MAX_SUBSCRIPTION_PRICE) {
+      continue;
+    }
+    results.push({
+      name: tierName.charAt(0).toUpperCase() + tierName.slice(1).toLowerCase(),
+      priceText: rawPrice,
+    });
+  }
+
+  const deduped = [];
+  const seen = new Set();
+  for (const item of results) {
+    const key = `${item.name.toLowerCase()}|${item.priceText}`;
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    deduped.push(item);
+  }
+  return deduped.slice(0, 4);
+}
+
+function extractServiceDetailCandidates(htmlText, limit = 6) {
+  const details = [];
+  const seen = new Set();
+  const source = String(htmlText || "");
+  const anchorMatch = source.match(
+    /(pricing|plan|subscription|monthly|yearly|annual|per\s*month|\/\s*month|\/\s*mo|\/\s*月|\/\s*年|套餐|包月)/i,
+  );
+  const anchorIndex = anchorMatch ? anchorMatch.index : -1;
+  const focusHtml = anchorIndex >= 0
+    ? source.slice(Math.max(0, anchorIndex - 25_000), anchorIndex + 35_000)
+    : source;
+
+  const shouldKeep = (value) => {
+    const text = compactText(value);
+    if (!text) {
+      return false;
+    }
+    if (text.length < 8 || text.length > 180) {
+      return false;
+    }
+    const hasCjk = /[\u4e00-\u9fff]/.test(text);
+    const wordCount = text.split(/\s+/).filter(Boolean).length;
+    if (!hasCjk && wordCount < 3 && !/\d/.test(text)) {
+      return false;
+    }
+    const lower = text.toLowerCase();
+    if (
+      /^(pricing|plans?|contact sales|sign up|start for free|learn more|read more|request quote|free trial|book demo|buy now|login|log in|cookie|privacy|terms|faq|support|documentation|docs)$/i.test(
+        lower,
+      )
+    ) {
+      return false;
+    }
+    if (/copyright|all rights reserved|subscribe to|newsletter|cookies?/i.test(lower)) {
+      return false;
+    }
+    if (/\b(?:gpu-hour|per\s*gpu-hour|\/\s*h(?:r|our)?|hourly)\b/i.test(lower)) {
+      return false;
+    }
+    if (/^(resources?|features?|analytics|security|integrations?|changelog|home|about|token|pricing)$/i.test(lower)) {
+      return false;
+    }
+    const detailSignal = /[\u4e00-\u9fff]|\d|support|model|models|prompt|request|quota|limit|storage|api|private|unlimited|access|credit|image|text|code|encrypt|upscal|tool|兼容|支持|额度|请求|模型|每月|每周|每天|小时/i;
+    if (!detailSignal.test(text)) {
+      return false;
+    }
+    return true;
+  };
+
+  const addDetail = (value) => {
+    const text = compactText(value);
+    if (!shouldKeep(text)) {
+      return;
+    }
+    const key = text.toLowerCase();
+    if (seen.has(key)) {
+      return;
+    }
+    seen.add(key);
+    details.push(text);
+  };
+
+  const listMatches = focusHtml.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi);
+  for (const match of listMatches) {
+    addDetail(stripHtmlTags(match[1]));
+    if (details.length >= limit) {
+      return details;
+    }
+  }
+
+  const rowMatches = focusHtml.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi);
+  for (const match of rowMatches) {
+    const cells = [...String(match[1] || "").matchAll(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/gi)]
+      .map((item) => stripHtmlTags(item[1]));
+    if (cells.length < 2) {
+      continue;
+    }
+    const label = compactText(cells[0]);
+    const value = compactText(cells.slice(1).join(" "));
+    if (!label || !value) {
+      continue;
+    }
+    addDetail(`${label}: ${value}`);
+    if (details.length >= limit) {
+      return details;
+    }
+  }
+
+  const paragraphMatches = focusHtml.matchAll(/<(?:p|h3|h4|h5)[^>]*>([\s\S]*?)<\/(?:p|h3|h4|h5)>/gi);
+  for (const match of paragraphMatches) {
+    addDetail(stripHtmlTags(match[1]));
+    if (details.length >= limit) {
+      return details;
+    }
+  }
+
+  return details;
+}
+
+function enrichPlansWithServiceDetails(plans, fallbackServiceDetails) {
+  const normalizedFallback = Array.isArray(fallbackServiceDetails)
+    ? unique(fallbackServiceDetails.map((item) => compactText(item)).filter(Boolean))
+    : [];
+  return (plans || []).map((plan) => {
+    const existing = Array.isArray(plan?.serviceDetails)
+      ? unique(plan.serviceDetails.map((item) => compactText(item)).filter(Boolean))
+      : [];
+    const merged = unique([...existing, ...normalizedFallback]);
+    return {
+      ...plan,
+      serviceDetails: merged.length > 0 ? merged : null,
+    };
+  });
+}
+
+function filterSubscriptionPriceTokens(tokens) {
+  return (tokens || []).filter((token) => {
+    const amount = parsePriceAmount(token);
+    return amount !== null
+      && amount >= HEURISTIC_MIN_SUBSCRIPTION_PRICE
+      && amount <= HEURISTIC_MAX_SUBSCRIPTION_PRICE;
+  });
 }
 
 function hasPlanLikeSignal(htmlText) {
@@ -485,7 +755,7 @@ function hasPlanTierSignal(htmlText) {
 
 function hasSubscriptionSignal(htmlText) {
   const text = compactText(htmlText).toLowerCase();
-  return /(subscription|per month|monthly|per year|yearly|annual|annually|month-to-month|membership|套餐|包月|月付|年付|会员)/i.test(text);
+  return /(subscription|per month|monthly|per year|yearly|annual|annually|month-to-month|membership|套餐|包月|月付|年付|会员|\/\s*mo\b)/i.test(text);
 }
 
 function isRecurringPriceToken(token) {
@@ -496,10 +766,11 @@ function hasRecurringPriceToken(tokens) {
   return (tokens || []).some((token) => isRecurringPriceToken(token));
 }
 
-function buildHeuristicPlans(priceTokens, sourceUrl) {
-  const recurringFirst = (priceTokens || []).filter((token) => isRecurringPriceToken(token));
-  const selected = (recurringFirst.length > 0 ? recurringFirst : priceTokens).slice(0, 3);
-  return selected.map((priceText, index) => ({
+function buildHeuristicPlans(priceTokens, sourceUrl, serviceDetails = null) {
+  const valid = filterSubscriptionPriceTokens(priceTokens);
+  const recurringFirst = valid.filter((token) => isRecurringPriceToken(token));
+  const selected = (recurringFirst.length > 0 ? recurringFirst : valid).slice(0, 3);
+  const plans = selected.map((priceText, index) => ({
     name: index === 0 ? "官网价格参考" : `官网价格参考 ${index + 1}`,
     currentPrice: parsePriceAmount(priceText),
     currentPriceText: priceText,
@@ -509,15 +780,32 @@ function buildHeuristicPlans(priceTokens, sourceUrl) {
     notes: index === 0 ? `来源: ${sourceUrl}` : null,
     serviceDetails: null,
   }));
+  return enrichPlansWithServiceDetails(plans, serviceDetails);
 }
 
-function buildTierHeuristicPlans(tierPlans, sourceUrl, recurringHint) {
+function buildNamedHeuristicPlans(namedPrices, sourceUrl, serviceDetails = null, fallbackUnit = null) {
+  const plans = (namedPrices || []).slice(0, 3).map((item, index) => ({
+    name: item.name || (index === 0 ? "官网套餐参考" : `官网套餐参考 ${index + 1}`),
+    currentPrice: parsePriceAmount(item.priceText),
+    currentPriceText: item.priceText,
+    originalPrice: null,
+    originalPriceText: null,
+    unit: parsePriceUnit(item.priceText) || fallbackUnit,
+    notes: index === 0 ? `来源: ${sourceUrl}` : null,
+    serviceDetails: null,
+  }));
+  return enrichPlansWithServiceDetails(plans, serviceDetails);
+}
+
+function buildTierHeuristicPlans(tierPlans, sourceUrl, recurringHint, serviceDetails = null) {
   const ranked = (tierPlans || [])
-    .filter((item) => item && Number.isFinite(item.price))
+    .filter((item) => item && Number.isFinite(item.price)
+      && item.price >= HEURISTIC_MIN_SUBSCRIPTION_PRICE
+      && item.price <= HEURISTIC_MAX_SUBSCRIPTION_PRICE)
     .sort((left, right) => Number(left.price) - Number(right.price))
     .slice(0, 3);
 
-  return ranked.map((item, index) => {
+  const plans = ranked.map((item, index) => {
     const amount = Number(item.price);
     const amountText = Number.isInteger(amount) ? String(amount) : amount.toFixed(2).replace(/\.00$/, "");
     const unitSuffix = recurringHint ? "/month" : "";
@@ -532,6 +820,7 @@ function buildTierHeuristicPlans(tierPlans, sourceUrl, recurringHint) {
       serviceDetails: null,
     };
   });
+  return enrichPlansWithServiceDetails(plans, serviceDetails);
 }
 
 async function probePricingFromRuntimeAssets(candidateUrl, htmlText, officialWebsiteUrl) {
@@ -593,16 +882,21 @@ async function probePricingFromRuntimeAssets(candidateUrl, htmlText, officialWeb
     subscriptionLike = subscriptionLike || hasSubscriptionSignal(scriptText);
     tierLike = tierLike || hasPlanTierSignal(scriptText);
 
-    const recurringPriceLike = hasRecurringPriceToken(priceTokens);
-    if (priceTokens.length > 0 && planLike && recurringPriceLike) {
+    const validPriceTokens = filterSubscriptionPriceTokens(priceTokens);
+    const validRecurringPriceLike = hasRecurringPriceToken(validPriceTokens);
+    if (validPriceTokens.length > 0 && planLike && validRecurringPriceLike) {
       return {
-        plans: buildHeuristicPlans(priceTokens, candidateUrl),
+        plans: buildHeuristicPlans(validPriceTokens, candidateUrl),
         sourceUrls: unique(sourceUrls),
       };
     }
-    if (tierPlans.filter((item) => Number.isFinite(item.price)).length >= 2) {
+    const validTierPlans = tierPlans.filter((item) =>
+      Number.isFinite(item.price)
+      && item.price >= HEURISTIC_MIN_SUBSCRIPTION_PRICE
+      && item.price <= HEURISTIC_MAX_SUBSCRIPTION_PRICE);
+    if (validTierPlans.length >= 2) {
       return {
-        plans: buildTierHeuristicPlans(tierPlans, candidateUrl, recurringPriceLike || subscriptionLike),
+        plans: buildTierHeuristicPlans(validTierPlans, candidateUrl, validRecurringPriceLike || subscriptionLike),
         sourceUrls: unique(sourceUrls),
       };
     }
@@ -657,6 +951,390 @@ function makeProviderItem(provider, providerId, plans, extra = {}) {
   };
 }
 
+function normalizePlanServiceDetails(plans) {
+  const list = Array.isArray(plans) ? plans : [];
+  const sharedDetails =
+    list.find((plan) => Array.isArray(plan?.serviceDetails) && plan.serviceDetails.length > 0)?.serviceDetails || null;
+  return list.map((plan) => {
+    const current = Array.isArray(plan?.serviceDetails) ? plan.serviceDetails.filter(Boolean) : [];
+    if (current.length > 0) {
+      return {
+        ...plan,
+        serviceDetails: unique(current.map((item) => compactText(item)).filter(Boolean)),
+      };
+    }
+    if (Array.isArray(sharedDetails) && sharedDetails.length > 0) {
+      return {
+        ...plan,
+        serviceDetails: unique(sharedDetails.map((item) => compactText(item)).filter(Boolean)),
+      };
+    }
+    return {
+      ...plan,
+      serviceDetails: null,
+    };
+  });
+}
+
+function hasAnyPlanServiceDetails(plans) {
+  return (plans || []).some((plan) => Array.isArray(plan?.serviceDetails) && plan.serviceDetails.length > 0);
+}
+
+async function parseMistralCustomPricing() {
+  const pricingUrl = "https://mistral.ai/pricing";
+  const { text: html, url: resolvedUrl } = await fetchText(pricingUrl, {
+    timeoutMs: PRICING_PROBE_TIMEOUT_MS,
+    headers: HTML_HEADERS,
+  });
+  const sourceUrl = resolvedUrl || pricingUrl;
+  const plainText = compactText(html);
+
+  const proPrice = Number.parseFloat(plainText.match(/\bPro\b[^$]{0,30}\$([0-9]+(?:\.[0-9]+)?)/i)?.[1] || "") || null;
+  const teamPrice = Number.parseFloat(plainText.match(/\bTeam\b[^$]{0,30}\$([0-9]+(?:\.[0-9]+)?)/i)?.[1] || "") || null;
+  if (!proPrice && !teamPrice) {
+    return null;
+  }
+
+  const extractBulletFeatures = (headerName) => {
+    const features = [];
+    const headerRegex = new RegExp(`>\\s*${headerName}\\s*<\\/`, "gi");
+    let headerMatch;
+    while ((headerMatch = headerRegex.exec(html)) !== null) {
+      const section = html.slice(headerMatch.index, headerMatch.index + 6000);
+      const nextIdx = section.slice(1).search(/<h[2-4][^>]*>/i);
+      const bounded = nextIdx >= 0 ? section.slice(0, nextIdx + 1) : section;
+      for (const li of bounded.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)) {
+        const text = stripHtmlTags(li[1]).trim();
+        if (text && text.length >= 5 && text.length < 200) {
+          features.push(text);
+        }
+      }
+      if (features.length >= 3) {
+        break;
+      }
+    }
+    return unique(features);
+  };
+
+  const extractTableFeatures = (columnName) => {
+    const features = [];
+    const rows = [];
+    for (const tr of html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)) {
+      const cells = [...tr[1].matchAll(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/gi)]
+        .map((c) => stripHtmlTags(c[1]).trim());
+      if (cells.length >= 3) {
+        rows.push(cells);
+      }
+    }
+    const headerRow = rows.find((r) => {
+      const joined = r.join(" ").toLowerCase();
+      return /feature/i.test(joined) && new RegExp(`\\b${columnName}\\b`, "i").test(joined);
+    });
+    if (!headerRow) {
+      return features;
+    }
+    const colIdx = headerRow.findIndex((c) => c.trim().toLowerCase() === columnName.toLowerCase());
+    if (colIdx < 0) {
+      return features;
+    }
+    for (const row of rows) {
+      if (row === headerRow) {
+        continue;
+      }
+      const label = (row[0] || "").trim();
+      const value = (row[colIdx] || "").trim();
+      if (!label || label.length < 2 || !value || value === "-") {
+        continue;
+      }
+      if (/^\*\s|^customer service$/i.test(label) || /^team and enterprise/i.test(label)) {
+        continue;
+      }
+      features.push(/^[✓✔☑✅]$/.test(value) || value === label ? label : `${label}: ${value}`);
+    }
+    return unique(features);
+  };
+
+  const plans = [];
+  if (proPrice) {
+    const details = unique([...extractBulletFeatures("Pro"), ...extractTableFeatures("Pro")]).slice(0, 15);
+    plans.push({
+      name: "Pro",
+      currentPrice: proPrice,
+      currentPriceText: `$${proPrice}/month`,
+      originalPrice: null,
+      originalPriceText: null,
+      unit: "月",
+      notes: `来源: ${sourceUrl}`,
+      serviceDetails: details.length > 0 ? details : null,
+    });
+  }
+  if (teamPrice) {
+    const details = unique([...extractBulletFeatures("Team"), ...extractTableFeatures("Team")]).slice(0, 15);
+    plans.push({
+      name: "Team",
+      currentPrice: teamPrice,
+      currentPriceText: `$${teamPrice}/month`,
+      originalPrice: null,
+      originalPriceText: null,
+      unit: "月",
+      notes: null,
+      serviceDetails: details.length > 0 ? details : null,
+    });
+  }
+  return plans.length > 0 ? { plans, sourceUrls: [sourceUrl], pricingPageUrl: sourceUrl } : null;
+}
+
+function extractNextRscPayload(html) {
+  const chunks = [];
+  for (const m of html.matchAll(/self\.__next_f\.push\(\[1,"([\s\S]*?)"\]\)/g)) {
+    chunks.push(m[1]);
+  }
+  return chunks.join("").replace(/\\"/g, '"').replace(/\\n/g, "\n").replace(/\\\\/g, "\\");
+}
+
+function extractRscPlanFeatures(rscPayload, planTitle) {
+  const titleEsc = planTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const planPattern = new RegExp(
+    `"_title":"${titleEsc}"[^}]*"priceMonthly":"([^"]+)"`,
+  );
+  const planMatch = rscPayload.match(planPattern);
+  if (!planMatch) return null;
+
+  const priceText = planMatch[1].trim();
+  const priceAmount = Number.parseFloat(priceText.replace(/[^0-9.]/g, ""));
+  if (!Number.isFinite(priceAmount) || priceAmount <= 0) return null;
+
+  const afterPlan = rscPayload.slice(planMatch.index + planMatch[0].length);
+  const itemsSection = afterPlan.match(/"items":\[(\{[^]*?\})\]/);
+  const features = [];
+  if (itemsSection) {
+    for (const fm of itemsSection[1].matchAll(/"_title":"([^"]+)"/g)) {
+      const text = fm[1]
+        .replace(/\\u0026/g, "&")
+        .replace(/\\u003c/g, "<")
+        .replace(/\\u003e/g, ">")
+        .trim();
+      if (text.length >= 5 && text.length <= 200) {
+        features.push(text);
+      }
+    }
+  }
+
+  return { name: planTitle, price: priceAmount, priceText, features };
+}
+
+async function parseVeniceCustomPricing() {
+  const pricingUrl = "https://venice.ai/pricing";
+  const { text: html, url: resolvedUrl } = await fetchText(pricingUrl, {
+    timeoutMs: PRICING_PROBE_TIMEOUT_MS,
+    headers: HTML_HEADERS,
+  });
+  const sourceUrl = resolvedUrl || pricingUrl;
+
+  const rscPayload = extractNextRscPayload(html);
+
+  const proPlan = extractRscPlanFeatures(rscPayload, "Pro");
+  if (!proPlan || proPlan.features.length === 0) {
+    return null;
+  }
+
+  const plans = [{
+    name: "Pro",
+    currentPrice: proPlan.price,
+    currentPriceText: `$${proPlan.price} USD/month`,
+    originalPrice: null,
+    originalPriceText: null,
+    unit: "月",
+    notes: `来源: ${sourceUrl}`,
+    serviceDetails: unique(proPlan.features).slice(0, 12),
+  }];
+  return { plans, sourceUrls: [sourceUrl], pricingPageUrl: sourceUrl };
+}
+
+function extractSveltePlanObjects(jsText) {
+  const text = String(jsText || "");
+  const tierPattern = /^(free|basic|starter|base|plus|pro|team|business|premium|enterprise)$/i;
+  const results = [];
+  const planRegex = /name:"([^"]+)",price:"([^"]*)",subtitle:"([^"]*)",description:"([^"]*)"/g;
+  let match;
+  while ((match = planRegex.exec(text)) !== null) {
+    const name = match[1].trim();
+    if (!tierPattern.test(name)) continue;
+    const priceText = match[2].trim();
+    const priceAmount = parseFloat(priceText.replace(/[^0-9.]/g, ""));
+    const subtitle = match[3].trim();
+    const description = match[4].trim();
+    const afterMatch = text.slice(match.index + match[0].length, match.index + match[0].length + 2000);
+    const featuresMatch = afterMatch.match(/features:\[([^\]]*)\]/);
+    const features = [];
+    if (featuresMatch) {
+      for (const fm of featuresMatch[1].matchAll(/"([^"]{3,200})"/g)) {
+        features.push(fm[1].trim());
+      }
+    }
+    const allDetails = [];
+    if (description) allDetails.push(description);
+    allDetails.push(...features);
+    results.push({
+      name,
+      price: Number.isFinite(priceAmount) ? priceAmount : null,
+      priceText: priceText + (subtitle ? ` ${subtitle}` : ""),
+      features: allDetails,
+      description,
+    });
+  }
+  return results;
+}
+
+async function parseChutesCustomPricing() {
+  const pricingUrl = "https://chutes.ai/pricing";
+  const { text: html, url: resolvedUrl } = await fetchText(pricingUrl, {
+    timeoutMs: PRICING_PROBE_TIMEOUT_MS,
+    headers: HTML_HEADERS,
+  });
+  const sourceUrl = resolvedUrl || pricingUrl;
+  const allSourceUrls = [sourceUrl];
+
+  const nodeIdsMatch = html.match(/node_ids:\s*\[([0-9,\s]+)\]/);
+  const pageNodeIds = nodeIdsMatch
+    ? nodeIdsMatch[1].split(",").map((s) => s.trim()).filter(Boolean)
+    : [];
+
+  const entryUrls = extractRuntimeJsEntryUrls(html, sourceUrl)
+    .filter((url) => isSameOrSubdomain(url, "https://chutes.ai"));
+  const appEntryUrl = entryUrls.find((u) => /\/app\.[^/]+\.js/i.test(u));
+
+  const tryExtract = (jsText) => {
+    const sveltePlans = extractSveltePlanObjects(jsText);
+    const enriched = sveltePlans.length > 0 ? sveltePlans : extractEnrichedTierPlans(jsText);
+    return enriched.filter(
+      (p) =>
+        Number.isFinite(p.price) &&
+        p.price >= HEURISTIC_MIN_SUBSCRIPTION_PRICE &&
+        p.price <= HEURISTIC_MAX_SUBSCRIPTION_PRICE,
+    );
+  };
+
+  const buildResult = (validPlans) => {
+    if (validPlans.length < 2 || !validPlans.some((p) => p.features.length > 0)) {
+      return null;
+    }
+    const plans = validPlans
+      .sort((a, b) => (a.price || 0) - (b.price || 0))
+      .map((p, i) => ({
+        name: p.name,
+        currentPrice: p.price,
+        currentPriceText: `$${p.price}/month`,
+        originalPrice: null,
+        originalPriceText: null,
+        unit: "月",
+        notes: i === 0 ? `来源: ${sourceUrl}` : null,
+        serviceDetails: p.features.length > 0 ? p.features : p.description ? [p.description] : null,
+      }));
+    return { plans, sourceUrls: unique(allSourceUrls), pricingPageUrl: sourceUrl };
+  };
+
+  if (appEntryUrl && pageNodeIds.length > 0) {
+    try {
+      const appFetched = await fetchText(appEntryUrl, {
+        timeoutMs: PRICING_PROBE_TIMEOUT_MS,
+        headers: HTML_HEADERS,
+      });
+      const appText = String(appFetched.text || "");
+      allSourceUrls.push(appFetched.url || appEntryUrl);
+
+      const nodeUrls = [];
+      for (const nodeId of pageNodeIds) {
+        const nodePattern = new RegExp(`["']([^"']*nodes/${nodeId}\\.[^"']+\\.js)["']`, "g");
+        for (const m of appText.matchAll(nodePattern)) {
+          const resolved = absoluteUrl(m[1], appEntryUrl);
+          if (resolved && isSameOrSubdomain(resolved, "https://chutes.ai")) {
+            nodeUrls.push(resolved);
+          }
+        }
+      }
+
+      for (const nodeUrl of unique(nodeUrls)) {
+        try {
+          const nodeFetched = await fetchText(nodeUrl, {
+            timeoutMs: PRICING_PROBE_TIMEOUT_MS,
+            headers: HTML_HEADERS,
+          });
+          const nodeText = String(nodeFetched.text || "");
+          allSourceUrls.push(nodeFetched.url || nodeUrl);
+
+          const result = buildResult(tryExtract(nodeText));
+          if (result) return result;
+
+          const chunkUrls = extractModuleJsUrls(nodeText, nodeUrl)
+            .filter((url) => isSameOrSubdomain(url, "https://chutes.ai"));
+          for (const chunkUrl of chunkUrls) {
+            try {
+              const chunkFetched = await fetchText(chunkUrl, {
+                timeoutMs: PRICING_PROBE_TIMEOUT_MS,
+                headers: HTML_HEADERS,
+              });
+              const chunkText = String(chunkFetched.text || "");
+              allSourceUrls.push(chunkFetched.url || chunkUrl);
+
+              const chunkResult = buildResult(tryExtract(chunkText));
+              if (chunkResult) return chunkResult;
+            } catch {
+              /* skip unreachable chunk */
+            }
+          }
+        } catch {
+          /* skip unreachable node */
+        }
+      }
+    } catch {
+      /* fall through to generic traversal */
+    }
+  }
+
+  const queue = [...entryUrls];
+  const queued = new Set(queue);
+  const visited = new Set();
+
+  while (queue.length > 0 && visited.size < PRICING_BUNDLE_PROBE_MAX_FILES) {
+    const jsUrl = queue.shift();
+    if (!jsUrl || visited.has(jsUrl)) continue;
+    visited.add(jsUrl);
+    let scriptText;
+    try {
+      const fetched = await fetchText(jsUrl, {
+        timeoutMs: PRICING_PROBE_TIMEOUT_MS,
+        headers: HTML_HEADERS,
+      });
+      scriptText = String(fetched.text || "");
+      allSourceUrls.push(fetched.url || jsUrl);
+    } catch {
+      continue;
+    }
+
+    const result = buildResult(tryExtract(scriptText));
+    if (result) return result;
+
+    const discovered = unique([
+      ...extractViteMapDepUrls(scriptText, jsUrl, 40),
+      ...extractModuleJsUrls(scriptText, jsUrl).slice(0, 24),
+    ]).filter((url) => isSameOrSubdomain(url, "https://chutes.ai"));
+    for (const url of discovered) {
+      if (!queued.has(url) && !visited.has(url)) {
+        queue.push(url);
+        queued.add(url);
+      }
+    }
+  }
+  return null;
+}
+
+const PROVIDER_CUSTOM_PARSERS = {
+  mistral: parseMistralCustomPricing,
+  chutes: parseChutesCustomPricing,
+  venice: parseVeniceCustomPricing,
+};
+
 async function probeOfficialPricing(openrouterProvider, officialWebsiteUrl) {
   if (!officialWebsiteUrl) {
     return {
@@ -689,11 +1367,16 @@ async function probeOfficialPricing(openrouterProvider, officialWebsiteUrl) {
 
   const linksFromHomepage = extractPricingLinks(homepageText, homepageUrl)
     .filter((link) => isSameOrSubdomain(link, officialWebsiteUrl));
+  const providerSlug = String(openrouterProvider?.slug || "").trim().toLowerCase();
+  const preferredPricingUrl = providerSlug && PRICING_PAGE_OVERRIDES[providerSlug]
+    ? PRICING_PAGE_OVERRIDES[providerSlug]
+    : null;
   const pathCandidates = PRICING_PATH_CANDIDATES
     .map((candidatePath) => absoluteUrl(candidatePath, homepageUrl))
     .filter(Boolean);
 
-  const candidateUrls = unique([...linksFromHomepage, ...pathCandidates, homepageUrl]).slice(0, PRICING_PROBE_MAX_CANDIDATES);
+  const candidateUrls = unique([preferredPricingUrl, ...pathCandidates, ...linksFromHomepage, homepageUrl])
+    .slice(0, PRICING_PROBE_MAX_CANDIDATES);
 
   const visited = [];
   let runtimeProbeTried = false;
@@ -704,18 +1387,20 @@ async function probeOfficialPricing(openrouterProvider, officialWebsiteUrl) {
         headers: HTML_HEADERS,
       });
       const tokens = extractPricingTokens(page.text);
+      const validTokens = filterSubscriptionPriceTokens(tokens);
       const planLike = hasPlanLikeSignal(page.text);
       const subscriptionLike = hasSubscriptionSignal(page.text);
-      const recurringPriceLike = hasRecurringPriceToken(tokens);
+      const validRecurringPriceLike = hasRecurringPriceToken(validTokens);
       const tierLike = hasPlanTierSignal(page.text);
+      const serviceDetails = extractServiceDetailCandidates(page.text);
       const title = extractTitle(page.text);
       const candidateLooksPricing =
         /(pricing|price|plan|billing|subscription|套餐|定价)/i.test(page.url || candidateUrl)
         || /(pricing|price|plan|billing|subscription|套餐|定价)/i.test(title || "");
       visited.push(page.url || candidateUrl);
-      if (tokens.length > 0 && planLike && recurringPriceLike && (candidateLooksPricing || subscriptionLike || tierLike)) {
+      if (validTokens.length > 0 && planLike && validRecurringPriceLike && (candidateLooksPricing || subscriptionLike || tierLike)) {
         return {
-          plans: buildHeuristicPlans(tokens, page.url || candidateUrl),
+          plans: buildHeuristicPlans(validTokens, page.url || candidateUrl, serviceDetails),
           sourceUrls: unique([officialWebsiteUrl, page.url || candidateUrl]),
           pricingPageUrl: page.url || candidateUrl,
           blocked: false,
@@ -728,7 +1413,7 @@ async function probeOfficialPricing(openrouterProvider, officialWebsiteUrl) {
         const runtimeProbe = await probePricingFromRuntimeAssets(page.url || candidateUrl, page.text, officialWebsiteUrl);
         if (runtimeProbe && runtimeProbe.plans.length > 0) {
           return {
-            plans: runtimeProbe.plans,
+            plans: enrichPlansWithServiceDetails(runtimeProbe.plans, serviceDetails),
             sourceUrls: unique([officialWebsiteUrl, page.url || candidateUrl, ...(runtimeProbe.sourceUrls || [])]),
             pricingPageUrl: page.url || candidateUrl,
             blocked: false,
@@ -737,11 +1422,38 @@ async function probeOfficialPricing(openrouterProvider, officialWebsiteUrl) {
           };
         }
       }
+      if (candidateLooksPricing && planLike && tierLike) {
+        const namedTierPrices = extractTierNamedPriceTokens(page.text);
+        if (namedTierPrices.length > 0) {
+          return {
+            plans: buildNamedHeuristicPlans(namedTierPrices, page.url || candidateUrl, serviceDetails),
+            sourceUrls: unique([officialWebsiteUrl, page.url || candidateUrl]),
+            pricingPageUrl: page.url || candidateUrl,
+            blocked: false,
+            reason: null,
+            title,
+          };
+        }
+        if (subscriptionLike && validTokens.length > 0) {
+          const relaxedNamedTierPrices = extractTierNamedPriceTokens(page.text, false);
+          if (relaxedNamedTierPrices.length > 0) {
+            return {
+              plans: buildNamedHeuristicPlans(relaxedNamedTierPrices, page.url || candidateUrl, serviceDetails, "月"),
+              sourceUrls: unique([officialWebsiteUrl, page.url || candidateUrl]),
+              pricingPageUrl: page.url || candidateUrl,
+              blocked: false,
+              reason: null,
+              title,
+            };
+          }
+        }
+      }
       if (!usageOnlyEvidence && tokens.length > 0) {
         usageOnlyEvidence = {
           url: page.url || candidateUrl,
           sampleTokens: tokens.slice(0, 3),
           subscriptionLike,
+          recurringLike: hasRecurringPriceToken(tokens),
         };
       }
     } catch (error) {
@@ -752,7 +1464,7 @@ async function probeOfficialPricing(openrouterProvider, officialWebsiteUrl) {
   }
 
   if (usageOnlyEvidence) {
-    const reason = usageOnlyEvidence.subscriptionLike
+    const reason = usageOnlyEvidence.subscriptionLike && usageOnlyEvidence.recurringLike
       ? `检测到套餐页线索，但未解析到月/年订阅价格（样例: ${usageOnlyEvidence.sampleTokens.join(" / ")}）`
       : `仅检测到按量计费价格，未识别到套餐订阅价格（样例: ${usageOnlyEvidence.sampleTokens.join(" / ")}）`;
     return {
@@ -822,25 +1534,25 @@ async function main() {
     openrouterProviders.map((provider) => [normalizeName(provider?.name || ""), provider]),
   );
   const providersBySlug = new Map(
-    openrouterProviders.map((provider) => [normalizeName(provider?.slug || ""), provider]),
+    openrouterProviders.map((provider) => [normalizeSlug(provider?.slug || ""), provider]),
   );
 
   const pricingProviders = Array.isArray(providerPricingData?.providers) ? providerPricingData.providers : [];
   const pricingByProviderId = new Map(pricingProviders.map((provider) => [String(provider?.provider || ""), provider]));
   const pricingFailures = Array.isArray(providerPricingData?.failures) ? providerPricingData.failures : [];
 
-  const metricsProviderNames = getMetricsProviderNames(metricsData);
+  const metricsProviders = getMetricsProviders(metricsData);
   const unresolvedMetricsProviders = [];
   const targets = [];
 
-  for (const metricsProviderName of metricsProviderNames) {
-    const openrouterProvider = resolveOpenrouterProvider(metricsProviderName, providersByName, providersBySlug);
+  for (const metricsProvider of metricsProviders) {
+    const openrouterProvider = resolveOpenrouterProvider(metricsProvider, providersByName, providersBySlug);
     if (!openrouterProvider) {
-      unresolvedMetricsProviders.push(metricsProviderName);
+      unresolvedMetricsProviders.push(metricsProvider);
       continue;
     }
     targets.push({
-      metricsProviderName,
+      metricsProvider,
       openrouterProvider,
       providerId: OPENROUTER_TO_PRICING_PROVIDER[String(openrouterProvider?.slug || "").trim()] || null,
     });
@@ -896,11 +1608,45 @@ async function main() {
 
   const probed = await mapWithConcurrency(providersNeedingProbe, PRICING_PROBE_CONCURRENCY, async (item) => {
     const { openrouterProvider, providerId, website } = item;
+    const slug = String(openrouterProvider?.slug || "").trim().toLowerCase();
+
+    if (PROVIDER_PENDING_OVERRIDES[slug]) {
+      return {
+        type: "pending",
+        value: makePendingItem(openrouterProvider, providerId, PROVIDER_PENDING_OVERRIDES[slug], {
+          officialWebsiteUrl: website.officialWebsiteUrl,
+          pricingPageUrl: website.officialWebsiteUrl,
+        }),
+      };
+    }
+
+    const customParser = PROVIDER_CUSTOM_PARSERS[slug];
+    if (customParser) {
+      try {
+        const customResult = await customParser();
+        if (customResult && customResult.plans.length > 0) {
+          return {
+            type: "provider",
+            value: makeProviderItem(openrouterProvider, providerId, normalizePlanServiceDetails(customResult.plans), {
+              sourceUrls: unique([...(customResult.sourceUrls || []), website.officialWebsiteUrl]),
+              pricingPageUrl: customResult.pricingPageUrl,
+              officialWebsiteUrl: website.officialWebsiteUrl,
+              websiteSource: website.source,
+              parseMode: "official-website-heuristic",
+            }),
+          };
+        }
+      } catch (error) {
+        console.warn(`[openrouter-plans] custom parser for ${slug} failed: ${error?.message || error}`);
+      }
+    }
+
     const probeResult = await probeOfficialPricing(openrouterProvider, website.officialWebsiteUrl);
-    if (probeResult.plans.length > 0) {
+    const normalizedPlans = normalizePlanServiceDetails(probeResult.plans);
+    if (normalizedPlans.length > 0) {
       return {
         type: "provider",
-        value: makeProviderItem(openrouterProvider, providerId, probeResult.plans, {
+        value: makeProviderItem(openrouterProvider, providerId, normalizedPlans, {
           sourceUrls: probeResult.sourceUrls,
           pricingPageUrl: probeResult.pricingPageUrl,
           officialWebsiteUrl: website.officialWebsiteUrl,
@@ -910,9 +1656,13 @@ async function main() {
       };
     }
 
+    const fallbackReason = normalizedPlans.length > 0
+      ? "检测到套餐价格，但未提取到有效服务详情"
+      : probeResult.reason;
+
     return {
       type: "pending",
-      value: makePendingItem(openrouterProvider, providerId, probeResult.reason, {
+      value: makePendingItem(openrouterProvider, providerId, fallbackReason, {
         officialWebsiteUrl: website.officialWebsiteUrl,
         pricingPageUrl: probeResult.pricingPageUrl || website.officialWebsiteUrl,
         blocked: probeResult.blocked,
@@ -931,10 +1681,11 @@ async function main() {
     }
   }
 
-  for (const name of unresolvedMetricsProviders) {
+  for (const item of unresolvedMetricsProviders) {
+    const fallbackName = item?.name || item?.slug || "--";
     pending.push({
-      slug: "",
-      openrouterName: name,
+      slug: item?.slug || "",
+      openrouterName: fallbackName,
       providerId: null,
       officialWebsiteUrl: null,
       pricingPageUrl: null,
@@ -956,7 +1707,7 @@ async function main() {
     sourceMetricsGeneratedAtBeijing: formatBeijingTime(metricsData?.generatedAt || ""),
     summary: {
       openrouterProviderCount: openrouterProviders.length,
-      metricsProviderCount: metricsProviderNames.length,
+      metricsProviderCount: metricsProviders.length,
       resolvedMetricsProviderCount: targets.length,
       unresolvedMetricsProviderCount: unresolvedMetricsProviders.length,
       structuredProviderCount: mappedProviders.filter((item) => item.parseMode === "provider-pricing-structured").length,
@@ -976,7 +1727,7 @@ async function main() {
 
   console.log(`[openrouter-plans] wrote ${OUTPUT_FILE}`);
   console.log(
-    `[openrouter-plans] metricsProviders=${metricsProviderNames.length} providersWithPlans=${mappedProviders.length} pending=${pending.length} blockedPending=${output.summary.blockedPendingCount}`,
+    `[openrouter-plans] metricsProviders=${metricsProviders.length} providersWithPlans=${mappedProviders.length} pending=${pending.length} blockedPending=${output.summary.blockedPendingCount}`,
   );
 }
 

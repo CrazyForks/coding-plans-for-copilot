@@ -252,12 +252,10 @@
                                         },
                                         "maxInputTokens": {
                                             "type": "number",
-                                            "default": 200000,
                                             "deprecationMessage": "Deprecated: use contextSize instead."
                                         },
                                         "maxOutputTokens": {
                                             "type": "number",
-                                            "default": 200000,
                                             "deprecationMessage": "Deprecated: use contextSize instead."
                                         }
                                     }
@@ -277,8 +275,7 @@
                                         "tools": true,
                                         "vision": false
                                     },
-                                    "maxInputTokens": 128000,
-                                    "maxOutputTokens": 128000
+                                        "contextSize": 128000
                                 },
                                 {
                                     "name": "glm-5",
@@ -286,8 +283,7 @@
                                         "tools": true,
                                         "vision": false
                                     },
-                                    "maxInputTokens": 128000,
-                                    "maxOutputTokens": 128000
+                                        "contextSize": 128000
                                 }
                             ]
                         },
@@ -302,8 +298,7 @@
                                         "tools": true,
                                         "vision": false
                                     },
-                                    "maxInputTokens": 128000,
-                                    "maxOutputTokens": 128000
+                                        "contextSize": 128000
                                 },
                                 {
                                     "name": "glm-5",
@@ -312,8 +307,7 @@
                                         "tools": true,
                                         "vision": false
                                     },
-                                    "maxInputTokens": 128000,
-                                    "maxOutputTokens": 128000
+                                        "contextSize": 128000
                                 }
                             ]
                         },
@@ -363,8 +357,7 @@
                                         "tools": true,
                                         "vision": false
                                     },
-                                    "maxInputTokens": 131000,
-                                    "maxOutputTokens": 131000
+                                        "contextSize": 131000
                                 },
                                 {
                                     "name": "openai/gpt-oss-120b:free",
@@ -373,8 +366,7 @@
                                         "tools": true,
                                         "vision": false
                                     },
-                                    "maxInputTokens": 131000,
-                                    "maxOutputTokens": 131000
+                                        "contextSize": 131000
                                 }
                             ]
                         }

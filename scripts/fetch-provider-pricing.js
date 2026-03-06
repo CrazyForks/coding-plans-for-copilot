@@ -17,6 +17,7 @@ const PROVIDER_IDS = {
   MINIMAX: "minimax-ai",
   ALIYUN: "aliyun-ai",
   BAIDU: "baidu-qianfan-ai",
+  TENCENT: "tencent-cloud-ai",
   KWAIKAT: "kwaikat-ai",
   XAIO: "x-aio",
   COMPSHARE: "compshare-ai",
@@ -333,6 +334,56 @@ function buildServiceDetailsFromRows(rows, column, options = {}) {
     details.push(`${label}: ${value}`);
   }
   return normalizeServiceDetails(details);
+}
+
+function parseTierPriceBreakdown(rawValue) {
+  const text = normalizeText(rawValue);
+  if (!text) {
+    return {
+      text: null,
+      firstMonthAmount: null,
+      secondMonthAmount: null,
+      monthlyAmount: null,
+    };
+  }
+
+  const readAmount = (regex) => {
+    const matched = text.match(regex);
+    if (!matched) {
+      return null;
+    }
+    const amount = Number(String(matched[1] || "").replace(/,/g, ""));
+    return Number.isFinite(amount) ? amount : null;
+  };
+
+  const firstMonthAmount = readAmount(/首月[^0-9]{0,12}([0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?)/i);
+  const secondMonthAmount = readAmount(/(?:自动续费)?次月[^0-9]{0,12}([0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?)/i);
+  const thirdMonthAmount = readAmount(/第三(?:个)?月(?:起|后|恢复)?[^0-9]{0,16}([0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?)/i);
+  const renewalAmount = readAmount(
+    /(?:续费|恢复)[^0-9]{0,16}([0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?)(?:\s*元)?\s*\/\s*月/i,
+  );
+  const monthlyAmount =
+    thirdMonthAmount
+    ?? renewalAmount
+    ?? readAmount(/([0-9]+(?:,[0-9]{3})*(?:\.[0-9]+)?)\s*元?\s*\/\s*月/i);
+
+  return {
+    text,
+    firstMonthAmount,
+    secondMonthAmount,
+    monthlyAmount,
+  };
+}
+
+function buildTierPriceNotes(priceInfo) {
+  const notes = [];
+  if (Number.isFinite(priceInfo?.firstMonthAmount)) {
+    notes.push(`首月特惠 ¥${formatAmount(priceInfo.firstMonthAmount)}`);
+  }
+  if (Number.isFinite(priceInfo?.secondMonthAmount)) {
+    notes.push(`次月续费 ¥${formatAmount(priceInfo.secondMonthAmount)}`);
+  }
+  return notes.length > 0 ? notes.join("；") : null;
 }
 
 function asPlan({
@@ -773,82 +824,91 @@ async function parseBaiduCodingPlans() {
   const pageUrl = "https://cloud.baidu.com/product/codingplan.html";
   const html = await fetchText(pageUrl);
 
+  const rows = extractRows(html);
+  const planHeaderIndex = rows.findIndex(
+    (row) => /coding\s*plan\s*lite/i.test(row.join(" ")) && /coding\s*plan\s*pro/i.test(row.join(" ")),
+  );
+  if (planHeaderIndex < 0) {
+    throw new Error("Unable to locate Baidu coding plan table");
+  }
+  const planHeaderRow = rows[planHeaderIndex];
+  const tierColumns = new Map();
+  for (let column = 0; column < planHeaderRow.length; column += 1) {
+    const value = normalizeText(planHeaderRow[column]);
+    if (/coding\s*plan\s*lite/i.test(value)) {
+      tierColumns.set("Lite", column);
+    } else if (/coding\s*plan\s*pro/i.test(value)) {
+      tierColumns.set("Pro", column);
+    }
+  }
+  const serviceRows = [];
+  for (let rowIndex = planHeaderIndex + 1; rowIndex < rows.length; rowIndex += 1) {
+    const rowLabel = normalizeText(rows[rowIndex]?.[0] || "");
+    if (rowLabel === "开始使用") {
+      break;
+    }
+    serviceRows.push(rows[rowIndex]);
+  }
+  const priceRow = serviceRows.find((row) => {
+    const label = normalizeText(row?.[0] || "");
+    return label === "套餐价格" || label === "价格";
+  });
+  if (!priceRow) {
+    throw new Error("Unable to locate Baidu coding plan price row");
+  }
+
   const firstMonthByTier = new Map();
   const firstMonthRegex =
     /Coding\s*Plan\s*(Lite|Pro)[\s\S]{0,500}?<span[^>]*>\s*([0-9]+(?:\.[0-9]+)?)\s*<\/span>[\s\S]{0,120}?\/首月/gi;
   let firstMonthMatch;
   while ((firstMonthMatch = firstMonthRegex.exec(html)) !== null) {
-    firstMonthByTier.set(firstMonthMatch[1], firstMonthMatch[2]);
+    firstMonthByTier.set(firstMonthMatch[1], Number(firstMonthMatch[2]));
   }
-
   const renewalByFirstMonth = new Map();
-  const renewalRegex = /新客\s*([0-9]+(?:\.[0-9]+)?)\s*元\s*\/\s*首月\s*，\s*续费\s*([0-9]+(?:\.[0-9]+)?)\s*元\s*\/\s*月/gi;
+  const renewalRegex =
+    /新客\s*([0-9]+(?:\.[0-9]+)?)\s*元\s*\/\s*首月\s*[，,]\s*续费\s*([0-9]+(?:\.[0-9]+)?)\s*元\s*\/\s*月/gi;
   let renewalMatch;
   while ((renewalMatch = renewalRegex.exec(html)) !== null) {
-    renewalByFirstMonth.set(renewalMatch[1], renewalMatch[2]);
-  }
-  const serviceDetailsByTier = new Map();
-  const rows = extractRows(html);
-  const planHeaderIndex = rows.findIndex(
-    (row) => /coding\s*plan\s*lite/i.test(row.join(" ")) && /coding\s*plan\s*pro/i.test(row.join(" ")),
-  );
-  if (planHeaderIndex >= 0) {
-    const planHeaderRow = rows[planHeaderIndex];
-    const tierColumns = new Map();
-    for (let column = 0; column < planHeaderRow.length; column += 1) {
-      const value = normalizeText(planHeaderRow[column]);
-      if (/coding\s*plan\s*lite/i.test(value)) {
-        tierColumns.set("Lite", column);
-      } else if (/coding\s*plan\s*pro/i.test(value)) {
-        tierColumns.set("Pro", column);
-      }
-    }
-    for (const tier of ["Lite", "Pro"]) {
-      const column = tierColumns.get(tier);
-      if (!Number.isInteger(column)) {
-        continue;
-      }
-      const serviceRows = [];
-      for (let rowIndex = planHeaderIndex + 1; rowIndex < rows.length; rowIndex += 1) {
-        const rowLabel = normalizeText(rows[rowIndex]?.[0] || "");
-        if (rowLabel === "开始使用") {
-          break;
-        }
-        serviceRows.push(rows[rowIndex]);
-      }
-      const details = buildServiceDetailsFromRows(serviceRows, column, { excludeLabels: ["套餐价格"] });
-      if (details) {
-        serviceDetailsByTier.set(tier, details);
-      }
-    }
+    renewalByFirstMonth.set(Number(renewalMatch[1]), Number(renewalMatch[2]));
   }
 
   const plans = [];
   for (const tier of ["Lite", "Pro"]) {
-    const firstMonth = firstMonthByTier.get(tier) || null;
-    let renewal = firstMonth ? renewalByFirstMonth.get(firstMonth) || null : null;
-    if (!renewal) {
-      const tierRenewal = html.match(
-        new RegExp(
-          `Coding\\s*Plan\\s*${tier}[\\s\\S]{0,2400}?续费\\s*([0-9]+(?:\\.[0-9]+)?)\\s*元\\s*\\/\\s*月`,
-          "i",
-        ),
-      );
-      renewal = tierRenewal?.[1] || null;
+    const column = tierColumns.get(tier);
+    if (!Number.isInteger(column)) {
+      continue;
     }
-    const renewalAmount = renewal ? Number(renewal) : null;
-    if (!Number.isFinite(renewalAmount)) {
+    const priceInfo = parseTierPriceBreakdown(priceRow[column]);
+    if (!Number.isFinite(priceInfo.monthlyAmount)) {
+      const firstMonthAmount = firstMonthByTier.get(tier);
+      if (Number.isFinite(firstMonthAmount)) {
+        const fallbackRenewal = renewalByFirstMonth.get(firstMonthAmount);
+        if (Number.isFinite(fallbackRenewal)) {
+          priceInfo.monthlyAmount = fallbackRenewal;
+        }
+      }
+    }
+    if (!Number.isFinite(priceInfo.monthlyAmount)) {
       continue;
     }
 
+    const firstMonthAmount = Number.isFinite(priceInfo.firstMonthAmount)
+      ? priceInfo.firstMonthAmount
+      : firstMonthByTier.get(tier) || null;
+    const notes = buildTierPriceNotes({
+      firstMonthAmount,
+      secondMonthAmount: priceInfo.secondMonthAmount,
+    });
     plans.push(
       asPlan({
         name: `Coding Plan ${tier}`,
-        currentPriceText: `${formatAmount(renewalAmount)}元/月`,
-        currentPrice: renewalAmount,
+        currentPriceText: `¥${formatAmount(priceInfo.monthlyAmount)}/月`,
+        currentPrice: priceInfo.monthlyAmount,
         unit: "月",
-        notes: firstMonth ? `新客首月 ${firstMonth}元` : null,
-        serviceDetails: serviceDetailsByTier.get(tier) || null,
+        notes,
+        serviceDetails: buildServiceDetailsFromRows(serviceRows, column, {
+          excludeLabels: ["套餐价格", "价格", "开始使用"],
+        }),
       }),
     );
   }
@@ -860,6 +920,97 @@ async function parseBaiduCodingPlans() {
   return {
     provider: PROVIDER_IDS.BAIDU,
     sourceUrls: [pageUrl],
+    fetchedAt: new Date().toISOString(),
+    plans: dedupePlans(plans),
+  };
+}
+
+async function parseTencentCodingPlans() {
+  const pageUrl = "https://cloud.tencent.com/document/product/1772/128947";
+  const html = await fetchText(pageUrl);
+  const rows = extractRows(html);
+  const planHeaderIndex = rows.findIndex(
+    (row) => /lite\s*套餐/i.test(row.join(" ")) && /pro\s*套餐/i.test(row.join(" ")),
+  );
+  if (planHeaderIndex < 0) {
+    throw new Error("Unable to locate Tencent coding plan table");
+  }
+  const planHeaderRow = rows[planHeaderIndex];
+  const tierColumns = new Map();
+  for (let column = 0; column < planHeaderRow.length; column += 1) {
+    const value = normalizeText(planHeaderRow[column]);
+    if (/lite\s*套餐/i.test(value)) {
+      tierColumns.set("Lite", column);
+    } else if (/pro\s*套餐/i.test(value)) {
+      tierColumns.set("Pro", column);
+    }
+  }
+
+  const pricingTableRows = [];
+  for (let rowIndex = planHeaderIndex + 1; rowIndex < rows.length; rowIndex += 1) {
+    const row = rows[rowIndex];
+    if (!row || row.length < planHeaderRow.length) {
+      if (pricingTableRows.length > 0) {
+        break;
+      }
+      continue;
+    }
+    const label = normalizeText(row[0] || "");
+    if (label === "价格" || label === "用量限制") {
+      pricingTableRows.push(row);
+      continue;
+    }
+    if (pricingTableRows.length > 0) {
+      break;
+    }
+  }
+
+  const priceRow = pricingTableRows.find((row) => normalizeText(row?.[0] || "") === "价格");
+  const usageRow = pricingTableRows.find((row) => normalizeText(row?.[0] || "") === "用量限制");
+  if (!priceRow) {
+    throw new Error("Unable to locate Tencent coding plan price row");
+  }
+
+  const plainText = stripTags(html);
+  const modelIntro = normalizeText(plainText.match(/支持模型[：:]\s*([^。；\n]+)/i)?.[1] || "");
+  const toolIntro = normalizeText(plainText.match(/适配工具[：:]\s*([^。；\n]+)/i)?.[1] || "");
+  const buyUrl = html.match(/https:\/\/buy\.cloud\.tencent\.com\/hunyuan[^\s"'<>]*/i)?.[0]
+    || "https://buy.cloud.tencent.com/hunyuan";
+
+  const plans = [];
+  for (const tier of ["Lite", "Pro"]) {
+    const column = tierColumns.get(tier);
+    if (!Number.isInteger(column)) {
+      continue;
+    }
+    const priceInfo = parseTierPriceBreakdown(priceRow[column]);
+    if (!Number.isFinite(priceInfo.monthlyAmount)) {
+      continue;
+    }
+    const usageText = normalizeText(usageRow?.[column] || "").replace(/(\d)\s*,\s*(\d{3})/g, "$1,$2");
+    plans.push(
+      asPlan({
+        name: `Coding Plan ${tier}`,
+        currentPriceText: `¥${formatAmount(priceInfo.monthlyAmount)}/月`,
+        currentPrice: priceInfo.monthlyAmount,
+        unit: "月",
+        notes: buildTierPriceNotes(priceInfo),
+        serviceDetails: normalizeServiceDetails([
+          usageText ? `用量限制: ${usageText}` : null,
+          modelIntro ? `支持模型: ${modelIntro}` : null,
+          toolIntro ? `适配工具: ${toolIntro}` : null,
+        ]),
+      }),
+    );
+  }
+
+  if (plans.length === 0) {
+    throw new Error("Unable to parse Tencent coding plan standard monthly prices");
+  }
+
+  return {
+    provider: PROVIDER_IDS.TENCENT,
+    sourceUrls: unique([pageUrl, buyUrl]),
     fetchedAt: new Date().toISOString(),
     plans: dedupePlans(plans),
   };
@@ -1677,6 +1828,7 @@ async function main() {
     { provider: PROVIDER_IDS.VOLCENGINE, fn: parseVolcengineCodingPlans },
     { provider: PROVIDER_IDS.MINIMAX, fn: parseMinimaxCodingPlans },
     { provider: PROVIDER_IDS.BAIDU, fn: parseBaiduCodingPlans },
+    { provider: PROVIDER_IDS.TENCENT, fn: parseTencentCodingPlans },
     { provider: PROVIDER_IDS.KWAIKAT, fn: parseKwaikatCodingPlans },
     { provider: PROVIDER_IDS.XAIO, fn: parseXAioCodingPlans },
     { provider: PROVIDER_IDS.COMPSHARE, fn: parseCompshareCodingPlans },

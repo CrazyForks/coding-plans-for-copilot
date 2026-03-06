@@ -9,6 +9,7 @@ const PROVIDER_LABELS = {
   "minimax-ai": "MiniMax",
   "aliyun-ai": "阿里云通义千问",
   "baidu-qianfan-ai": "百度智能云千帆",
+  "tencent-cloud-ai": "腾讯云 Coding Plan",
   "kwaikat-ai": "快手 KwaiKAT",
   "x-aio": "X-AIO",
   "compshare-ai": "优云智算",
@@ -36,6 +37,7 @@ const PROVIDER_BUY_URLS = {
   "minimax-ai": "https://platform.minimaxi.com/subscribe/coding-plan",
   "aliyun-ai": "https://common-buy.aliyun.com/?commodityCode=sfm_codingplan_public_cn#/buy",
   "baidu-qianfan-ai": "https://cloud.baidu.com/product/codingplan.html",
+  "tencent-cloud-ai": "https://buy.cloud.tencent.com/hunyuan",
   "kwaikat-ai": "https://www.streamlake.com/marketing/coding-plan",
   "x-aio": "https://code.x-aio.com/",
   "compshare-ai": "https://www.compshare.cn/docs/modelverse/package_plan/package",
@@ -385,14 +387,36 @@ function buildProviderPlanLookup(providers) {
   }
 }
 
-function findProviderPlanLink(providerName) {
+function findProviderPlanLink(providerName, providerSlug) {
+  const slugKey = String(providerSlug || "").toLowerCase().trim();
+  if (slugKey && providerPlanLookup.has(slugKey)) {
+    return providerPlanLookup.get(slugKey) || null;
+  }
   const key = String(providerName || "").toLowerCase().trim();
   return providerPlanLookup.get(key) || null;
 }
 
 // ─── Plan Card Building ─────────────────────────────────────
 
-function buildPlanList(plans) {
+function normalizePlanNotes(plan, options = {}) {
+  const { hideSourceUrl = false } = options;
+  const raw = String(plan?.notes || "").trim();
+  if (!raw) {
+    return null;
+  }
+  if (!hideSourceUrl) {
+    return raw;
+  }
+
+  // Some overseas plans include an auto-injected “来源: https://...” note.
+  // Keep other meaningful notes, only strip pure source attribution.
+  let cleaned = raw;
+  cleaned = cleaned.replace(/(?:^|\s*[|；;,，]\s*|\n)\s*(来源|source)\s*[:：]\s*https?:\/\/\S+/gi, "");
+  cleaned = cleaned.replace(/^[|；;,，\s]+/, "").replace(/[|；;,，\s]+$/, "").trim();
+  return cleaned || null;
+}
+
+function buildPlanList(plans, options = {}) {
   const planList = createElement("ul", "plan-list");
   for (const plan of plans) {
     const item = createElement("li", "plan-item");
@@ -445,8 +469,9 @@ function buildPlanList(plans) {
       item.append(serviceBlock);
     }
 
-    if (plan.notes) {
-      item.append(createElement("p", "plan-notes", plan.notes));
+    const notesText = normalizePlanNotes(plan, options);
+    if (notesText) {
+      item.append(createElement("p", "plan-notes", notesText));
     }
 
     planList.append(item);
@@ -458,6 +483,8 @@ function buildPlanList(plans) {
 
 function renderCurrencyFilteredTab(gridEl, providers, primarySymbol, foldedLabel) {
   gridEl.replaceChildren();
+
+  const hideSourceUrlNotes = primarySymbol === "$";
 
   const relevant = providers.filter((p) =>
     (p.plans || []).some((plan) => getPlanCurrencySymbol(plan) === primarySymbol),
@@ -491,14 +518,14 @@ function renderCurrencyFilteredTab(gridEl, providers, primarySymbol, foldedLabel
     card.append(head);
 
     if (primaryPlans.length > 0) {
-      card.append(buildPlanList(primaryPlans));
+      card.append(buildPlanList(primaryPlans, { hideSourceUrl: hideSourceUrlNotes }));
     }
 
     if (secondaryPlans.length > 0) {
       const details = createElement("details", "folded-plans");
       const summary = createElement("summary", "");
       summary.textContent = `${foldedLabel} (${secondaryPlans.length})`;
-      details.append(summary, buildPlanList(secondaryPlans));
+      details.append(summary, buildPlanList(secondaryPlans, { hideSourceUrl: hideSourceUrlNotes }));
       card.append(details);
     }
 
@@ -992,6 +1019,24 @@ function metricOrgLabel(org) {
   return MODEL_ORG_LABELS[key] || key || "--";
 }
 
+function getProviderSlugFromEndpointTag(tag) {
+  const raw = String(tag || "").trim().toLowerCase();
+  if (!raw) {
+    return "";
+  }
+  const slashIndex = raw.indexOf("/");
+  return (slashIndex >= 0 ? raw.slice(0, slashIndex) : raw).trim();
+}
+
+function getMetricProviderDisplayName(providerName, providerSlug) {
+  const name = String(providerName || "").trim();
+  if (name) {
+    return name;
+  }
+  const slug = String(providerSlug || "").trim().toLowerCase();
+  return slug || "--";
+}
+
 function buildMetricsRows(data, filters) {
   const models = Array.isArray(data?.models) ? data.models : [];
   const rows = [];
@@ -1007,7 +1052,10 @@ function buildMetricsRows(data, filters) {
     const endpoints = Array.isArray(model?.endpoints) ? model.endpoints : [];
     for (const endpoint of endpoints) {
       const providerName = String(endpoint?.providerName || "").trim();
-      if (filters.provider !== "all" && providerName !== filters.provider) {
+      const providerSlug = String(endpoint?.providerSlug || "").trim().toLowerCase()
+        || getProviderSlugFromEndpointTag(endpoint?.tag);
+      const providerDisplayName = getMetricProviderDisplayName(providerName, providerSlug);
+      if (filters.provider !== "all" && providerDisplayName !== filters.provider) {
         continue;
       }
       rows.push({
@@ -1015,7 +1063,8 @@ function buildMetricsRows(data, filters) {
         organizationLabel: metricOrgLabel(org),
         modelId,
         modelName: String(model?.name || modelId || "未命名模型"),
-        providerName: providerName || "--",
+        providerName: providerDisplayName,
+        providerSlug,
         uptime: Number.isFinite(Number(endpoint?.uptime_last_30m)) ? Number(endpoint.uptime_last_30m) : 0,
         latencyP50: readLatencySeconds(endpoint?.latency_last_30m, "p50"),
         latencyP90: readLatencySeconds(endpoint?.latency_last_30m, "p90"),
@@ -1146,7 +1195,7 @@ function renderMetricsTableRows(rows) {
     const providerCell = createElement("td", "metric-provider");
     providerCell.textContent = item.providerName;
 
-    const planLink = findProviderPlanLink(item.providerName);
+    const planLink = findProviderPlanLink(item.providerName, item.providerSlug);
     if (planLink) {
       const metaRow = createElement("div", "metric-provider-meta");
       const badge = createElement("span", `region-badge ${planLink.tab}`, planLink.regionLabel);
@@ -1242,7 +1291,12 @@ function updateMetricFilterOptions(data) {
       ...new Set(
         modelsForProvider.flatMap((model) =>
           (Array.isArray(model?.endpoints) ? model.endpoints : [])
-            .map((endpoint) => String(endpoint?.providerName || "").trim())
+            .map((endpoint) => {
+              const providerName = String(endpoint?.providerName || "").trim();
+              const providerSlug = String(endpoint?.providerSlug || "").trim().toLowerCase()
+                || getProviderSlugFromEndpointTag(endpoint?.tag);
+              return getMetricProviderDisplayName(providerName, providerSlug);
+            })
             .filter(Boolean),
         ),
       ),

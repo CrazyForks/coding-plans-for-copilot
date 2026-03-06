@@ -221,72 +221,64 @@ h1 {
 
 
 .tabs {
-  margin-bottom: 0.9rem;
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(250, 240, 214, 0.9)),
-    rgba(254, 252, 246, 0.94);
-  padding: 0.35rem;
+  margin: 0 auto 0.9rem;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 0.35rem;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid rgba(13, 27, 42, 0.16);
+  border-radius: 14px;
+  background: rgba(255, 253, 248, 0.96);
+  padding: 0.28rem;
   position: sticky;
-  top: calc(env(safe-area-inset-top, 0px) + 0px);
-  z-index: 80;
-  backdrop-filter: blur(8px);
-  box-shadow:
-    0 14px 28px rgba(13, 27, 42, 0.14),
-    0 0 0 3px rgba(12, 124, 89, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75);
-  isolation: isolate;
+  top: calc(env(safe-area-inset-top, 0px) + 4px);
+  z-index: 40;
+  box-shadow: 0 4px 12px rgba(13, 27, 42, 0.1);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.tabs::after {
-  content: "";
-  position: absolute;
-  inset: -5px;
-  border: 2px solid rgba(12, 124, 89, 0.2);
-  border-radius: 999px;
-  pointer-events: none;
+.tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .tab-button {
   border: 1px solid transparent;
-  border-radius: 999px;
-  padding: 0.42rem 0.9rem;
-  background: rgba(255, 255, 255, 0.46);
-  color: #4f5f70;
+  border-radius: 10px;
+  padding: 0.4rem 0.86rem;
+  min-height: 36px;
+  background: transparent;
+  color: var(--muted);
   font-size: 0.88rem;
   font-weight: 700;
+  white-space: nowrap;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.08s ease, box-shadow 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .tab-button:hover {
   color: var(--bg-ink);
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(12, 124, 89, 0.1);
   border-color: rgba(12, 124, 89, 0.22);
 }
 
 .tab-button.active {
-  background: linear-gradient(135deg, #0c8d65, #0b6f52);
+  background: var(--primary);
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.42);
-  box-shadow:
-    0 6px 16px rgba(12, 124, 89, 0.34),
-    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  border-color: rgba(12, 124, 89, 0.45);
+  box-shadow: 0 2px 6px rgba(12, 124, 89, 0.25);
 }
 
 .tab-button:active {
-  transform: translateY(1px);
+  filter: brightness(0.98);
 }
 
 .tab-button:focus-visible {
   outline: none;
-  box-shadow:
-    0 0 0 2px rgba(255, 255, 255, 0.92),
-    0 0 0 4px rgba(12, 124, 89, 0.32);
+  box-shadow: 0 0 0 3px rgba(12, 124, 89, 0.22);
 }
 
 .tab-panel {

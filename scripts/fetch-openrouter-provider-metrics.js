@@ -203,14 +203,27 @@ function toFiniteNumberOrNull(value) {
   return null;
 }
 
+function parseProviderSlugFromTag(tag) {
+  const raw = String(tag || "").trim().toLowerCase();
+  if (!raw) {
+    return null;
+  }
+  const slashIndex = raw.indexOf("/");
+  const slug = slashIndex >= 0 ? raw.slice(0, slashIndex) : raw;
+  return slug || null;
+}
+
 function normalizeProviderEndpoint(endpoint) {
   const providerName = String(endpoint?.provider_name || "").trim() || String(endpoint?.name || "").trim();
-  if (!providerName) {
+  const tag = String(endpoint?.tag || "").trim() || null;
+  const providerSlug = parseProviderSlugFromTag(tag);
+  if (!providerName && !providerSlug) {
     return null;
   }
   return {
-    providerName,
-    tag: endpoint?.tag || null,
+    providerName: providerName || providerSlug || "--",
+    providerSlug,
+    tag,
     quantization: endpoint?.quantization || null,
     status: toFiniteNumberOrNull(endpoint?.status),
     uptime_last_30m: toFiniteNumberOrNull(endpoint?.uptime_last_30m),
@@ -272,16 +285,26 @@ function compareEndpointQuality(left, right) {
 function keepBestEndpointPerProvider(endpoints) {
   const bestByProvider = new Map();
   for (const endpoint of endpoints || []) {
+    const providerSlug = String(endpoint?.providerSlug || "").trim().toLowerCase();
     const providerName = String(endpoint?.providerName || "").trim();
-    if (!providerName) {
+    const providerKey = providerSlug || providerName.toLowerCase();
+    if (!providerKey) {
       continue;
     }
-    const current = bestByProvider.get(providerName);
+    const current = bestByProvider.get(providerKey);
     if (!current || compareEndpointQuality(endpoint, current) < 0) {
-      bestByProvider.set(providerName, endpoint);
+      bestByProvider.set(providerKey, endpoint);
     }
   }
-  return [...bestByProvider.values()].sort((left, right) => left.providerName.localeCompare(right.providerName));
+  return [...bestByProvider.values()].sort((left, right) => {
+    const leftName = String(left?.providerName || "");
+    const rightName = String(right?.providerName || "");
+    const byName = leftName.localeCompare(rightName);
+    if (byName !== 0) {
+      return byName;
+    }
+    return String(left?.providerSlug || "").localeCompare(String(right?.providerSlug || ""));
+  });
 }
 
 async function mapWithConcurrency(values, concurrency, mapper) {

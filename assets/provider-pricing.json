@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-03-06T02:58:48.117Z",
+  "generatedAt": "2026-03-06T10:38:56.214Z",
   "providers": [
     {
       "provider": "zhipu-ai",
       "sourceUrls": [
         "https://bigmodel.cn/glm-coding",
-        "https://bigmodel.cn/js/app.7e3b39ba.js",
+        "https://bigmodel.cn/js/app.8fd0ca4b.js",
         "https://bigmodel.cn/js/chunk-0d4f69d1.465ec58a.js",
         "https://docs.bigmodel.cn/cn/coding-plan/overview"
       ],
@@ -312,12 +312,12 @@
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
-          "notes": "新客首月 7.9",
+          "notes": "首月特惠 ¥7.9；次月续费 ¥20",
           "serviceDetails": [
             "每 5 小时限额: 最多1200次请求",
             "每周限额: 最多9000次请求",
             "每月限额: 最多18000次请求",
-            "支持模型: GLM-5、Kimi-K2.5、MiniMax-M2.1、DeepSeek-V3.2等"
+            "支持模型: GLM-5、Kimi-K2.5、MiniMax-M2.5、DeepSeek-V3.2等"
           ]
         },
         {
@@ -327,12 +327,49 @@
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
-          "notes": "新客首月 39.9",
+          "notes": "首月特惠 ¥39.9；次月续费 ¥100",
           "serviceDetails": [
             "每 5 小时限额: 最多6000次请求",
             "每周限额: 最多45000次请求",
             "每月限额: 最多90000次请求",
-            "支持模型: GLM-5、Kimi-K2.5、MiniMax-M2.1、DeepSeek-V3.2等"
+            "支持模型: GLM-5、Kimi-K2.5、MiniMax-M2.5、DeepSeek-V3.2等"
+          ]
+        }
+      ]
+    },
+    {
+      "provider": "tencent-cloud-ai",
+      "sourceUrls": [
+        "https://cloud.tencent.com/document/product/1772/128947",
+        "https://buy.cloud.tencent.com/hunyuan"
+      ],
+      "plans": [
+        {
+          "name": "Coding Plan Lite",
+          "currentPrice": 40,
+          "currentPriceText": "¥40/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": "首月特惠 ¥7.9；次月续费 ¥20",
+          "serviceDetails": [
+            "用量限制: 每 5 小时：最多约 1,200 次请求 每周： 最多约 9,000 次请求 每订阅月：最多约 18,000 次请求",
+            "支持模型: 选用 Tencent HY 2.0 Instruct、GLM-5、Kimi-K2.5、MiniMax-M2.5 等多个最新模型，更多模型持续接入中",
+            "适配工具: 支持使用 OpenClaw、CodeBuddy、Claude Code、Cline、Cursor 等主流编程工具，更多工具持续接入中"
+          ]
+        },
+        {
+          "name": "Coding Plan Pro",
+          "currentPrice": 200,
+          "currentPriceText": "¥200/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": "首月特惠 ¥39.9；次月续费 ¥100",
+          "serviceDetails": [
+            "用量限制: 每 5 小时：最多约 6,000 次请求 每周： 最多约 45,000 次请求 每订阅月：最多约 90,000 次请求",
+            "支持模型: 选用 Tencent HY 2.0 Instruct、GLM-5、Kimi-K2.5、MiniMax-M2.5 等多个最新模型，更多模型持续接入中",
+            "适配工具: 支持使用 OpenClaw、CodeBuddy、Claude Code、Cline、Cursor 等主流编程工具，更多工具持续接入中"
           ]
         }
       ]
@@ -526,7 +563,7 @@
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/13fc3c2b441a314a2dc79c6e7aea4047.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/7f05a45b58053422b13e1b6bbd63e808.js",
         "https://t.aliyun.com/abs/promotion/queryPrice"
       ],
       "plans": [
@@ -559,9 +596,42 @@
           ]
         }
       ]
+    },
+    {
+      "provider": "infini-ai",
+      "sourceUrls": [
+        "https://cloud.infini-ai.com/platform/ai",
+        "https://content.cloud.infini-ai.com/platform-web-prod/assets/js/main.c9e3dd36.js",
+        "https://content.cloud.infini-ai.com/platform-web-prod/assets/js/Index.8ada9e79.js",
+        "https://cloud.infini-ai.com/api/maas/system/coding_plan/can_purchase"
+      ],
+      "plans": [
+        {
+          "name": "Infini Coding Lite",
+          "currentPrice": 40,
+          "currentPriceText": "¥40/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "1,000次/5小时、6,000次/7天、12,000次/1个月"
+          ]
+        },
+        {
+          "name": "Infini Coding Pro",
+          "currentPrice": 200,
+          "currentPriceText": "¥200/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "5,000次/5小时、30,000次/7天、60,000次/1个月"
+          ]
+        }
+      ]
     }
   ],
-  "failures": [
-    "infini-ai: Task timed out after 15000ms"
-  ]
+  "failures": []
 }
