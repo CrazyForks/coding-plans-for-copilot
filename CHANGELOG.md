@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2026-03-06
+- feat(provider): 支持多协议供应商接入
+- feat(scripts): 增加 Redpill 自定义解析及界面调整
+- chore: update openrouter provider metrics
+- chore(docs): 更新价格指标文档与数据
+- feat(config): 优化模型配置存储逻辑，仅持久化模型名称
+- feat(generator): 优化提示词处理和提交风格参考
+- feat: 添加OpenRouter模型性能看板
+- feat(provider): 添加强制模型发现重试功能
+- chore: update provider pricing
+
 ## [0.4.15] - 2026-03-05
 - feat(config): 为供应商模型添加默认视觉能力配置
 - feat(pricing): 支持人民币/美元符号自动识别并统一价格格式
