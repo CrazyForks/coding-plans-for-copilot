@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-06T12:12:51.497Z",
-  "generatedAtBeijing": "2026年3月6日 20:12:51",
+  "generatedAt": "2026-03-06T12:27:48.687Z",
+  "generatedAtBeijing": "2026年3月6日 20:27:48",
   "sourceGeneratedAt": "2026-03-06T10:38:56.214Z",
   "sourceGeneratedAtBeijing": "2026年3月6日 18:38:56",
   "sourceMetricsGeneratedAt": "2026-03-06T12:11:59.952Z",
@@ -451,26 +451,27 @@
       "providerId": null,
       "plans": [
         {
-          "name": "官网价格参考",
-          "currentPrice": 35,
-          "currentPriceText": "$ 35/mo",
+          "name": "Pro",
+          "currentPrice": 50,
+          "currentPriceText": "$50/month",
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
-          "notes": "来源: https://www.redpill.ai/pricing",
+          "notes": "来源: https://www.redpill.ai/pricing；页面展示年付折算价 $35/month（Save 30%），换算月付价 $50/month",
           "serviceDetails": [
-            "Access to basic AI models",
-            "10 messages per day",
-            "E2E encryption included",
             "50+ latest models including DeepSeek V3, Qwen, GLM-4",
+            "Unlimited messaging",
             "Private RAG - upload & query documents",
-            "10 GB file storage"
+            "10 GB file storage",
+            "30 Deep Research queries/month",
+            "Unlimited web search",
+            "Priority support"
           ]
         }
       ],
       "sourceUrls": [
-        "https://red-pill.ai",
-        "https://www.redpill.ai/pricing"
+        "https://www.redpill.ai/pricing",
+        "https://red-pill.ai"
       ],
       "pricingPageUrl": "https://www.redpill.ai/pricing",
       "officialWebsiteUrl": "https://red-pill.ai",

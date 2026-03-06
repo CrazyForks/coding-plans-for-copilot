@@ -1329,10 +1329,71 @@ async function parseChutesCustomPricing() {
   return null;
 }
 
+async function parseRedpillCustomPricing() {
+  const pricingUrl = "https://www.redpill.ai/pricing";
+  const { text: html, url: resolvedUrl } = await fetchText(pricingUrl, {
+    timeoutMs: PRICING_PROBE_TIMEOUT_MS,
+    headers: HTML_HEADERS,
+  });
+  const sourceUrl = resolvedUrl || pricingUrl;
+  const text = compactText(html);
+
+  const proSectionMatch = text.match(
+    /Pro\s+For individuals(?:\s*&\s*|\s+and\s+)professionals([\s\S]{0,1800}?)Enterprise\s+For teams(?:\s*&\s*|\s+and\s+)organizations/i,
+  );
+  const proSection = proSectionMatch?.[1] || "";
+  const displayedPriceToken =
+    proSection.match(/(\$\s*[0-9]+(?:\.[0-9]+)?\s*\/\s*month)/i)?.[1]
+    || text.match(/Pro\s+For individuals(?:\s*&\s*|\s+and\s+)professionals[\s\S]{0,600}?(\$\s*[0-9]+(?:\.[0-9]+)?\s*\/\s*month)/i)?.[1]
+    || null;
+  const displayedPrice = parsePriceAmount(displayedPriceToken);
+  if (!Number.isFinite(displayedPrice)) {
+    return null;
+  }
+
+  const annualSavePercent = Number.parseFloat(text.match(/Annually\s*Save\s*([0-9]+(?:\.[0-9]+)?)%/i)?.[1] || "");
+  const inferredMonthlyPrice = Number.isFinite(annualSavePercent) && annualSavePercent > 0 && annualSavePercent < 100
+    ? Number((displayedPrice / (1 - annualSavePercent / 100)).toFixed(2))
+    : displayedPrice;
+  const monthlyPrice = inferredMonthlyPrice > displayedPrice ? inferredMonthlyPrice : displayedPrice;
+
+  const knownFeatureCandidates = [
+    "50+ latest models including DeepSeek V3, Qwen, GLM-4",
+    "Unlimited messaging",
+    "Private RAG - upload & query documents",
+    "10 GB file storage",
+    "30 Deep Research queries/month",
+    "Unlimited web search",
+    "Priority support",
+  ];
+  const serviceDetails = knownFeatureCandidates.filter((item) => text.includes(item));
+  const notes = [];
+  notes.push(`来源: ${sourceUrl}`);
+  if (monthlyPrice > displayedPrice && Number.isFinite(annualSavePercent)) {
+    notes.push(`页面展示年付折算价 $${displayedPrice}/month（Save ${annualSavePercent}%），换算月付价 $${monthlyPrice}/month`);
+  }
+
+  return {
+    plans: [{
+      name: "Pro",
+      currentPrice: monthlyPrice,
+      currentPriceText: `$${monthlyPrice}/month`,
+      originalPrice: null,
+      originalPriceText: null,
+      unit: "月",
+      notes: notes.join("；"),
+      serviceDetails: serviceDetails.length > 0 ? serviceDetails : null,
+    }],
+    sourceUrls: [sourceUrl],
+    pricingPageUrl: sourceUrl,
+  };
+}
+
 const PROVIDER_CUSTOM_PARSERS = {
   mistral: parseMistralCustomPricing,
   chutes: parseChutesCustomPricing,
   venice: parseVeniceCustomPricing,
+  phala: parseRedpillCustomPricing,
 };
 
 async function probeOfficialPricing(openrouterProvider, officialWebsiteUrl) {
