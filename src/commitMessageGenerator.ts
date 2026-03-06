@@ -19,6 +19,8 @@ const COMMIT_MESSAGE_OPTIONS_MAX_BODY_BULLET_COUNT_KEY = 'maxBodyBulletCount';
 const COMMIT_MESSAGE_OPTIONS_SUBJECT_MAX_LENGTH_KEY = 'subjectMaxLength';
 const COMMIT_MESSAGE_OPTIONS_REQUIRE_CONVENTIONAL_TYPE_KEY = 'requireConventionalType';
 const COMMIT_MESSAGE_OPTIONS_WARN_ON_VALIDATION_FAILURE_KEY = 'warnOnValidationFailure';
+const COMMIT_MESSAGE_OPTIONS_LLM_MAX_PROMPT_LENGTH_KEY = 'llmMaxPromptLength';
+const COMMIT_MESSAGE_OPTIONS_LEGACY_RECENT_STYLE_MAX_TOTAL_LENGTH_KEY = 'recentStyleMaxTotalLength';
 
 // Legacy keys kept for backward compatibility with existing user settings.
 const LEGACY_COMMIT_MESSAGE_PROMPT_SETTING_KEY = 'commitMessage.prompt';
@@ -40,9 +42,9 @@ const DEFAULT_MAX_BODY_BULLET_COUNT = 7;
 const DEFAULT_SUBJECT_MAX_LENGTH = 72;
 const DEFAULT_REQUIRE_CONVENTIONAL_TYPE = true;
 const DEFAULT_WARN_ON_VALIDATION_FAILURE = true;
-const DEFAULT_RECENT_COMMIT_STYLE_SAMPLE_SIZE = 20;
+const DEFAULT_RECENT_COMMIT_STYLE_SAMPLE_SIZE = 7;
 const RECENT_COMMIT_STYLE_MAX_ENTRY_LENGTH = 500;
-const RECENT_COMMIT_STYLE_MAX_TOTAL_LENGTH = 5000;
+const DEFAULT_LLM_MAX_PROMPT_LENGTH = 5000;
 const COMMIT_LOG_ENTRY_SEPARATOR = '\u001e';
 const SELECT_CHAT_MODELS_TIMEOUT_MS = 10000;
 const SELECT_CHAT_MODELS_CACHE_TTL_MS = 60000;
@@ -103,6 +105,7 @@ type CommitMessageSettings = {
   subjectMaxLength: number;
   requireConventionalType: boolean;
   warnOnValidationFailure: boolean;
+  llmMaxPromptLength: number;
 };
 
 type CommitMessageOptions = {
@@ -116,6 +119,9 @@ type CommitMessageOptions = {
   subjectMaxLength?: number;
   requireConventionalType?: boolean;
   warnOnValidationFailure?: boolean;
+  llmMaxPromptLength?: number;
+  // Backward compatibility: old key name.
+  recentStyleMaxTotalLength?: number;
 };
 
 type DiffSummary = {
@@ -127,7 +133,18 @@ type DiffSummary = {
 
 type PreparedGenerationInput =
   | { kind: 'diff'; diff: string; breakingChangeExpected: boolean }
-  | { kind: 'summary'; summary: DiffSummary; breakingChangeExpected: boolean };
+  | {
+    kind: 'summary';
+    summary: DiffSummary;
+    breakingChangeExpected: boolean;
+    /**
+     * Full diff can be very large; this is a truncated diff included ONLY as a reference
+     * so the model can follow repository style while still having direct change context.
+     */
+    diffForReference: string;
+    diffOriginalLines: number;
+    diffTruncated: boolean;
+  };
 
 type ModelSelectionResult =
   | { kind: 'selected'; model: vscode.LanguageModelChat }
@@ -249,7 +266,16 @@ function getCommitMessageSettings(): CommitMessageSettings {
         : config.get<boolean>(
           LEGACY_COMMIT_MESSAGE_WARN_ON_VALIDATION_FAILURE_SETTING_KEY,
           DEFAULT_WARN_ON_VALIDATION_FAILURE
-        )
+        ),
+    llmMaxPromptLength: Math.max(
+      500,
+      readPositiveIntegerValue(
+        options[COMMIT_MESSAGE_OPTIONS_LLM_MAX_PROMPT_LENGTH_KEY]
+        ?? options[COMMIT_MESSAGE_OPTIONS_LEGACY_RECENT_STYLE_MAX_TOTAL_LENGTH_KEY]
+        ?? DEFAULT_LLM_MAX_PROMPT_LENGTH,
+        DEFAULT_LLM_MAX_PROMPT_LENGTH
+      )
+    )
   };
 }
 
@@ -338,7 +364,12 @@ function buildSummaryGenerationPrompt(
   summary: DiffSummary,
   language: CommitMessageLanguage,
   settings: CommitMessageSettings,
-  styleReferenceBlock?: string
+  styleReferenceBlock?: string,
+  diffForReference?: {
+    diff: string;
+    originalLines: number;
+    truncated: boolean;
+  }
 ): string {
   const languageEnforcementBlock = getCommitLanguageEnforcementBlock(language);
   const formatPrompt = getCommitFormatPrompt();
@@ -358,9 +389,21 @@ function buildSummaryGenerationPrompt(
     promptSections.push('', styleReferenceBlock);
   }
 
+  if (diffForReference) {
+    promptSections.push(
+      '',
+      'DIFF CONTEXT (reference):',
+      `The full diff had ${diffForReference.originalLines} lines; truncated=${diffForReference.truncated}.`,
+      'Use this diff as additional context. If any instruction conflicts, follow LANGUAGE and STYLE requirements.',
+      '--- BEGIN DIFF (TRUNCATED REFERENCE) ---',
+      diffForReference.diff,
+      '--- END DIFF (TRUNCATED REFERENCE) ---'
+    );
+  }
+
   promptSections.push(
     '',
-    'Use the following structured summary as the only source of truth.',
+    'Use the following structured summary as the primary source of truth for change intent.',
     '--- BEGIN CHANGE SUMMARY JSON ---',
     JSON.stringify(summary, null, 2),
     '--- END CHANGE SUMMARY JSON ---'
@@ -413,28 +456,41 @@ function getRepositoryRootPath(repo: GitRepository): string | undefined {
   return rootPath;
 }
 
-function trimCommitStyleSample(message: string): string {
+function trimCommitStyleSample(message: string, maxLength = RECENT_COMMIT_STYLE_MAX_ENTRY_LENGTH): string {
   const normalized = normalizeNewlines(message).trim();
   if (!normalized) {
     return '';
   }
-  if (normalized.length <= RECENT_COMMIT_STYLE_MAX_ENTRY_LENGTH) {
+  if (normalized.length <= maxLength) {
     return normalized;
   }
-  return `${normalized.slice(0, RECENT_COMMIT_STYLE_MAX_ENTRY_LENGTH - 3)}...`;
+  return `${normalized.slice(0, Math.max(0, maxLength - 3))}...`;
 }
 
-async function getRecentCommitMessages(repo: GitRepository, count: number): Promise<string[]> {
+async function getRecentCommitMessages(
+  repo: GitRepository,
+  count: number,
+  maxPromptLength = DEFAULT_LLM_MAX_PROMPT_LENGTH
+): Promise<string[]> {
   const rootPath = getRepositoryRootPath(repo);
   if (!rootPath) {
     return [];
   }
 
   const safeCount = Math.max(1, Math.floor(count));
+  const safeMaxPromptLength = Math.max(500, Math.floor(maxPromptLength));
+  // Try to keep enough samples: avoid one long body consuming the whole style budget.
+  const perEntryMaxLength = Math.max(
+    80,
+    Math.min(
+      RECENT_COMMIT_STYLE_MAX_ENTRY_LENGTH,
+      Math.floor(safeMaxPromptLength / safeCount)
+    )
+  );
   const stdout = await new Promise<string>((resolve) => {
     execFile(
       'git',
-      ['-C', rootPath, 'log', `-${safeCount}`, `--pretty=format:%B${COMMIT_LOG_ENTRY_SEPARATOR}`],
+      ['-C', rootPath, 'log', '--no-merges', `-${safeCount}`, `--pretty=format:%B${COMMIT_LOG_ENTRY_SEPARATOR}`],
       { encoding: 'utf8', maxBuffer: 1024 * 1024 },
       (error, out) => {
         if (error) {
@@ -450,22 +506,12 @@ async function getRecentCommitMessages(repo: GitRepository, count: number): Prom
     return [];
   }
 
-  const messages = normalizeNewlines(stdout)
+  // We already cap each entry, so we can keep the full requested sample size.
+  return normalizeNewlines(stdout)
     .split(COMMIT_LOG_ENTRY_SEPARATOR)
-    .map(trimCommitStyleSample)
-    .filter(message => message.length > 0);
-
-  let totalLength = 0;
-  const limited: string[] = [];
-  for (const message of messages) {
-    if (totalLength + message.length > RECENT_COMMIT_STYLE_MAX_TOTAL_LENGTH) {
-      break;
-    }
-    limited.push(message);
-    totalLength += message.length;
-  }
-
-  return limited;
+    .map(message => trimCommitStyleSample(message, perEntryMaxLength))
+    .filter(message => message.length > 0)
+    .slice(0, safeCount);
 }
 
 function buildStyleReferenceBlock(recentMessages: string[]): string | undefined {
@@ -478,9 +524,11 @@ function buildStyleReferenceBlock(recentMessages: string[]): string | undefined 
     .join('\n\n');
 
   return [
-    'STYLE REFERENCE (optional):',
-    'Mimic tone and structure from these recent commit messages.',
-    'Do not copy exact change details, identifiers, or scopes unless required by the current diff.',
+    'STYLE REQUIREMENT (VERY HIGH PRIORITY):',
+    'You MUST infer the dominant commit-message format from the samples below and follow it.',
+    'Treat these samples as the canonical repository style (prefix/type/scope, language, punctuation, casing, line breaks, bullet style).',
+    'If any other formatting instruction conflicts with this style requirement, follow the style requirement.',
+    'Do not copy exact change details, identifiers, tickets, or scopes verbatim unless they are clearly required by the current diff.',
     '--- BEGIN RECENT COMMIT MESSAGES ---',
     examples,
     '--- END RECENT COMMIT MESSAGES ---'
@@ -1635,9 +1683,29 @@ async function sendPrompt(
   model: vscode.LanguageModelChat,
   prompt: string,
   token: vscode.CancellationToken,
-  justification: string
+  justification: string,
+  maxPromptLength: number
 ): Promise<string> {
-  const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+  const safeMaxPromptLength = Math.max(500, Math.floor(maxPromptLength));
+  const originalPrompt = normalizeNewlines(prompt);
+  let promptForModel = originalPrompt;
+  if (originalPrompt.length > safeMaxPromptLength) {
+    void vscode.window.showWarningMessage(
+      getMessage('commitMessagePromptTooLarge', originalPrompt.length, safeMaxPromptLength)
+    );
+    const truncationMarker = '\n\n[TRUNCATED] Prompt was shortened due to llmMaxPromptLength.\n\n';
+    const budgetWithoutMarker = Math.max(0, safeMaxPromptLength - truncationMarker.length);
+    const headLength = Math.min(
+      budgetWithoutMarker,
+      Math.max(120, Math.floor(budgetWithoutMarker * 0.35))
+    );
+    const tailLength = Math.max(0, budgetWithoutMarker - headLength);
+    const head = originalPrompt.slice(0, headLength);
+    const tail = tailLength > 0 ? originalPrompt.slice(originalPrompt.length - tailLength) : '';
+    promptForModel = `${head}${truncationMarker}${tail}`;
+  }
+
+  const messages = [vscode.LanguageModelChatMessage.User(promptForModel)];
   let response: vscode.LanguageModelChatResponse;
   try {
     response = await model.sendRequest(messages, { justification }, token);
@@ -1677,7 +1745,8 @@ async function runTwoStageSummary(
       model,
       buildChunkSummaryPrompt(chunks[i], i, chunks.length),
       token,
-      'Summarize a diff chunk for commit message generation.'
+      'Summarize a diff chunk for commit message generation.',
+      settings.llmMaxPromptLength
     );
     chunkSummaries.push(parseDiffSummary(rawChunkSummary));
   }
@@ -1686,7 +1755,8 @@ async function runTwoStageSummary(
     model,
     buildAggregateSummaryPrompt(chunkSummaries),
     token,
-    'Aggregate chunk summaries into one structured summary.'
+    'Aggregate chunk summaries into one structured summary.',
+    settings.llmMaxPromptLength
   );
   return parseDiffSummary(rawAggregateSummary);
 }
@@ -1700,13 +1770,18 @@ async function prepareGenerationInput(
   const diffLineCount = normalizeNewlines(diff).split('\n').length;
   const useTwoStage = shouldUseTwoStagePipeline(settings, diffLineCount);
 
+  const truncatedForReference = truncateDiffForSingleStage(diff, settings.maxDiffLines);
+
   if (useTwoStage) {
     try {
       const summary = await runTwoStageSummary(model, diff, settings, token);
       return {
         kind: 'summary',
         summary,
-        breakingChangeExpected: summary.breakingChange
+        breakingChangeExpected: summary.breakingChange,
+        diffForReference: truncatedForReference.diff,
+        diffOriginalLines: truncatedForReference.originalLines,
+        diffTruncated: truncatedForReference.truncated
       };
     } catch (error: unknown) {
       const detail = error instanceof Error ? error.message : String(error);
@@ -1853,7 +1928,11 @@ export async function generateCommitMessage(commandContext?: unknown): Promise<v
         const settings = getCommitMessageSettings();
         const language = getCommitLanguage();
         const styleReferenceBlockPromise = shouldUseRecentCommitStyle()
-          ? getRecentCommitMessages(repo, DEFAULT_RECENT_COMMIT_STYLE_SAMPLE_SIZE).then(buildStyleReferenceBlock)
+          ? getRecentCommitMessages(
+            repo,
+            DEFAULT_RECENT_COMMIT_STYLE_SAMPLE_SIZE,
+            settings.llmMaxPromptLength
+          ).then(buildStyleReferenceBlock)
           : Promise.resolve<string | undefined>(undefined);
 
         reportProgress(getMessage('commitMessageProgressPreparing'), 20);
@@ -1868,7 +1947,17 @@ export async function generateCommitMessage(commandContext?: unknown): Promise<v
         reportProgress(generationStageMessage, 20);
         const prompt =
           preparedInput.kind === 'summary'
-            ? buildSummaryGenerationPrompt(preparedInput.summary, language, settings, styleReferenceBlock)
+            ? buildSummaryGenerationPrompt(
+              preparedInput.summary,
+              language,
+              settings,
+              styleReferenceBlock,
+              {
+                diff: preparedInput.diffForReference,
+                originalLines: preparedInput.diffOriginalLines,
+                truncated: preparedInput.diffTruncated
+              }
+            )
             : buildDiffGenerationPrompt(
               preparedInput.diff,
               language,
@@ -1881,7 +1970,8 @@ export async function generateCommitMessage(commandContext?: unknown): Promise<v
           model,
           prompt,
           token,
-          'Generate a git commit message from code changes.'
+          'Generate a git commit message from code changes.',
+          settings.llmMaxPromptLength
         );
         throwIfCancelled(token);
 
