@@ -1,20 +1,20 @@
 {
-  "generatedAt": "2026-03-06T11:00:16.381Z",
-  "generatedAtBeijing": "2026年3月6日 19:00:16",
+  "generatedAt": "2026-03-06T12:12:51.497Z",
+  "generatedAtBeijing": "2026年3月6日 20:12:51",
   "sourceGeneratedAt": "2026-03-06T10:38:56.214Z",
   "sourceGeneratedAtBeijing": "2026年3月6日 18:38:56",
-  "sourceMetricsGeneratedAt": "2026-03-06T10:39:02.441Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年3月6日 18:39:02",
+  "sourceMetricsGeneratedAt": "2026-03-06T12:11:59.952Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年3月6日 20:11:59",
   "summary": {
     "openrouterProviderCount": 73,
-    "metricsProviderCount": 30,
-    "resolvedMetricsProviderCount": 30,
+    "metricsProviderCount": 28,
+    "resolvedMetricsProviderCount": 28,
     "unresolvedMetricsProviderCount": 0,
-    "structuredProviderCount": 6,
+    "structuredProviderCount": 5,
     "heuristicProviderCount": 4,
-    "providersWithPlans": 10,
-    "pendingCount": 20,
-    "blockedPendingCount": 0,
+    "providersWithPlans": 9,
+    "pendingCount": 19,
+    "blockedPendingCount": 1,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
   },
@@ -528,86 +528,6 @@
       "parseMode": "provider-pricing-structured"
     },
     {
-      "slug": "streamlake",
-      "openrouterName": "StreamLake",
-      "providerId": "kwaikat-ai",
-      "plans": [
-        {
-          "name": "KAT Coding Mini",
-          "currentPrice": 8.8,
-          "currentPriceText": "¥8.8/月",
-          "originalPrice": 29,
-          "originalPriceText": "¥29/月",
-          "unit": "月",
-          "notes": "适合初次体验者的轻量化选择；最低成本体验 KAT-Coder-Pro V1；覆盖日常编码场景；¥40 Prompts/5小时",
-          "serviceDetails": [
-            "适合初次体验者的轻量化选择",
-            "最低成本体验 KAT-Coder-Pro V1",
-            "覆盖日常编码场景",
-            "40 Prompts / 5小时"
-          ]
-        },
-        {
-          "name": "KAT Coding Starter",
-          "currentPrice": 48,
-          "currentPriceText": "¥48/月",
-          "originalPrice": 70,
-          "originalPriceText": "¥70/月",
-          "unit": "月",
-          "notes": "适配日常核心开发场景的高效搭档；由最新旗舰模型 KAT-Coder-Pro V1 驱动；适配Claude Code等主流编程工具；¥100 Prompts/5小时",
-          "serviceDetails": [
-            "适配日常核心开发场景的高效搭档",
-            "由最新旗舰模型 KAT-Coder-Pro V1 驱动",
-            "适配Claude Code等主流编程工具",
-            "100 Prompts / 5小时"
-          ]
-        },
-        {
-          "name": "KAT Coding Pro",
-          "currentPrice": 96,
-          "currentPriceText": "¥96/月",
-          "originalPrice": 140,
-          "originalPriceText": "¥140/月",
-          "unit": "月",
-          "notes": "驱动复杂架构设计的进阶引擎；包含Starter套餐全部权益，性能全面提升；Starter套餐用量的3倍；¥300 Prompts/5小时",
-          "serviceDetails": [
-            "驱动复杂架构设计的进阶引擎",
-            "包含Starter套餐全部权益，性能全面提升",
-            "Starter套餐用量的3倍",
-            "300 Prompts / 5小时"
-          ]
-        },
-        {
-          "name": "KAT Coding Max",
-          "currentPrice": 240,
-          "currentPriceText": "¥240/月",
-          "originalPrice": 350,
-          "originalPriceText": "¥350/月",
-          "unit": "月",
-          "notes": "支持全天候高强度开发的旗舰配置；卓越的跨文件/仓库级代码深度理解；Pro套餐用量的3倍以上；¥1000 Prompts/5小时",
-          "serviceDetails": [
-            "支持全天候高强度开发的旗舰配置",
-            "卓越的跨文件/仓库级代码深度理解",
-            "Pro套餐用量的3倍以上",
-            "1000 Prompts / 5小时"
-          ]
-        }
-      ],
-      "sourceUrls": [
-        "https://www.streamlake.com/marketing/coding-plan",
-        "https://www.streamlake.com/api/get-kconf-content?key=website_kat_coder_coding_plan&name=platform_web&folder=streamlake",
-        "https://console.streamlake.com/api/common/describe-product-detail",
-        "https://www.streamlake.ai"
-      ],
-      "pricingPageUrl": "https://www.streamlake.com/marketing/coding-plan",
-      "officialWebsiteUrl": "https://www.streamlake.ai",
-      "websiteSource": "terms_of_service_url",
-      "privacyPolicyUrl": "https://www.streamlake.ai/document/DOC/mgkci47q13qr66h9i54",
-      "termsOfServiceUrl": "https://www.streamlake.ai/document/DOC/mgkchnd89grpt1961fw",
-      "statusPageUrl": null,
-      "parseMode": "provider-pricing-structured"
-    },
-    {
       "slug": "venice",
       "openrouterName": "Venice",
       "providerId": null,
@@ -743,15 +663,6 @@
       "blocked": false
     },
     {
-      "slug": "deepseek",
-      "openrouterName": "DeepSeek",
-      "providerId": null,
-      "officialWebsiteUrl": "https://chat.deepseek.com",
-      "pricingPageUrl": "https://chat.deepseek.com/pricing",
-      "reason": "官网未发现可解析的套餐价格页",
-      "blocked": false
-    },
-    {
       "slug": "fireworks",
       "openrouterName": "Fireworks",
       "providerId": null,
@@ -811,8 +722,8 @@
       "providerId": null,
       "officialWebsiteUrl": "https://ionstream.ai",
       "pricingPageUrl": "https://ionstream.ai",
-      "reason": "官网价格页探测失败：https://ionstream.ai/pricing: HTTP 404",
-      "blocked": false
+      "reason": "官网价格页探测失败：https://ionstream.ai/pricing: Request timeout after 9000ms",
+      "blocked": true
     },
     {
       "slug": "nebius",
