@@ -1132,7 +1132,7 @@ function buildMetricsRows(data, filters) {
 }
 
 function navigateToProviderCard(tab, cardId) {
-  switchTab(tab);
+  selectTab(tab);
   requestAnimationFrame(() => {
     const cardEl = document.getElementById(cardId);
     if (cardEl) {
@@ -1388,6 +1388,55 @@ function syncMetricsHintText() {
   metricsToolbarHintInlineEl.textContent = metricsState.rawData ? getMetricsToolbarHint() : "";
 }
 
+function normalizeTabName(tab) {
+  return tab === "overseas" || tab === "metrics" ? tab : "domestic";
+}
+
+function readTabFromHash() {
+  const hashValue = window.location.hash.replace(/^#/, "").trim().toLowerCase();
+  return normalizeTabName(hashValue);
+}
+
+function syncHashForTab(tab, mode = "push") {
+  const nextHash = `#${normalizeTabName(tab)}`;
+  if (window.location.hash === nextHash) {
+    return;
+  }
+  if (mode === "replace" && window.history && typeof window.history.replaceState === "function") {
+    window.history.replaceState(null, "", nextHash);
+    return;
+  }
+  window.location.hash = nextHash;
+}
+
+function loadDataForActiveTab() {
+  if (activeTab === "metrics") {
+    if (!metricsState.rawData) {
+      loadMetricsData();
+    }
+    return;
+  }
+  if (!appState.dataLoaded) {
+    loadAllPlanData();
+  }
+}
+
+function applyTabFromHash() {
+  switchTab(readTabFromHash());
+  loadDataForActiveTab();
+}
+
+function selectTab(tab) {
+  const nextTab = normalizeTabName(tab);
+  const nextHash = `#${nextTab}`;
+  if (window.location.hash === nextHash) {
+    switchTab(nextTab);
+    loadDataForActiveTab();
+    return;
+  }
+  syncHashForTab(nextTab);
+}
+
 function switchTab(tab) {
   const nextTab = tab === "overseas" || tab === "metrics" ? tab : "domestic";
   activeTab = nextTab;
@@ -1529,22 +1578,15 @@ async function loadMetricsData() {
 // ─── Event Listeners ─────────────────────────────────────────
 
 domesticTabButtonEl.addEventListener("click", () => {
-  switchTab("domestic");
-  if (!appState.dataLoaded) {
-    loadAllPlanData();
-  }
+  selectTab("domestic");
 });
 
 overseasTabButtonEl.addEventListener("click", () => {
-  switchTab("overseas");
-  if (!appState.dataLoaded) {
-    loadAllPlanData();
-  }
+  selectTab("overseas");
 });
 
 metricsTabButtonEl.addEventListener("click", () => {
-  switchTab("metrics");
-  loadMetricsData();
+  selectTab("metrics");
 });
 
 // metricsOrgFilterEl.addEventListener("change", handleMetricsFilterChange);
@@ -1559,7 +1601,14 @@ reloadButtonEl.addEventListener("click", () => {
   loadAllPlanData();
 });
 
+window.addEventListener("hashchange", () => {
+  applyTabFromHash();
+});
+
 // ─── Init ────────────────────────────────────────────────────
 
-switchTab("domestic");
-loadAllPlanData();
+const initialTab = readTabFromHash();
+syncHashForTab(initialTab, "replace");
+switchTab(initialTab);
+loadDataForActiveTab();
+

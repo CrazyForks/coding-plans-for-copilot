@@ -74,7 +74,7 @@ async function handleRequest(req, res) {
     }
     res.writeHead(500, { "Content-Type": "text/plain; charset=utf-8" });
     res.end("Internal Server Error");
-    console.error("[pricing:serve] request error:", error && error.message ? error.message : error);
+    console.error("[serve:page] request error:", error && error.message ? error.message : error);
   }
 }
 
@@ -93,11 +93,12 @@ async function main() {
   });
 
   server.listen(PORT, HOST, () => {
-    console.log(`[pricing:serve] http://${HOST}:${PORT}`);
+    console.log(`[serve:page] http://${HOST}:${PORT}`);
   });
 }
 
 main().catch((error) => {
-  console.error("[pricing:serve] startup failed:", error && error.message ? error.message : error);
+  console.error("[serve:page] startup failed:", error && error.message ? error.message : error);
   process.exit(1);
 });
+

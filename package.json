@@ -406,7 +406,7 @@
         "pricing:fetch": "node ./scripts/fetch-provider-pricing.js",
         "metrics:fetch": "node ./scripts/fetch-openrouter-provider-metrics.js",
         "openrouter:plans:fetch": "node ./scripts/fetch-openrouter-provider-plans.js",
-        "pricing:serve": "node ./scripts/serve-pricing-page.js"
+        "serve:page": "node ./scripts/serve-pricing-page.js"
     },
     "devDependencies": {
         "@types/node": "^20.14.9",
@@ -422,3 +422,4 @@
         "axios": "^1.7.2"
     }
 }
+

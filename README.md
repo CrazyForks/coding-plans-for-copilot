@@ -219,7 +219,7 @@ npm run openrouter:plans:fetch
 本地预览 GitHub Pages 看板（静态服务器，默认 `http://127.0.0.1:4173`）：
 
 ```bash
-npm run pricing:serve
+npm run serve:page
 ```
 
 ---
@@ -276,3 +276,4 @@ MIT License
 3. 提交变更 (`git commit -m 'Add some AmazingFeature'`)
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
 5. 提交 Pull Request
+
