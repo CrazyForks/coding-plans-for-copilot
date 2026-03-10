@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-09T03:02:44.436Z",
+  "generatedAt": "2026-03-10T02:57:20.291Z",
   "providers": [
     {
       "provider": "zhipu-ai",
@@ -56,7 +56,7 @@
       "sourceUrls": [
         "https://www.kimi.com/code/zh",
         "https://www.kimi.com/apiv2/kimi.gateway.order.v1.GoodsService/ListGoods",
-        "https://statics.moonshot.cn/kimi-web-seo/assets/common-B6OQMJm1.js"
+        "https://statics.moonshot.cn/kimi-web-seo/assets/common-DFiLBDXk.js"
       ],
       "plans": [
         {
@@ -167,7 +167,7 @@
       "provider": "volcengine-ai",
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.177/index.js"
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.179/index.js"
       ],
       "plans": [
         {
@@ -333,43 +333,6 @@
             "每周限额: 最多45000次请求",
             "每月限额: 最多90000次请求",
             "支持模型: GLM-5、Kimi-K2.5、MiniMax-M2.5、DeepSeek-V3.2等"
-          ]
-        }
-      ]
-    },
-    {
-      "provider": "tencent-cloud-ai",
-      "sourceUrls": [
-        "https://cloud.tencent.com/document/product/1772/128947",
-        "https://buy.cloud.tencent.com/hunyuan"
-      ],
-      "plans": [
-        {
-          "name": "Coding Plan Lite",
-          "currentPrice": 40,
-          "currentPriceText": "¥40/月",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": "首月特惠 ¥7.9；次月续费 ¥20",
-          "serviceDetails": [
-            "用量限制: 每 5 小时：最多约 1,200 次请求 每周： 最多约 9,000 次请求 每订阅月：最多约 18,000 次请求",
-            "支持模型: 选用 Tencent HY 2.0 Instruct、GLM-5、Kimi-K2.5、MiniMax-M2.5 等多个最新模型，更多模型持续接入中",
-            "适配工具: 支持使用 OpenClaw、CodeBuddy、Claude Code、Cline、Cursor 等主流编程工具，更多工具持续接入中"
-          ]
-        },
-        {
-          "name": "Coding Plan Pro",
-          "currentPrice": 200,
-          "currentPriceText": "¥200/月",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": "首月特惠 ¥39.9；次月续费 ¥100",
-          "serviceDetails": [
-            "用量限制: 每 5 小时：最多约 6,000 次请求 每周： 最多约 45,000 次请求 每订阅月：最多约 90,000 次请求",
-            "支持模型: 选用 Tencent HY 2.0 Instruct、GLM-5、Kimi-K2.5、MiniMax-M2.5 等多个最新模型，更多模型持续接入中",
-            "适配工具: 支持使用 OpenClaw、CodeBuddy、Claude Code、Cline、Cursor 等主流编程工具，更多工具持续接入中"
           ]
         }
       ]
@@ -563,7 +526,7 @@
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/7f05a45b58053422b13e1b6bbd63e808.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/1bbbcc91c84275942c86f5a7aefe8ec7.js",
         "https://t.aliyun.com/abs/promotion/queryPrice"
       ],
       "plans": [
@@ -599,6 +562,7 @@
     }
   ],
   "failures": [
+    "tencent-cloud-ai: Unable to locate Tencent coding plan price row",
     "infini-ai: Task timed out after 15000ms"
   ]
 }
