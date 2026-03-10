@@ -4,8 +4,7 @@ const path = require('path');
 
 const production = process.argv.includes('--production');
 const watch = process.argv.includes('--watch');
-const outFile = 'out/extension.js';
-const outDir = path.dirname(outFile);
+const outDir = 'out';
 
 async function main() {
   // Keep copied runtime assets (for example out/i18n/*.json) in watch mode.
@@ -16,12 +15,13 @@ async function main() {
   }
 
   const context = await esbuild.context({
-    entryPoints: ['src/extension.ts'],
+    entryPoints: ['src/extension.ts', 'src/test/runTest.ts'],
     bundle: true,
     format: 'cjs',
     platform: 'node',
     target: 'node18',
-    outfile: outFile,
+    outdir: outDir,
+    outbase: 'src',
     external: ['vscode'],
     sourcemap: !production,
     minify: production,

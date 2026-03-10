@@ -437,7 +437,7 @@ export class GenericAIProvider extends BaseAIProvider {
       }
 
       // When useModelsEndpoint is enabled, discovered model names are the source of truth.
-      // Runtime/token/capability overrides from settings are preserved per model.
+      // Existing configured entries are preserved verbatim; only newly discovered names are appended.
       const discoveredVendorModels = this.toVendorModelConfigs(discovered.models);
       const mergedVendorModels = this.mergeConfiguredModelOverrides(vendor.models, discoveredVendorModels, vendor.defaultVision);
       const resolvedModels = this.buildConfiguredModelsFromVendorModels(vendor, mergedVendorModels);
@@ -704,17 +704,7 @@ export class GenericAIProvider extends BaseAIProvider {
         };
       }
 
-      return {
-        name: discovered.name,
-        description: configured.description ?? discovered.description,
-        contextSize: configured.contextSize ?? discovered.contextSize,
-        maxInputTokens: configured.maxInputTokens ?? discovered.maxInputTokens,
-        maxOutputTokens: configured.maxOutputTokens ?? discovered.maxOutputTokens,
-        capabilities: {
-          tools: configured.capabilities?.tools ?? discovered.capabilities?.tools,
-          vision: configured.capabilities?.vision ?? discovered.capabilities?.vision
-        }
-      };
+      return configured;
     });
   }
 

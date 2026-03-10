@@ -71,6 +71,7 @@ GitHub Pages 部署时会将 `assets/provider-pricing.json` 同步到 `docs/prov
   - `anthropic`：请求 `baseUrl + /messages`
 - 当前无需考虑旧枚举兼容，未配置 `apiStyle` 时默认按 `openai-chat` 处理。
 - `anthropic` 与 `openai-responses` 目前重点覆盖聊天与工具调用；模型发现仍建议使用 `useModelsEndpoint: false` 并手动维护 `models`。
+- 当 `useModelsEndpoint: true` 时，刷新模型列表只按 `name` 同步增删；设置中已有模型项的 `description`、`capabilities`、`contextSize` 等字段应保持原样。
 - 若修改协议相关行为，请同步检查：
   - `src/providers/genericProvider.ts`
   - `src/config/configStore.ts`

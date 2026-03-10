@@ -139,7 +139,7 @@ Supports major domestic AI vendors such as Zhipu z.ai, Kimi, Volcano Cloud, Mini
 | `coding-plans.vendors[].name` | `string` | Required | Unique vendor name (used for matching and selection). |
 | `coding-plans.vendors[].baseUrl` | `string` | Required | Vendor API base URL; can fill in self-built relay station. |
 | `coding-plans.vendors[].apiStyle` | `string` | `openai-chat` | Protocol style. Supports `openai-chat`, `openai-responses`, and `anthropic`, mapping to `/chat/completions`, `/responses`, and `/messages`. |
-| `coding-plans.vendors[].useModelsEndpoint` | `boolean` | `false` | When `true`, refreshing models will request `/models`. |
+| `coding-plans.vendors[].useModelsEndpoint` | `boolean` | `false` | When `true`, refreshing models will request `/models`; refresh only syncs membership by `name` and preserves the other fields of existing model entries. |
 | `coding-plans.vendors[].models` | `array` | `[]` | Manual model list. |
 | `coding-plans.vendors[].models[].name` | `string` | Required | Model name. |
 | `coding-plans.vendors[].models[].description` | `string` | Empty | Model description. |

@@ -89,10 +89,8 @@ export class ConfigStore implements vscode.Disposable {
       return;
     }
 
-    // Persist only model names.
-    // Rationale: when `useModelsEndpoint` is enabled, providers may re-discover models frequently,
-    // and non-name fields (description/capabilities/token limits) can be unstable across requests.
-    // Writing only sorted names makes config updates converge and avoids refresh loops.
+    // Model names discovered from `/models` are the source of truth for membership.
+    // For existing entries, preserve the original configured object verbatim and only add/remove by name.
     const inputNames = models
       .map(model => (typeof model?.name === 'string' ? model.name.trim() : ''))
       .filter(name => name.length > 0);
@@ -128,14 +126,18 @@ export class ConfigStore implements vscode.Disposable {
         }
       }
 
-      const nextModels = this.sortModels(this.dedupeAndCanonicalizeModelNames(inputNames, existingNameByKey));
+      const nextModels = this.buildUpdatedModelEntries(
+        inputNames,
+        Array.isArray(vendorObj.models) ? vendorObj.models : [],
+        existingNameByKey
+      );
       const normalizedCurrentModels = this.sortModels(
-        this.dedupeAndCanonicalizeModelNames(currentNames, existingNameByKey)
+        currentNames.map(currentName => ({ name: existingNameByKey.get(currentName.toLowerCase()) ?? currentName }))
       );
 
       // Only compare names.
       const currentSignature = JSON.stringify(normalizedCurrentModels.map(m => m.name));
-      const nextSignature = JSON.stringify(nextModels.map(m => m.name));
+      const nextSignature = JSON.stringify(nextModels.map(model => model.name));
       if (currentSignature === nextSignature) {
         return rawVendor;
       }
@@ -209,10 +211,36 @@ export class ConfigStore implements vscode.Disposable {
     return name.length > 0 ? name : undefined;
   }
 
-  private dedupeAndCanonicalizeModelNames(
+  private cloneModelWithNormalizedName(raw: unknown, name: string): VendorModelConfig {
+    if (!raw || typeof raw !== 'object') {
+      return { name };
+    }
+
+    return {
+      ...(raw as Record<string, unknown>),
+      name
+    } as VendorModelConfig;
+  }
+
+  private buildUpdatedModelEntries(
     names: string[],
+    rawModels: unknown[],
     existingNameByKey: Map<string, string>
   ): VendorModelConfig[] {
+    const existingModelByKey = new Map<string, VendorModelConfig>();
+    for (const rawModel of rawModels) {
+      const rawName = this.readModelName(rawModel);
+      if (!rawName) {
+        continue;
+      }
+
+      const key = rawName.toLowerCase();
+      if (existingModelByKey.has(key)) {
+        continue;
+      }
+      existingModelByKey.set(key, rawModel as VendorModelConfig);
+    }
+
     const seen = new Set<string>();
     const normalized: VendorModelConfig[] = [];
 
@@ -228,11 +256,40 @@ export class ConfigStore implements vscode.Disposable {
       }
       seen.add(key);
 
+      const existingModel = existingModelByKey.get(key);
+      if (existingModel) {
+        const canonical = existingNameByKey.get(key) ?? name;
+        normalized.push(this.cloneModelWithNormalizedName(existingModel, canonical));
+        continue;
+      }
+
       const canonical = existingNameByKey.get(key) ?? name;
       normalized.push({ name: canonical });
     }
 
-    return normalized;
+    return this.sortRawModelsByName(normalized);
+  }
+
+  private sortRawModelsByName(models: VendorModelConfig[]): VendorModelConfig[] {
+    return [...models].sort((left, right) => {
+      const leftName = left.name.trim();
+      const rightName = right.name.trim();
+      const leftKey = leftName.toLowerCase();
+      const rightKey = rightName.toLowerCase();
+      if (leftKey < rightKey) {
+        return -1;
+      }
+      if (leftKey > rightKey) {
+        return 1;
+      }
+      if (leftName < rightName) {
+        return -1;
+      }
+      if (leftName > rightName) {
+        return 1;
+      }
+      return 0;
+    });
   }
 
   private normalizeVendors(raw: unknown): VendorConfig[] {

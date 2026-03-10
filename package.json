@@ -188,7 +188,7 @@
                         "subjectMaxLength": 72,
                         "requireConventionalType": true,
                         "warnOnValidationFailure": true,
-                        "llmMaxPromptLength": 5000
+                        "llmMaxPromptLength": 20000
                     },
                     "description": "%configuration.coding-plans.commitMessage.options.description%",
                     "order": 5

@@ -144,7 +144,7 @@
 | `coding-plans.vendors[].name` | `string` | 必填 | 供应商唯一名称（用于匹配与选择）。 |
 | `coding-plans.vendors[].baseUrl` | `string` | 必填 | 供应商 API 基础地址，可填写自建中转站。 |
 | `coding-plans.vendors[].apiStyle` | `string` | `openai-chat` | 接口协议风格，支持 `openai-chat` / `openai-responses` / `anthropic`。分别对应 `/chat/completions`、`/responses`、`/messages`。 |
-| `coding-plans.vendors[].useModelsEndpoint` | `boolean` | `false` | 为 `true` 时刷新模型会请求 `/models`。 |
+| `coding-plans.vendors[].useModelsEndpoint` | `boolean` | `false` | 为 `true` 时刷新模型会请求 `/models`；刷新只按 `name` 同步模型增删，已有模型对象的其它字段会保留。 |
 | `coding-plans.vendors[].models` | `array` | `[]` | 手动模型清单。 |
 | `coding-plans.vendors[].models[].name` | `string` | 必填 | 模型名称。 |
 | `coding-plans.vendors[].models[].description` | `string` | 空 | 模型描述。 |
