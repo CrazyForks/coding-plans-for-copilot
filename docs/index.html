@@ -103,7 +103,7 @@
         <section id="domesticErrorBanner" class="error hidden" role="status" aria-live="polite"></section>
         <section id="domesticGrid" class="provider-grid"></section>
         <details id="pricingFailures" class="pending-panel hidden">
-          <summary>抓取失败项（可忽略）<strong id="pricingFailuresCount">0</strong></summary>
+          <summary>抓取失败项<strong id="pricingFailuresCount">0</strong></summary>
           <ul id="pricingFailuresList" class="pending-list"></ul>
         </details>
       </section>
@@ -112,7 +112,7 @@
         <section id="overseasErrorBanner" class="error hidden" role="status" aria-live="polite"></section>
         <section id="overseasGrid" class="provider-grid"></section>
         <details id="overseasPending" class="pending-panel hidden">
-          <summary>Pending（访问受限 / 待解析）<strong id="overseasPendingCount">0</strong></summary>
+          <summary>Pending<strong id="overseasPendingCount">0</strong></summary>
           <ul id="overseasPendingList" class="pending-list"></ul>
         </details>
       </section>
@@ -175,6 +175,10 @@
           </section>
         </section>
         <section id="metricsTableContainer" class="metrics-table-container"></section>
+        <details id="metricsFailures" class="pending-panel hidden">
+          <summary>抓取失败项<strong id="metricsFailuresCount">0</strong></summary>
+          <ul id="metricsFailuresList" class="pending-list"></ul>
+        </details>
       </section>
 
       <footer class="page-footer" aria-label="页面底部链接">
@@ -190,3 +194,4 @@
     </main>
   </body>
 </html>
+

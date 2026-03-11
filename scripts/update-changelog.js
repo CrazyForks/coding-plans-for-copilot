@@ -105,18 +105,42 @@ function insertEntry(content, entry) {
   return `${content.slice(0, firstVersionHeading)}${entry}${content.slice(firstVersionHeading)}`;
 }
 
+function trimEntries(content, maxEntries = 10) {
+  const firstVersionHeading = content.search(/^## \[/m);
+  if (firstVersionHeading === -1) {
+    return content;
+  }
+
+  const header = content.slice(0, firstVersionHeading);
+  const entries = content
+    .slice(firstVersionHeading)
+    .split(/(?=^## \[)/m)
+    .filter(Boolean);
+
+  const trimmedEntries = entries.slice(0, maxEntries);
+  return `${header}${trimmedEntries.join('')}`.replace(/\s*$/u, '\n');
+}
+
 function main() {
   const version = getCurrentVersion();
   const content = ensureChangelogFile();
   const versionRegex = new RegExp(`^## \\[${escapeRegExp(version)}\\] - `, 'm');
+
   if (versionRegex.test(content)) {
+    const trimmedContent = trimEntries(content);
+    if (trimmedContent !== content) {
+      fs.writeFileSync(changelogPath, trimmedContent, 'utf8');
+      console.log(`CHANGELOG trimmed to latest 10 entries for ${version}`);
+      return;
+    }
+
     console.log(`CHANGELOG already has version ${version}`);
     return;
   }
 
   const previousVersion = findLatestRecordedVersion(content);
   const commits = getCommitSubjects(previousVersion);
-  const nextContent = insertEntry(content, buildEntry(version, commits));
+  const nextContent = trimEntries(insertEntry(content, buildEntry(version, commits)));
   fs.writeFileSync(changelogPath, nextContent, 'utf8');
   console.log(`CHANGELOG updated for ${version}`);
 }

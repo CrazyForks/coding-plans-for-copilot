@@ -74,6 +74,9 @@ const metricsOrgFilterDatalistEl = null;
 const metricsModelFilterDatalistEl = null;
 const metricsProviderFilterDatalistEl = null;
 const metricsErrorBannerEl = document.querySelector("#metricsErrorBanner");
+const metricsFailuresEl = document.querySelector("#metricsFailures");
+const metricsFailuresCountEl = document.querySelector("#metricsFailuresCount");
+const metricsFailuresListEl = document.querySelector("#metricsFailuresList");
 const metricsGeneratedAtEl = document.querySelector("#metricsGeneratedAt");
 const metricsCaptureWindowEl = document.querySelector("#metricsCaptureWindow");
 const metricsToolbarHintInlineEl = document.querySelector("#metricsToolbarHintInline");
@@ -1457,12 +1460,26 @@ bindSearchableFilterInput(metricsModelFilterInputEl, "model");
 bindSearchableFilterInput(metricsProviderFilterInputEl, "provider");
 
 function renderMetricsFailures(data) {
-  const failures = Array.isArray(data.failures) ? data.failures : [];
-  if (failures.length === 0) {
-    setError(metricsErrorBannerEl, "");
+  const failures = Array.isArray(data?.failures) ? data.failures : [];
+  if (!metricsFailuresEl || !metricsFailuresCountEl || !metricsFailuresListEl) {
     return;
   }
-  setError(metricsErrorBannerEl, `抓取存在 ${failures.length} 个失败项：${failures.join("；")}`);
+
+  metricsFailuresCountEl.textContent = String(failures.length);
+  metricsFailuresListEl.replaceChildren();
+
+  if (failures.length === 0) {
+    metricsFailuresEl.classList.add("hidden");
+    metricsFailuresEl.removeAttribute("open");
+    return;
+  }
+
+  for (const item of failures) {
+    metricsFailuresListEl.append(createElement("li", "", String(item)));
+  }
+
+  metricsFailuresEl.classList.remove("hidden");
+  metricsFailuresEl.removeAttribute("open");
 }
 
 function readCaptureWindowText(data) {
@@ -1655,6 +1672,7 @@ async function loadAllPlanData() {
 
 async function loadMetricsData() {
   setError(metricsErrorBannerEl, "");
+  renderMetricsFailures({ failures: [] });
   reloadButtonEl.disabled = true;
   reloadButtonEl.textContent = "加载中...";
   try {
@@ -1674,6 +1692,7 @@ async function loadMetricsData() {
     metricsState.rawData = null;
     metricsTableContainerEl.replaceChildren();
     metricsTableContainerEl.append(createElement("article", "empty", "加载失败，请稍后重试。"));
+    renderMetricsFailures({ failures: [] });
     metricsGeneratedAtEl.textContent = "--";
     metricsCaptureWindowEl.textContent = "每日 16:00 (UTC+8)";
     setStats("模型数", 0, "Provider 数", 0, "--");
