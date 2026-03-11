@@ -23,7 +23,7 @@
   1. `npm run pricing:fetch`
   2. `npm run metrics:fetch`
   3. `npm run openrouter:plans:fetch`
-  4. `npm run pricing:serve`（本地预览）
+  4. `npm run serve:page`（本地预览）
 - `openrouter:plans:fetch` 依赖前两步的产物：
   - `assets/provider-pricing.json`
   - `assets/openrouter-provider-metrics.json`
@@ -53,7 +53,7 @@
   - `npm run lint`
   - `npm run compile`
   - `npm run package:vsix`
-- 涉及 `scripts/` 或 `docs/` 的改动，至少执行一次相关抓取脚本 + `npm run pricing:serve` 做可用性验证。
+- 涉及 `scripts/` 或 `docs/` 的改动，至少执行一次相关抓取脚本 + `npm run serve:page` 做可用性验证。
 - 涉及扩展逻辑（`src/`）的改动，至少执行 `npm run typecheck` 与 `npm run lint`。
 
 ## 文档一致性

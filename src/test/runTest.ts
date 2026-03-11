@@ -41,7 +41,7 @@ type TestContext = {
 type TestCase = {
   name: string;
   initialVendors: VendorRecord[];
-  discoveredModels?: Array<{ name: string }>;
+  discoveredModels?: VendorModelRecord[];
   run?: (configStore: InstanceType<ConfigStoreCtor>) => Promise<void>;
   verify: (context: TestContext) => void;
 };
@@ -238,6 +238,30 @@ const testCases: TestCase[] = [
       assert.ok(newModel, '新模型应被追加到配置中');
       assert.equal(newModel?.description, undefined);
       assert.ok(!updatedVendor.models.some(model => model.name === ' gpt-4o '), '写回配置时不应保留带空格名称');
+    }
+  },
+  {
+    name: '新增模型写回时保留发现到的字段',
+    initialVendors: [createVendorWithSpacedModelName()],
+    discoveredModels: [
+      { name: 'gpt-4o' },
+      {
+        name: 'gpt-4.1',
+        description: 'Fresh from /models',
+        capabilities: { tools: true, vision: true },
+        contextSize: 256000
+      }
+    ],
+    verify(context) {
+      assert.equal(context.state.updates.length, 1, '新增模型时应写回一次 vendors 配置');
+
+      const updatedVendor = getUpdatedVendor(context.state);
+      const newModel = updatedVendor.models.find(model => model.name === 'gpt-4.1');
+
+      assert.ok(newModel, '新增模型应被写回到配置');
+      assert.equal(newModel?.description, 'Fresh from /models');
+      assert.deepEqual(newModel?.capabilities, { tools: true, vision: true });
+      assert.equal(newModel?.contextSize, 256000);
     }
   },
   {

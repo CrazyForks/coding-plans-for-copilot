@@ -128,6 +128,7 @@ export class ConfigStore implements vscode.Disposable {
 
       const nextModels = this.buildUpdatedModelEntries(
         inputNames,
+        models,
         Array.isArray(vendorObj.models) ? vendorObj.models : [],
         existingNameByKey
       );
@@ -224,6 +225,7 @@ export class ConfigStore implements vscode.Disposable {
 
   private buildUpdatedModelEntries(
     names: string[],
+    inputModels: VendorModelConfig[],
     rawModels: unknown[],
     existingNameByKey: Map<string, string>
   ): VendorModelConfig[] {
@@ -239,6 +241,21 @@ export class ConfigStore implements vscode.Disposable {
         continue;
       }
       existingModelByKey.set(key, rawModel as VendorModelConfig);
+    }
+
+    const inputModelByKey = new Map<string, VendorModelConfig>();
+    for (const inputModel of inputModels) {
+      const name = typeof inputModel?.name === 'string' ? inputModel.name.trim() : '';
+      if (name.length === 0) {
+        continue;
+      }
+
+      const key = name.toLowerCase();
+      if (inputModelByKey.has(key)) {
+        continue;
+      }
+
+      inputModelByKey.set(key, inputModel);
     }
 
     const seen = new Set<string>();
@@ -264,6 +281,12 @@ export class ConfigStore implements vscode.Disposable {
       }
 
       const canonical = existingNameByKey.get(key) ?? name;
+      const inputModel = inputModelByKey.get(key);
+      if (inputModel) {
+        normalized.push(this.cloneModelWithNormalizedName(inputModel, canonical));
+        continue;
+      }
+
       normalized.push({ name: canonical });
     }
 
