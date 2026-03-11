@@ -1054,26 +1054,24 @@ async function parseTencentCodingPlans() {
     }
   }
 
+  const pricingRowLabels = new Set(["价格", "套餐价格", "刊例价", "限时特惠价格", "特惠价格", "优惠价格", "活动价格", "用量限制"]);
   const pricingTableRows = [];
   for (let rowIndex = planHeaderIndex + 1; rowIndex < rows.length; rowIndex += 1) {
     const row = rows[rowIndex];
     if (!row || row.length < planHeaderRow.length) {
-      if (pricingTableRows.length > 0) {
-        break;
-      }
       continue;
     }
     const label = normalizeText(row[0] || "");
-    if (label === "价格" || label === "用量限制") {
-      pricingTableRows.push(row);
-      continue;
-    }
-    if (pricingTableRows.length > 0) {
+    if (label === "模型" || label === "AI 工具") {
       break;
+    }
+    if (pricingRowLabels.has(label)) {
+      pricingTableRows.push(row);
     }
   }
 
-  const priceRow = pricingTableRows.find((row) => normalizeText(row?.[0] || "") === "价格");
+  const priceRow = pricingTableRows.find((row) => ["价格", "套餐价格", "刊例价"].includes(normalizeText(row?.[0] || "")));
+  const promoPriceRow = pricingTableRows.find((row) => /(?:限时)?特惠价格|优惠价格|活动价格/i.test(normalizeText(row?.[0] || "")));
   const usageRow = pricingTableRows.find((row) => normalizeText(row?.[0] || "") === "用量限制");
   if (!priceRow) {
     throw new Error("Unable to locate Tencent coding plan price row");
@@ -1091,16 +1089,24 @@ async function parseTencentCodingPlans() {
     if (!Number.isInteger(column)) {
       continue;
     }
-    const priceInfo = parseTierPriceBreakdown(priceRow[column]);
+    const basePriceInfo = parseTierPriceBreakdown(priceRow[column]);
+    const promoPriceInfo = parseTierPriceBreakdown(promoPriceRow?.[column] || "");
+    const priceInfo = Number.isFinite(promoPriceInfo.monthlyAmount) ? promoPriceInfo : basePriceInfo;
     if (!Number.isFinite(priceInfo.monthlyAmount)) {
       continue;
     }
+    const originalMonthlyAmount =
+      Number.isFinite(basePriceInfo.monthlyAmount) && basePriceInfo.monthlyAmount > priceInfo.monthlyAmount
+        ? basePriceInfo.monthlyAmount
+        : null;
     const usageText = normalizeText(usageRow?.[column] || "").replace(/(\d)\s*,\s*(\d{3})/g, "$1,$2");
     plans.push(
       asPlan({
         name: `Coding Plan ${tier}`,
         currentPriceText: `¥${formatAmount(priceInfo.monthlyAmount)}/月`,
         currentPrice: priceInfo.monthlyAmount,
+        originalPriceText: Number.isFinite(originalMonthlyAmount) ? `¥${formatAmount(originalMonthlyAmount)}/月` : null,
+        originalPrice: originalMonthlyAmount,
         unit: "月",
         notes: buildTierPriceNotes(priceInfo),
         serviceDetails: normalizeServiceDetails([
@@ -1218,16 +1224,50 @@ async function parseKwaikatCodingPlans() {
   };
 }
 
-async function parseXAioCodingPlans() {
-  const pageUrl = "https://code.x-aio.com/";
-  const html = await fetchText(pageUrl);
-  const appPath = html.match(/\/assets\/index-[^"'\s]+\.js/i)?.[0];
-  if (!appPath) {
-    throw new Error("Unable to locate X-AIO app script");
-  }
-  const appUrl = absoluteUrl(appPath, pageUrl);
-  const appJs = await fetchText(appUrl);
+function buildXAioPlanName(name, nameCn) {
+  return nameCn ? `${name}（${nameCn}）` : name;
+}
 
+function extractXAioQuotedValues(value) {
+  const items = [];
+  let quote = null;
+  let current = "";
+  let escaping = false;
+
+  for (const char of String(value || "")) {
+    if (!quote) {
+      if (char === '"' || char === "'") {
+        quote = char;
+        current = "";
+        escaping = false;
+      }
+      continue;
+    }
+    if (escaping) {
+      current += char;
+      escaping = false;
+      continue;
+    }
+    if (char === "\\") {
+      escaping = true;
+      continue;
+    }
+    if (char === quote) {
+      const normalized = normalizeText(current);
+      if (normalized) {
+        items.push(normalized);
+      }
+      quote = null;
+      current = "";
+      continue;
+    }
+    current += char;
+  }
+
+  return unique(items);
+}
+
+function buildXAioPlansFromBundle(appJs) {
   const planRegex =
     /\{id:"([^"]+)",name:"([^"]+)",nameCN:"([^"]+)"[\s\S]*?price:\{monthly:([0-9]+(?:\.[0-9]+)?)[\s\S]*?firstOrder:\{monthly:([0-9]+(?:\.[0-9]+)?)[\s\S]*?description:"([^"]*)"[\s\S]*?features:\[([^\]]*)\]/g;
   const plans = [];
@@ -1245,17 +1285,17 @@ async function parseXAioCodingPlans() {
     const firstOrderPrice = Number(match[5]);
     const description = normalizeText(match[6]);
     const featureBlock = String(match[7] || "");
-    const features = unique(
-      [...featureBlock.matchAll(/"([^"]+)"/g)]
-        .map((item) => normalizeText(item[1]))
-        .filter(Boolean),
+    const features = extractXAioQuotedValues(featureBlock).map((item) =>
+      item === "贾维斯" && /OpenClaw/.test(featureBlock)
+        ? `激活开箱即用的OpenClaw！可领取一台属于自己的"贾维斯"！`
+        : item,
     );
     if (!Number.isFinite(monthlyPrice)) {
       continue;
     }
     plans.push(
       asPlan({
-        name: nameCn ? `${name}（${nameCn}）` : name,
+        name: buildXAioPlanName(name, nameCn),
         currentPriceText: `¥${formatAmount(monthlyPrice)}/月`,
         currentPrice: monthlyPrice,
         unit: "月",
@@ -1270,6 +1310,104 @@ async function parseXAioCodingPlans() {
       }),
     );
   }
+  return dedupePlans(plans);
+}
+
+async function waitForMs(ms) {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function fetchXAioTextWithRetry(url, options = {}, attempts = 2) {
+  let lastError;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return await fetchText(url, options);
+    } catch (error) {
+      lastError = error;
+      const message = error?.message || String(error || "unknown error");
+      const isRetryable = /(?:\b5\d{2}\b)|fetch failed|timeout|timed out|ECONNRESET|ETIMEDOUT|EAI_AGAIN|socket hang up/i.test(message);
+      if (!isRetryable || attempt >= attempts) {
+        break;
+      }
+      await waitForMs(400 * attempt);
+    }
+  }
+  throw lastError;
+}
+
+async function parseXAioCodingPlansWithPlaywright(pageUrl) {
+  let chromium;
+  try {
+    ({ chromium } = require("@playwright/test"));
+  } catch {
+    throw new Error("Playwright is unavailable for X-AIO fallback");
+  }
+
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    await page.goto(pageUrl, {
+      waitUntil: "domcontentloaded",
+      timeout: 6_000,
+    });
+    await page.waitForFunction(
+      () => Array.from(document.scripts).some((script) => /\/assets\/index-[^"'\s]+\.js/i.test(script.src || "")),
+      undefined,
+      { timeout: 3_000 },
+    );
+    const appUrl = await page.evaluate(() =>
+      Array.from(document.scripts)
+        .map((script) => script.src)
+        .find((src) => /\/assets\/index-[^"'\s]+\.js/i.test(src || "")) || null,
+    );
+    if (!appUrl) {
+      throw new Error("Unable to locate X-AIO app script via Playwright");
+    }
+    const appJs = await page.evaluate(async (url) => {
+      const response = await fetch(url, { credentials: "same-origin" });
+      if (!response.ok) {
+        throw new Error(`Request failed: ${url} -> ${response.status}`);
+      }
+      return await response.text();
+    }, appUrl);
+    return {
+      appUrl,
+      plans: buildXAioPlansFromBundle(appJs),
+    };
+  } finally {
+    await browser.close();
+  }
+}
+
+async function parseXAioCodingPlans() {
+  const pageUrl = "https://code.x-aio.com/";
+
+  let plans = [];
+  let resolvedAppUrl = null;
+  let bundleError = null;
+  try {
+    const html = await fetchXAioTextWithRetry(pageUrl, { timeoutMs: 4_000 }, 2);
+    const appPath = html.match(/\/assets\/index-[^"'\s]+\.js/i)?.[0];
+    if (!appPath) {
+      throw new Error("Unable to locate X-AIO app script");
+    }
+    resolvedAppUrl = absoluteUrl(appPath, pageUrl);
+    const appJs = await fetchXAioTextWithRetry(resolvedAppUrl, { timeoutMs: 6_000 }, 2);
+    plans = buildXAioPlansFromBundle(appJs);
+  } catch (error) {
+    bundleError = error;
+  }
+
+  if (plans.length === 0) {
+    const fallback = await parseXAioCodingPlansWithPlaywright(pageUrl).catch((error) => {
+      if (bundleError) {
+        throw new Error(`${bundleError.message}; Playwright fallback failed: ${error.message}`);
+      }
+      throw error;
+    });
+    plans = fallback.plans;
+    resolvedAppUrl = fallback.appUrl || resolvedAppUrl;
+  }
 
   if (plans.length === 0) {
     throw new Error("Unable to parse X-AIO coding plan standard monthly prices");
@@ -1277,9 +1415,9 @@ async function parseXAioCodingPlans() {
 
   return {
     provider: PROVIDER_IDS.XAIO,
-    sourceUrls: [pageUrl, appUrl],
+    sourceUrls: unique([pageUrl, resolvedAppUrl]),
     fetchedAt: new Date().toISOString(),
-    plans: dedupePlans(plans),
+    plans,
   };
 }
 
@@ -2007,3 +2145,4 @@ main().catch((error) => {
   console.error("[pricing] fatal:", error);
   process.exit(1);
 });
+

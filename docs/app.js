@@ -97,16 +97,121 @@ const appState = {
 
 const metricsState = {
   rawData: null,
-  org: "all",
-  model: "all",
-  provider: "all",
+  org: ["all"],
+  model: ["all"],
+  provider: ["all"],
   sortKey: "organization",
   sortOrder: "asc",
 };
 
 const providerPlanLookup = new Map();
+const FILTER_ALL_VALUE = "all";
 
 // ─── Utilities ───────────────────────────────────────────────
+
+function normalizeFilterValues(values) {
+  const list = Array.isArray(values) ? values : [values];
+  const normalized = [];
+  for (const item of list) {
+    const value = String(item || "").trim();
+    if (!value || normalized.includes(value)) {
+      continue;
+    }
+    normalized.push(value);
+  }
+  return normalized.length > 0 ? normalized : [FILTER_ALL_VALUE];
+}
+
+function isAllFilterSelected(values) {
+  return normalizeFilterValues(values).includes(FILTER_ALL_VALUE);
+}
+
+function matchesFilterValue(candidate, selectedValues) {
+  const normalized = normalizeFilterValues(selectedValues);
+  if (normalized.includes(FILTER_ALL_VALUE)) {
+    return true;
+  }
+  return normalized.includes(String(candidate || "").trim());
+}
+
+function getFilterSelectableValues(options) {
+  return options
+    .map((option) => String(option?.value || "").trim())
+    .filter((value) => value && value !== FILTER_ALL_VALUE);
+}
+
+function normalizeSelectedFilterValues(options, selectedValues) {
+  const optionValueSet = new Set(options.map((option) => String(option?.value || "").trim()).filter(Boolean));
+  const normalized = normalizeFilterValues(selectedValues).filter((value) => optionValueSet.has(value));
+  const selectableValues = getFilterSelectableValues(options);
+  const selectedNonAll = normalized.filter((value) => value !== FILTER_ALL_VALUE);
+  if (normalized.includes(FILTER_ALL_VALUE) || selectedNonAll.length === 0) {
+    return [FILTER_ALL_VALUE];
+  }
+  if (selectableValues.length > 0 && selectedNonAll.length >= selectableValues.length) {
+    return [FILTER_ALL_VALUE];
+  }
+  return selectableValues.filter((value) => selectedNonAll.includes(value));
+}
+
+function toggleSelectedFilterValue(options, selectedValues, toggledValue) {
+  const value = String(toggledValue || "").trim();
+  if (!value) {
+    return [FILTER_ALL_VALUE];
+  }
+  if (value === FILTER_ALL_VALUE) {
+    return [FILTER_ALL_VALUE];
+  }
+
+  const base = normalizeSelectedFilterValues(options, selectedValues);
+  let next = base.includes(FILTER_ALL_VALUE) ? [] : [...base];
+  if (next.includes(value)) {
+    next = next.filter((item) => item !== value);
+  } else {
+    next.push(value);
+  }
+  return normalizeSelectedFilterValues(options, next);
+}
+
+function readSelectedFilterValues(inputEl) {
+  if (!inputEl) {
+    return [FILTER_ALL_VALUE];
+  }
+  const rawValues = String(inputEl.dataset.values || "").trim();
+  if (rawValues) {
+    try {
+      const parsed = JSON.parse(rawValues);
+      return normalizeFilterValues(parsed);
+    } catch {
+      return normalizeFilterValues(rawValues.split(","));
+    }
+  }
+  return normalizeFilterValues(inputEl.dataset.value || FILTER_ALL_VALUE);
+}
+
+function writeSelectedFilterValues(inputEl, values) {
+  if (!inputEl) {
+    return;
+  }
+  const normalized = normalizeFilterValues(values);
+  inputEl.dataset.values = JSON.stringify(normalized);
+  inputEl.dataset.value = normalized[0] || FILTER_ALL_VALUE;
+}
+
+function summarizeSelectedFilterText(options, selectedValues) {
+  const normalized = normalizeSelectedFilterValues(options, selectedValues);
+  const allOption = options.find((option) => option.value === FILTER_ALL_VALUE);
+  if (normalized.includes(FILTER_ALL_VALUE)) {
+    return allOption?.text || "全部";
+  }
+  const labels = options
+    .filter((option) => normalized.includes(option.value))
+    .map((option) => option.text);
+  if (labels.length <= 2) {
+    return labels.join("、");
+  }
+  return `已选 ${labels.length} 项`;
+}
 
 function formatDate(isoText) {
   if (!isoText) {
@@ -704,12 +809,13 @@ function ensureFilterDropdown(inputEl, filterKey) {
   // Watermark: always visible to indicate "click to open" (not a placeholder).
   const watermarkEl = document.createElement("span");
   watermarkEl.className = "searchable-select-watermark";
-  watermarkEl.textContent = "点击展开";
+  watermarkEl.textContent = "点击展开，可多选";
   host.append(watermarkEl);
 
   const dropdownEl = document.createElement("div");
   dropdownEl.className = "searchable-select-dropdown hidden";
   dropdownEl.setAttribute("role", "listbox");
+  dropdownEl.setAttribute("aria-multiselectable", "true");
   dropdownEl.setAttribute("aria-label", "筛选候选项");
   host.append(dropdownEl);
 
@@ -717,7 +823,7 @@ function ensureFilterDropdown(inputEl, filterKey) {
   dropdownSearchEl.type = "text";
   dropdownSearchEl.className = "searchable-select-dropdown-search";
   dropdownSearchEl.setAttribute("aria-label", "搜索筛选项");
-  dropdownSearchEl.placeholder = "输入关键词过滤...";
+  dropdownSearchEl.placeholder = "输入关键词过滤，可多选...";
 
   const dividerEl = document.createElement("div");
   dividerEl.className = "searchable-select-dropdown-divider";
@@ -746,10 +852,12 @@ function ensureFilterDropdown(inputEl, filterKey) {
   }
 
   function render(query) {
-    const selectedValue = String(inputEl.dataset.value || "all");
+    const selectedValues = normalizeSelectedFilterValues(getOptions(), readSelectedFilterValues(inputEl));
+    const selectedValueSet = new Set(selectedValues);
     const options = filterOptions(query);
     optionsWrapEl.replaceChildren();
     lastRenderOptions = options;
+    activeIndex = -1;
 
     if (options.length === 0) {
       optionsWrapEl.append(createElement("div", "searchable-select-empty", "无匹配项"));
@@ -764,26 +872,38 @@ function ensureFilterDropdown(inputEl, filterKey) {
       btn.textContent = opt.text;
       btn.dataset.value = opt.value;
       btn.setAttribute("role", "option");
-      btn.setAttribute("aria-selected", opt.value === selectedValue ? "true" : "false");
+      const isSelected = selectedValueSet.has(opt.value);
+      btn.setAttribute("aria-selected", isSelected ? "true" : "false");
+      btn.classList.toggle("is-selected", isSelected);
+      if (opt.value === FILTER_ALL_VALUE) {
+        btn.classList.add("is-all-option");
+      }
 
       // Use mousedown so selection works even if input would blur first.
       btn.addEventListener("mousedown", (event) => {
         event.preventDefault();
       });
       btn.addEventListener("click", () => {
-        inputEl.dataset.value = opt.value;
-        inputEl.value = opt.text;
-        lastCommittedText = opt.text;
-        close();
+        const nextSelectedValues = toggleSelectedFilterValue(getOptions(), readSelectedFilterValues(inputEl), opt.value);
+        writeSelectedFilterValues(inputEl, nextSelectedValues);
+        const nextText = summarizeSelectedFilterText(getOptions(), nextSelectedValues);
+        inputEl.value = nextText;
+        lastCommittedText = nextText;
+        render(dropdownSearchEl.value);
         handleMetricsFilterChange();
+        dropdownSearchEl.focus();
       });
 
       optionsWrapEl.append(btn);
 
-      if (opt.value === selectedValue) {
+      if (opt.value === selectedValues[0]) {
         activeIndex = index;
       }
     });
+
+    if (activeIndex < 0) {
+      activeIndex = 0;
+    }
   }
 
   function open() {
@@ -809,26 +929,7 @@ function ensureFilterDropdown(inputEl, filterKey) {
     activeIndex = -1;
     watermarkEl.classList.remove("hidden");
 
-    // If user typed but didn't choose, restore last committed selection.
-    const currentText = String(inputEl.value || "").trim();
-    if (!currentText) {
-      // If empty, show current selected value label.
-      const options = getOptions();
-      const currentValue = String(inputEl.dataset.value || "all");
-      const currentOpt = options.find((opt) => opt.value === currentValue)
-        || options.find((opt) => opt.value === "all")
-        || null;
-      if (currentOpt) {
-        inputEl.value = currentOpt.text;
-        lastCommittedText = currentOpt.text;
-      }
-      return;
-    }
-
-    // If the text doesn't match any option, restore last committed.
-    const options = getOptions();
-    const exact = options.find((opt) => opt.text === currentText);
-    if (!exact && lastCommittedText) {
+    if (lastCommittedText) {
       inputEl.value = lastCommittedText;
     }
   }
@@ -840,7 +941,7 @@ function ensureFilterDropdown(inputEl, filterKey) {
     }
     activeIndex = Math.max(0, Math.min(buttons.length - 1, activeIndex + delta));
     buttons.forEach((btn, idx) => {
-      btn.setAttribute("aria-selected", idx === activeIndex ? "true" : "false");
+      btn.classList.toggle("is-active", idx === activeIndex);
     });
     buttons[activeIndex].scrollIntoView({ block: "nearest" });
   }
@@ -853,10 +954,11 @@ function ensureFilterDropdown(inputEl, filterKey) {
     const idx = activeIndex >= 0 ? activeIndex : 0;
     const btn = buttons[idx];
     const value = String(btn.dataset.value || "all");
-    inputEl.dataset.value = value;
-    inputEl.value = String(btn.textContent || "");
+    const nextSelectedValues = toggleSelectedFilterValue(getOptions(), readSelectedFilterValues(inputEl), value);
+    writeSelectedFilterValues(inputEl, nextSelectedValues);
+    inputEl.value = summarizeSelectedFilterText(getOptions(), nextSelectedValues);
     lastCommittedText = inputEl.value;
-    close();
+    render(dropdownSearchEl.value);
     handleMetricsFilterChange();
   }
 
@@ -978,29 +1080,30 @@ function setSearchableFilterOptions(filter, options, selectedValue, filterKey) {
     currentFilterOptions[filterKey] = options;
   }
 
-  const candidate = options.some((option) => option.value === selectedValue) ? selectedValue : options[0].value;
+  const candidate = normalizeSelectedFilterValues(options, selectedValue);
   
   // datalist 已移除，使用自定义下拉列表。
   
   if (filter.inputEl) {
-    const selectedOption = options.find((item) => item.value === candidate);
-    const selectedText = selectedOption ? selectedOption.text : "";
+    const selectedText = summarizeSelectedFilterText(options, candidate);
     
     // Always update the input value and dataset value to ensure consistency
     // But we need to be careful not to disrupt user interaction if this is called during typing.
     // In our case, this is called on data load and filter change (which happens on 'change' event).
     // So it should be safe to update.
     
-    if (filter.inputEl.dataset.value !== candidate || filter.inputEl.value !== selectedText) {
+    const currentValues = JSON.stringify(readSelectedFilterValues(filter.inputEl));
+    const nextValues = JSON.stringify(candidate);
+    if (currentValues !== nextValues || filter.inputEl.value !== selectedText) {
          filter.inputEl.value = selectedText;
-         filter.inputEl.dataset.value = candidate;
+         writeSelectedFilterValues(filter.inputEl, candidate);
     }
 
     const controller = ensureFilterDropdown(filter.inputEl, filterKey);
     if (controller) {
       controller.syncCommittedText(selectedText);
       if (controller.isOpen()) {
-        controller.render(filter.inputEl.value);
+        controller.render("");
       }
     }
   }
@@ -1044,11 +1147,11 @@ function buildMetricsRows(data, filters) {
   const rows = [];
   for (const model of models) {
     const org = String(model?.organization || "").trim();
-    if (filters.org !== "all" && org !== filters.org) {
+    if (!matchesFilterValue(org, filters.org)) {
       continue;
     }
     const modelId = String(model?.id || "").trim();
-    if (filters.model !== "all" && modelId !== filters.model) {
+    if (!matchesFilterValue(modelId, filters.model)) {
       continue;
     }
     const endpoints = Array.isArray(model?.endpoints) ? model.endpoints : [];
@@ -1057,7 +1160,7 @@ function buildMetricsRows(data, filters) {
       const providerSlug = String(endpoint?.providerSlug || "").trim().toLowerCase()
         || getProviderSlugFromEndpointTag(endpoint?.tag);
       const providerDisplayName = getMetricProviderDisplayName(providerName, providerSlug);
-      if (filters.provider !== "all" && providerDisplayName !== filters.provider) {
+      if (!matchesFilterValue(providerDisplayName, filters.provider)) {
         continue;
       }
       rows.push({
@@ -1236,7 +1339,7 @@ function renderMetricsTableRows(rows) {
 function updateMetricFilterOptions(data) {
   const allModels = Array.isArray(data?.models) ? data.models : [];
   const orgOptions = [
-    { value: "all", text: "全部厂商" },
+    { value: FILTER_ALL_VALUE, text: "全部厂商" },
     ...[...new Set(allModels.map((item) => String(item?.organization || "").trim()).filter(Boolean))]
       .sort((left, right) => left.localeCompare(right))
       .map((org) => ({ value: org, text: metricOrgLabel(org) })),
@@ -1251,7 +1354,7 @@ function updateMetricFilterOptions(data) {
     "org"
   );
 
-  const modelsForOrg = allModels.filter((item) => metricsState.org === "all" || item.organization === metricsState.org);
+  const modelsForOrg = allModels.filter((item) => matchesFilterValue(item.organization, metricsState.org));
 
   const modelOptionsMap = new Map();
   for (const item of modelsForOrg) {
@@ -1265,7 +1368,7 @@ function updateMetricFilterOptions(data) {
   }
 
   const modelOptions = [
-    { value: "all", text: "全部模型" },
+    { value: FILTER_ALL_VALUE, text: "全部模型" },
     ...Array.from(modelOptionsMap.values()).sort((left, right) => left.text.localeCompare(right.text)),
   ];
   metricsState.model = setSearchableFilterOptions(
@@ -1279,16 +1382,16 @@ function updateMetricFilterOptions(data) {
   );
 
   const modelsForProvider = allModels.filter((item) => {
-    if (metricsState.org !== "all" && item.organization !== metricsState.org) {
+    if (!matchesFilterValue(item.organization, metricsState.org)) {
       return false;
     }
-    if (metricsState.model !== "all" && item.id !== metricsState.model) {
+    if (!matchesFilterValue(item.id, metricsState.model)) {
       return false;
     }
     return true;
   });
   const providerOptions = [
-    { value: "all", text: "全部供应商" },
+    { value: FILTER_ALL_VALUE, text: "全部供应商" },
     ...[
       ...new Set(
         modelsForProvider.flatMap((model) =>
@@ -1342,9 +1445,9 @@ function handleMetricsFilterChange() {
   if (!metricsState.rawData) {
     return;
   }
-  metricsState.org = metricsOrgFilterInputEl.dataset.value || "all";
-  metricsState.model = metricsModelFilterInputEl.dataset.value || "all";
-  metricsState.provider = metricsProviderFilterInputEl.dataset.value || "all";
+  metricsState.org = readSelectedFilterValues(metricsOrgFilterInputEl);
+  metricsState.model = readSelectedFilterValues(metricsModelFilterInputEl);
+  metricsState.provider = readSelectedFilterValues(metricsProviderFilterInputEl);
   updateMetricFilterOptions(metricsState.rawData);
   renderMetricsFromState();
 }
@@ -1378,9 +1481,9 @@ function setTabButtonState(button, selected) {
 function getMetricsToolbarHint() {
   const days = Number(metricsState.rawData?.config?.modelMaxAgeDays);
   if (Number.isFinite(days) && days > 0) {
-    return `仅展示最近 ${days} 天内发布的模型；可按厂商、模型与 provider 过滤。`;
+    return `仅展示最近 ${days} 天内发布的模型；可按厂商、模型与 provider 多选过滤。`;
   }
-  return "模型发布时间不过滤；可按厂商、模型与 provider 过滤。";
+  return "模型发布时间不过滤；可按厂商、模型与 provider 多选过滤。";
 }
 
 function syncMetricsHintText() {
@@ -1415,6 +1518,9 @@ function loadDataForActiveTab() {
   if (activeTab === "metrics") {
     if (!metricsState.rawData) {
       loadMetricsData();
+    }
+    if (!appState.dataLoaded) {
+      loadAllPlanData();
     }
     return;
   }
@@ -1529,6 +1635,8 @@ async function loadAllPlanData() {
       renderDomesticTab();
     } else if (activeTab === "overseas") {
       renderOverseasTab();
+    } else if (activeTab === "metrics" && metricsState.rawData) {
+      renderMetricsFromState();
     }
   } catch (error) {
     appState.dataLoaded = false;

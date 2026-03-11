@@ -2,7 +2,7 @@
     "name": "coding-plans-for-copilot",
     "displayName": "%displayName%",
     "description": "%description%",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "publisher": "techfetch-dev",
     "repository": {
         "type": "git",
@@ -406,9 +406,12 @@
         "pricing:fetch": "node ./scripts/fetch-provider-pricing.js",
         "metrics:fetch": "node ./scripts/fetch-openrouter-provider-metrics.js",
         "openrouter:plans:fetch": "node ./scripts/fetch-openrouter-provider-plans.js",
-        "serve:page": "node ./scripts/serve-pricing-page.js"
+        "serve:page": "node ./scripts/serve-pricing-page.js",
+        "test:pages": "playwright test --config=playwright.config.ts",
+        "test:pages:headed": "playwright test --config=playwright.config.ts --headed"
     },
     "devDependencies": {
+        "@playwright/test": "^1.58.2",
         "@types/node": "^20.14.9",
         "@types/vscode": "^1.109.0",
         "@typescript-eslint/eslint-plugin": "^7.13.1",

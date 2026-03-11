@@ -18,6 +18,14 @@ npm run watch
 npm run lint
 ```
 
+## GitHub Pages 冒烟测试
+
+```bash
+npm run test:pages
+```
+
+测试会自动启动（或复用）`npm run serve:page` 提供的本地静态服务，覆盖页面加载、Tab 切换、筛选和“查看套餐”跳转。
+
 ## 打包发布
 
 ```bash

@@ -10,3 +10,4 @@ minimax-sitemap.xml
 moonshot-sitemap.xml
 .playwright-cli/
 .env
+output/playwright/

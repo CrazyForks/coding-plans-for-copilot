@@ -222,6 +222,12 @@ npm run openrouter:plans:fetch
 npm run serve:page
 ```
 
+运行 GitHub Pages 冒烟测试（自动启动/复用本地预览服务）：
+
+```bash
+npm run test:pages
+```
+
 ---
 
 ## 开发指南
@@ -242,6 +248,9 @@ npm run watch
 
 # 代码检查
 npm run lint
+
+# GitHub Pages 冒烟测试
+npm run test:pages
 
 # 打包发布
 npm run package:vsix

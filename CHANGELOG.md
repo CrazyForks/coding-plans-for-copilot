@@ -2,16 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.1] - 2026-03-11
+- feat(config): 改进模型配置处理逻辑
+- #6 feat(pricing): 添加讯飞星辰定价信息
+- chore(pricing): 更新定价数据和脚本名称
+- feat(model): 保留已配置模型对象的完整字段
+
 ## [0.5.0] - 2026-03-06
 - feat(provider): 支持多协议供应商接入
 - feat(scripts): 增加 Redpill 自定义解析及界面调整
-- chore: update openrouter provider metrics
 - chore(docs): 更新价格指标文档与数据
 - feat(config): 优化模型配置存储逻辑，仅持久化模型名称
 - feat(generator): 优化提示词处理和提交风格参考
 - feat: 添加OpenRouter模型性能看板
 - feat(provider): 添加强制模型发现重试功能
-- chore: update provider pricing
 
 ## [0.4.15] - 2026-03-05
 - feat(config): 为供应商模型添加默认视觉能力配置
@@ -48,7 +52,6 @@ All notable changes to this project will be documented in this file.
 - ci: add version tagging workflow and pricing failure detection
 - feat!: rebrand to "Coding Plans for Copilot" and rename namespace to coding-plans
 - feat: 添加生成提交消息功能，支持选择模型和语言设置
-- chore: update provider pricing
 - chore: update version
 - feat(docs): 添加 github 仓库链接按钮
 - chore: 更新 GitHub Pages 访问路径，删除 Lint 问题修复计划文档
@@ -64,7 +67,6 @@ All notable changes to this project will be documented in this file.
 - ci: add version tagging workflow and pricing failure detection
 - feat!: rebrand to "Coding Plans for Copilot" and rename namespace to coding-plans
 - feat: 添加生成提交消息功能，支持选择模型和语言设置
-- chore: update provider pricing
 - chore: update version
 - feat(docs): 添加 github 仓库链接按钮
 - chore: 更新 GitHub Pages 访问路径，删除 Lint 问题修复计划文档
@@ -77,13 +79,11 @@ All notable changes to this project will be documented in this file.
 - ci: add version tagging workflow and pricing failure detection
 - feat!: rebrand to "Coding Plans for Copilot" and rename namespace to coding-plans
 - feat: 添加生成提交消息功能，支持选择模型和语言设置
-- chore: update provider pricing
 - chore: update version
 - feat(docs): 添加 github 仓库链接按钮
 - chore: 更新 GitHub Pages 访问路径，删除 Lint 问题修复计划文档
 - feat: add AI pricing dashboard with provider data and pricing plans
 - feat: 添加开发指南文档，包含编译、监听模式、代码检查和发布步骤
-- chore: update provider pricing
 - feat: update extension name and descriptions to reflect new branding as "Chinese AI Plans for Copilot"
 - feat: Add support for Aliyun, Minimax, and enhance existing providers
 - feat: Update configuration for AI providers to include region settings
@@ -101,7 +101,6 @@ All notable changes to this project will be documented in this file.
 - chore: 更新 GitHub Pages 访问路径，删除 Lint 问题修复计划文档
 - feat: add AI pricing dashboard with provider data and pricing plans
 - feat: 添加开发指南文档，包含编译、监听模式、代码检查和发布步骤
-- chore: update provider pricing
 - feat: update extension name and descriptions to reflect new branding as "Chinese AI Plans for Copilot"
 - feat: Add support for Aliyun, Minimax, and enhance existing providers
 - feat: Update configuration for AI providers to include region settings

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-11T02:56:51.272Z",
+  "generatedAt": "2026-03-11T07:44:56.960Z",
   "providers": [
     {
       "provider": "zhipu-ai",
@@ -401,6 +401,43 @@
       ]
     },
     {
+      "provider": "tencent-cloud-ai",
+      "sourceUrls": [
+        "https://cloud.tencent.com/document/product/1772/128947",
+        "https://buy.cloud.tencent.com/hunyuan"
+      ],
+      "plans": [
+        {
+          "name": "Coding Plan Lite",
+          "currentPrice": 40,
+          "currentPriceText": "¥40/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": "首月特惠 ¥7.9；次月续费 ¥20",
+          "serviceDetails": [
+            "用量限制: 每 5 小时：最多约 1,200 次请求 每周：最多约 9,000 次请求 每订阅月：最多约 18,000 次请求",
+            "支持模型: 选用 Tencent HY 2.0 Instruct、GLM-5、Kimi-K2.5、MiniMax-M2.5 等多个最新模型，更多模型持续接入中",
+            "适配工具: 支持使用 OpenClaw、CodeBuddy、Claude Code、Cline、Cursor 等主流编程工具，更多工具持续接入中"
+          ]
+        },
+        {
+          "name": "Coding Plan Pro",
+          "currentPrice": 200,
+          "currentPriceText": "¥200/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": "首月特惠 ¥39.9；次月续费 ¥100",
+          "serviceDetails": [
+            "用量限制: 每 5 小时：最多约 6,000 次请求 每周：最多约 45,000 次请求 每订阅月：最多约 90,000 次请求",
+            "支持模型: 选用 Tencent HY 2.0 Instruct、GLM-5、Kimi-K2.5、MiniMax-M2.5 等多个最新模型，更多模型持续接入中",
+            "适配工具: 支持使用 OpenClaw、CodeBuddy、Claude Code、Cline、Cursor 等主流编程工具，更多工具持续接入中"
+          ]
+        }
+      ]
+    },
+    {
       "provider": "kwaikat-ai",
       "sourceUrls": [
         "https://www.streamlake.com/marketing/coding-plan",
@@ -505,7 +542,7 @@
           "notes": "首购优惠：¥90/月",
           "serviceDetails": [
             "适用场景: 适合专业团队的高频使用",
-            "贾维斯",
+            "激活开箱即用的OpenClaw！可领取一台属于自己的\"贾维斯\"！",
             "每 4 小时 500 Prompts 配额（5x Lite）",
             "高质量开源模型，覆盖主流编码场景",
             "稳定响应速度，持续在线可用",
@@ -524,7 +561,7 @@
           "notes": "首购优惠：¥180/月",
           "serviceDetails": [
             "适用场景: 适合资深开发者的海量工作负载",
-            "贾维斯",
+            "激活开箱即用的OpenClaw！可领取一台属于自己的\"贾维斯\"！",
             "每 4 小时 2000 Prompts 配额（20x Lite）",
             "高质量开源模型，覆盖主流编码场景",
             "稳定响应速度，持续在线可用",
@@ -622,10 +659,42 @@
           ]
         }
       ]
+    },
+    {
+      "provider": "infini-ai",
+      "sourceUrls": [
+        "https://cloud.infini-ai.com/platform/ai",
+        "https://content.cloud.infini-ai.com/platform-web-prod/assets/js/main.a9ccd3f2.js",
+        "https://content.cloud.infini-ai.com/platform-web-prod/assets/js/Index.0f51dcf0.js",
+        "https://cloud.infini-ai.com/api/maas/system/coding_plan/can_purchase"
+      ],
+      "plans": [
+        {
+          "name": "Infini Coding Lite",
+          "currentPrice": 40,
+          "currentPriceText": "¥40/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "1,000次/5小时、6,000次/7天、12,000次/1个月"
+          ]
+        },
+        {
+          "name": "Infini Coding Pro",
+          "currentPrice": 200,
+          "currentPriceText": "¥200/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "5,000次/5小时、30,000次/7天、60,000次/1个月"
+          ]
+        }
+      ]
     }
   ],
-  "failures": [
-    "tencent-cloud-ai: Unable to locate Tencent coding plan price row",
-    "infini-ai: Task timed out after 15000ms"
-  ]
+  "failures": []
 }

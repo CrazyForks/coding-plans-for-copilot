@@ -380,7 +380,7 @@ h1 {
 
 .metrics-card-filters {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
   gap: 0.58rem;
 }
 
@@ -429,6 +429,7 @@ h1 {
 .metrics-filter-item {
   display: grid;
   gap: 0.28rem;
+  min-width: 0;
   color: var(--muted);
   font-size: 0.84rem;
   font-weight: 700;
@@ -532,8 +533,18 @@ h1 {
 }
 
 .searchable-select-option:hover,
+.searchable-select-option.is-active,
 .searchable-select-option[aria-selected="true"] {
   background: rgba(12, 124, 89, 0.10);
+}
+
+.searchable-select-option.is-selected {
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.searchable-select-option.is-selected::before {
+  content: "✓ ";
 }
 
 .searchable-select-empty {

@@ -223,6 +223,9 @@ npm run watch
 # Lint
 npm run lint
 
+# GitHub Pages smoke tests
+npm run test:pages
+
 # Package for release
 npm run package:vsix
 ```
