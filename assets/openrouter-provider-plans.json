@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-03-12T08:18:08.828Z",
-  "generatedAtBeijing": "2026年3月12日 16:18:08",
-  "sourceGeneratedAt": "2026-03-12T03:00:22.859Z",
-  "sourceGeneratedAtBeijing": "2026年3月12日 11:00:22",
-  "sourceMetricsGeneratedAt": "2026-03-12T08:17:54.374Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年3月12日 16:17:54",
+  "generatedAt": "2026-03-13T08:16:33.606Z",
+  "generatedAtBeijing": "2026年3月13日 16:16:33",
+  "sourceGeneratedAt": "2026-03-13T02:58:31.744Z",
+  "sourceGeneratedAtBeijing": "2026年3月13日 10:58:31",
+  "sourceMetricsGeneratedAt": "2026-03-13T08:16:19.815Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年3月13日 16:16:19",
   "summary": {
     "openrouterProviderCount": 74,
     "metricsProviderCount": 28,
@@ -119,12 +119,12 @@
       ],
       "sourceUrls": [
         "https://chutes.ai/pricing",
-        "https://chutes.ai/_app/immutable/entry/app.DpKNPbS9.js",
-        "https://chutes.ai/_app/immutable/nodes/0.CMBDMOgk.js",
+        "https://chutes.ai/_app/immutable/entry/app.D6PNUYy5.js",
+        "https://chutes.ai/_app/immutable/nodes/0.CLu-o0VI.js",
         "https://chutes.ai/_app/immutable/chunks/D8exnHiZ.js",
         "https://chutes.ai/_app/immutable/chunks/Dl4XNryJ.js",
         "https://chutes.ai/_app/immutable/chunks/BjIJ6sth.js",
-        "https://chutes.ai/_app/immutable/chunks/CRJY7guj.js",
+        "https://chutes.ai/_app/immutable/chunks/CgX4jIuW.js",
         "https://chutes.ai/_app/immutable/chunks/CgjQtA95.js",
         "https://chutes.ai/_app/immutable/chunks/Ca-8DU1S.js",
         "https://chutes.ai/_app/immutable/chunks/Dc3owAMq.js",
@@ -156,7 +156,7 @@
         "https://chutes.ai/_app/immutable/chunks/C90lPemf.js",
         "https://chutes.ai/_app/immutable/chunks/BrIpXUcu.js",
         "https://chutes.ai/_app/immutable/chunks/xtKrw8NG.js",
-        "https://chutes.ai/_app/immutable/nodes/21.C84GIKcF.js",
+        "https://chutes.ai/_app/immutable/nodes/21.BhKypzh5.js",
         "https://chutes.ai/_app/immutable/chunks/Z2UmyU3N.js",
         "https://chutes.ai"
       ],
@@ -438,7 +438,7 @@
       "sourceUrls": [
         "https://www.kimi.com/code/zh",
         "https://www.kimi.com/apiv2/kimi.gateway.order.v1.GoodsService/ListGoods",
-        "https://statics.moonshot.cn/kimi-web-seo/assets/common-BS_7yh6n.js",
+        "https://statics.moonshot.cn/kimi-web-seo/assets/common-C4Lshz39.js",
         "https://platform.moonshot.ai"
       ],
       "pricingPageUrl": "https://www.kimi.com/code/zh",
@@ -521,7 +521,7 @@
       ],
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.181/index.js",
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.183/index.js",
         "https://docs.byteplus.com"
       ],
       "pricingPageUrl": "https://www.volcengine.com/activity/codingplan",
@@ -616,7 +616,7 @@
       ],
       "sourceUrls": [
         "https://bigmodel.cn/glm-coding",
-        "https://bigmodel.cn/js/app.e7ddde98.js",
+        "https://bigmodel.cn/js/app.f65f6ac6.js",
         "https://bigmodel.cn/js/chunk-0d4f69d1.2231d1b0.js",
         "https://docs.bigmodel.cn/cn/coding-plan/overview",
         "https://chat.z.ai"
