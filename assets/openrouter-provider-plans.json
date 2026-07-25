@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-07-24T10:20:46.154Z",
-  "generatedAtBeijing": "2026年7月24日 18:20:46",
-  "sourceGeneratedAt": "2026-07-24T10:20:12.949Z",
-  "sourceGeneratedAtBeijing": "2026年7月24日 18:20:12",
-  "sourceMetricsGeneratedAt": "2026-07-24T10:20:13.841Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年7月24日 18:20:13",
+  "generatedAt": "2026-07-25T09:50:23.797Z",
+  "generatedAtBeijing": "2026年7月25日 17:50:23",
+  "sourceGeneratedAt": "2026-07-25T09:49:56.091Z",
+  "sourceGeneratedAtBeijing": "2026年7月25日 17:49:56",
+  "sourceMetricsGeneratedAt": "2026-07-25T09:50:03.563Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年7月25日 17:50:03",
   "summary": {
-    "openrouterProviderCount": 96,
-    "metricsProviderCount": 43,
-    "resolvedMetricsProviderCount": 43,
+    "openrouterProviderCount": 97,
+    "metricsProviderCount": 42,
+    "resolvedMetricsProviderCount": 42,
     "unresolvedMetricsProviderCount": 0,
     "structuredProviderCount": 8,
     "heuristicProviderCount": 7,
     "providersWithPlans": 15,
-    "pendingCount": 28,
+    "pendingCount": 27,
     "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
@@ -664,7 +664,7 @@
       ],
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.320/index.js",
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.323/index.js",
         "https://docs.byteplus.com"
       ],
       "pricingPageUrl": "https://www.volcengine.com/activity/codingplan",
@@ -1069,8 +1069,8 @@
       "openrouterName": "CoreWeave",
       "providerId": null,
       "officialWebsiteUrl": "https://docs.coreweave.com",
-      "pricingPageUrl": "https://docs.coreweave.com/login?redirect=%2Fpricing",
-      "reason": "官网未发现可解析的套餐价格页",
+      "pricingPageUrl": "https://docs.coreweave.com/billing",
+      "reason": "官网价格页探测失败：https://docs.coreweave.com/pricing: HTTP 404",
       "blocked": false
     },
     {
@@ -1107,15 +1107,6 @@
       "officialWebsiteUrl": "https://chat.deepseek.com",
       "pricingPageUrl": "https://chat.deepseek.com/pricing",
       "reason": "官网未发现可解析的套餐价格页",
-      "blocked": false
-    },
-    {
-      "slug": "dekallm",
-      "openrouterName": "DekaLLM",
-      "providerId": null,
-      "officialWebsiteUrl": "https://docs.cloudeka.ai",
-      "pricingPageUrl": "https://docs.cloudeka.ai",
-      "reason": "官网价格页探测失败：https://docs.cloudeka.ai/pricing: HTTP 404",
       "blocked": false
     },
     {
