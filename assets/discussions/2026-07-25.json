@@ -1,0 +1,167 @@
+{
+  "date": "2026-07-25",
+  "generatedAt": "2026-07-25T08:07:37.500Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 55,
+    "postsAfterKeywordFilter": 19,
+    "relevantPosts": 4,
+    "discussionsCreated": 4,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "豆包, DeepSeek": 1,
+      "ChatGPT, Workbuddy": 1,
+      "OpenAI": 1,
+      "DeepSeek": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1229719",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1229719",
+      "title": "目前大模型对大部分程序员都没什么意义了吧。",
+      "content": "目前我做的项目，感觉用豆包和 deepseek 都能完美胜任了。再进化的大模型对我来说，只是无畏的增加成本（价格升高）。 一个能够本地部署的大模型才符合未来广大程序员的需求，不知道过个 5 到 10 年，五六千的硬件配置加上算法的进化，个人电脑能否上大模型。",
+      "author": "riscv",
+      "createdAt": "2026-07-25T05:00:56.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.8,
+        "supplier": "豆包, DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.7,
+        "summary": "作者认为目前大模型对程序员意义不大，且担心模型进化会增加成本，更期待未来能够本地部署的大模型。",
+        "topics": [
+          "定价",
+          "成本",
+          "本地部署",
+          "大模型趋势"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/231",
+      "analyzedAt": "2026-07-25T08:14:35.984Z"
+    },
+    {
+      "id": "v2ex-1229715",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1229715",
+      "title": "这两天总算是体感了一下 chatgpt（codex）和 workbuddy 之间的差别",
+      "content": "想做一个武侠游戏，准备先收集整理一下金庸相关的武侠作品内容，包括门派、人物、武功等，并且根据关联关系建立武侠知识图谱，为后面做游戏做些准备，于是先用 Chatgpt 来干，活又细又慢，耗掉了我 5 个 plus 的重置，基本形成了一个数据基础，基于此生成了一个网页来查看相关关系和具体细节，我把我最熟悉的相关门派、人物、武功都看了一遍，除了有缺失的，基本没有错误。 忽然突发奇想，反正 workbuddy 也有之前薅羊毛来的几千积分，想对比一下区别，于是乎用同样的提示词输入 workbuddy ，惊喜的是速度比 chatgpt 快几倍，过程中观察发现比 chatgpt 少了不少交叉比对来验证数据结果的正确性，结束后也生成了一个网页来查看关系和细节描述，同样去看我最熟悉的相关门派、人物、武功，发现了近 10 处细节错误。 从过程差异来看，感觉模型处理这样的任务差异不大，似乎主要就是缺在交叉验证数据结果这块，侧面思考一下，各个 agent app 的 harness 设计还是非常重要啊，",
+      "author": "starwishzzgg",
+      "createdAt": "2026-07-25T03:52:39.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.7,
+        "supplier": "ChatGPT, Workbuddy",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户对比了 ChatGPT (Codex) 和 Workbuddy 在处理武侠知识图谱构建任务时的差异，发现 Workbuddy 速度更快但准确度较低。",
+        "topics": [
+          "使用体验",
+          "模型对比",
+          "效率对比",
+          "准确度对比"
+        ],
+        "planMentioned": "ChatGPT Plus",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/232",
+      "analyzedAt": "2026-07-25T08:14:40.602Z"
+    },
+    {
+      "id": "v2ex-1229703",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1229703",
+      "title": "GPT 5.6 Pro 自动降智？",
+      "content": "平常用 Codex 和 ChatGPT 比较多，Codex 因为有用量限制，所以基本只会用到 xhigh 和 high ，偶尔开一下 max 。 ChatGPT 一般无脑开 GPT 5.6 Pro ，直到昨天发现秒答，觉得不对劲，于是问了一下 juice 值，发现 Pro 只有 18 ，明显是被降智并路由到了最差的那一档 又切成 xhigh 问了一下，发现思考时间变长，juice 值也是正常的 不得不说这个用户体验是真的不好，如果 Pro 不可用，就直接提示不可用就好了，偷偷路由到最差的模型观感很差",
+      "author": "timwu",
+      "createdAt": "2026-07-25T02:58:00.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "OpenAI",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.9,
+        "summary": "用户抱怨 ChatGPT Pro 版在使用时被降级，模型性能下降，体验不佳。",
+        "topics": [
+          "定价",
+          "套餐体验",
+          "模型降级",
+          "用户体验",
+          "Pro"
+        ],
+        "planMentioned": "ChatGPT Pro",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/233",
+      "analyzedAt": "2026-07-25T08:14:44.774Z"
+    },
+    {
+      "id": "v2ex-1229696",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1229696",
+      "title": "据说 DeepSeek 在搞对标 Claude Code 的 Agent，期待吗？",
+      "content": "随着爆火的 梁文锋采访内容 流出，其他我不关注，里面它讲到目前他们最重要的是在 Coding Agent 上发力，然后也有一些消息，说在招募团队，搞队标 Claude Code 的东西。 期待一下，毕竟如果真的搞出来后，也不用费劲去想法搞中转站之类的了，原生体验拉满，成本还低",
+      "author": "hubianluanma",
+      "createdAt": "2026-07-25T02:30:43.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.8,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "用户讨论 DeepSeek 正在研发对标 Claude Code 的 Coding Agent，期待其原生体验和低成本的特性。",
+        "topics": [
+          "Coding Agent",
+          "产品动态",
+          "成本",
+          "体验"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/234",
+      "analyzedAt": "2026-07-25T08:14:48.269Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}
