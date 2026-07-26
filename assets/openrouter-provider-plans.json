@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-25T09:50:23.797Z",
-  "generatedAtBeijing": "2026年7月25日 17:50:23",
-  "sourceGeneratedAt": "2026-07-25T09:49:56.091Z",
-  "sourceGeneratedAtBeijing": "2026年7月25日 17:49:56",
-  "sourceMetricsGeneratedAt": "2026-07-25T09:50:03.563Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年7月25日 17:50:03",
+  "generatedAt": "2026-07-26T10:02:04.406Z",
+  "generatedAtBeijing": "2026年7月26日 18:02:04",
+  "sourceGeneratedAt": "2026-07-26T10:01:46.581Z",
+  "sourceGeneratedAtBeijing": "2026年7月26日 18:01:46",
+  "sourceMetricsGeneratedAt": "2026-07-26T10:01:47.556Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年7月26日 18:01:47",
   "summary": {
-    "openrouterProviderCount": 97,
+    "openrouterProviderCount": 99,
     "metricsProviderCount": 42,
     "resolvedMetricsProviderCount": 42,
     "unresolvedMetricsProviderCount": 0,
@@ -687,7 +687,7 @@
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
-          "notes": "新用户 15 天内免费体验；首三月专享",
+          "notes": "新用户 15 天内免费体验",
           "serviceDetails": [
             "支持所有旗舰模型",
             "支持智能路由",
@@ -704,7 +704,7 @@
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
-          "notes": "首三月专享",
+          "notes": null,
           "serviceDetails": [
             "支持所有旗舰模型",
             "支持智能路由",
@@ -722,7 +722,7 @@
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
-          "notes": "首三月专享",
+          "notes": null,
           "serviceDetails": [
             "支持所有旗舰模型",
             "支持智能路由",
