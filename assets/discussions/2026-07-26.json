@@ -1,0 +1,134 @@
+{
+  "date": "2026-07-26",
+  "generatedAt": "2026-07-26T08:27:39.322Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 53,
+    "postsAfterKeywordFilter": 15,
+    "relevantPosts": 3,
+    "discussionsCreated": 3,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Claude": 1,
+      "OpenAI, Anthropic": 1,
+      "Cursor, ChatGPT": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1229877",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1229877",
+      "title": "Claude 免费 20x 教程",
+      "content": "又是别人玩烂了才发出来，没人发吗，小号试用记得隔离，使用以下油猴脚本 打开 claude 网页版，支付资料选德国，支付方式选 sepa ，使用 http://randomiban.com/ 随机生成德国卡号填入直接支付就行了，max20 到手 // ==UserScript== // @ name TestExample Cassia Response Mock // @ namespace local.testexample.checkout // @ version 1.1.0 // @ description 将 checkout_capabilities 响应改写为 cassia // @ match :// claude.ai/ // @ match :// .claude.ai/* // @ run-at document-start // @ grant none // @ sandbox raw // ==/UserScript== (function () { \"use strict\"; const TARGET_HOST = \" claude.ai \"; const",
+      "author": "ykl150141",
+      "createdAt": "2026-07-26T05:48:32.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "Claude",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "提供了一个使用油猴脚本绕过 Claude 支付限制以获取免费订阅（max20）的教程。",
+        "topics": [
+          "免费额度",
+          "订阅教程",
+          "绕过支付"
+        ],
+        "planMentioned": "Claude subscription",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/235",
+      "analyzedAt": "2026-07-26T08:32:51.782Z"
+    },
+    {
+      "id": "v2ex-1229874",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1229874",
+      "title": "Mimo key 200 亿",
+      "content": "兼容 OpenAI 接口协议： https://token-plan-cn.xiaomimimo.com/v1 兼容 Anthropic 接口协议： https://token-plan-cn.xiaomimimo.com/anthropic KEY1：tp-cp32l1rxrdlewtd60v09qci62t4wxszza59ra6vc3g4zzjxq 新增：tp-ccymclpgchzdc5k1lku6rcpwgjwfllh56cn2taxy870vkepr 蹬之前先这里测一下有没有 429 再去配置 key1 ==点击测试== key2 ==点击测试==",
+      "author": "Acode",
+      "createdAt": "2026-07-26T05:25:24.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "OpenAI, Anthropic",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "分享兼容 OpenAI 和 Anthropic 接口的 API 密钥，用于测试 token 计划的使用",
+        "topics": [
+          "定价",
+          "API 密钥",
+          "token 计划",
+          "兼容性"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/236",
+      "analyzedAt": "2026-07-26T08:32:56.204Z"
+    },
+    {
+      "id": "v2ex-1229870",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1229870",
+      "title": "token 用完了怎么办",
+      "content": "订阅了 Cursor pro 和 chatgpt plus （主要用 codex ），月底超额了，还好 codex 昨天重置了，还能用两天。 Cursor 有没有国产替代，选个同价位 token 更多的，或者便宜的不够了再充值一次。",
+      "author": "CoderLim",
+      "createdAt": "2026-07-26T04:49:17.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 1,
+        "supplier": "Cursor, ChatGPT",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "用户遇到了 Cursor Pro 和 ChatGPT Plus 的 token 使用额度限制问题，正在寻找性价比更高、token 额度更多的国产替代方案。",
+        "topics": [
+          "额度限制",
+          "替代方案",
+          "性价比",
+          "订阅"
+        ],
+        "planMentioned": "Cursor Pro, ChatGPT Plus",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/237",
+      "analyzedAt": "2026-07-26T08:33:00.430Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}
