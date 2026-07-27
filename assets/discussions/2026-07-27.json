@@ -1,0 +1,74 @@
+{
+  "date": "2026-07-27",
+  "generatedAt": "2026-07-27T09:53:43.323Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 59,
+    "postsAfterKeywordFilter": 11,
+    "relevantPosts": 1,
+    "discussionsCreated": 1,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "coolly.work": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1230125",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1230125",
+      "title": "实战:用 GPT-5.6-sol 构建你的第一个 AI 应用",
+      "content": "实战:用 GPT-5.6-sol 构建你的第一个 AI 应用 很多同学想在国内稳定调用最新大模型,但在网络、额度、计费上踩了不少坑。这篇用一个最小可运行示例,带你在 10 分钟内跑通 GPT-5.6-sol(ChatGPT 5.6 sol) 的 API 调用,包含流式输出和错误处理。 1. 为什么需要中转 endpoint 官方接口在国内直连经常超时、需要海外节点,且按量计费对小规模试错不够灵活。使用兼容 OpenAI 协议的中转服务,只要改一个 base_url 就能无缝切换,其余代码完全不用动。 以 coolly.work 为例,它对外提供 OpenAI 兼容接口: Base URL: https://www.coolly.work/v1 API Key: 在控制台自助获取 支持模型: gpt-5.6-sol(以及其它常见模型) 2. Python 最小示例 import openai client = openai.OpenAI( base_url=\"https://www.coolly.work/v1\", api_key=\"YOUR_COOLLY_KEY\", # 替换为你的 k",
+      "author": "ecwangpse",
+      "createdAt": "2026-07-27T06:41:47.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "coolly.work",
+        "supplierCategory": "international-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "本帖介绍如何通过中转服务 coolly.work 访问 GPT-5.6-sol 模型 API，提供 Python 和 Node.js 示例代码，强调通过更改 base_url 即可无缝切换服务，并提及服务商的计费优势（倍率低至 0.2）和促销活动。",
+        "topics": [
+          "定价",
+          "API 中转",
+          "套餐对比",
+          "抽奖",
+          "体验卡"
+        ],
+        "planMentioned": "GPT-5.6-sol",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/238",
+      "analyzedAt": "2026-07-27T09:56:54.478Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}
