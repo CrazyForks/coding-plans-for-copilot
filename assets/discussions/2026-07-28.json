@@ -1,0 +1,163 @@
+{
+  "date": "2026-07-28",
+  "generatedAt": "2026-07-28T08:35:01.475Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 60,
+    "postsAfterKeywordFilter": 10,
+    "relevantPosts": 4,
+    "discussionsCreated": 4,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Claude": 1,
+      "codex, opencode, omo": 1,
+      "Cursor, Claude": 1,
+      "Kimi": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1230452",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1230452",
+      "title": "突然发现 Claude 送了 3 个 pro 周卡，免费送",
+      "content": "今天突然发现 Claude 会送 pro 周卡名额，限 3 位。现在免费送有要的吗，一人一卡，送完为止。",
+      "author": "wxVIP",
+      "createdAt": "2026-07-28T08:15:17.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "Claude",
+        "supplierCategory": "international-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.95,
+        "summary": "用户发现Claude提供免费的pro周卡，限3人，询问是否还有名额。",
+        "topics": [
+          "套餐",
+          "免费",
+          "Claude"
+        ],
+        "planMentioned": "pro周卡",
+        "language": "zh",
+        "category": "Announcements"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/239",
+      "analyzedAt": "2026-07-28T08:38:22.350Z"
+    },
+    {
+      "id": "v2ex-1230424",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1230424",
+      "title": "看看你的 codex 用量 + 使用交流",
+      "content": "也想看看各位的使用情况（发图教程： https://www.v2ex.com/t/1161898 ） 目前仅使用 codex 20x ，之前一直用 opencode + omo 日常研发用 GPT5.6 Sol xHigh ，调研用 Ultra 从 5.6 发布以后，由于频繁 reset 和 AI 开发工作流摸清，用量开始大幅提升 大概每天 1B Token 左右 一般并行 4-8 任务，任务时长平均 1-2 小时 简单的话题我们直接贴内交流 一些复杂或有趣的话题，再单独开贴交流",
+      "author": "andie",
+      "createdAt": "2026-07-28T06:59:25.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "codex, opencode, omo",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户分享了自己使用 codex、opencode 和 omo 等工具的日常研发用量情况，并讨论了 AI 开发工作流中的 Token 使用量。",
+        "topics": [
+          "使用体验",
+          "用量统计",
+          "开发工作流"
+        ],
+        "planMentioned": "codex 20x",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/240",
+      "analyzedAt": "2026-07-28T08:38:27.138Z"
+    },
+    {
+      "id": "v2ex-1230404",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1230404",
+      "title": "开源个工具给所有 Claude 被封号的家人们",
+      "content": "claude 被封了两次之后接受现实转战 cursor 了， 但 cursor 实在缺一些实用的 harness feature ， 比如/goal ，multiagent mode 。。。 于是我在 cursor 里把自己常用的都搓出来了，开源成了可以一键安装的版本，持续更新中。。。欢迎大家添砖加瓦。。。 https://github.com/cocolwy/cursor-agents 这年头用个 ai 真不容易。。。",
+      "author": "lwyvibecoding",
+      "createdAt": "2026-07-28T05:24:38.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.8,
+        "supplier": "Cursor, Claude",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "作者因为 Claude 账号被封转而使用 Cursor，并开发了一个开源工具来增强 Cursor 的功能（如 /goal 和 multiagent mode）。",
+        "topics": [
+          "使用体验",
+          "工具推荐",
+          "功能增强",
+          "账号问题"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/241",
+      "analyzedAt": "2026-07-28T08:38:31.479Z"
+    },
+    {
+      "id": "v2ex-1230377",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1230377",
+      "title": "Kimi k3 今天可以订阅了，这里居然一点声音都没有？",
+      "content": "是很难用还是咋地？我也在犹豫要不要订阅~~~",
+      "author": "dong706",
+      "createdAt": "2026-07-28T03:47:41.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "Kimi",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户在询问 Kimi k3 是否可以订阅，并表示在犹豫是否要订阅，同时对缺乏相关讨论感到疑惑。",
+        "topics": [
+          "订阅",
+          "使用体验",
+          "犹豫"
+        ],
+        "planMentioned": "Kimi k3",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/242",
+      "analyzedAt": "2026-07-28T08:38:35.186Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}
