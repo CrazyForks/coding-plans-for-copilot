@@ -1,20 +1,20 @@
 {
-  "generatedAt": "2026-07-27T11:25:27.770Z",
-  "generatedAtBeijing": "2026年7月27日 19:25:27",
-  "sourceGeneratedAt": "2026-07-27T11:24:54.688Z",
-  "sourceGeneratedAtBeijing": "2026年7月27日 19:24:54",
-  "sourceMetricsGeneratedAt": "2026-07-27T11:24:55.605Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年7月27日 19:24:55",
+  "generatedAt": "2026-07-28T10:37:23.153Z",
+  "generatedAtBeijing": "2026年7月28日 18:37:23",
+  "sourceGeneratedAt": "2026-07-28T10:37:05.024Z",
+  "sourceGeneratedAtBeijing": "2026年7月28日 18:37:05",
+  "sourceMetricsGeneratedAt": "2026-07-28T10:37:05.783Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年7月28日 18:37:05",
   "summary": {
     "openrouterProviderCount": 99,
-    "metricsProviderCount": 43,
-    "resolvedMetricsProviderCount": 43,
+    "metricsProviderCount": 42,
+    "resolvedMetricsProviderCount": 42,
     "unresolvedMetricsProviderCount": 0,
     "structuredProviderCount": 8,
     "heuristicProviderCount": 7,
     "providersWithPlans": 15,
-    "pendingCount": 28,
-    "blockedPendingCount": 3,
+    "pendingCount": 27,
+    "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
   },
@@ -642,9 +642,9 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "能力: Doubao-Seed-Code 与 DeepSeek-V3.2 驱动",
-            "适配: 适配Claude Code等主流编程工具",
-            "用量: 用量达 Claude Pro 的 3 倍"
+            "能力: 支持 Doubao、GLM、DeepSeek、Kimi等模型",
+            "适配: 支持自由切换模型，或开启Auto模式",
+            "工具: 支持 Claude Code、Cursor等主流编程工具"
           ]
         },
         {
@@ -664,7 +664,7 @@
       ],
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.323/index.js",
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.156/index.js",
         "https://docs.byteplus.com"
       ],
       "pricingPageUrl": "https://www.volcengine.com/activity/codingplan",
@@ -1061,7 +1061,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://www.baseten.co",
       "pricingPageUrl": "https://www.baseten.co/pricing/",
-      "reason": "检测到套餐页线索，但未解析到月/年订阅价格（样例: $0 per mo / $2.10 / $0.21）",
+      "reason": "检测到套餐页线索，但未解析到月/年订阅价格（样例: $0 per mo / $3.00 / $0.30）",
       "blocked": false
     },
     {
@@ -1155,15 +1155,6 @@
       "blocked": false
     },
     {
-      "slug": "io-net",
-      "openrouterName": "Io Net",
-      "providerId": null,
-      "officialWebsiteUrl": "https://io.net",
-      "pricingPageUrl": "https://io.net",
-      "reason": "官网价格页探测失败：https://io.net/pricing: HTTP 404",
-      "blocked": false
-    },
-    {
       "slug": "ionstream",
       "openrouterName": "Ionstream",
       "providerId": null,
@@ -1215,7 +1206,7 @@
       "officialWebsiteUrl": "https://docs.nebius.com",
       "pricingPageUrl": "https://docs.nebius.com",
       "reason": "官网价格页探测失败：https://docs.nebius.com/pricing: HTTP 404",
-      "blocked": true
+      "blocked": false
     },
     {
       "slug": "novita",
