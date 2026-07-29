@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-07-28T10:37:23.153Z",
-  "generatedAtBeijing": "2026年7月28日 18:37:23",
-  "sourceGeneratedAt": "2026-07-28T10:37:05.024Z",
-  "sourceGeneratedAtBeijing": "2026年7月28日 18:37:05",
-  "sourceMetricsGeneratedAt": "2026-07-28T10:37:05.783Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年7月28日 18:37:05",
+  "generatedAt": "2026-07-29T10:40:56.403Z",
+  "generatedAtBeijing": "2026年7月29日 18:40:56",
+  "sourceGeneratedAt": "2026-07-29T10:40:37.559Z",
+  "sourceGeneratedAtBeijing": "2026年7月29日 18:40:37",
+  "sourceMetricsGeneratedAt": "2026-07-29T10:40:38.326Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年7月29日 18:40:38",
   "summary": {
     "openrouterProviderCount": 99,
-    "metricsProviderCount": 42,
-    "resolvedMetricsProviderCount": 42,
+    "metricsProviderCount": 44,
+    "resolvedMetricsProviderCount": 44,
     "unresolvedMetricsProviderCount": 0,
     "structuredProviderCount": 8,
-    "heuristicProviderCount": 7,
-    "providersWithPlans": 15,
-    "pendingCount": 27,
+    "heuristicProviderCount": 8,
+    "providersWithPlans": 16,
+    "pendingCount": 28,
     "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
@@ -424,6 +424,75 @@
       "parseMode": "official-website-heuristic"
     },
     {
+      "slug": "modal",
+      "openrouterName": "Modal",
+      "providerId": null,
+      "plans": [
+        {
+          "name": "Starter",
+          "currentPrice": 30,
+          "currentPriceText": "$30/mo",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": "来源: https://modal.com/pricing",
+          "serviceDetails": [
+            "3 workspace seats included",
+            "100 containers + 10 GPU concurrency",
+            "Scheduled and Web Functions (limited)",
+            "$100 / month free credits",
+            "1000 containers + 50 GPU concurrency",
+            "Unlimited Scheduled Functions"
+          ]
+        },
+        {
+          "name": "Free",
+          "currentPrice": 30,
+          "currentPriceText": "$30/mo",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "3 workspace seats included",
+            "100 containers + 10 GPU concurrency",
+            "Scheduled and Web Functions (limited)",
+            "$100 / month free credits",
+            "1000 containers + 50 GPU concurrency",
+            "Unlimited Scheduled Functions"
+          ]
+        },
+        {
+          "name": "Enterprise",
+          "currentPrice": 30,
+          "currentPriceText": "$30/mo",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "3 workspace seats included",
+            "100 containers + 10 GPU concurrency",
+            "Scheduled and Web Functions (limited)",
+            "$100 / month free credits",
+            "1000 containers + 50 GPU concurrency",
+            "Unlimited Scheduled Functions"
+          ]
+        }
+      ],
+      "sourceUrls": [
+        "https://modal.com",
+        "https://modal.com/pricing"
+      ],
+      "pricingPageUrl": "https://modal.com/pricing",
+      "officialWebsiteUrl": "https://modal.com",
+      "websiteSource": "terms_of_service_url",
+      "privacyPolicyUrl": "https://modal.com/legal/privacy-policy",
+      "termsOfServiceUrl": "https://modal.com/legal/terms",
+      "statusPageUrl": "https://status.modal.com/",
+      "parseMode": "official-website-heuristic"
+    },
+    {
       "slug": "moonshotai",
       "openrouterName": "Moonshot AI",
       "providerId": "kimi-ai",
@@ -642,9 +711,9 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "能力: 支持 Doubao、GLM、DeepSeek、Kimi等模型",
-            "适配: 支持自由切换模型，或开启Auto模式",
-            "工具: 支持 Claude Code、Cursor等主流编程工具"
+            "能力: Doubao-Seed-Code 与 DeepSeek-V3.2 驱动",
+            "适配: 适配Claude Code等主流编程工具",
+            "用量: 用量达 Claude Pro 的 3 倍"
           ]
         },
         {
@@ -664,7 +733,7 @@
       ],
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.156/index.js",
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.325/index.js",
         "https://docs.byteplus.com"
       ],
       "pricingPageUrl": "https://www.volcengine.com/activity/codingplan",
@@ -1152,6 +1221,15 @@
       "officialWebsiteUrl": "https://www.inceptron.io",
       "pricingPageUrl": "https://www.inceptron.io/pricing",
       "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $3/h / $5/h / $8/h）",
+      "blocked": false
+    },
+    {
+      "slug": "io-net",
+      "openrouterName": "Io Net",
+      "providerId": null,
+      "officialWebsiteUrl": "https://io.net",
+      "pricingPageUrl": "https://io.net",
+      "reason": "官网价格页探测失败：https://io.net/pricing: HTTP 404",
       "blocked": false
     },
     {
