@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-29T10:40:56.403Z",
-  "generatedAtBeijing": "2026年7月29日 18:40:56",
-  "sourceGeneratedAt": "2026-07-29T10:40:37.559Z",
-  "sourceGeneratedAtBeijing": "2026年7月29日 18:40:37",
-  "sourceMetricsGeneratedAt": "2026-07-29T10:40:38.326Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年7月29日 18:40:38",
+  "generatedAt": "2026-07-30T10:26:13.463Z",
+  "generatedAtBeijing": "2026年7月30日 18:26:13",
+  "sourceGeneratedAt": "2026-07-30T10:25:51.597Z",
+  "sourceGeneratedAtBeijing": "2026年7月30日 18:25:51",
+  "sourceMetricsGeneratedAt": "2026-07-30T10:25:52.648Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年7月30日 18:25:52",
   "summary": {
-    "openrouterProviderCount": 99,
+    "openrouterProviderCount": 100,
     "metricsProviderCount": 44,
     "resolvedMetricsProviderCount": 44,
     "unresolvedMetricsProviderCount": 0,
@@ -441,7 +441,7 @@
             "100 containers + 10 GPU concurrency",
             "Scheduled and Web Functions (limited)",
             "$100 / month free credits",
-            "1000 containers + 50 GPU concurrency",
+            "5000 containers + 50 GPU concurrency",
             "Unlimited Scheduled Functions"
           ]
         },
@@ -458,7 +458,7 @@
             "100 containers + 10 GPU concurrency",
             "Scheduled and Web Functions (limited)",
             "$100 / month free credits",
-            "1000 containers + 50 GPU concurrency",
+            "5000 containers + 50 GPU concurrency",
             "Unlimited Scheduled Functions"
           ]
         },
@@ -475,7 +475,7 @@
             "100 containers + 10 GPU concurrency",
             "Scheduled and Web Functions (limited)",
             "$100 / month free credits",
-            "1000 containers + 50 GPU concurrency",
+            "5000 containers + 50 GPU concurrency",
             "Unlimited Scheduled Functions"
           ]
         }
@@ -1301,7 +1301,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://parasail.io",
       "pricingPageUrl": "https://www.parasail.io/pricing",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $1.40 / $4.40 / $0.26）",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $3.00 / $15.00 / $0.30）",
       "blocked": false
     },
     {
