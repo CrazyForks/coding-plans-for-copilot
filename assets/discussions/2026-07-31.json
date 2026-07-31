@@ -1,0 +1,276 @@
+{
+  "date": "2026-07-31",
+  "generatedAt": "2026-07-31T08:50:55.837Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 57,
+    "postsAfterKeywordFilter": 29,
+    "relevantPosts": 7,
+    "discussionsCreated": 7,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Kimi, Zhipu, OpenAI": 1,
+      "Kimi": 1,
+      "智谱, DeepSeek": 1,
+      "智谱, OpenAI": 1,
+      "Cursor": 1,
+      "智普": 1,
+      "DeepSeek": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1231289",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231289",
+      "title": "开了几个套餐，现在无事可干",
+      "content": "kimi code allegretto 199 元/月，过几天到期不打算续费了。 GLM Coding Plan max 有效期至 09 月 24 日。 openai codex plus 20 多刀/月，礼品卡账户里面还有 24 刀，估计还能续费一个月。",
+      "author": "yesagen",
+      "createdAt": "2026-07-31T08:37:55.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Kimi, Zhipu, OpenAI",
+        "supplierCategory": "other",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.7,
+        "summary": "用户提到已开通 Kimi Code Allegretto、GLM Coding Plan Max 和 OpenAI Codex Plus 三款 AI 编码助手套餐，其中 Kimi 和 GLM 套餐即将到期不打算续费，OpenAI Codex Plus 仍有礼品卡余额可续约一个月。",
+        "topics": [
+          "定价",
+          "套餐到期",
+          "续费",
+          "Kimi",
+          "GLM",
+          "OpenAI Codex",
+          "礼品卡"
+        ],
+        "planMentioned": "Kimi Code Allegretto, GLM Coding Plan Max, OpenAI Codex Plus",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/243",
+      "analyzedAt": "2026-07-31T09:05:03.407Z"
+    },
+    {
+      "id": "v2ex-1231272",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231272",
+      "title": "我今天才明白， kimi 会员的总额度应该是 agent 额度",
+      "content": "都说 199 每月套餐最划算 20 倍 kimi code 额度，乍一看是 99 元每月的 5 倍。但仔细看 kimi 的文档解释后发现不是这样.总额度应该是 99 元每月的 2 倍。 https://www.kimi.com/zh-cn/help/agent/agent-quota-and-billing Agent 额度与计费 Agent 模式使用 Kimi 统一额度进行计费。所有会员功能（ Agent 、深度研究、PPT 、文档、表格、Kimi Code 、Kimi Work 、Kimi Claw 等）共享一个额度池，额度按实际 token 消耗扣除。 https://www.kimi.com/zh-cn/help/kimi-code/benefits Kimi Code 的额度以订阅日为起点每 7 天自动刷新，未用完不累积。除了周额度外，还有每 5 小时的滚动频率窗口——即使总量充足，短时间请求过多也会触发限流，等窗口滚动后自动恢复。 Kimi Code 额度只是每周及每 5 小时你能用的最大量，199 套餐知识你限额时间内用的量是 20 倍罢了，总量还是看 agent 额度。",
+      "author": "whoops",
+      "createdAt": "2026-07-31T07:57:23.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.92,
+        "supplier": "Kimi",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.84,
+        "summary": "该帖子解释了Kimi会员的总额度实际上是Agent额度，澄清了199元套餐并非20倍Kimi Code额度，而是基于Agent额度的计费方式。",
+        "topics": [
+          "定价",
+          "额度",
+          "Kimi Code",
+          "Agent",
+          "套餐对比",
+          "会员"
+        ],
+        "planMentioned": "199 元/月套餐",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/244",
+      "analyzedAt": "2026-07-31T09:05:06.533Z"
+    },
+    {
+      "id": "v2ex-1231261",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231261",
+      "title": "智谱刚涨完价， DeepSeek V4-Flash 正式版就来了，梁圣这是精准做空？",
+      "content": "智谱刚宣布订阅回归，DeepSeek 反手就甩出 V4-Flash 正式版，时间卡得这么准，梁圣这哪是发模型，分明是盯着智谱的 K 线做空吧？",
+      "author": "aimuz",
+      "createdAt": "2026-07-31T07:33:55.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "智谱, DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.8,
+        "summary": "帖子讨论智谱订阅价格上涨和DeepSeek V4-Flash正式版发布，质疑两者背后是否有投机行为。",
+        "topics": [
+          "定价",
+          "订阅",
+          "模型发布",
+          "投机",
+          "做空"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/245",
+      "analyzedAt": "2026-07-31T09:05:12.023Z"
+    },
+    {
+      "id": "v2ex-1231249",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231249",
+      "title": "请问各位天才程序员们，智谱的 Pro 套餐和 GPT 的 Plus 套餐价格差不多，哪个比较耐用",
+      "content": "我现在是智谱的 Pro 季付（历史版本 V2 ） 402 元，我看合算下来和 GPT Plus 套餐价格一样。加上最近 GPT 那边额度频繁重置，GLM 这边高峰期三倍消耗，明天我智谱连续包季就要自动续费了，要不要停了 GLM 跳槽 GPT ，各位天才程序员给点意见。",
+      "author": "vzextreme",
+      "createdAt": "2026-07-31T07:04:08.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.8,
+        "supplier": "智谱, OpenAI",
+        "supplierCategory": "other",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.7,
+        "summary": "用户对比智谱Pro套餐和GPT Plus套餐的价格和使用体验，因智谱高峰期消耗高且即将续费，考虑转向GPT Plus，寻求程序员建议。",
+        "topics": [
+          "定价",
+          "套餐对比",
+          "智谱",
+          "GPT Plus",
+          "续费",
+          "额度",
+          "高峰期消耗",
+          "跳槽"
+        ],
+        "planMentioned": "智谱 Pro 套餐, GPT Plus 套餐",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/246",
+      "analyzedAt": "2026-07-31T09:05:16.910Z"
+    },
+    {
+      "id": "v2ex-1231241",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231241",
+      "title": "［开源］给分散 Cursor 账号做了个自托管额度与用量看板",
+      "content": "先放能直接验证的东西： 仓库： https://github.com/cnwinds/cursor-pulse 额度看板 / 用量分析 / 支出管控三张真实后台截图（匿名演示数据）： https://github.com/cnwinds/cursor-pulse/blob/master/README_CN.md#快速预览 为什么做 我们的存量场景是：团队已经合规、分散地持有多把独立 Cursor 账号（不同成员各持一把，台账在内网维护）。运维上最难的不是「再买一个 Cursor 」，而是 额度快耗尽时往往后知后觉 ——得在官网、表格和群里拼信息。想要一个 数据留在自己机器上 的聚合看板，于是写了 Cursor Pulse ，MIT 开源。 三个核心能力 （按优先级）： 额度看板 + 耗尽预测 ：对齐 Cursor Plan &amp; Usage 的 billing cycle ，标 warning / exhausted ，给出预计耗尽日期（线性外推，周期早期误差会大） 用量分析 ：日历区间按账号、模型、Token 看结构——与看板计费周期口径不同，别直接对数字 On-Demand ",
+      "author": "cnwinds78",
+      "createdAt": "2026-07-31T06:42:55.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.85,
+        "supplier": "Cursor",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "该帖子介绍了一个名为 Cursor Pulse 的开源自托管看板，用于聚合查看分散的 Cursor 账号额度、用量分析和支出管控，帮助团队提前预警额度耗尽。",
+        "topics": [
+          "Cursor",
+          "额度看板",
+          "用量分析",
+          "支出管控",
+          "开源",
+          "自托管",
+          "预警",
+          "套餐使用"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/247",
+      "analyzedAt": "2026-07-31T09:05:23.338Z"
+    },
+    {
+      "id": "v2ex-1231126",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231126",
+      "title": "智普今天这波涨价，有点迷，涨了快 3 倍",
+      "content": "coding plan 套餐 之前 Lite 才 40/月 现在要 118/月 封了吧",
+      "author": "k1314521jx",
+      "createdAt": "2026-07-31T01:25:37.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "智普",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.9,
+        "summary": "智普的 coding plan Lite 套餐价格从 40 元/月涨至 118 元/月，用户感到困惑和不满。",
+        "topics": [
+          "定价",
+          "涨价",
+          "智普",
+          "coding plan",
+          "套餐"
+        ],
+        "planMentioned": "Lite",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/248",
+      "analyzedAt": "2026-07-31T09:05:27.810Z"
+    },
+    {
+      "id": "v2ex-1231187",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231187",
+      "title": "deepseek v4 pro 性价比太低了，充了 10 块生成一堆废代码，不理解我的需求",
+      "content": "谁说的充 10 块能用很久的， 用过没",
+      "author": "adimn",
+      "createdAt": "2026-07-31T03:42:04.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.9,
+        "summary": "用户称 DeepSeek V4 Pro 充值 10 元后生成大量无用代码，性价比低，不理解需求。",
+        "topics": [
+          "定价",
+          "性价比",
+          "体验",
+          "DeepSeek",
+          "编码助手"
+        ],
+        "planMentioned": "DeepSeek V4 Pro",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/249",
+      "analyzedAt": "2026-07-31T09:05:31.382Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1231247: LLM output schema validation failed: isRelevant: expected boolean, got undefined; isCodingPlan: expected boolean, got undefined; relevance: expected number 0-1, got undefined; category: expected non-empty string, got undefined"
+  ]
+}
