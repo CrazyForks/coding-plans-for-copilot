@@ -1,20 +1,20 @@
 {
-  "generatedAt": "2026-07-30T10:26:13.463Z",
-  "generatedAtBeijing": "2026年7月30日 18:26:13",
-  "sourceGeneratedAt": "2026-07-30T10:25:51.597Z",
-  "sourceGeneratedAtBeijing": "2026年7月30日 18:25:51",
-  "sourceMetricsGeneratedAt": "2026-07-30T10:25:52.648Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年7月30日 18:25:52",
+  "generatedAt": "2026-07-31T10:42:33.646Z",
+  "generatedAtBeijing": "2026年7月31日 18:42:33",
+  "sourceGeneratedAt": "2026-07-31T10:41:23.294Z",
+  "sourceGeneratedAtBeijing": "2026年7月31日 18:41:23",
+  "sourceMetricsGeneratedAt": "2026-07-31T10:41:34.276Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年7月31日 18:41:34",
   "summary": {
     "openrouterProviderCount": 100,
-    "metricsProviderCount": 44,
-    "resolvedMetricsProviderCount": 44,
+    "metricsProviderCount": 45,
+    "resolvedMetricsProviderCount": 45,
     "unresolvedMetricsProviderCount": 0,
     "structuredProviderCount": 8,
     "heuristicProviderCount": 8,
     "providersWithPlans": 16,
-    "pendingCount": 28,
-    "blockedPendingCount": 2,
+    "pendingCount": 29,
+    "blockedPendingCount": 3,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
   },
@@ -62,7 +62,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/05d53d9df1d01b3d9aed53161012a278.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/398c48650a2f20151a9f853ad183a0e6.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -687,13 +687,13 @@
       ],
       "sourceUrls": [
         "https://redpill.ai/pricing",
-        "https://red-pill.ai"
+        "https://redpill.ai"
       ],
       "pricingPageUrl": "https://redpill.ai/pricing",
-      "officialWebsiteUrl": "https://red-pill.ai",
+      "officialWebsiteUrl": "https://redpill.ai",
       "websiteSource": "terms_of_service_url",
-      "privacyPolicyUrl": "https://red-pill.ai/privacy",
-      "termsOfServiceUrl": "https://red-pill.ai/terms",
+      "privacyPolicyUrl": "https://redpill.ai/privacy",
+      "termsOfServiceUrl": "https://redpill.ai/terms",
       "statusPageUrl": "https://status.phala.network/",
       "parseMode": "official-website-heuristic"
     },
@@ -733,7 +733,7 @@
       ],
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.325/index.js",
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.328/index.js",
         "https://docs.byteplus.com"
       ],
       "pricingPageUrl": "https://www.volcengine.com/activity/codingplan",
@@ -1027,56 +1027,47 @@
       "providerId": null,
       "plans": [
         {
-          "name": "GLM Coding Lite",
-          "currentPrice": 16.2,
-          "currentPriceText": "$16.2/month",
+          "name": "官网价格参考",
+          "currentPrice": 18,
+          "currentPriceText": "$18/mo",
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
-          "notes": "$16.2 / month from 2nd month",
+          "notes": "来源: https://z.ai/subscribe",
           "serviceDetails": [
-            "Base usage allowance included",
-            "Built for lightweight iteration on small repo",
-            "Rolling access to the latest flagship models and features",
-            "Supports 20+ coding tools, including Claude Code"
-          ]
-        },
-        {
-          "name": "GLM Coding Pro",
-          "currentPrice": 64.8,
-          "currentPriceText": "$64.8/month",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": "$64.8 / month from 2nd month",
-          "serviceDetails": [
-            "Everything in Lite, plus 5x Lite usage",
-            "Built for day-to-day development on mid-sized repo",
-            "Priority access to the latest flagship models and features",
-            "Includes a curated selection of MCP tools",
-            "Faster generation speeds"
-          ]
-        },
-        {
-          "name": "GLM Coding Max",
-          "currentPrice": 144,
-          "currentPriceText": "$144/month",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": "$144 / month from 2nd month",
-          "serviceDetails": [
-            "Everything in Pro, plus 20x Lite usage",
-            "Built for advanced users working on mid-to-large repo",
-            "First access to the latest flagship models and features",
-            "Dedicated resources during peak times"
+            "官网价格页参考，具体权益以官网说明为准"
           ]
         }
       ],
       "sourceUrls": [
+        "https://z.ai",
         "https://z.ai/subscribe",
-        "https://docs.z.ai/devpack/overview",
-        "https://z.ai"
+        "https://z.ai/_next/static/chunks/ea6070cd-5e7ba81760cc86ab.js",
+        "https://z.ai/_next/static/chunks/523-d737efcb48c2d4c2.js",
+        "https://z.ai/_next/static/chunks/main-app-6d04acb6efcff2a9.js",
+        "https://z.ai/_next/static/chunks/3830ae5c-c517df93dd0055a1.js",
+        "https://z.ai/_next/static/chunks/3275-2acefeafb87e29c2.js",
+        "https://z.ai/_next/static/chunks/8975-ad444bd291a5a321.js",
+        "https://z.ai/_next/static/chunks/2826-b49f6f3c1855b734.js",
+        "https://z.ai/_next/static/chunks/9851-2ca5b5ca319c3abd.js",
+        "https://z.ai/_next/static/chunks/2583-2ce88ea78165cab1.js",
+        "https://z.ai/_next/static/chunks/4049-869d3b4eff6b39c5.js",
+        "https://z.ai/_next/static/chunks/5411-65fe7f7c898ea6ed.js",
+        "https://z.ai/_next/static/chunks/3044-6797ade31e7c5e31.js",
+        "https://z.ai/_next/static/chunks/4504-43a26f5d45ca29f6.js",
+        "https://z.ai/_next/static/chunks/9798-30ad1e2b75ce3d38.js",
+        "https://z.ai/_next/static/chunks/5357-37b1e1dd2d5ebb11.js",
+        "https://z.ai/_next/static/chunks/3423-5e5dadfa4def21c2.js",
+        "https://z.ai/_next/static/chunks/1405-b847a1e19255779a.js",
+        "https://z.ai/_next/static/chunks/4029-2d2cbc4a8e10c5df.js",
+        "https://z.ai/_next/static/chunks/6499-a450cc83e7d30dfc.js",
+        "https://z.ai/_next/static/chunks/3287-6e050bb7b4e40d83.js",
+        "https://z.ai/_next/static/chunks/9824-09a4d465bca69020.js",
+        "https://z.ai/_next/static/chunks/2064-999f85b5b294424b.js",
+        "https://z.ai/_next/static/chunks/2795-4eb5d2aab1b4d289.js",
+        "https://z.ai/_next/static/chunks/8097-9592712ca1e810f4.js",
+        "https://z.ai/_next/static/chunks/9857-0d110249d71c6e7f.js",
+        "https://z.ai/_next/static/chunks/364-3db08b326e7e8bc7.js"
       ],
       "pricingPageUrl": "https://z.ai/subscribe",
       "officialWebsiteUrl": "https://z.ai",
@@ -1121,7 +1112,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://www.atlascloud.ai",
       "pricingPageUrl": "https://www.atlascloud.ai/pricing/models",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.056 / $0.045 / $0.14）",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.14 / $0.086 / $0.1）",
       "blocked": false
     },
     {
@@ -1284,7 +1275,7 @@
       "officialWebsiteUrl": "https://docs.nebius.com",
       "pricingPageUrl": "https://docs.nebius.com",
       "reason": "官网价格页探测失败：https://docs.nebius.com/pricing: HTTP 404",
-      "blocked": false
+      "blocked": true
     },
     {
       "slug": "novita",
@@ -1293,6 +1284,15 @@
       "officialWebsiteUrl": "https://novita.ai",
       "pricingPageUrl": "https://novita.ai/pricing",
       "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.14 / $0.028 / $0.28）",
+      "blocked": false
+    },
+    {
+      "slug": "open-inference",
+      "openrouterName": "OpenInference",
+      "providerId": null,
+      "officialWebsiteUrl": "https://www.openinference.ai",
+      "pricingPageUrl": "https://www.openinference.ai/pricing",
+      "reason": "官网未发现可解析的套餐价格页",
       "blocked": false
     },
     {
