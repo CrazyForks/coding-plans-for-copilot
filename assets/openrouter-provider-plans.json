@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-31T10:42:33.646Z",
-  "generatedAtBeijing": "2026年7月31日 18:42:33",
-  "sourceGeneratedAt": "2026-07-31T10:41:23.294Z",
-  "sourceGeneratedAtBeijing": "2026年7月31日 18:41:23",
-  "sourceMetricsGeneratedAt": "2026-07-31T10:41:34.276Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年7月31日 18:41:34",
+  "generatedAt": "2026-08-01T10:02:08.409Z",
+  "generatedAtBeijing": "2026年8月1日 18:02:08",
+  "sourceGeneratedAt": "2026-08-01T10:00:58.457Z",
+  "sourceGeneratedAtBeijing": "2026年8月1日 18:00:58",
+  "sourceMetricsGeneratedAt": "2026-08-01T10:01:09.431Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月1日 18:01:09",
   "summary": {
-    "openrouterProviderCount": 100,
+    "openrouterProviderCount": 101,
     "metricsProviderCount": 45,
     "resolvedMetricsProviderCount": 45,
     "unresolvedMetricsProviderCount": 0,
@@ -14,7 +14,7 @@
     "heuristicProviderCount": 8,
     "providersWithPlans": 16,
     "pendingCount": 29,
-    "blockedPendingCount": 3,
+    "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
   },
@@ -62,7 +62,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/398c48650a2f20151a9f853ad183a0e6.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/61f03c4a6deea9d942346161c178a3b0.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -756,7 +756,7 @@
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
-          "notes": "新用户 15 天内免费体验",
+          "notes": null,
           "serviceDetails": [
             "支持所有旗舰模型",
             "支持智能路由",
@@ -1275,7 +1275,7 @@
       "officialWebsiteUrl": "https://docs.nebius.com",
       "pricingPageUrl": "https://docs.nebius.com",
       "reason": "官网价格页探测失败：https://docs.nebius.com/pricing: HTTP 404",
-      "blocked": true
+      "blocked": false
     },
     {
       "slug": "novita",
