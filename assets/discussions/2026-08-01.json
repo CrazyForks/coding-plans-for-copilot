@@ -1,0 +1,75 @@
+{
+  "date": "2026-08-01",
+  "generatedAt": "2026-08-01T08:22:20.110Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 50,
+    "postsAfterKeywordFilter": 10,
+    "relevantPosts": 1,
+    "discussionsCreated": 1,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Seedance": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1231418",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231418",
+      "title": "[中转] 91token 小站上线， Claude Code， GPT， Seedance2.0 有需求的客观瞅一眼",
+      "content": "大家好，新搞了个小站，跟大家分享下。 🔥 一、 主营核心：绝对稳定，才是硬道理 我们主营 Seedance 2.0 满血版，完美支持 933 ，官方直连，同时全面支持真人和虚拟素材库。 我们敢说，我们的价格可能不是全网最低的，但我们能保证绝对的稳！在关键时刻不掉链子、不报错，才是真正帮您省钱、省时间。 同时，为了满足不同场景和预算的需求，我们增加了 Seedance Fast 版本 和 Mini 版本，以及对应的海外版本，能用。丰俭由人，总有一款适合您的业务需求。 💡 二、 计费透明：充多少，用多少，拒绝套路 在小站，没有套餐活动，近期也不会做。 原因很简单： 站长脑子不太好使，算不明白那些复杂的账； 我们坚持能用、充多少、用多少。“羊毛出在羊身上”，大家根据自己的实际需求判断选择，每一分钱都花在刀刃上，明明白白消费。 🛡️ 三、 售后无忧：可开发票，不满意随时退款 我们对自己的服务有绝对的信心，也愿意为您提供最大的保障： 支持正规开发票：企业用户、工作室报销无忧。 不满意？随时退款！ 只要您觉得不符合预期，随时联系客服，剩余未使用的额度全额退还，绝不墨迹。您的满意和信任，是我们",
+      "author": "lokywang",
+      "createdAt": "2026-08-01T05:37:28.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Seedance",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.98,
+        "summary": "Seedance 2.0 提供稳定的 AI 服务，支持 933 模型，价格透明（按实际使用计费），无套餐活动，并提供 5 刀测试额度。",
+        "topics": [
+          "定价",
+          "套餐",
+          "体验卡",
+          "稳定性",
+          "API 服务"
+        ],
+        "planMentioned": "Seedance 2.0",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/250",
+      "analyzedAt": "2026-08-01T08:26:18.880Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1231434: LLM output schema validation failed: category: expected one of available categories, got \"其他\""
+  ]
+}
