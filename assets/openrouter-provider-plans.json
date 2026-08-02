@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-01T10:02:08.409Z",
-  "generatedAtBeijing": "2026年8月1日 18:02:08",
-  "sourceGeneratedAt": "2026-08-01T10:00:58.457Z",
-  "sourceGeneratedAtBeijing": "2026年8月1日 18:00:58",
-  "sourceMetricsGeneratedAt": "2026-08-01T10:01:09.431Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月1日 18:01:09",
+  "generatedAt": "2026-08-02T10:00:20.359Z",
+  "generatedAtBeijing": "2026年8月2日 18:00:20",
+  "sourceGeneratedAt": "2026-08-02T09:59:13.234Z",
+  "sourceGeneratedAtBeijing": "2026年8月2日 17:59:13",
+  "sourceMetricsGeneratedAt": "2026-08-02T09:59:22.360Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月2日 17:59:22",
   "summary": {
     "openrouterProviderCount": 101,
     "metricsProviderCount": 45,
@@ -14,7 +14,7 @@
     "heuristicProviderCount": 8,
     "providersWithPlans": 16,
     "pendingCount": 29,
-    "blockedPendingCount": 2,
+    "blockedPendingCount": 3,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
   },
@@ -1328,8 +1328,8 @@
       "providerId": null,
       "officialWebsiteUrl": "https://docs.siliconflow.com",
       "pricingPageUrl": "https://docs.siliconflow.com",
-      "reason": "官网价格页探测失败：https://docs.siliconflow.com/pricing: HTTP 404",
-      "blocked": false
+      "reason": "官网价格页探测失败：https://docs.siliconflow.com/pricing: Request timeout after 9000ms",
+      "blocked": true
     },
     {
       "slug": "wafer",
