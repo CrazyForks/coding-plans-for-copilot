@@ -1,0 +1,103 @@
+{
+  "date": "2026-08-02",
+  "generatedAt": "2026-08-02T08:25:12.926Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 50,
+    "postsAfterKeywordFilter": 18,
+    "relevantPosts": 2,
+    "discussionsCreated": 2,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "OpenCode Go, DeepSeek": 1,
+      "DeepSeek": 2
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1231535",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231535",
+      "title": "订阅了 OpenCode Go 5 美刀会员 只用 DeepSeek 能用多久～？",
+      "content": "",
+      "author": "SayHelloHi",
+      "createdAt": "2026-08-02T07:01:28.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 1,
+        "supplier": "OpenCode Go, DeepSeek",
+        "supplierCategory": "aggregator",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "订阅了 OpenCode Go 5 美刀会员后，如果只使用 DeepSeek 模型，预计能使用多久？",
+        "topics": [
+          "定价",
+          "使用时长",
+          "订阅",
+          "模型使用"
+        ],
+        "planMentioned": "OpenCode Go 5 美刀会员",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/251",
+      "analyzedAt": "2026-08-02T08:30:42.287Z"
+    },
+    {
+      "id": "v2ex-1231509",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231509",
+      "title": "请教：除了 api 直连，有没有更便宜也保质量的办法可以用 deepseek-v4-flash？",
+      "content": "v4 flash 确实给力，有什么办法可以更便宜的用？",
+      "author": "hanbaoji",
+      "createdAt": "2026-08-02T03:09:51.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.8,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "用户在询问除了 API 直连之外，有没有更便宜且能保证质量的方式来使用 DeepSeek-V4-Flash 模型。",
+        "topics": [
+          "定价",
+          "使用成本",
+          "模型调用"
+        ],
+        "planMentioned": "DeepSeek-V4-Flash",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/252",
+      "analyzedAt": "2026-08-02T08:30:46.947Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}

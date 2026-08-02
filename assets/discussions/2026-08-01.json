@@ -1,6 +1,6 @@
 {
   "date": "2026-08-01",
-  "generatedAt": "2026-08-01T08:22:20.110Z",
+  "generatedAt": "2026-08-02T08:25:12.926Z",
   "config": {
     "sources": [
       "v2ex",
@@ -25,12 +25,13 @@
   },
   "summary": {
     "totalPostsFetched": 50,
-    "postsAfterKeywordFilter": 10,
-    "relevantPosts": 1,
-    "discussionsCreated": 1,
+    "postsAfterKeywordFilter": 18,
+    "relevantPosts": 2,
+    "discussionsCreated": 2,
     "discussionsSkipped": 0,
     "supplierMentions": {
-      "Seedance": 1
+      "OpenCode Go, DeepSeek": 1,
+      "DeepSeek": 2
     }
   },
   "posts": [
@@ -64,12 +65,41 @@
       },
       "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/250",
       "analyzedAt": "2026-08-01T08:26:18.880Z"
+    },
+    {
+      "id": "v2ex-1231459",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231459",
+      "title": "deepseek-v4-flash-0731 感觉把国产模型价格打穿了，还买啥 coding plan。",
+      "content": "第一次有种 token 自由的感觉.. 现在用不出来跟 deepseek-v4-pro-preview 有何区别，只感觉更快了更便宜了",
+      "author": "menfrexu",
+      "createdAt": "2026-08-01T11:37:40.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "用户分享对DeepSeek V4 Flash和Pro Preview版本的体验，认为免费版比Pro Preview更快更便宜，强调token自由感。",
+        "topics": [
+          "定价",
+          "DeepSeek",
+          "套餐对比",
+          "token自由"
+        ],
+        "planMentioned": "DeepSeek V4 Flash, DeepSeek V4 Pro Preview",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/253",
+      "analyzedAt": "2026-08-02T08:30:51.220Z"
     }
   ],
   "failures": [
     "linuxdo: https://linux.do/latest.rss → 429",
     "linuxdo: https://linux.do/latest.json → 429",
-    "linuxdo: https://linux.do/latest.json → 429",
-    "analysis failed for v2ex-1231434: LLM output schema validation failed: category: expected one of available categories, got \"其他\""
+    "linuxdo: https://linux.do/latest.json → 429"
   ]
 }
