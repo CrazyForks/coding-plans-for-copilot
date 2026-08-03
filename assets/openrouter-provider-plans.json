@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-02T10:00:20.359Z",
-  "generatedAtBeijing": "2026年8月2日 18:00:20",
-  "sourceGeneratedAt": "2026-08-02T09:59:13.234Z",
-  "sourceGeneratedAtBeijing": "2026年8月2日 17:59:13",
-  "sourceMetricsGeneratedAt": "2026-08-02T09:59:22.360Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月2日 17:59:22",
+  "generatedAt": "2026-08-03T11:26:11.054Z",
+  "generatedAtBeijing": "2026年8月3日 19:26:11",
+  "sourceGeneratedAt": "2026-08-03T11:25:03.115Z",
+  "sourceGeneratedAtBeijing": "2026年8月3日 19:25:03",
+  "sourceMetricsGeneratedAt": "2026-08-03T11:25:13.335Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月3日 19:25:13",
   "summary": {
     "openrouterProviderCount": 101,
     "metricsProviderCount": 45,
@@ -14,7 +14,7 @@
     "heuristicProviderCount": 8,
     "providersWithPlans": 16,
     "pendingCount": 29,
-    "blockedPendingCount": 3,
+    "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
   },
@@ -62,7 +62,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/61f03c4a6deea9d942346161c178a3b0.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/299f363ada4096782d289b1f7dacc000.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -1328,8 +1328,8 @@
       "providerId": null,
       "officialWebsiteUrl": "https://docs.siliconflow.com",
       "pricingPageUrl": "https://docs.siliconflow.com",
-      "reason": "官网价格页探测失败：https://docs.siliconflow.com/pricing: Request timeout after 9000ms",
-      "blocked": true
+      "reason": "官网价格页探测失败：https://docs.siliconflow.com/pricing: HTTP 404",
+      "blocked": false
     },
     {
       "slug": "wafer",
