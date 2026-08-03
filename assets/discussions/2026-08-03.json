@@ -1,0 +1,263 @@
+{
+  "date": "2026-08-03",
+  "generatedAt": "2026-08-03T09:47:28.005Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 60,
+    "postsAfterKeywordFilter": 22,
+    "relevantPosts": 7,
+    "discussionsCreated": 7,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "LodyAI": 1,
+      "OpenAI": 1,
+      "ChatGPT": 1,
+      "Bool 中转站": 1,
+      "阿里 (Alibaba)": 1,
+      "Claude Code": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1231798",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231798",
+      "title": "[抽奖送码] LodyAI 在手机或电脑上和团队一起使用 coding agents",
+      "content": "简单来说 lody.ai 是类似 codex app 的 coding agent 的本地优先 ADE 。 你可以 在 lody 中组合使用任意的 agent ，例如 codex, claude code, grok, kimi, deepseek 等等 40+ 个。 轻易地做到 fable 出计划，gpt 来实现等 在 web 、macOS 、windows 、Linux 、iOS 和 Android 上使用 lody ，并且无需自己组网，无需🪜，做到对话的实时同步 管理你的所有机器设备，例如其他的 VPS,mac mini ，在任意的客户端上随时分配任务 集成 GitHub 工作流 将设备或者项目进行团队共享，一键分享对话的上下文，共享对应机器的订阅和资源 在 lody 中进行跨对话的交互，直接让 lody 创建新的对话，读取其他对话的历史内容 Design mode ，手机上也能查看网页结果 未来我们会支持更多的 context 管理能力 更多功能可以访问文档 https://lody.ai/zh/docs 为了庆祝我们上线了订阅，上线了新的 landing page 。感谢 ",
+      "author": "leonz95",
+      "createdAt": "2026-08-03T09:04:25.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "LodyAI",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "LodyAI announces a subscription giveaway and early bird pricing for its AI coding agent platform, allowing team collaboration across devices and integration with GitHub workflows.",
+        "topics": [
+          "抽奖",
+          "订阅",
+          "coding agents",
+          "团队使用",
+          "GitHub集成"
+        ],
+        "planMentioned": "LodyAI 订阅",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/254",
+      "analyzedAt": "2026-08-03T09:57:57.587Z"
+    },
+    {
+      "id": "v2ex-1231781",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231781",
+      "title": "codex 被封号了， 1 个苹果账号可以绑多个 openai 吗？不想切苹果账号注册新的。",
+      "content": "chatgpt 的号是很老的号，几年前就注册了。 最近开的套餐是 200$，美区。 可能是因为在家里和公司同时蹬，出口 ip 还不一样导致封号的。",
+      "author": "tinx",
+      "createdAt": "2026-08-03T08:09:21.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "OpenAI",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.85,
+        "summary": "用户讨论其OpenAI ChatGPT账号因同时使用不同IP导致封号问题，并提及当前使用200美元美区套餐。",
+        "topics": [
+          "封号",
+          "套餐",
+          "OpenAI",
+          "IP问题"
+        ],
+        "planMentioned": "200美元美区套餐",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/255",
+      "analyzedAt": "2026-08-03T09:58:02.046Z"
+    },
+    {
+      "id": "v2ex-1231775",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231775",
+      "title": "chatgpt 购买套餐使用和对接 api 按量付费成本会差多少？",
+      "content": "chatgpt 购买套餐使用和对接 api 按量付费成本会差多少，有人测算过吗？",
+      "author": "ldy619354397",
+      "createdAt": "2026-08-03T07:59:46.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "ChatGPT",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 1,
+        "summary": "用户在询问 ChatGPT 订阅套餐与 API 按量付费之间的成本差异。",
+        "topics": [
+          "定价",
+          "成本对比",
+          "订阅",
+          "API"
+        ],
+        "planMentioned": "ChatGPT 订阅套餐",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/256",
+      "analyzedAt": "2026-08-03T09:58:06.356Z"
+    },
+    {
+      "id": "v2ex-1231762",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231762",
+      "title": "云雾跑路了，求推荐中转站。",
+      "content": "才收到 29 号发的邮件，1 号开始海外模型全部下架，跟跑路没区别。求推荐稳定中转站，主要用 claude 、openai 的模型。",
+      "author": "c0mmand",
+      "createdAt": "2026-08-03T07:22:39.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": null,
+        "supplierCategory": "other",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户在v2ex上请求推荐稳定的中转站以访问Claude和OpenAI模型，因海外模型下架而无法直接使用。",
+        "topics": [
+          "Claude",
+          "OpenAI",
+          "中转站",
+          "模型下架"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/257",
+      "analyzedAt": "2026-08-03T09:58:11.112Z"
+    },
+    {
+      "id": "v2ex-1231619",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231619",
+      "title": "[Bool 中转站] 满血原生 ChatGPT 0.2x 本贴留言抽奖 66 刀余额 且留言就送 5 刀 新人加群再送 5 刀 不掺水不降智随意测试",
+      "content": "官网: booltoken.com 全系列 chatgpt 模型 最低 0.2x 对比官网节省约 97% 另有 grok claudekiro 不掺水不降智不套壳 随意测试验证 欢迎随意做模型智商测试 本帖子留言注册送 5 刀额度 新人注册加群再送 5 刀额度 q 群 101548083 有建议欢迎随时提 不懂的随时问 高强度在线 抽奖截至为中午 12 点 抽奖结果为截至 12：00 大 a 午收盘数 x100/已留言的用户数 取余数为中奖用户楼层（按用户评论时间排名楼层） 另外群里也会开启三个 66 刀的抽奖",
+      "author": "bbrow",
+      "createdAt": "2026-08-03T01:38:35.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "Bool 中转站",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.85,
+        "summary": "Bool 中转站提供折扣的 ChatGPT 模型（0.2x 价格），支持 Grok、Claude 等模型，并通过留言抽奖赠送额度，强调不掺水不降智。",
+        "topics": [
+          "定价",
+          "套餐对比",
+          "抽奖",
+          "ChatGPT",
+          "Groq",
+          "Claude"
+        ],
+        "planMentioned": "ChatGPT 0.2x 套餐",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/258",
+      "analyzedAt": "2026-08-03T09:58:16.501Z"
+    },
+    {
+      "id": "v2ex-1231757",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231757",
+      "title": "阿里的 tokenplan 真是一言难尽",
+      "content": "今天看到 tokenplan 新上了 DeepSeek v4 flash 0731 ，（我也不知道之前为什么下掉 Flash ），想试试看是不是划算，找了半天没找到模型消耗的对比 我也就是想找到大概用哪个模型模型便宜，是 v4 flash 还是优惠中的 qwen-3.8max preview 发了工单问客服，客服又把文档发了一遍 您好，Token Plan 采用统一 Credit 抵扣机制，覆盖不同模型、不同工具。系统会根据模型档位、上下文长度、输入/输出 token 数、是否使用 Harness 工具（如联网搜索、代码解释等）综合计算 Credit 消耗，因此不同类型的调用消耗差异较大。具体的用量以实际产生的 Credits 消耗量为准。 各位大佬有大概清楚的吗？ 也不用多精确，看个大概就行。",
+      "author": "gux928",
+      "createdAt": "2026-08-03T07:06:25.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "阿里 (Alibaba)",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.85,
+        "summary": "用户讨论阿里Token Plan的定价机制，询问不同模型（DeepSeek v4 flash vs Qwen-3.8max preview）的成本差异，并提到客服回复说明Credit消耗计算方式。",
+        "topics": [
+          "定价",
+          "模型对比",
+          "Credit系统",
+          "客服回复"
+        ],
+        "planMentioned": "Token Plan",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/259",
+      "analyzedAt": "2026-08-03T09:58:22.461Z"
+    },
+    {
+      "id": "v2ex-1231749",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1231749",
+      "title": "CC 居然给我提升额度了",
+      "content": "'您的限额已暂时提升。截至 8 月 19 日，您的每周 Claude Code 限额提高 50%（在新标签页中打开）；截至 8 月 5 日，您的 Cowork 限额提高 100%（在新标签页中打开）。优惠活动结束后，限额将恢复至您套餐的标准限额。' 这个是什么情况,有点受宠若惊",
+      "author": "dcrzhang",
+      "createdAt": "2026-08-03T06:45:38.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Claude Code",
+        "supplierCategory": "international-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "用户收到 Claude Code 和 Cowork 的临时额度提升通知，感到惊喜。",
+        "topics": [
+          "额度提升",
+          "Claude Code",
+          "Cowork",
+          "套餐",
+          "优惠活动"
+        ],
+        "planMentioned": "Claude Code",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/260",
+      "analyzedAt": "2026-08-03T09:58:28.176Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1231810: The operation was aborted due to timeout"
+  ]
+}
