@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-04T05:13:56.732Z",
+  "generatedAt": "2026-08-04T10:41:10.609Z",
   "providers": [
     {
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/1e649e66ae01b83f07b750c9f1d122db.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/d0953d5143d14df13e7d45f16974e2e8.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan"
       ],
@@ -627,7 +627,9 @@
             "适配工具：完美适配多种开发场景，支持 Claude Code、OpenCode、OpenClaw、Roo Code、Cursor等主流 AI 编码工具，多工具之间套餐额度共享"
           ]
         }
-      ]
+      ],
+      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
+      "staleFailure": "jdcloud-ai: Task timed out after 30000ms"
     },
     {
       "provider": "kilo-pass",
@@ -1381,7 +1383,7 @@
       "provider": "x-aio",
       "sourceUrls": [
         "https://code.x-aio.com/",
-        "https://code.x-aio.com/assets/index-C_dhngbD.js"
+        "https://code.x-aio.com/assets/index-BlH8fPH1.js"
       ],
       "plans": [
         {
@@ -1653,6 +1655,7 @@
     }
   ],
   "failures": [
-    "zhipu-ai: Task timed out after 30000ms"
+    "zhipu-ai: Task timed out after 30000ms",
+    "jdcloud-ai: Task timed out after 30000ms"
   ]
 }
