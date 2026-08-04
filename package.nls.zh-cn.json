@@ -4,6 +4,7 @@
   "commands.coding-plans.manage.title": "管理编码套餐配置",
   "commands.coding-plans.refreshModels.title": "刷新编码套餐模型列表",
   "commands.coding-plans.updateModels.title": "更新编码套餐 models 列表",
+  "commands.coding-plans.copyModelAsChatLanguageModel.title": "拷贝模型为 chatLanguageModels.json",
   "commands.category": "编码套餐",
   "configuration.title": "编码套餐",
   "configuration.coding-plans.vendors.description": "配置 AI 模型供应商及其端点和模型。",

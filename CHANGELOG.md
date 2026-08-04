@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.13.2] - 2026-08-04
+- feat(command): 新增 "Copy Model as chatLanguageModels.json" 命令，将供应商模型拷贝为 chatLanguageModels.json 模型对象
+
 ## [0.13.1] - 2026-07-18
 - feat(logging): 优化 Coding Plans 日志系统
 - refactor(crawler): 优化 GitHub 标签缓存与 LinuxDo 数据获取

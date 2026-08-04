@@ -4,6 +4,7 @@
   "commands.coding-plans.manage.title": "Manage Coding Plans Configuration",
   "commands.coding-plans.refreshModels.title": "Refresh Coding Plans Models",
   "commands.coding-plans.updateModels.title": "Update Coding Plans Models List",
+  "commands.coding-plans.copyModelAsChatLanguageModel.title": "Copy Model as chatLanguageModels.json",
   "commands.category": "Coding Plans",
   "configuration.title": "Coding Plans",
   "configuration.coding-plans.vendors.description": "Configure AI model vendors with their endpoints and models.",

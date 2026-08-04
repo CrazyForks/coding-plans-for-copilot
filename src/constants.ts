@@ -2,6 +2,7 @@ export const COMMIT_MESSAGE_SHOW_GENERATE_SETTING_KEY = 'commitMessage.showGener
 export const LANGUAGE_MODELS_REFRESH_LOG_PREFIX = '[coding-plans][language-models-refresh]';
 export const REFRESH_MODELS_COMMAND = 'coding-plans.refreshModels';
 export const UPDATE_MODELS_COMMAND = 'coding-plans.updateModels';
+export const COPY_MODEL_AS_CHAT_LANGUAGE_MODELS_COMMAND = 'coding-plans.copyModelAsChatLanguageModel';
 export const AUTO_REFRESH_MODELS_SETTING_KEY = 'autoRefreshModels';
 export const DEFAULT_AUTO_REFRESH_MODELS = true;
 export const PREFERRED_LANGUAGE_MODELS_REFRESH_COMMANDS = [

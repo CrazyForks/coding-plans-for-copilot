@@ -2,7 +2,7 @@
     "name": "coding-plans-for-copilot",
     "displayName": "%displayName%",
     "description": "%description%",
-    "version": "0.13.1",
+    "version": "0.13.3",
     "publisher": "techfetch-dev",
     "activationEvents": [
         "onStartupFinished"
@@ -57,6 +57,11 @@
             {
                 "command": "coding-plans.updateModels",
                 "title": "%commands.coding-plans.updateModels.title%",
+                "category": "%commands.category%"
+            },
+            {
+                "command": "coding-plans.copyModelAsChatLanguageModel",
+                "title": "%commands.coding-plans.copyModelAsChatLanguageModel.title%",
                 "category": "%commands.category%"
             },
             {
@@ -200,8 +205,8 @@
                 },
                 "coding-plans.logLevel": {
                     "type": "string",
-                    "scope": "application",
-                    "default": "info",
+                    "scope": "window",
+                    "default": "warn",
                     "enum": [
                         "trace",
                         "debug",

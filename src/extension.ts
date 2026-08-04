@@ -3,6 +3,10 @@ import { ContextUsageState } from './contextUsageState';
 import { GenericAIProvider } from './providers/genericProvider';
 import { LMChatProviderAdapter } from './providers/lmChatProviderAdapter';
 import { ConfigStore, VendorValidationError } from './config/configStore';
+import {
+  serializeChatLanguageModelsModelConfig,
+  toChatLanguageModelsModelConfig,
+} from './config/chatLanguageModelsConfig';
 import { CodingPlanStatusBarController, PlanUsagePollingController, PlanUsageState } from './planUsageStatus';
 import { initI18n, getMessage } from './i18n/i18n';
 import { getCompactErrorMessage } from './providers/baseProvider';
@@ -14,6 +18,7 @@ import {
 } from './commitMessageGenerator';
 import {
   CODING_PLANS_VENDOR,
+  COPY_MODEL_AS_CHAT_LANGUAGE_MODELS_COMMAND,
   LANGUAGE_MODELS_REFRESH_LOG_PREFIX,
   PREFERRED_LANGUAGE_MODELS_REFRESH_COMMANDS,
   REFRESH_MODELS_COMMAND,
@@ -485,6 +490,59 @@ export async function manageVendorConfiguration(
   await refreshCodingPlansModels(configStore, genericProvider, adapter);
 }
 
+/**
+ * 将指定供应商下的一个模型序列化为 chatLanguageModels.json 模型对象并拷贝到剪贴板。
+ * 生成的 JSON 可直接粘贴到 VS Code 的 chatLanguageModels.json（Custom Endpoint 模型配置）。
+ */
+export async function copyModelAsChatLanguageModel(configStore: ConfigStore): Promise<void> {
+  const vendors = configStore.getVendors().filter((vendor) => vendor.models.length > 0);
+  if (vendors.length === 0) {
+    vscode.window.showInformationMessage(getMessage('copyModelAsChatLanguageModelNoVendor'));
+    return;
+  }
+
+  const pickedVendor = await vscode.window.showQuickPick(
+    vendors.map((vendor) => ({
+      label: vendor.name,
+      description: vendor.defaultApiStyle,
+      detail: `${vendor.models.length} model${vendor.models.length > 1 ? 's' : ''}`,
+      vendor,
+    })),
+    {
+      placeHolder: getMessage('copyModelAsChatLanguageModelSelectVendor'),
+      ignoreFocusOut: true,
+    },
+  );
+  if (!pickedVendor) {
+    return;
+  }
+
+  const pickedModel = await vscode.window.showQuickPick(
+    pickedVendor.vendor.models.map((model) => ({
+      label: model.name,
+      description: model.apiStyle ?? pickedVendor.vendor.defaultApiStyle,
+      detail: model.contextSize ? `${model.contextSize} tokens` : undefined,
+      model,
+    })),
+    {
+      placeHolder: getMessage('copyModelAsChatLanguageModelSelectModel'),
+      ignoreFocusOut: true,
+    },
+  );
+  if (!pickedModel) {
+    return;
+  }
+
+  try {
+    const modelConfig = toChatLanguageModelsModelConfig(pickedVendor.vendor, pickedModel.model);
+    const serialized = serializeChatLanguageModelsModelConfig(modelConfig);
+    await vscode.env.clipboard.writeText(serialized);
+    vscode.window.showInformationMessage(getMessage('copyModelAsChatLanguageModelCopied'));
+  } catch (error) {
+    vscode.window.showErrorMessage(getMessage('copyModelAsChatLanguageModelFailed', getCompactErrorMessage(error)));
+  }
+}
+
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   await initI18n();
   context.subscriptions.push(logger);
@@ -616,6 +674,12 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   context.subscriptions.push(
     vscode.commands.registerCommand('coding-plans.manage', async () => {
       await manageVendorConfiguration(configStore, genericProvider, adapter);
+    }),
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(COPY_MODEL_AS_CHAT_LANGUAGE_MODELS_COMMAND, async () => {
+      await copyModelAsChatLanguageModel(configStore);
     }),
   );
 
