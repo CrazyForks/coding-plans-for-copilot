@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.13.4] - 2026-08-04
+- fix(config): chatLanguageModels.json 导出完整 endpoint url 与运行时一致
+- feat(command): 新增 "Copy Model as chatLanguageModels.json" 命令
+
 ## [0.13.2] - 2026-08-04
 - feat(command): 新增 "Copy Model as chatLanguageModels.json" 命令，将供应商模型拷贝为 chatLanguageModels.json 模型对象
 
@@ -37,17 +41,3 @@ All notable changes to this project will be documented in this file.
 
 ## [0.11.11] - 2026-06-16
 - feat(config): 新增 coding-plans.autoRefreshModels 配置项
-
-## [0.11.10] - 2026-06-15
-- feat(config): 迁移 thinking 配置至 capabilities 并重命名为 thinkingType
-
-## [0.11.3] - 2026-06-12
-- feat(provider): 优化模型协议适配与请求格式定义
-- feat(config): 集成 models.dev 自动补全模型元数据
-- feat(config): 支持模型成本元数据配置
-- refactor(config): 移除配置项中的 toolCalling 和 vision 属性
-- refactor(config): 更新 reasoningEffortFormat 枚举值与逻辑
-- refactor(config): 移除已废弃的 apiType 配置字段
-- feat(core): 支持 multi-find-replace 编辑工具
-- build(config): 配置 editorconfig 与 prettier 相关环境
-- feat(config): 支持 Copilot 风格协议配置与模型参数扩展
