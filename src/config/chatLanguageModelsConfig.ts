@@ -26,6 +26,15 @@ export const CHAT_LANGUAGE_MODELS_FIXED_EDIT_TOOLS = ['apply-patch', 'find-repla
 export const CHAT_LANGUAGE_MODELS_FIXED_MAX_OUTPUT_TOKENS = 100000;
 export const CHAT_LANGUAGE_MODELS_FIXED_SUPPORTS_REASONING_EFFORT = ['xhigh', 'high', 'max'];
 
+const CHAT_LANGUAGE_MODELS_API_PATH_BY_TYPE: Record<
+  'chat-completions' | 'responses' | 'messages',
+  string
+> = {
+  'chat-completions': '/chat/completions',
+  responses: '/responses',
+  messages: '/messages',
+};
+
 export function toChatLanguageModelsApiType(
   apiStyle: VendorApiStyle | undefined,
   apiType: VendorModelConfig['apiType'],
@@ -43,6 +52,27 @@ export function toChatLanguageModelsApiType(
     return 'messages';
   }
   return 'chat-completions';
+}
+
+/**
+ * 将扩展内的 baseUrl 解析为 chatLanguageModels.json 模型级完整 endpoint URL。
+ * VS Code customendpoint 对模型 url 的语义是完整请求地址：若未包含显式 API 路径
+ * （/chat/completions、/responses、/messages），会按 apiType 自动补路径，可能与
+ * 扩展运行时使用的地址不一致。因此这里显式拼出完整 endpoint，与运行时保持一致。
+ */
+export function resolveChatLanguageModelsModelUrl(
+  baseUrl: string,
+  apiType: 'chat-completions' | 'responses' | 'messages',
+): string {
+  const normalized = baseUrl.trim().replace(/\/+$/, '');
+  if (normalized.length === 0) {
+    return baseUrl;
+  }
+  const apiPath = CHAT_LANGUAGE_MODELS_API_PATH_BY_TYPE[apiType];
+  if (normalized.toLowerCase().endsWith(apiPath)) {
+    return normalized;
+  }
+  return `${normalized}${apiPath}`;
 }
 
 function toChatLanguageModelsReasoningEffortFormat(
@@ -66,7 +96,7 @@ export function toChatLanguageModelsModelConfig(
     apiType,
     id: `${vendor.name}/${model.name}`,
     name: model.name,
-    url: vendor.baseUrl,
+    url: resolveChatLanguageModelsModelUrl(vendor.baseUrl, apiType),
   };
 
   if (model.contextSize !== undefined) {

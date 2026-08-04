@@ -2723,6 +2723,66 @@ function runGenericProviderDiscoveryMergeTests(): void {
   console.log('PASS Grok 模型刷新时会从 openai-chat 自动升级为 openai-responses');
 }
 
+function runChatLanguageModelsConfigTests(): void {
+  const {
+    resolveChatLanguageModelsModelUrl,
+    toChatLanguageModelsApiType,
+    toChatLanguageModelsModelConfig,
+  } = require('../config/chatLanguageModelsConfig') as {
+    resolveChatLanguageModelsModelUrl: (
+      baseUrl: string,
+      apiType: 'chat-completions' | 'responses' | 'messages',
+    ) => string;
+    toChatLanguageModelsApiType: (
+      apiStyle: 'openai-chat' | 'openai-responses' | 'anthropic' | undefined,
+      apiType: 'chat' | 'responses' | 'anthropic' | undefined,
+    ) => 'chat-completions' | 'responses' | 'messages';
+    toChatLanguageModelsModelConfig: (
+      vendor: VendorRecord,
+      model: VendorModelRecord,
+    ) => Record<string, unknown>;
+  };
+
+  // url 应解析为完整 endpoint，与运行时 `${baseUrl}/<path>` 一致
+  assert.equal(
+    resolveChatLanguageModelsModelUrl('https://api.example.com/v1', 'chat-completions'),
+    'https://api.example.com/v1/chat/completions',
+  );
+  assert.equal(
+    resolveChatLanguageModelsModelUrl('https://api.example.com/v1/', 'responses'),
+    'https://api.example.com/v1/responses',
+  );
+  assert.equal(
+    resolveChatLanguageModelsModelUrl('https://api.anthropic.com', 'messages'),
+    'https://api.anthropic.com/messages',
+  );
+  // 已含显式 API 路径时原样使用，避免重复拼接
+  assert.equal(
+    resolveChatLanguageModelsModelUrl('https://gateway.example.com/v1/chat/completions', 'chat-completions'),
+    'https://gateway.example.com/v1/chat/completions',
+  );
+  // 空 baseUrl 保持原样
+  assert.equal(resolveChatLanguageModelsModelUrl('', 'chat-completions'), '');
+
+  // apiType 映射
+  assert.equal(toChatLanguageModelsApiType('openai-chat', undefined), 'chat-completions');
+  assert.equal(toChatLanguageModelsApiType('openai-responses', undefined), 'responses');
+  assert.equal(toChatLanguageModelsApiType('anthropic', undefined), 'messages');
+  assert.equal(toChatLanguageModelsApiType('openai-chat', 'responses'), 'responses');
+
+  // 模型对象生成：url 为完整 endpoint，id 为 vendor/model
+  const config = toChatLanguageModelsModelConfig(
+    { name: 'demo', baseUrl: 'https://api.example.com/v1', defaultApiStyle: 'openai-chat' } as VendorRecord,
+    { name: 'gpt-x', contextSize: 128000 } as VendorModelRecord,
+  );
+  assert.equal(config.id, 'demo/gpt-x');
+  assert.equal(config.url, 'https://api.example.com/v1/chat/completions');
+  assert.equal(config.apiType, 'chat-completions');
+  assert.equal(config.contextWindow, 128000);
+
+  console.log('PASS chatLanguageModels.json 导出 url 为完整 endpoint 且与运行时一致');
+}
+
 async function runGenericProviderModelEnabledTests(
   configStoreCtor: ConfigStoreCtor,
   genericProviderModule: GenericProviderModule,
@@ -8792,6 +8852,7 @@ async function main(): Promise<void> {
     }
     await runConfigNormalizationTests(ConfigStore);
     await runConfigStoreVendorApiKeySecretStorageTests(ConfigStore);
+    runChatLanguageModelsConfigTests();
     runTokenWindowResolutionTests(baseProviderModule);
     await runGenericProviderContextSizeTests(ConfigStore, genericProviderModule);
     runGenericProviderRequestContentLoggingTests(genericProviderModule);
