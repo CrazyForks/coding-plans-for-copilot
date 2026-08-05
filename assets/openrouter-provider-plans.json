@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-04T10:42:16.143Z",
-  "generatedAtBeijing": "2026年8月4日 18:42:16",
-  "sourceGeneratedAt": "2026-08-04T10:41:10.609Z",
-  "sourceGeneratedAtBeijing": "2026年8月4日 18:41:10",
-  "sourceMetricsGeneratedAt": "2026-08-04T10:41:18.934Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月4日 18:41:18",
+  "generatedAt": "2026-08-05T10:38:06.350Z",
+  "generatedAtBeijing": "2026年8月5日 18:38:06",
+  "sourceGeneratedAt": "2026-08-05T10:36:58.846Z",
+  "sourceGeneratedAtBeijing": "2026年8月5日 18:36:58",
+  "sourceMetricsGeneratedAt": "2026-08-05T10:37:07.206Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月5日 18:37:07",
   "summary": {
     "openrouterProviderCount": 101,
     "metricsProviderCount": 45,
@@ -62,7 +62,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/d0953d5143d14df13e7d45f16974e2e8.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/7c57a472a1b47ae927b329fa8ddbe4a5.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -733,7 +733,7 @@
       ],
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.328/index.js",
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.330/index.js",
         "https://docs.byteplus.com"
       ],
       "pricingPageUrl": "https://www.volcengine.com/activity/codingplan",
@@ -1201,8 +1201,8 @@
       "openrouterName": "Groq",
       "providerId": null,
       "officialWebsiteUrl": "https://groq.com",
-      "pricingPageUrl": "https://groq.com/pricing",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.075 / $1 / $0.30）",
+      "pricingPageUrl": "https://groq.com/",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $650）",
       "blocked": false
     },
     {
