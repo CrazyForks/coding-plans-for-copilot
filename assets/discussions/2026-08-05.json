@@ -1,0 +1,170 @@
+{
+  "date": "2026-08-05",
+  "generatedAt": "2026-08-05T08:36:55.037Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 61,
+    "postsAfterKeywordFilter": 17,
+    "relevantPosts": 4,
+    "discussionsCreated": 4,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "GitHub Copilot": 1,
+      "code.phanthy.com": 1,
+      "yuetongapi.com": 1,
+      "Claude": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1232251",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232251",
+      "title": "突然觉得薅 AI 中转站没意思了",
+      "content": "6 月份 copilot 改收费规则之后，就退订了 copilot ，然后用上了中转站，6-7 月从 V 站、L 站注册了几十家中转站薅羊毛，前一段时间只要看到新的中转站就赶紧充，然后薅上 5 刀、10 刀，有些甚至 30 刀。 但是现在薅不动了，见到中转站活动也不想注册了，我本身开了 20 刀 plus 官方套餐，基本上每次重置 1 天就用完了，然后就用中转站，现在基本上就用固定一两家稳定、费率低的，其他的还有余额都不想用了",
+      "author": "jko123",
+      "createdAt": "2026-08-05T06:43:31.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 1,
+        "supplier": "GitHub Copilot",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户分享了从订阅 GitHub Copilot 转向使用 AI 中转站的经历，并表示现在更倾向于使用稳定且费率低的固定中转站。",
+        "topics": [
+          "订阅",
+          "定价",
+          "使用体验",
+          "中转站",
+          "薅羊毛"
+        ],
+        "planMentioned": "Copilot Plus",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/264",
+      "analyzedAt": "2026-08-05T08:45:15.887Z"
+    },
+    {
+      "id": "v2ex-1232235",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232235",
+      "title": "Claude Code / Codex 纯血，满血 Opus5.0 / Sonnet5 / GPT5.6 。注册回帖即送价值 20 刀积分，本月也可以持续使用",
+      "content": "不是中转站产品，公司的工作台产品，所以早期可以送出积分。主打：满血 + 全模型 + 目前真的免费送 模型全开（官号同款，不降智） 官网地址： https://code.phanthy.com/ 活动地址： https://code.phanthy.com/work/challenge/token-factory/token-factory-2026-r2?source=v2ex&amp;utm_source=v2ex&amp;utm_medium=community&amp;utm_campaign=token_factory_2026_r2&amp;utm_content=v2ex_f0_launch_20260805_01&amp;content_code=v2ex_f0_launch_20260805_01&amp;audience=developer_early_adopter",
+      "author": "sobranie",
+      "createdAt": "2026-08-05T06:03:49.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "code.phanthy.com",
+        "supplierCategory": "aggregator",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.8,
+        "summary": "该产品是公司工作台产品，提供满血版 Claude Code/Codex 等模型，注册回帖即可获得价值 20 刀的积分，且目前可以免费使用。",
+        "topics": [
+          "免费额度",
+          "积分",
+          "模型体验",
+          "注册活动"
+        ],
+        "planMentioned": "价值 20 刀积分",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/265",
+      "analyzedAt": "2026-08-05T08:45:23.026Z"
+    },
+    {
+      "id": "v2ex-1232208",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232208",
+      "title": "Claude Max 号池 0.8 倍率 ，满血 Opus5.0 / Sonnet5 / GPT5.6 / Fable5 全系列，回帖即送 20 刀",
+      "content": "各位 V 友，自家中转站，主打：满血 + 全模型 + 低倍率。 模型全开（官号同款，不降智）： Opus 4.6 / 4.7 / 4.8 / 5.0 Sonnet 4.6 / 5 GPT 5.6 Fable 5 持续上新 倍率： GPT Pro 号池 0.2 Claude Max 号池 0.8 1:1 充值，余额不过期。 专线直连，延迟低，已稳跑 1 个月。 🎁 本帖留言 id 就送 20 刀。 官网： https://yuetongapi.com",
+      "author": "leikaiwei",
+      "createdAt": "2026-08-05T03:45:37.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "yuetongapi.com",
+        "supplierCategory": "aggregator",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.8,
+        "summary": "该帖推销其提供的模型中转服务，包含 Claude Max、GPT 等多种模型的低倍率号池，并提供留言送 20 刀的活动。",
+        "topics": [
+          "模型中转",
+          "定价",
+          "抽奖",
+          "订阅",
+          "倍率"
+        ],
+        "planMentioned": "Claude Max 号池",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/266",
+      "analyzedAt": "2026-08-05T08:45:28.139Z"
+    },
+    {
+      "id": "v2ex-1232198",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232198",
+      "title": "求助 claude code 升级为 2.1.222 后，无法使用自定义供应商",
+      "content": "claude code 好几天不升级，一升级就用不了了，原来 2.1.220 用第三方没问题，升级 2.1.221 2.1.220 提示 API error 和✻ Unable to connect to API (ECONNRESET) 查了半天 没有解决，无代理 和 代理情况下都不行， 是官方限制了？还是需要调整配置？有没有遇到同样问题的 使用 CC-Switch 管理配置",
+      "author": "hcqenjoy2",
+      "createdAt": "2026-08-05T03:19:57.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Claude",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.9,
+        "summary": "用户在Claude Code升级到2.1.222后遇到API连接问题，无法使用自定义供应商，怀疑是官方限制或配置问题。",
+        "topics": [
+          "API错误",
+          "供应商",
+          "升级问题",
+          "Claude Code",
+          "配置调整"
+        ],
+        "planMentioned": "Claude Code 2.1.222",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/267",
+      "analyzedAt": "2026-08-05T08:45:34.859Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1232257: The operation was aborted due to timeout"
+  ]
+}
