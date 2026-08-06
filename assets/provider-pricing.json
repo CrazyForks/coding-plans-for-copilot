@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-05T10:36:58.846Z",
+  "generatedAt": "2026-08-06T05:15:44.994Z",
   "providers": [
     {
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/7c57a472a1b47ae927b329fa8ddbe4a5.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/e5b13746b6e1f3845ebcebdba6ad94c0.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan"
       ],
@@ -68,7 +68,7 @@
             "计费方式: 按 Token 消耗抵扣 Credits",
             "5 小时限额: 无限制",
             "7 天限额: 无限制",
-            "支持模型: 支持文本生成、图像生成、视频生成等多种模型（ 查看完整列表 ）"
+            "支持模型: 支持文本生成、图像生成、视频生成、实时语音对话等多种模型（ 查看完整列表 ）"
           ]
         },
         {
@@ -84,7 +84,7 @@
             "计费方式: 按 Token 消耗抵扣 Credits",
             "5 小时限额: 无限制",
             "7 天限额: 无限制",
-            "支持模型: 支持文本生成、图像生成、视频生成等多种模型（ 查看完整列表 ）"
+            "支持模型: 支持文本生成、图像生成、视频生成、实时语音对话等多种模型（ 查看完整列表 ）"
           ]
         },
         {
@@ -100,7 +100,7 @@
             "计费方式: 按 Token 消耗抵扣 Credits",
             "5 小时限额: 无限制",
             "7 天限额: 无限制",
-            "支持模型: 支持文本生成、图像生成、视频生成等多种模型（ 查看完整列表 ）"
+            "支持模型: 支持文本生成、图像生成、视频生成、实时语音对话等多种模型（ 查看完整列表 ）"
           ]
         },
         {
@@ -1148,7 +1148,6 @@
             "支持智能路由",
             "月使用量: 400M Credits",
             "覆盖多款 MCP 工具",
-            "2 倍 OpenAI Go 套餐用量",
             "多设备登录"
           ]
         },
@@ -1166,8 +1165,7 @@
             "月使用量: 1600M Credits",
             "覆盖多款 MCP 工具",
             "优先 API 速率",
-            "优先技术支持",
-            "多设备登录"
+            "优先技术支持"
           ]
         },
         {
@@ -1184,8 +1182,7 @@
             "月使用量: 8000M Credits",
             "覆盖多款 MCP 工具",
             "优先 API 速率",
-            "优先技术支持",
-            "多设备登录"
+            "优先技术支持"
           ]
         },
         {
@@ -1202,8 +1199,7 @@
             "月使用量: 40000M Credits",
             "覆盖多款 MCP 工具",
             "优先 API 速率",
-            "优先技术支持",
-            "多设备登录"
+            "优先技术支持"
           ]
         }
       ]
