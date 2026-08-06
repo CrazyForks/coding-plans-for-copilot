@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-05T10:38:06.350Z",
-  "generatedAtBeijing": "2026年8月5日 18:38:06",
-  "sourceGeneratedAt": "2026-08-05T10:36:58.846Z",
-  "sourceGeneratedAtBeijing": "2026年8月5日 18:36:58",
-  "sourceMetricsGeneratedAt": "2026-08-05T10:37:07.206Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月5日 18:37:07",
+  "generatedAt": "2026-08-06T10:42:34.537Z",
+  "generatedAtBeijing": "2026年8月6日 18:42:34",
+  "sourceGeneratedAt": "2026-08-06T10:41:22.067Z",
+  "sourceGeneratedAtBeijing": "2026年8月6日 18:41:22",
+  "sourceMetricsGeneratedAt": "2026-08-06T10:41:35.789Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月6日 18:41:35",
   "summary": {
     "openrouterProviderCount": 101,
     "metricsProviderCount": 45,
@@ -62,7 +62,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/7c57a472a1b47ae927b329fa8ddbe4a5.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/1ee2518e9c3170ca0d17de2108dbaaa0.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -762,7 +762,6 @@
             "支持智能路由",
             "月使用量: 400M Credits",
             "覆盖多款 MCP 工具",
-            "2 倍 OpenAI Go 套餐用量",
             "多设备登录"
           ]
         },
@@ -780,8 +779,7 @@
             "月使用量: 1600M Credits",
             "覆盖多款 MCP 工具",
             "优先 API 速率",
-            "优先技术支持",
-            "多设备登录"
+            "优先技术支持"
           ]
         },
         {
@@ -798,8 +796,7 @@
             "月使用量: 8000M Credits",
             "覆盖多款 MCP 工具",
             "优先 API 速率",
-            "优先技术支持",
-            "多设备登录"
+            "优先技术支持"
           ]
         },
         {
@@ -816,8 +813,7 @@
             "月使用量: 40000M Credits",
             "覆盖多款 MCP 工具",
             "优先 API 速率",
-            "优先技术支持",
-            "多设备登录"
+            "优先技术支持"
           ]
         }
       ],
@@ -1067,7 +1063,7 @@
         "https://z.ai/_next/static/chunks/2795-4eb5d2aab1b4d289.js",
         "https://z.ai/_next/static/chunks/8097-9592712ca1e810f4.js",
         "https://z.ai/_next/static/chunks/9857-0d110249d71c6e7f.js",
-        "https://z.ai/_next/static/chunks/364-3db08b326e7e8bc7.js"
+        "https://z.ai/_next/static/chunks/7622-0b5a765bbfbfdcfc.js"
       ],
       "pricingPageUrl": "https://z.ai/subscribe",
       "officialWebsiteUrl": "https://z.ai",
