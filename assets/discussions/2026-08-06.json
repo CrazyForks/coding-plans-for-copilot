@@ -1,0 +1,107 @@
+{
+  "date": "2026-08-06",
+  "generatedAt": "2026-08-06T08:37:01.653Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 53,
+    "postsAfterKeywordFilter": 16,
+    "relevantPosts": 2,
+    "discussionsCreated": 2,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Claude": 1,
+      "GPT Pro": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1232493",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232493",
+      "title": "[分享创造] 没花一分钱 API，我用 Claude 免费额度开发了一个金融指标平台",
+      "content": "缘起 过年的时候，有个老伙计找到我，说他有一个分析股债汇指标的 Excel ，每天要录数据、编排新指标，非常麻烦。他想要一个能承载他分析想法的平台——股市、债市、汇率三个维度的指标，数据更新后自动计算，图表一屏看清趋势。 正好今年 Code Agent 发展迅猛，很多独立开发者开始把项目完全交给大模型来做。我也想试试。 于是我说：行。 需求不复杂，复杂的是\"组织\" 金融指标系统听着唬人，拆开就三层：数据从哪来、指标怎么算、结果怎么展示。 真正的难点在级联计算——基础指标一变，衍生出来的无数个指标要跟着自动更新，不能靠人手工刷新。 这块我倒是不虚：刚毕业那会儿就写过无限级树的应用（拉新分红提成），对这类数据结构门清。 想明白这层，剩下的就是写代码。 我的\"零成本 AI 开发流水线\" 开发主力是 Claude 官网的免费额度，玩法就三条： 额度受限就停下来，隔几小时回来说\"继续\"，上下文还在，代码接着写； 它写一段完整功能，让它打包，下载到本地环境跑一遍，跑过就验收，跑不过把报错丢回去让它改； 我全程的角色是\"验收官\"——不写每一行，但每一行都过我这一关。 听着土，效率是真的高。AI 写代",
+      "author": "yoker",
+      "createdAt": "2026-08-06T07:56:11.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Claude",
+        "supplierCategory": "international-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.98,
+        "summary": "用户通过Claude官网的免费API额度开发了一个金融指标平台，无需花费任何成本，利用AI自动生成代码并验收，最终实现了1292个指标的平台。",
+        "topics": [
+          "免费额度",
+          "Claude",
+          "API",
+          "金融指标",
+          "开发流程"
+        ],
+        "planMentioned": "Claude 免费额度",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/268",
+      "analyzedAt": "2026-08-06T08:45:44.302Z"
+    },
+    {
+      "id": "v2ex-1232427",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232427",
+      "title": "为了让女朋友学 AI，给她买了 MacBook Pro，开了每月 200 刀的 GPT，她却说我一直在压迫她",
+      "content": "最近半年，我对 AI 非常的有热情 基本每天都在试新模型、看项目、折腾 Agent 。前段时间自己做的一个开源项目 Archify ，也意外的火了，快 1 万 star 了，还拿到了赞助 可能正反馈来得太强，让我越来越确信，AI 以后不是少数程序员玩的工具，而会像搜索、Office 一样，成为很多工作的基础能力，一定会是未来的趋势 然后我就想着能不能带着女朋友一起学一下，她是非互联网行业的，基本用不到啥 AI ，工作也比较清闲 于是我给她买了 MacBook Pro ，又开了每月 200 刀的 GPT Pro 电脑是 2 月份买的，然后这期间一直在敦促她去用 AI 做自己喜欢的东西，当然她也没怎么搞 然后最近，我开玩笑说我们也可以一块搞我的项目，她下班早，3 点多下班，没啥事也可以帮我搞搞，然后她就说我压迫她，我也非常的苦恼，因为我觉得我的本意也是为了她好 跟女朋友认识好几年了，认识的时候我是大专，她是双一流，上海编制，工作轻松，下午三点多就下班了，我也是想着她时间多，也没啥事，不如学学 AI ，但是经过这个事我也是挺苦恼的，我觉得我也没有强迫她，但是可能确实她不太喜欢这些，我也在反思",
+      "author": "t20000622yy",
+      "createdAt": "2026-08-06T03:33:57.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "GPT Pro",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.8,
+        "summary": "用户为女友购买 MacBook Pro 和每月 200 刀的 GPT Pro 订阅，但女友感到被压迫，认为用户在强迫她学习 AI。",
+        "topics": [
+          "订阅",
+          "GPT",
+          "压迫",
+          "学习 AI",
+          "MacBook Pro"
+        ],
+        "planMentioned": "GPT Pro",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/269",
+      "analyzedAt": "2026-08-06T08:45:49.581Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1232392: LLM output schema validation failed: supplierCategory: invalid value \"chinese-provider, aggregator\""
+  ]
+}
