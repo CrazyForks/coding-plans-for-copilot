@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-08-06T10:42:34.537Z",
-  "generatedAtBeijing": "2026年8月6日 18:42:34",
-  "sourceGeneratedAt": "2026-08-06T10:41:22.067Z",
-  "sourceGeneratedAtBeijing": "2026年8月6日 18:41:22",
-  "sourceMetricsGeneratedAt": "2026-08-06T10:41:35.789Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月6日 18:41:35",
+  "generatedAt": "2026-08-07T09:01:56.467Z",
+  "generatedAtBeijing": "2026年8月7日 17:01:56",
+  "sourceGeneratedAt": "2026-08-07T09:00:44.734Z",
+  "sourceGeneratedAtBeijing": "2026年8月7日 17:00:44",
+  "sourceMetricsGeneratedAt": "2026-08-07T09:00:56.692Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月7日 17:00:56",
   "summary": {
     "openrouterProviderCount": 101,
-    "metricsProviderCount": 45,
-    "resolvedMetricsProviderCount": 45,
+    "metricsProviderCount": 44,
+    "resolvedMetricsProviderCount": 44,
     "unresolvedMetricsProviderCount": 0,
     "structuredProviderCount": 8,
     "heuristicProviderCount": 8,
     "providersWithPlans": 16,
-    "pendingCount": 29,
+    "pendingCount": 28,
     "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
@@ -33,9 +33,6 @@
           "unit": "月",
           "notes": "已停止新购/续费升级，仅已购用户可用至到期",
           "serviceDetails": [
-            "能力: 支持千问系列模型 Qwen3.5-Plus、Qwen3-Max、Qwen3-Coder-Next、Qwen3-Coder-Plus 和第三方模型 MiniMax M2.5、GLM-5、Kimi-k2.5、GLM-4.7 等，更多模型持续接入中。",
-            "工具: 支持 Qwen Code、Qoder、OpenClaw、OpenCode、Claude Code、Claude Code IDE插件、Codex、Cline、Cursor、Kilo CLI、Kilo Code IDE 插件等工具。",
-            "权益: 更大容量，更快、更稳，专为 AI Coding 场景打造。",
             "状态: 已停止新购，已停止续费与升级",
             "新购停止时间: 2026 年 3 月 20 日 00:00:00（UTC+08:00）",
             "续费升级停止时间: 2026 年 4 月 13 日 18:00:00（UTC+08:00）",
@@ -51,9 +48,6 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "能力: 支持千问系列模型 Qwen3.5-Plus、Qwen3-Max、Qwen3-Coder-Next、Qwen3-Coder-Plus 和第三方模型 MiniMax M2.5、GLM-5、Kimi-k2.5、GLM-4.7 等，更多模型持续接入中。",
-            "工具: 支持 Qwen Code、Qoder、OpenClaw、OpenCode、Claude Code、Claude Code IDE插件、Codex、Cline、Cursor、Kilo CLI、Kilo Code IDE 插件等工具。",
-            "权益: 更大容量，更快、更稳，专为 AI Coding 场景打造。",
             "支持的模型: 支持的模型判断说明 判定规则： 1. 本清单为精确字符串白名单 2. 必须逐字符完全匹配，版本号/子型号任何差异均视为不支持 3. 禁止做版本兼容推理 判定示范： - ❌ \"GLM-5.1 \" → 清单只有 glm-5.0 → 不支持 - ❌ \"qwen3-coder-max \" → 清单无此项 → 不支持 仅支持以下精确版本： 推荐模型： qwen3.7-plus （支持图片理解）、 qwen3.6-plus （支持图片理解）、 kimi-k2.5 （支持图片理解）、 glm-5 、 MiniMax-M2.5 更多模型：qwen3.5-plus（支持图片理解） 、 qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7",
             "用量限制: 每 5 小时 6,000 次请求 每周 45,000 次请求 每月 90,000 次请求",
             "支持的模型: 支持的模型判断说明 判定规则： 1. 本清单为精确字符串白名单 2. 必须逐字符完全匹配，版本号/子型号任何差异均视为不支持 3. 禁止做版本兼容推理 判定示范： - ❌ \"GLM-5.1\" → 清单只有 glm-5.0 → 不支持 - ❌ \"qwen3-coder-max\" → 清单无此项 → 不支持 仅支持以下精确版本： 推荐模型： qwen3.7-plus （支持图片理解）、 qwen3.6-plus （支持图片理解）、 kimi-k2.5 （支持图片理解）、 glm-5 、 MiniMax-M2.5 更多模型：qwen3.5-plus（支持图片理解） 、 qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7"
@@ -62,7 +56,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/1ee2518e9c3170ca0d17de2108dbaaa0.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/1de8e41bf510aea8fb7daee7f0f34c63.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -1085,15 +1079,6 @@
       "blocked": false
     },
     {
-      "slug": "amazon-bedrock",
-      "openrouterName": "Amazon Bedrock",
-      "providerId": null,
-      "officialWebsiteUrl": "https://aws.amazon.com",
-      "pricingPageUrl": "https://aws.amazon.com/pricing/",
-      "reason": "官网价格页探测失败：https://aws.amazon.com/prices: HTTP 404",
-      "blocked": false
-    },
-    {
       "slug": "ambient",
       "openrouterName": "Ambient",
       "providerId": null,
@@ -1108,7 +1093,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://www.atlascloud.ai",
       "pricingPageUrl": "https://www.atlascloud.ai/pricing/models",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.14 / $0.086 / $0.1）",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.134 / $0.1 / $0.086）",
       "blocked": false
     },
     {
