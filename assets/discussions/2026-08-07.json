@@ -1,0 +1,137 @@
+{
+  "date": "2026-08-07",
+  "generatedAt": "2026-08-07T07:16:53.256Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 60,
+    "postsAfterKeywordFilter": 16,
+    "relevantPosts": 3,
+    "discussionsCreated": 3,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "huiai.shop": 1,
+      "Claude, GPT, Codex": 1,
+      "GPT": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1232712",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232712",
+      "title": "送 几个 ChatGPT Plus 成品号和直充",
+      "content": "一个 AI 代充平台 惠 AI ，提供 ChatGPT 、claude 、grok 等 AI 代充会员服务。 最近上线邀请活动： 邀请 15 人：送 GPT Codex 成品号 + Plus 会员 邀请 50 人：送 Plus 会员充值 1 次，充自己账户 有售后支持。 👉 https://www.huiai.shop/ 利益相关：项目方推广，有问题可以直接楼里问。",
+      "author": "vzong",
+      "createdAt": "2026-08-07T06:30:55.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "huiai.shop",
+        "supplierCategory": "aggregator",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "推广一个提供 ChatGPT Plus、Claude 等 AI 会员代充服务的平台，通过邀请活动赠送成品号或充值额度。",
+        "topics": [
+          "定价",
+          "套餐对比",
+          "邀请活动",
+          "Plus会员",
+          "代充"
+        ],
+        "planMentioned": "ChatGPT Plus",
+        "language": "zh",
+        "category": "Announcements"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/270",
+      "analyzedAt": "2026-08-07T07:24:47.711Z"
+    },
+    {
+      "id": "v2ex-1232686",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232686",
+      "title": "站内首发？ Claude 被封禁后 5 天解封",
+      "content": "好像是站内第一个解封的？ 前情提要： Google 老号 IP 乱飞，包括但不限于 GB,SG,US,JP 机场 IP ，A 社用的那个 IP 检测显示这家机场不管 US JP SG 的 IP 所属地都在香港 基本上 V2ray 只开绕过大陆没开全局 一直使用中文 涉嫌 AI 大模型蒸馏相关 坐标 0571 土区订阅 使用过网页直接充值额度 -------------------------------------------------------------------------------- 时间线： 8 月 2 日周日 19:31 被封 （ GMT+8 ） 当天晚上直接邮件发过来的那个链接提交申诉 2026 年 8 月 6 日 12:46 收到邮件解封（ GMT+8 ） ----------------------------------------------------------------------------- 申诉过程： 解封直接邮件那边点链接进去 申诉内容大意就是说自己是一名学生，说明一下自己正在学习大模型的相关知识以及进行论文写作，不知道哪里违反了相关政策，",
+      "author": "michaeldef8750",
+      "createdAt": "2026-08-07T04:25:24.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.8,
+        "supplier": "Claude, GPT, Codex",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.7,
+        "summary": "用户分享了 Claude 账号被封禁后的解封经历，并对比了 GPT Codex 与 Claude 的使用体验。",
+        "topics": [
+          "账号解封",
+          "使用体验",
+          "订阅",
+          "对比"
+        ],
+        "planMentioned": "GPT PRO 5X, Claude 免费版",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/271",
+      "analyzedAt": "2026-08-07T07:24:53.382Z"
+    },
+    {
+      "id": "v2ex-1232681",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232681",
+      "title": "为了让女朋友学 AI，给她买了 MacBook Pro，开了每月 200 刀的 GPT，她却说我一直在压迫她 ... 后续",
+      "content": "昨天发了这篇帖子引起的讨论挺大的： https://www.v2ex.com/t/1232427 女朋友知道这件事了，在这里贴一下后续，以及她发我的当时我们的聊天截图 其实她也是理解我的初心的，就是两个人一起成长进步，一起变好 虽然认识她的时候我还是大专，但是我也成长的很快，我的经历也非常充满曲折，毕业一年从专升本到大厂做 AI ，之前写过一篇经历分享的帖子在 v 站： https://www.v2ex.com/t/1227470?p=2#reply113 就是表达方式不太对，其实图里聊天的时候我也有点开玩笑在里面，确实语气态度给人感觉不对吧 但她的空闲时间本来就是她自己的，她可以休息、刷视频、发呆，也可以什么都不干 我觉得这可能也是昨天帖子里很多 V 友想表达的东西，我确实也没有设身处地的从她的角度出发思考问题，这也是我以后需要注意和考虑的吧",
+      "author": "t20000622yy",
+      "createdAt": "2026-08-07T04:07:36.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "GPT",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.8,
+        "summary": "用户为女友购买MacBook Pro并订阅每月200美元的GPT服务，但女友感到被压迫，用户反思沟通方式可能不当。",
+        "topics": [
+          "定价",
+          "GPT",
+          "套餐对比",
+          "压迫感",
+          "沟通方式"
+        ],
+        "planMentioned": "GPT",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/272",
+      "analyzedAt": "2026-08-07T07:24:58.576Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}
