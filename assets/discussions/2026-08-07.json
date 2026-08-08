@@ -1,6 +1,6 @@
 {
   "date": "2026-08-07",
-  "generatedAt": "2026-08-07T07:16:53.256Z",
+  "generatedAt": "2026-08-08T06:54:18.244Z",
   "config": {
     "sources": [
       "v2ex",
@@ -24,15 +24,17 @@
     "relevanceThreshold": 0.7
   },
   "summary": {
-    "totalPostsFetched": 60,
-    "postsAfterKeywordFilter": 16,
-    "relevantPosts": 3,
-    "discussionsCreated": 3,
+    "totalPostsFetched": 54,
+    "postsAfterKeywordFilter": 14,
+    "relevantPosts": 4,
+    "discussionsCreated": 4,
     "discussionsSkipped": 0,
     "supplierMentions": {
-      "huiai.shop": 1,
-      "Claude, GPT, Codex": 1,
-      "GPT": 1
+      "Codex": 1,
+      "ClaudeCode": 1,
+      "Claude": 1,
+      "OpenAI, DeepSeek": 1,
+      "Opencode, DeepSeek": 1
     }
   },
   "posts": [
@@ -127,6 +129,36 @@
       },
       "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/272",
       "analyzedAt": "2026-08-07T07:24:58.576Z"
+    },
+    {
+      "id": "v2ex-1232772",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232772",
+      "title": "Opencode Go 套餐的 DeepSeek V4 Flash 涨价了，注意用量",
+      "content": "今天用着用着发现 oepncode 客户端下面 变成了 2x usage ，各位注意用量",
+      "author": "calmcabin",
+      "createdAt": "2026-08-07T08:39:19.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 1,
+        "supplier": "Opencode, DeepSeek",
+        "supplierCategory": "aggregator",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "Opencode Go 套餐中的 DeepSeek V4 Flash 涨价了，用户在使用过程中发现用量消耗变快（2x usage），提醒大家注意用量。",
+        "topics": [
+          "定价",
+          "用量",
+          "涨价",
+          "使用体验"
+        ],
+        "planMentioned": "Opencode Go 套餐",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/277",
+      "analyzedAt": "2026-08-08T07:00:14.695Z"
     }
   ],
   "failures": [

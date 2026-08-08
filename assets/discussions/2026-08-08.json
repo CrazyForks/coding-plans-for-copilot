@@ -1,0 +1,169 @@
+{
+  "date": "2026-08-08",
+  "generatedAt": "2026-08-08T06:54:18.244Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 54,
+    "postsAfterKeywordFilter": 14,
+    "relevantPosts": 4,
+    "discussionsCreated": 4,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Codex": 1,
+      "ClaudeCode": 1,
+      "Claude": 1,
+      "OpenAI, DeepSeek": 1,
+      "Opencode, DeepSeek": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1232887",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232887",
+      "title": "自建 Codex Pro 20x 号池中转站",
+      "content": "最近和朋友一起花了好几千买了几个 Codex Pro 20x 正价号，搭建账号池，开始做中转站。 整体用的是 Sub2Api + 新加坡服务器 + Codex Pro 20x 的组合，我们也一直在用，感觉还是比较稳定，独立开发者们如果有想使用 Codex 或 GPT 模型，可以来注册使用一下 这里贴一个优惠码的注册链接，注册即送 1 刀，可以体验一下。https://one-token.icu/register?promo=V2EX",
+      "author": "baochuquan",
+      "createdAt": "2026-08-08T04:53:01.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Codex",
+        "supplierCategory": "international-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "作者分享了自建 Codex Pro 20x 账号池的经验，并提供优惠码链接，表示使用体验稳定且值得尝试。",
+        "topics": [
+          "定价",
+          "Codex",
+          "账号池",
+          "优惠码",
+          "体验"
+        ],
+        "planMentioned": "Codex Pro 20x",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/273",
+      "analyzedAt": "2026-08-08T06:59:59.893Z"
+    },
+    {
+      "id": "v2ex-1232879",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232879",
+      "title": "Claude Code 能不能接便宜点的 Claude 中转？官方有点用不起了",
+      "content": "最近开始认真用 Claudecode 官方 API 按量算下来有点顶不住。主要是我平时用得比较多，改几个文件、跑几轮测试，就几块十几块出去了有点遭不住 看了一下，很多人会给 ClaudeCode 接中转，但我对这块还不太熟。是直接改 base_url 和 api_key 就行，还是还要改其他配置？模型这块大家一般用 Sonnet 还是 Opus ？ 我主要是拿来写代码、看项目，不太想每次用之前还研究半天配置。有没有长期这么用的朋友，分享下你们现在的用法？ 如果只是个人开发和日常写代码，一个月大概多少额度比较够用？",
+      "author": "XIAOemma",
+      "createdAt": "2026-08-08T04:03:00.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "ClaudeCode",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.7,
+        "summary": "用户对ClaudeCode官方API的高成本表达不满，询问中转方案、API配置建议以及个人开发的月度预算需求。",
+        "topics": [
+          "定价",
+          "ClaudeCode",
+          "套餐对比",
+          "API 配置"
+        ],
+        "planMentioned": "ClaudeCode",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/274",
+      "analyzedAt": "2026-08-08T07:00:04.270Z"
+    },
+    {
+      "id": "v2ex-1232869",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232869",
+      "title": "Claude Code 用中转，最烦的是延迟还是 502？",
+      "content": "最近这几天一直在折腾 Claude Code ，中间试了几个中转，体验有点参差不齐。 我现在最大的感受是：价格便宜确实有吸引力，但真用来写代码的时候，稳定性比价格重要太多了。 遇到比较多的是这几种情况： streaming 输出到一半突然断了 偶尔 502 ，重试之后上下文有时候接不上 晚上延迟明显比白天高 有的看着很便宜，但实际扣费规则没那么直观 还有一种比较玄学，就是同一个模型名，代码质量感觉不太一样 现在有点纠结，到底是继续找一个稳定点的中转，还是干脆直连官方省心。 或者有什么其它的方法可以解决吗（想省钱主要是要不然 claude 太贵了）",
+      "author": "Cokepix",
+      "createdAt": "2026-08-08T03:24:15.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Claude",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.9,
+        "summary": "用户分享使用Claude Code的体验，主要抱怨稳定性问题（延迟、502错误、上下文断开）和价格透明度不足，尽管价格便宜但实际使用中存在多种痛点。",
+        "topics": [
+          "定价",
+          "Claude Code",
+          "稳定性",
+          "延迟",
+          "502错误",
+          "中转"
+        ],
+        "planMentioned": "Claude Code",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/275",
+      "analyzedAt": "2026-08-08T07:00:08.171Z"
+    },
+    {
+      "id": "v2ex-1232858",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232858",
+      "title": "codex 接 deepseek 的 api 能用么？",
+      "content": "openai 成本感觉有点高",
+      "author": "revival83",
+      "createdAt": "2026-08-08T02:31:25.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.8,
+        "supplier": "OpenAI, DeepSeek",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "用户询问 Codex 是否可以使用 DeepSeek 的 API，并提到 OpenAI 的成本较高。",
+        "topics": [
+          "API使用",
+          "成本",
+          "模型替换"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/276",
+      "analyzedAt": "2026-08-08T07:00:11.772Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}
