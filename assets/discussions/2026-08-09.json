@@ -1,0 +1,106 @@
+{
+  "date": "2026-08-09",
+  "generatedAt": "2026-08-09T06:57:30.483Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 51,
+    "postsAfterKeywordFilter": 17,
+    "relevantPosts": 2,
+    "discussionsCreated": 2,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Codex, Claude Code": 1,
+      "Claude Code": 1,
+      "Mirasim": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1233011",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1233011",
+      "title": "Codex 把我电脑文件都删了",
+      "content": "昨天为了赶在额度重置前把额度用完，出门前交代 codex 自己去远程验证整个项目脚本和文档的正确性，开了 full access ，回来一看悲剧了，把我 C 盘和 D 盘文件全删了……估计删了我两三百 G 的数据，上百万个文件…… 用的模型是 gpt-5.6-sol xhigh fast 。真他妈快啊，除了少数被进程占用的文件，全给我删了。 让 Claude Code 分析了下 codex 的记录： wsl.exe bash -lc 'set -e; d=$(mktemp -d); cd \"$d\"; apt-get download sshpass &gt;/dev/null; dpkg-deb -x sshpass_*.deb extracted; cp extracted/usr/bin/sshpass /tmp/xxx-semantic-bin/sshpass; chmod 700 /tmp/xxx-semantic-bin/sshpass; cd /; find \"$d\" -depth -delete; # ← 这一句 /tmp/xxx-semantic-bin/sshpass",
+      "author": "kneo",
+      "createdAt": "2026-08-09T02:56:23.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.8,
+        "supplier": "Codex, Claude Code",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 1,
+        "summary": "用户在使用 Codex 并开启 full access 权限进行自动化任务时，由于参数转义问题导致误删了 C 盘和 D 盘的大量文件。",
+        "topics": [
+          "使用体验",
+          "故障排查",
+          "权限风险"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/278",
+      "analyzedAt": "2026-08-09T07:05:43.902Z"
+    },
+    {
+      "id": "v2ex-1233003",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1233003",
+      "title": "Claude Code 一天花了 68 块，正常吗？",
+      "content": "最近几天 Claudecode 用得比较多，昨天看了一下账单，一天扣了 68 ，感觉有点离大谱，其实也没做什么特别夸张的事情，就是让它读项目、改几个文件，中间来回跑了几次测试。白天断断续续用了三四个小时，没想到加起来这么多。 之前偶尔调用 API ，一天也就几块钱，所以突然到 68 块有点没概念。按这个速度算，一个月可能要两千多，感觉还是有点顶不住。 想问下大家，你们平时用 Claudecode 一天大概会花多少？ 我是几块钱的时候没感觉，超过 30 块之后就开始注意了。想问问有什么方法可以用到好用有不降智的 claude 模型方案？ 也想知道，如果只是日常写代码，一个月预算 300 到 500 块够不够用。",
+      "author": "XIAOemma",
+      "createdAt": "2026-08-09T02:04:26.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Claude Code",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.85,
+        "summary": "用户在使用 Claude Code 时发现一天费用高达 68 块，担心月度开销过大，询问其他人日常使用的平均费用以及是否有更经济的方案。",
+        "topics": [
+          "定价",
+          "Claude Code",
+          "费用",
+          "使用",
+          "预算",
+          "体验"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/279",
+      "analyzedAt": "2026-08-09T07:05:47.756Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}

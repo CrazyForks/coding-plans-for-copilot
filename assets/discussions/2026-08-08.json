@@ -1,6 +1,6 @@
 {
   "date": "2026-08-08",
-  "generatedAt": "2026-08-08T06:54:18.244Z",
+  "generatedAt": "2026-08-09T06:57:30.483Z",
   "config": {
     "sources": [
       "v2ex",
@@ -24,17 +24,15 @@
     "relevanceThreshold": 0.7
   },
   "summary": {
-    "totalPostsFetched": 54,
-    "postsAfterKeywordFilter": 14,
-    "relevantPosts": 4,
-    "discussionsCreated": 4,
+    "totalPostsFetched": 51,
+    "postsAfterKeywordFilter": 17,
+    "relevantPosts": 5,
+    "discussionsCreated": 5,
     "discussionsSkipped": 0,
     "supplierMentions": {
-      "Codex": 1,
-      "ClaudeCode": 1,
-      "Claude": 1,
-      "OpenAI, DeepSeek": 1,
-      "Opencode, DeepSeek": 1
+      "Codex, Claude Code": 1,
+      "Claude Code": 1,
+      "Mirasim": 1
     }
   },
   "posts": [
@@ -159,6 +157,37 @@
       },
       "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/276",
       "analyzedAt": "2026-08-08T07:00:11.772Z"
+    },
+    {
+      "id": "v2ex-1232965",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1232965",
+      "title": "[薅羊毛] mirasim（注册账号赠送额度：等于 Codex Pro 5× + Claude Code Max 5×）",
+      "content": "下载地址： https://mirasim.ai/ 前 1000 人注册(需要邀请码注册)送 12 个月 $89/月套餐，额度差不多为 Codex Pro 5×和 Claude Code Max 5×。 邀请 10 人继续升级到 $199/月套餐 注意：不是送 Claude / ChatGPT 官方账号，模型额度只能在 Mirasim 里用。 感兴趣可以去试一下。 邀请码：MIRA-AB7G-TKYM-YR0N ，还有 3 个名额",
+      "author": "fltv",
+      "createdAt": "2026-08-08T18:19:00.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Mirasim",
+        "supplierCategory": "international-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "Mirasim offers a 12-month $89/month coding plan with prepaid credits equivalent to Codex Pro 5× and Claude Code Max 5× for the first 1000 registrants. Users can upgrade to a $199/month plan by inviting 10 people.",
+        "topics": [
+          "套餐对比",
+          "额度",
+          "邀请码",
+          "注册赠送",
+          "订阅"
+        ],
+        "planMentioned": "$89/月套餐, $199/月套餐",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/280",
+      "analyzedAt": "2026-08-09T07:05:51.759Z"
     }
   ],
   "failures": [
