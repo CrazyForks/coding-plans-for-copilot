@@ -1,0 +1,138 @@
+{
+  "date": "2026-08-10",
+  "generatedAt": "2026-08-10T07:42:40.382Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 59,
+    "postsAfterKeywordFilter": 15,
+    "relevantPosts": 3,
+    "discussionsCreated": 3,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Claude": 1,
+      "GPT, Grok, Claude": 1,
+      "阿里百炼 (Aliyun Baidu Yuanlian)": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1233262",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1233262",
+      "title": "为什么 Claude 容易封号？ IDE 里的 Claude 有什么不一样？",
+      "content": "想问下大家，为什么 Claude 比较容易封号？ 现在 GitHub Copilot 、Kiro 、Cursor 、Windsurf 等 IDE 也都能用 Claude ，那直接用这些 IDE 里的 Claude ，和官方 Claude 有什么区别？ 是接口、账号机制，还是模型使用限制不一样？ 如果主要是用来写代码，大家更推荐直接用 Claude ，还是用 IDE 里的 Claude ？",
+      "author": "ccai",
+      "createdAt": "2026-08-10T06:59:20.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "Claude",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户询问Claude为何容易被封号，并比较IDE集成Claude与官方Claude的差异，询问推荐使用方式。",
+        "topics": [
+          "Claude",
+          "封号",
+          "IDE",
+          "定价",
+          "对比",
+          "推荐"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/281",
+      "analyzedAt": "2026-08-10T07:50:02.210Z"
+    },
+    {
+      "id": "v2ex-1233252",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1233252",
+      "title": "[纯血] GPT， Grok 中转站，支持 GPT5.5, GPT5.6, Claude，回帖送 20 刀",
+      "content": "https://code.phanthy.com/r/rmqE5FWUIiRVEWUtp4iAGSR73bFDSCpB 需要下载软件使用，稳定性优先 支持多种 GPT 、CLAUDE 模型： GPT-5.6 GPT-IMAGE-1 GPT-IMAGE-2 CLAUDE-OPUS-4.8 留言附手机尾号 ，赠送 20 刀额度。八月份参加活动可以支持一个程序员高强度持续使用，活动链接： https://code.phanthy.com/work/challenge/token-factory/token-factory-2026-r2?source=v2ex&amp;utm_source=v2ex&amp;utm_medium=community&amp;utm_campaign=token_factory_2026_r2&amp;utm_content=v2ex_f0_launch_20260810_01&amp;content_code=v2ex_f0_launch_20260810_01&amp;audience=developer_early_adopter",
+      "author": "sobranie",
+      "createdAt": "2026-08-10T06:30:36.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.8,
+        "supplier": "GPT, Grok, Claude",
+        "supplierCategory": "aggregator",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "提供 GPT 和 Claude 等模型的转站服务，支持多种模型，并有赠送 20 刀额度的活动。",
+        "topics": [
+          "中转站",
+          "模型支持",
+          "赠送额度",
+          "活动"
+        ],
+        "planMentioned": "20 刀额度",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/282",
+      "analyzedAt": "2026-08-10T07:50:08.047Z"
+    },
+    {
+      "id": "v2ex-1233208",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1233208",
+      "title": "阿里百炼个人版 token plan，玩不起就不要搞 token plan",
+      "content": "受到网上各种百炼个人 token plan 的软文的欺骗，说什么特别划算，能力很强之类的。 于是 7 月 27 日心动买了 139 元周限制 10000credit 的套餐。那时候还是预览版的 qwen3.8max ，测试下来感觉能力就 glm5.2 上下，积分消耗却很大，基本上一个下午用了 30%左右，大概 4-5 天就用完了。 然后下一周，他们在 8 月 3 日重置了额度。并且在我不知道的情况下把 qwen3.8max 预览版的调用切换成了 qwen3.8 正式版的调用，一个功能的实现，一下子花了周限制的 50%以上，然后功能还是做错的。看在他们送了一张重置卡的情况下，这我忍了。 接下来，才是最恶心的操作，今天 8 月 10 日了，按照他们的规则，应该是要重置额度了。but 他们并没有，要我等到 8 月 12 日周三晚上 6 点多才重置额度。真是店大欺客。 阿里百炼，你要是真给不起，就不要搞什么 token plan ，真是又当又立。对了，这玩意还不支持退款，霸王条款，用量怎么消耗也没说清楚。完全就是它说什么就什么。 再见，阿里百炼，再也不见！！！！！！",
+      "author": "SuAlien",
+      "createdAt": "2026-08-10T03:57:57.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "阿里百炼 (Aliyun Baidu Yuanlian)",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.98,
+        "summary": "用户因阿里百炼的token plan高额消耗、模型版本更换导致费用激增、额度延迟重置和无退款政策而表达强烈不满，最终决定终止服务。",
+        "topics": [
+          "定价",
+          "套餐对比",
+          "退款",
+          "故障排查",
+          "订阅"
+        ],
+        "planMentioned": "139元周限制10000credit套餐",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/283",
+      "analyzedAt": "2026-08-10T07:50:12.939Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}
