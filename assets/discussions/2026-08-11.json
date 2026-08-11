@@ -1,0 +1,138 @@
+{
+  "date": "2026-08-11",
+  "generatedAt": "2026-08-11T07:08:45.307Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 53,
+    "postsAfterKeywordFilter": 10,
+    "relevantPosts": 3,
+    "discussionsCreated": 3,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "GitHub Copilot": 1,
+      "OpenAI": 1,
+      "DeepSeek, opencode go": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1233549",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1233549",
+      "title": "现在还有哪些性价比比较高的套餐？预算大概 20 刀/月",
+      "content": "如题，之前用的是 Github Copilot 在改套餐之前使劲蹬都用不完结果改了之后最多两天就烧完了，感觉也是时候换个别家的试试了，有哪些推荐的？ 预算大概 20 刀乐每个月，要求模型最好给力些并且别降智，有性价比最好",
+      "author": "OneLiteCore",
+      "createdAt": "2026-08-11T06:33:56.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "GitHub Copilot",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.85,
+        "summary": "用户对 GitHub Copilot 的使用体验不满意，想找性价比高、模型好、不会降智、预算约20元/月的替代方案。",
+        "topics": [
+          "定价",
+          "Copilot",
+          "套餐对比",
+          "模型",
+          "降智",
+          "性价比",
+          "预算"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/284",
+      "analyzedAt": "2026-08-11T07:13:30.586Z"
+    },
+    {
+      "id": "v2ex-1233547",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1233547",
+      "title": "大家在 Vibe Coding 时是如何 Review AI 生成的代码并反馈给 AI 的？",
+      "content": "目前我在使用 CODEX 等 AI Agent 执行任务时，通常不会一直盯着它输出，而是会思考下一步需求或者补充上一轮的细节，并提前准备下一轮的 prompt 。 目前我的流程大概是： AI Agent 执行当前任务 我在旁边记录下一步想让 AI 做的事情（现在是开一个便签之类的工具记录下来，有时候还得手动附上代码的文件名和行号） AI 完成任务后，我 review 它生成的代码 如果发现问题，先修复问题。如果上一步 OK 了，就在便签里找下一步该发送给 AI 的 prompt 。 感觉我的心态有点像不让 AI 歇着的感觉，总感觉这样效率更好。 但是用便签或者文本文件来记录下一步的 prompt 真的很不顺手，理想情况下，我希望有一个工具： 可以直接在代码位置添加 comment comment 自动关联文件和行号 支持不同类型的 comment ，例如： [issue] [question] [improve] 一键导出可以发给 AI Agent 的文本 目前我发现 tuicr： https://github.com/agavra/tuicr 这个工具比较接近： 支持 diff re",
+      "author": "uaoin",
+      "createdAt": "2026-08-11T06:29:07.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "OpenAI",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.7,
+        "summary": "用户分享使用 CODEX（OpenAI）进行 AI 代码生成的工作流程，强调代码审查和 prompt 管理的挑战，并寻求更高效的工具支持。",
+        "topics": [
+          "AI代码审查",
+          "CODEX",
+          "tuicr",
+          "prompt管理",
+          "代码反馈"
+        ],
+        "planMentioned": "CODEX",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/285",
+      "analyzedAt": "2026-08-11T07:13:35.416Z"
+    },
+    {
+      "id": "v2ex-1233490",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1233490",
+      "title": "opencode go 上下文",
+      "content": "opencode go 订阅的 deepseek-flash-v4 上下文窗口好像不对，160k 左右就超了",
+      "author": "ddddad",
+      "createdAt": "2026-08-11T03:38:33.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "DeepSeek, opencode go",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.8,
+        "summary": "opencode go 订阅的 deepseek-flash-v4 上下文窗口好像不对，160k 左右就超了",
+        "topics": [
+          "上下文窗口",
+          "订阅",
+          "故障排查"
+        ],
+        "planMentioned": "deepseek-flash-v4",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/286",
+      "analyzedAt": "2026-08-11T07:13:38.763Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}
