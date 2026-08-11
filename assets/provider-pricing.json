@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T03:42:22.215Z",
+  "generatedAt": "2026-08-11T08:58:29.337Z",
   "providers": [
     {
       "provider": "aliyun-ai",
@@ -1240,9 +1240,7 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "用量限制: 每 5 小时：最多约 1,200 次请求 每周：最多约 9,000 次请求 每订阅月：最多约 18,000 次请求",
-            "支持模型: 选用 GLM-5、Kimi-K2.5、MiniMax-M2.5 等多个模型",
-            "适配工具: 支持使用 OpenClaw、CodeBuddy、Claude Code、Cline、Cursor 等主流编程工具"
+            "用量限制: 每 5 小时：最多约 1,200 次请求 每周：最多约 9,000 次请求 每订阅月：最多约 18,000 次请求"
           ]
         },
         {
@@ -1254,9 +1252,7 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "用量限制: 每 5 小时：最多约 6,000 次请求 每周：最多约 45,000 次请求 每订阅月：最多约 90,000 次请求",
-            "支持模型: 选用 GLM-5、Kimi-K2.5、MiniMax-M2.5 等多个模型",
-            "适配工具: 支持使用 OpenClaw、CodeBuddy、Claude Code、Cline、Cursor 等主流编程工具"
+            "用量限制: 每 5 小时：最多约 6,000 次请求 每周：最多约 45,000 次请求 每订阅月：最多约 90,000 次请求"
           ]
         }
       ]
