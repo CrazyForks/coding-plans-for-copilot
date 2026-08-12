@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-11T08:59:37.157Z",
-  "generatedAtBeijing": "2026年8月11日 16:59:37",
-  "sourceGeneratedAt": "2026-08-11T08:58:29.337Z",
-  "sourceGeneratedAtBeijing": "2026年8月11日 16:58:29",
-  "sourceMetricsGeneratedAt": "2026-08-11T08:58:39.472Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月11日 16:58:39",
+  "generatedAt": "2026-08-12T09:14:05.259Z",
+  "generatedAtBeijing": "2026年8月12日 17:14:05",
+  "sourceGeneratedAt": "2026-08-12T09:12:51.810Z",
+  "sourceGeneratedAtBeijing": "2026年8月12日 17:12:51",
+  "sourceMetricsGeneratedAt": "2026-08-12T09:13:03.066Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月12日 17:13:03",
   "summary": {
-    "openrouterProviderCount": 101,
+    "openrouterProviderCount": 102,
     "metricsProviderCount": 44,
     "resolvedMetricsProviderCount": 44,
     "unresolvedMetricsProviderCount": 0,
@@ -56,7 +56,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/1de8e41bf510aea8fb7daee7f0f34c63.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/f7735e03eacdee9cfe698675130b0931.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -400,8 +400,7 @@
           "unit": "月",
           "notes": "来源: https://mistral.ai/pricing/",
           "serviceDetails": [
-            "More access and usage.",
-            "More messages and web searches."
+            "官网价格页参考，具体权益以官网说明为准"
           ]
         }
       ],
@@ -727,7 +726,7 @@
       ],
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.330/index.js",
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.331/index.js",
         "https://docs.byteplus.com"
       ],
       "pricingPageUrl": "https://www.volcengine.com/activity/codingplan",
@@ -1046,15 +1045,21 @@
         "https://z.ai/_next/static/chunks/3044-6797ade31e7c5e31.js",
         "https://z.ai/_next/static/chunks/4504-43a26f5d45ca29f6.js",
         "https://z.ai/_next/static/chunks/7014-692aa7a92245c187.js",
+        "https://z.ai/_next/static/chunks/2919-f2519c8fe201977d.js",
+        "https://z.ai/_next/static/chunks/6286-7df2d2bad542fe36.js",
+        "https://z.ai/_next/static/chunks/1914-37045dad3280a46b.js",
         "https://z.ai/_next/static/chunks/3423-5e5dadfa4def21c2.js",
         "https://z.ai/_next/static/chunks/3421-57890b870b950d55.js",
-        "https://z.ai/_next/static/chunks/3287-a6af587f69831bff.js",
+        "https://z.ai/_next/static/chunks/3371-b018660c8971a02e.js",
+        "https://z.ai/_next/static/chunks/9571-09b09f1ff6f94c03.js",
         "https://z.ai/_next/static/chunks/1700-17e4fa831373a480.js",
+        "https://z.ai/_next/static/chunks/282-ad9a268130a1b874.js",
         "https://z.ai/_next/static/chunks/6499-f4abcb651de5502f.js",
+        "https://z.ai/_next/static/chunks/9129-33f23a013691f17e.js",
         "https://z.ai/_next/static/chunks/1591-0db469822f8dae9d.js",
         "https://z.ai/_next/static/chunks/1433-5ac5405c76c96226.js",
-        "https://z.ai/_next/static/chunks/6957-76dcb92e2a802f9f.js",
-        "https://z.ai/_next/static/chunks/9857-8cf7934600fe2fac.js",
+        "https://z.ai/_next/static/chunks/9649-118bf2538b2424be.js",
+        "https://z.ai/_next/static/chunks/9857-166ab5ce8c384250.js",
         "https://z.ai/_next/static/chunks/8519-13a567e64c5c6084.js"
       ],
       "pricingPageUrl": "https://z.ai/subscribe",

@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-12T04:06:08.072Z",
+  "generatedAt": "2026-08-12T09:12:51.810Z",
   "providers": [
     {
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/d29daf9a76ee7b2490c452a9822eb09f.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/f7735e03eacdee9cfe698675130b0931.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan"
       ],
@@ -1255,9 +1255,7 @@
             "用量限制: 每 5 小时：最多约 6,000 次请求 每周：最多约 45,000 次请求 每订阅月：最多约 90,000 次请求"
           ]
         }
-      ],
-      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
-      "staleFailure": "tencent-cloud-ai: fetch failed; Playwright fallback failed: page.goto: Timeout 12000ms exceeded. Call log: - navigating to \"https://cloud.tencent.com/document/product/1823/130092\", waiting until \"commit\""
+      ]
     },
     {
       "provider": "tencent-cloud-token-plan",
@@ -1332,7 +1330,7 @@
       "provider": "volcengine-ai",
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.330/index.js"
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.331/index.js"
       ],
       "plans": [
         {
@@ -1641,7 +1639,6 @@
     }
   ],
   "failures": [
-    "zhipu-ai: Task timed out after 30000ms",
-    "tencent-cloud-ai: fetch failed; Playwright fallback failed: page.goto: Timeout 12000ms exceeded.\nCall log:\n  - navigating to \"https://cloud.tencent.com/document/product/1823/130092\", waiting until \"commit\"\n"
+    "zhipu-ai: Task timed out after 30000ms"
   ]
 }
