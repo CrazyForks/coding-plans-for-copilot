@@ -80,7 +80,7 @@
 2. 若公开 API 新增 usage/context 上报能力：
    - 恢复原生 Context Window 分子维护
    - 评估是否可以移除或降级 `CodingPlans Context` 状态栏
-   - 同步更新 `README.md`、`README_en.md`、`DEV.md`、`docs/copilot-chat-context-window.md`
+   - 同步更新 `README.md`、`README.zh-CN.md`、`DEV.md`、`docs/copilot-chat-context-window.md`
 3. 若仍无公开 API：
    - 继续保持 `provideTokenCount = 0`
    - 继续以状态栏承载最近一次真实 usage

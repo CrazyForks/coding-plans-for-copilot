@@ -14,13 +14,13 @@ applyTo: "scripts/**,pages/**,assets/**,tests/pages/**,tests/scripts/**"
 
 ## 契约
 
-- 字段结构须与 [AGENTS.md](../../AGENTS.md)「脚本与页面契约」一致；改输出须同步 `pages/app.js` 与 `scripts/serve-pricing-page.js` 路由。
+- 字段结构须与 [AGENTS.md](../../AGENTS.md)「Script and Page Contracts / 脚本与页面契约」一致；改输出须同步 `pages/app.js` 与 `scripts/serve-pricing-page.js` 路由。
 - **禁止**手改 `assets/*.json` 做正式数据更新；改抓取逻辑后由脚本写入。
 - 脚本须支持 `-h` / help。
 
 ## 网页抓取
 
-- 供应商定价页、动态渲染页：优先 **Playwright MCP**；见根目录 `AGENTS.md`「价格页面获取」。
+- 供应商定价页、动态渲染页：优先 **Playwright MCP**；见根目录 `AGENTS.md`「Price Page Fetching / 价格页面获取」。
 
 ## 校验
 

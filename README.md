@@ -1,90 +1,99 @@
-# 编码套餐 for Copilot
+<div align="center">
 
-![编码套餐使用演示](https://raw.githubusercontent.com/jqknono/coding-plans-for-copilot/main/assets/tutorial.gif)
+[**English**](README.md) · [**简体中文**](README.zh-CN.md)
 
-**一键切换多厂商 AI 模型，打破 Copilot 套餐限制。**
+</div>
 
-支持智谱、Kimi、讯飞、火山引擎、MiniMax、百度千帆、腾讯云、京东云、快手 KAT、X-AIO、Compshare、阿里云、小米 MiMo、DeepSeek 等国产大厂，以及**任何**遵循 OpenAI Chat、OpenAI Responses 或 Anthropic 协议风格的供应商。无需改变使用习惯，直接在 VS Code Copilot Chat 中调用。
+# Coding Plans for Copilot
 
-本插件定位是通用协议适配器，而不是 Copilot 私有 endpoint 的复刻。它只发送 OpenAI/Anthropic 兼容 API 能理解的公开字段，避免依赖 Copilot 私有请求字段；因此可以兼容 Codex、Claude Code 等反代出的 API，而原生 VS Code/Copilot Chat 内置请求通常不能直接兼容这类反代入口。
+![Coding Plans walkthrough](https://raw.githubusercontent.com/jqknono/coding-plans-for-copilot/main/assets/tutorial.gif)
 
----
+**Switch between multiple AI model vendors with one click, breaking Copilot plan limitations.**
 
-## 核心特性
+Supports domestic major vendors like Zhipu, Kimi, iFlytek, Volcengine, MiniMax, Baidu Qianfan, Tencent Cloud, JD Cloud, Kuaishou KAT, X-AIO, Compshare, Alibaba Cloud, Xiaomi MiMo, DeepSeek, as well as **any** vendor that follows OpenAI Chat, OpenAI Responses, or Anthropic protocol styles. No need to change usage habits; call them directly in VS Code Copilot Chat.
 
-- **多协议统一接入**：支持 OpenAI Chat（`/chat/completions`）、OpenAI Responses（`/responses`）、Anthropic（`/messages`）三种协议风格，适配任意兼容供应商。
-- **通用请求格式**：不使用 Copilot 私有请求字段，优先发送公开兼容字段，适配 Codex、Claude Code 等反代出的 OpenAI/Anthropic 风格 API。
-- **Anthropic 协议优先**：内置供应商默认使用 Anthropic 风格端点（`/messages`）。
-- **零学习成本**：完全集成到 VS Code Copilot Chat，不改变任何操作习惯。
-- **灵活模型管理**：支持动态拉取 `/models` 端点，也可自定义模型列表。
-- **智能 Commit 生成**：基于 Git 变更自动生成符合 Conventional Commits 规范的提交消息。
-- **编码套餐看板**：访问 [GitHub Pages 看板](https://jqknono.github.io/coding-plans-for-copilot/) 查看多家编码套餐月费与权益，以及 OpenRouter 供应商性能指标。看板每日自动更新，支持多维度筛选与 URL 状态同步。
-- **密钥安全**：API Key 使用 VS Code Secret Storage 本地保存，不上云不共享。
+This extension is a general protocol adapter, not a clone of Copilot's private endpoint protocol. It sends public OpenAI/Anthropic-compatible fields and avoids Copilot-private request fields; as a result, it can work with Codex, Claude Code, and similar reverse-proxied APIs that native VS Code/Copilot Chat endpoint requests usually cannot call directly.
 
 ---
 
-## 快速开始
+## Core Features
 
-### 安装
+- **Multi-Protocol Unified Access**: Supports OpenAI Chat (`/chat/completions`), OpenAI Responses (`/responses`), and Anthropic (`/messages`) three protocol styles, adapting to any compatible vendor.
+- **General Request Format**: Avoids Copilot-private request fields and sends public compatible fields, enabling Codex, Claude Code, and similar reverse-proxied OpenAI/Anthropic-style APIs.
+- **Anthropic Protocol First**: Built-in vendors default to Anthropic-style endpoints (`/messages`).
+- **Zero Learning Curve**: Fully integrated into VS Code Copilot Chat without changing any operational habits.
+- **Flexible Model Management**: Supports dynamic fetching from `/models` endpoint, or custom model lists.
+- **Intelligent Commit Generation**: Automatically generates Conventional Commits-compliant commit messages based on Git changes.
+- **Coding Plans Dashboard**: Visit [GitHub Pages Dashboard](https://jqknono.github.io/coding-plans-for-copilot/) to view monthly fees and benefits from multiple coding plans, as well as OpenRouter vendor performance metrics. The dashboard updates daily with automated scraping, multi-dimensional filtering, and URL state sync.
+- **Key Security**: API Keys are stored locally using VS Code Secret Storage, not uploaded to the cloud or shared.
 
-**推荐方式**：在 VS Code 扩展市场搜索「编码套餐」或 `Coding Plans for Copilot` 直接安装。
+---
 
-#### 方式一：VS Code 内安装（推荐）
+## Quick Start
 
-1. 打开 VS Code
-2. 按 `Ctrl+Shift+X` 打开扩展面板
-3. 在搜索框中输入 `Coding Plans for Copilot` 或 `编码套餐`
-4. 点击 **Install** 安装
-5. 安装完成后，按 `Ctrl+Shift+P` 输入 `编码套餐` 即可看到相关命令
+### Installation
 
-#### 方式二：命令行安装
+**Recommended Method**: Search "Coding Plans" or `Coding Plans for Copilot` directly in the VS Code Marketplace.
+
+#### Method 1: Install within VS Code (Recommended)
+
+1. Open VS Code
+2. Press `Ctrl+Shift+X` to open the Extensions panel
+3. Type `Coding Plans for Copilot` in the search box
+4. Click **Install** to install
+5. After installation, press `Ctrl+Shift+P` and type `Coding Plans` to see related commands
+
+#### Method 2: Command Line Installation
 
 ```bash
 code --install-extension techfetch-dev.coding-plans-for-copilot
 ```
 
-#### 方式三：从市场页面安装
+#### Method 3: Install from Marketplace Page
 
-👉 [VS Code 扩展市场直达链接](https://marketplace.visualstudio.com/items?itemName=techfetch-dev.coding-plans-for-copilot)
+👉 [VS Code Marketplace Direct Link](https://marketplace.visualstudio.com/items?itemName=techfetch-dev.coding-plans-for-copilot)
 
-点击市场页面上的 **Install** 按钮，会自动在 VS Code 中打开扩展并安装。
+Click the **Install** button on the marketplace page, which will automatically open the extension in VS Code and install it.
 
-> **前置条件**：需要 VS Code ≥ 1.120.0，且已安装 [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) 扩展。
+> **Prerequisites**: Requires VS Code ≥ 1.120.0 and the [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) extension installed.
 
-### 配置
+### Configuration
 
-1. 按 `Ctrl+Shift+P`，输入 `Coding Plans: Manage Vendor Configuration`
-2. 在供应商选项框中选择你已注册的平台（如智谱、Kimi、火山引擎等）
-3. 选择「Set API Key」，粘贴你的 API Key；扩展会保存密钥并刷新模型
-4. 打开 Copilot Chat（`Ctrl+L`），在模型选择器中选择 `Coding Plans` 提供的模型
-5. 如需设置 `topP`，在 `coding-plans.vendors[].models[]` 中配置模型级覆盖项；`temperature` 与 `Thinking Effort` 请在模型行 `More Actions` 中按请求设置，其中 OpenAI Chat 兼容模型支持 `none` / `low` / `medium` / `high` / `xhigh` / `max`，OpenAI Responses 模型支持 `low` / `medium` / `high` / `xhigh` / `max`（默认 `max`）；Responses API 模型还会显示 `Personality`（默认 `none` 不注入，选择 `pragmatic` / `friendly` 后通过 `instructions` 生效）
-6. 当供应商启用 `useModelsEndpoint` 时，可执行 `Coding Plans: Update Coding Plans Models List`，扩展会重新请求 `/models`，写回 `coding-plans.vendors[].models` 并刷新 VS Code 模型选择器。保存 settings 默认只刷新当前已配置模型，不会自动请求 `/models` 或写回模型列表；如需禁止 settings/API Key 变化自动刷新运行时模型和 VS Code 模型选择器，可将 `coding-plans.autoRefreshModels` 设为 `false`，手动刷新命令不受影响。
-   - 刷新过程中会优先使用 [models.dev](https://models.dev/) 的 `catalog.json`，失败时回退 `api.json`，按模型 ID/名称为新发现模型补全 `description`、`capabilities`、`contextSize`、`apiStyle` 和 `price`；匹配时会忽略模型名最后路径段中 `:` 后的标记（如 `:free`）；`description` 会显示 `id | Lab | Family | Weights | ReleaseDate`，其中 `Lab` 来自模型 ID 前缀；`capabilities.thinking` 对应 models.dev 的 `reasoning`；新模型 `apiStyle` 仅按模型自身来源推导：OpenAI 与 Grok/xAI 使用 `openai-responses`，Anthropic 使用 `anthropic`，其它默认 `openai-chat`；Grok 模型若仍保留旧的 `openai-chat` 会在刷新时自动升级为 `openai-responses`；价格按所有匹配模型来源取中位数，不使用本地供应商名匹配 models.dev provider；如果无法获取或无法匹配，则保留上游 `/models` 与内置默认值。已有手工模型配置不会被刷新覆盖；扩展自动生成的 fallback 描述（如 `供应商名 model: 模型名`）可被升级为 models.dev 新结构。
-也可以直接编辑 `settings.json`，插件会打开设置页并定位到 `coding-plans.vendors`。
+1. Press `Ctrl+Shift+P`, type `Coding Plans: Manage Vendor Configuration`
+2. Pick the platform you've registered with from the vendor picker (e.g., Zhipu, Kimi, Volcengine, etc.)
+3. Select "Set API Key" and paste your API Key; the extension stores it and refreshes models
+4. Open Copilot Chat (`Ctrl+L`) and choose a model provided by `Coding Plans` in the model picker
+5. To configure `topP`, set model-level overrides in `coding-plans.vendors[].models[]`; set `temperature` and `Thinking Effort` per request from the model row `More Actions` menu. OpenAI Chat-compatible models support `none` / `low` / `medium` / `high` / `xhigh` / `max`; OpenAI Responses models support `low` / `medium` / `high` / `xhigh` / `max` (default: `max`). Responses API models also show `Personality` in `More Actions` (defaults to `none`, which injects nothing; choosing `pragmatic` / `friendly` applies it through `instructions`)
+6. When a vendor has `useModelsEndpoint` enabled, run `Coding Plans: Update Coding Plans Models List` to request `/models`, write the result back to `coding-plans.vendors[].models`, and refresh the VS Code model picker. By default, saving settings only refreshes currently configured models; it does not automatically request `/models` or write back the model list. Set `coding-plans.autoRefreshModels` to `false` to stop settings/API-key changes from automatically refreshing runtime models and the VS Code model picker; manual refresh commands still work.
+   - During refresh, the extension prefers [models.dev](https://models.dev/) `catalog.json` and falls back to `api.json` to enrich newly discovered models by model ID/name with `description`, `capabilities`, `contextSize`, `apiStyle`, and `price`. Matching ignores tags after `:` in the final model path segment, such as `:free`. The `description` shows `id | Lab | Family | Weights | ReleaseDate`, where `Lab` comes from the model ID prefix. `capabilities.thinking` maps to models.dev `reasoning`. New model `apiStyle` is inferred only from the model source: OpenAI and Grok/xAI use `openai-responses`, Anthropic uses `anthropic`, and all others default to `openai-chat`. Grok models that still have the legacy `openai-chat` value are automatically upgraded to `openai-responses` during refresh. Prices use the median across all matching model sources and do not match the local vendor name to a models.dev provider. If the catalog cannot be fetched or matched, it keeps the upstream `/models` data and built-in defaults. Existing manual model entries are not overwritten; extension-generated fallback descriptions such as `vendor model: model` can be upgraded to the models.dev structure.
+You can also directly edit `settings.json`; the extension will open settings and navigate to `coding-plans.vendors`.
 
-### 内置供应商端点
+### Built-in Vendor Endpoints
 
-以下供应商已内置默认配置，安装后即可使用：
+The following vendors come with built-in default configurations and are ready to use after installation:
 
-| 供应商 | 默认端点（内置） | 其他端点 |
+| Vendor | Default Built-in Endpoint | Other Endpoints |
 | --- | --- | --- |
-| 智谱（zhipu） | `https://open.bigmodel.cn/api/coding/paas/v4` | `https://open.bigmodel.cn/api/anthropic`（Claude Code） / `https://open.bigmodel.cn/api/paas/v4`（通用） |
+| Zhipu (zhipu) | `https://open.bigmodel.cn/api/coding/paas/v4` | `https://open.bigmodel.cn/api/anthropic` (Claude Code) / `https://open.bigmodel.cn/api/paas/v4` (general) |
 | z.ai | `https://api.z.ai/api/anthropic` | `https://api.z.ai/api/coding/paas/v4` |
-| 火山引擎 | `https://ark.cn-beijing.volces.com/api/coding` | `https://ark.cn-beijing.volces.com/api/coding/v3` |
+| Volcano Engine | `https://ark.cn-beijing.volces.com/api/coding` | `https://ark.cn-beijing.volces.com/api/coding/v3` |
 | Volcengine Overseas | `https://ark.ap-southeast.bytepluses.com/api/coding` | `https://ark.ap-southeast.bytepluses.com/api/coding/v3` |
 | Kimi | `https://api.kimi.com/coding/v1` | `https://api.kimi.com/coding/v1` |
-| 阿里云（Aliyun） | `https://token-plan.cn-beijing.maas.aliyuncs.com/apps/anthropic` | `https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1` |
-| 腾讯云 | `https://api.lkeap.cloud.tencent.com/plan/anthropic` | `https://api.lkeap.cloud.tencent.com/plan/v3` |
-| 小米 MiMo | `https://token-plan-cn.xiaomimimo.com/anthropic` | `https://token-plan-cn.xiaomimimo.com/v1` |
+| Alibaba Cloud (Aliyun) | `https://token-plan.cn-beijing.maas.aliyuncs.com/apps/anthropic` | `https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1` |
+| Tencent Cloud | `https://api.lkeap.cloud.tencent.com/plan/anthropic` | `https://api.lkeap.cloud.tencent.com/plan/v3` |
+| Xiaomi MiMo | `https://token-plan-cn.xiaomimimo.com/anthropic` | `https://token-plan-cn.xiaomimimo.com/v1` |
 | DeepSeek | `https://api.deepseek.com/anthropic` | `https://api.deepseek.com/v1` |
 | OpenRouter | `https://openrouter.ai/api` | `https://openrouter.ai/api/v1` |
 
+To switch to OpenAI-compatible endpoints, modify the vendor's `baseUrl` and `defaultApiStyle`.
+The built-in Zhipu default uses the dedicated GLM Coding Plan endpoint `https://open.bigmodel.cn/api/coding/paas/v4`. If you want the Claude Code-compatible entrypoint instead, switch `baseUrl` to `https://open.bigmodel.cn/api/anthropic` and set `defaultApiStyle` to `anthropic`.
+The built-in Xiaomi MiMo default uses the Token Plan endpoint. If you want pay-as-you-go API access instead, switch `baseUrl` to `https://api.xiaomimimo.com/anthropic` (`https://api.xiaomimimo.com/v1` for OpenAI compatibility) and use the matching API key.
 
-### 配置示例
+### Configuration Examples
 
-> Moonshot/Kimi 注意事项：部分 Anthropic-compatible 入口在开启 thinking 且发生工具调用续轮时，会要求 assistant tool-call 历史消息携带非标准 `reasoning_content` 字段，并可能返回 `thinking is enabled but reasoning_content is missing in assistant tool call message`。本项目不为 Anthropic 路径默认发送该字段。使用 Moonshot/Kimi 的 Anthropic 入口时，建议在模型行 `More Actions` 中关闭 thinking；如需 thinking 能力，优先改用 OpenAI Chat 兼容 API 并配置 `apiStyle` 为 `openai-chat`。详见 [Moonshot Anthropic Thinking Tool-Call Compatibility](docs/moonshot-anthropic-thinking-tool-call.md)。
+> Moonshot/Kimi note: some Anthropic-compatible entrypoints require a non-standard `reasoning_content` field on assistant tool-call history messages when thinking is enabled and a tool continuation occurs. They may return `thinking is enabled but reasoning_content is missing in assistant tool call message`. This project does not send that field by default on the Anthropic path. When using Moonshot/Kimi Anthropic entrypoints, disable thinking from the model row `More Actions`; if you need thinking, prefer the OpenAI Chat-compatible API and set `apiStyle` to `openai-chat`. See [Moonshot Anthropic Thinking Tool-Call Compatibility](docs/moonshot-anthropic-thinking-tool-call.md).
 
-**Anthropic 风格示例**
+**Anthropic Style Example**
 
 ```json
 {
@@ -108,7 +117,7 @@ code --install-extension techfetch-dev.coding-plans-for-copilot
 }
 ```
 
-**OpenAI Chat 风格**
+**OpenAI Chat Style**
 
 ```json
 {
@@ -124,7 +133,7 @@ code --install-extension techfetch-dev.coding-plans-for-copilot
 }
 ```
 
-**OpenAI Responses 风格**
+**OpenAI Responses Style**
 
 ```json
 {
@@ -161,141 +170,141 @@ code --install-extension techfetch-dev.coding-plans-for-copilot
 }
 ```
 
-### 可配置项
+### Configurable Items
 
-`Coding Plans` 输出使用 VS Code 原生日志通道；`coding-plans.logLevel` 会同步设置该通道的原生日志等级，也可通过输出面板中的 Set Log Level 临时调整。设为 `Trace` 时，请求中的 system/user/assistant 文本会分别记录前 1000 个字符，可能包含敏感上下文；tool 内容和图片数据不会写入该预览。
+`Coding Plans` uses VS Code's native log channel. `coding-plans.logLevel` synchronizes the channel's native level, and Set Log Level in the Output panel can temporarily override it. At `Trace`, the first 1,000 characters of each system/user/assistant message are logged and may contain sensitive context; tool content and image data are excluded from this preview.
 
-| 配置键 | 类型 | 默认值 | 说明 |
+| Config Key | Type | Default Value | Description |
 | --- | --- | --- | --- |
-| `coding-plans.logLevel` | `string` | `info` | 设置原生通道等级：`trace` / `debug` / `info` / `warn` / `error` / `off`；只有 `trace` 记录请求消息内容预览。 |
-| `coding-plans.autoRefreshModels` | `boolean` | `true` | 是否允许 settings/API Key 变化和空模型选择器查询自动刷新运行时模型及 VS Code 模型选择器；设为 `false` 时，手动刷新命令仍可用。 |
-| `coding-plans.vendors` | `array` | 内置供应商模板 | 供应商配置列表。 |
-| `coding-plans.vendors[].name` | `string` | 必填 | 供应商唯一名称。 |
-| `coding-plans.vendors[].baseUrl` | `string` | 必填 | API 基础地址。 |
-| `coding-plans.vendors[].apiKey` | `string` | 空 | 已废弃。供应商 API Key；非空时优先于 VS Code Secret Storage 中保存的同名供应商密钥。当前供应商未配置密钥时，可按相同 `baseUrl` 兜底复用其它 `vendors[].apiKey`。 |
-| `coding-plans.vendors[].usageUrl` | `string` | 空 | 套餐 usage 接口地址，配置后状态栏显示额度百分比。 |
-| `coding-plans.vendors[].defaultApiStyle` | `string` | `openai-chat` | 协议风格：`openai-chat` / `openai-responses` / `anthropic`。 |
-| `coding-plans.vendors[].enableExtraRequestWrapping` | `boolean` | `true` | 是否启用插件额外请求封装。开启时保留 payload 增强、reasoning/tool continuation 往返缓存和兼容性回退；关闭时仍保留 thinking 参数与 thinking 过程展示，但移除其余增强项，更接近原生 custom endpoint。 |
-| `coding-plans.vendors[].defaultTemperature` | `number` / `null` | 空 | 已废弃。供应商默认 temperature；留空或 `null` 时运行时不发送 `temperature`。仅 `openai-chat` 与 `anthropic` 运行时使用该值。 |
-| `coding-plans.vendors[].defaultTopP` | `number` | `0` | 供应商默认 topP；`0` 表示不发送 `top_p`。`anthropic` 风格请求始终忽略该值，不发送 `top_p`。 |
-| `coding-plans.vendors[].useModelsEndpoint` | `boolean` | `false` | 是否从 `/models` 拉取模型列表；执行 `Coding Plans: Update Coding Plans Models List` 后会将发现到的模型写回 `models`。 |
-| `coding-plans.vendors[].models[].name` | `string` | 必填 | 模型名称。 |
-| `coding-plans.vendors[].models[].enabled` | `boolean` | `true` | 是否在 Manage Language Models 中显示该模型；设为 `false` 时保留配置但隐藏。 |
-| `coding-plans.vendors[].models[].description` | `string` | 空 | 模型描述。 |
-| `coding-plans.vendors[].models[].apiStyle` | `string` | 继承供应商 | 模型级协议风格覆盖。 |
-| `coding-plans.vendors[].models[].temperature` | `number` / `"inherit"` | `"inherit"` | 已废弃。模型级 temperature 覆盖；`"inherit"` 表示使用供应商 `defaultTemperature`。仅 `openai-chat` 与 `anthropic` 运行时使用该值。Responses API 模型行请使用 `Personality`。 |
-| `coding-plans.vendors[].models[].topP` | `number` | 继承供应商 | 模型级 topP 覆盖；`0` 表示不发送 `top_p`。`anthropic` 风格请求始终忽略该值，不发送 `top_p`。 |
-| `coding-plans.vendors[].models[].capabilities` | `object` | `{ tools: true, vision: false }` | 模型能力声明。`thinking` 对应 models.dev 的 `reasoning`。 |
-| `coding-plans.vendors[].models[].toolCalling` | `boolean` / `number` | `true` | Copilot 风格工具调用能力别名；等价于 `capabilities.tools`。 |
-| `coding-plans.vendors[].models[].vision` | `boolean` | 继承 `defaultVision` | Copilot 风格视觉能力别名；等价于 `capabilities.vision`。 |
-| `coding-plans.vendors[].models[].contextSize` | `number` | `400000` | 模型总上下文窗口主字段；来自 models.dev 的 `limit.context`。自动刷新新模型时只写入该字段。运行时会拆成 `maxInputTokens=80%` 与 `maxOutputTokens=20%`，避免 VS Code Language Models 把上下文显示为超出总窗口。 |
-| `coding-plans.vendors[].models[].maxInputTokens` | `number` | `400000` | 显式输入上下文 token 上限；仅在未配置 `contextSize` 时作为另一套标准使用。原生 Context Window 总量按 `maxInputTokens + maxOutputTokens` 汇总。 |
-| `coding-plans.vendors[].models[].maxOutputTokens` | `number` | `30000` | 显式输出 token 上限；仅在未配置 `contextSize` 时作为另一套标准使用。原生 Context Window 总量按 `maxInputTokens + maxOutputTokens` 汇总。 |
-| `coding-plans.vendors[].models[].price.inputCost` | `number` | 空 | 输入成本元数据，单位为 credits / 1M tokens，显示在 Manage Language Models 的 Cost 列。 |
-| `coding-plans.vendors[].models[].price.cacheCost` | `number` | 空 | 缓存输入成本元数据，单位为 credits / 1M tokens，显示在 Manage Language Models 的 Cost 列。 |
-| `coding-plans.vendors[].models[].price.outputCost` | `number` | 空 | 输出成本元数据，单位为 credits / 1M tokens，显示在 Manage Language Models 的 Cost 列。 |
-| `coding-plans.vendors[].models[].price.longContextInputCost` / `longContextCacheCost` / `longContextOutputCost` | `number` | 空 | 长上下文成本元数据，单位为 credits / 1M tokens；VS Code 支持时会在模型 hover 详情中显示。 |
-| `coding-plans.vendors[].models[].streaming` | `boolean` | `true` | 是否优先使用流式请求；设为 `false` 时发送非流式请求。 |
-| `coding-plans.vendors[].models[].capabilities.thinking` | `boolean` | `true` | 是否展示并发送 reasoning/thinking 相关参数；设为 `false` 时不暴露对应模型行选项。 |
-| `coding-plans.vendors[].models[].supportsReasoningEffort` | `string[]` | 协议默认值 | 限制模型行 `Thinking Effort` / `Effort` 可选项，并阻止未声明值进入请求 payload。 |
-| `coding-plans.vendors[].models[].editTools` | `string[]` | `["apply-patch","multi-find-replace","find-replace","code-rewrite"]` | Copilot 风格编辑工具声明；透传到 VS Code/Copilot 的 `capabilities.editToolsHint`，用于选择编辑工具偏好。 |
-| `coding-plans.vendors[].models[].reasoningEffortFormat` | `string` | 由协议推导 | Copilot 风格 reasoning effort 格式元数据：`chat-completions` / `responses`。anthropic 协议不关注此项。 |
-| `coding-plans.vendors[].models[].zeroDataRetentionEnabled` | `boolean` | 空 | 声明性元数据，不代表上游真实数据保留策略。 |
-| `coding-plans.advanced.defaultReservedOutput` | `number` | `60000` | 请求侧默认输出 token 预算；仅作为发送请求时的预算覆盖值，最终仍会按模型输出上限收敛。 |
-| `coding-plans.commitMessage.showGenerateCommand` | `boolean` | `true` | 是否显示"生成 Commit 消息"命令。 |
-| `coding-plans.commitMessage.language` | `string` | `en` | 提交消息语言：`en` / `zh-cn`。 |
-| `coding-plans.commitMessage.useRecentCommitStyle` | `boolean` | `false` | 是否参考最近 20 条 commit 风格。 |
-| `coding-plans.commitMessage.modelVendor` | `string` | 空 | 生成提交消息时优先使用的供应商名。 |
-| `coding-plans.commitMessage.modelId` | `string` | 空 | 生成提交消息时优先使用的模型名。 |
-| `coding-plans.commitMessage.options.prompt` | `string` | 内置提示词 | 覆盖生成提示词。 |
-| `coding-plans.commitMessage.options.maxDiffLines` | `number` | `3000` | 读取 diff 的最大行数。 |
-| `coding-plans.commitMessage.options.pipelineMode` | `string` | `single` | 生成管线：`single` / `two-stage` / `auto`。 |
-| `coding-plans.commitMessage.options.maxBodyBulletCount` | `number` | `7` | 正文 bullet 最大数量。 |
-| `coding-plans.commitMessage.options.subjectMaxLength` | `number` | `72` | 标题最大长度。 |
-| `coding-plans.commitMessage.options.requireConventionalType` | `boolean` | `true` | 是否强制 Conventional Commits 类型。 |
-| `coding-plans.commitMessage.options.warnOnValidationFailure` | `boolean` | `true` | 校验失败时是否提示告警。 |
+| `coding-plans.logLevel` | `string` | `info` | Sets the native channel level: `trace` / `debug` / `info` / `warn` / `error` / `off`; only `trace` logs request message content previews. |
+| `coding-plans.autoRefreshModels` | `boolean` | `true` | Whether settings/API-key changes and empty model-picker queries automatically refresh runtime models and the VS Code model picker. Set to `false` to disable automatic refresh; manual refresh commands still work. |
+| `coding-plans.vendors` | `array` | Built-in vendor templates | Vendor configuration list. |
+| `coding-plans.vendors[].name` | `string` | Required | Vendor unique name. |
+| `coding-plans.vendors[].baseUrl` | `string` | Required | API base address. |
+| `coding-plans.vendors[].apiKey` | `string` | Empty | Deprecated. Vendor API key. When non-empty, it takes precedence over the same vendor key stored in VS Code Secret Storage. If the current vendor has no key, another `vendors[].apiKey` with the same `baseUrl` can be used as a fallback. |
+| `coding-plans.vendors[].usageUrl` | `string` | Empty | Plan usage API address; when configured, status bar displays quota percentage. |
+| `coding-plans.vendors[].defaultApiStyle` | `string` | `openai-chat` | Protocol style: `openai-chat` / `openai-responses` / `anthropic`. |
+| `coding-plans.vendors[].enableExtraRequestWrapping` | `boolean` | `true` | Whether to enable plugin-added request wrapping. When true, keep payload shaping, reasoning/tool continuation round-trip, and compatibility fallbacks. When false, still keep thinking parameters and thinking-output display, but remove the other enhancements for behavior closer to native custom endpoints. |
+| `coding-plans.vendors[].defaultTemperature` | `number` / `null` | Empty | Deprecated. Vendor default temperature. When unset or `null`, runtime omits `temperature`. Runtime uses it only for `openai-chat` and `anthropic`. |
+| `coding-plans.vendors[].defaultTopP` | `number` | `0` | Vendor default topP. `0` means omit `top_p`. `anthropic` requests always ignore this value and do not send `top_p`. |
+| `coding-plans.vendors[].useModelsEndpoint` | `boolean` | `false` | Whether to fetch model list from `/models`; running `Coding Plans: Update Coding Plans Models List` writes discovered models back to `models`. |
+| `coding-plans.vendors[].models[].name` | `string` | Required | Model name. |
+| `coding-plans.vendors[].models[].enabled` | `boolean` | `true` | Whether to show this model in Manage Language Models; set to `false` to keep it configured but hidden. |
+| `coding-plans.vendors[].models[].description` | `string` | Empty | Model description. |
+| `coding-plans.vendors[].models[].apiStyle` | `string` | Inherit from vendor | Model-level protocol style override. |
+| `coding-plans.vendors[].models[].temperature` | `number` / `"inherit"` | `"inherit"` | Deprecated. Model-level temperature override. `"inherit"` uses the vendor `defaultTemperature`. Runtime uses it only for `openai-chat` and `anthropic`. Use `Personality` from the model row for Responses API models. |
+| `coding-plans.vendors[].models[].topP` | `number` | Inherit from vendor | Model-level topP override. `0` means omit `top_p`. `anthropic` requests always ignore this value and do not send `top_p`. |
+| `coding-plans.vendors[].models[].capabilities` | `object` | `{ tools: true, vision: false }` | Model capability declaration. `thinking` maps to models.dev `reasoning`. |
+| `coding-plans.vendors[].models[].toolCalling` | `boolean` / `number` | `true` | Copilot-style tool-calling alias, equivalent to `capabilities.tools`. |
+| `coding-plans.vendors[].models[].vision` | `boolean` | Inherits `defaultVision` | Copilot-style vision alias, equivalent to `capabilities.vision`. |
+| `coding-plans.vendors[].models[].contextSize` | `number` | `400000` | Primary total model context window, sourced from models.dev `limit.context`. Automatic refresh only writes this field for new models. Runtime splits it into `maxInputTokens=80%` and `maxOutputTokens=20%` so VS Code Language Models reports the expected total context. |
+| `coding-plans.vendors[].models[].maxInputTokens` | `number` | `400000` | Alternative explicit input context token limit, used only when `contextSize` is not set. Native Context Window total is derived as `maxInputTokens + maxOutputTokens`. |
+| `coding-plans.vendors[].models[].maxOutputTokens` | `number` | `30000` | Alternative explicit output token limit, used only when `contextSize` is not set. Native Context Window total is derived as `maxInputTokens + maxOutputTokens`. |
+| `coding-plans.vendors[].models[].price.inputCost` | `number` | Empty | Input cost metadata in credits per 1M tokens, shown in the Manage Language Models Cost column. |
+| `coding-plans.vendors[].models[].price.cacheCost` | `number` | Empty | Cached input cost metadata in credits per 1M tokens, shown in the Manage Language Models Cost column. |
+| `coding-plans.vendors[].models[].price.outputCost` | `number` | Empty | Output cost metadata in credits per 1M tokens, shown in the Manage Language Models Cost column. |
+| `coding-plans.vendors[].models[].price.longContextInputCost` / `longContextCacheCost` / `longContextOutputCost` | `number` | Empty | Long-context cost metadata in credits per 1M tokens. VS Code shows it in model hover details when supported. |
+| `coding-plans.vendors[].models[].streaming` | `boolean` | `true` | Whether to prefer streaming requests; set to `false` to send non-streaming requests. |
+| `coding-plans.vendors[].models[].capabilities.thinking` | `boolean` | `true` | Whether to expose and send reasoning/thinking parameters. |
+| `coding-plans.vendors[].models[].supportsReasoningEffort` | `string[]` | Protocol defaults | Restricts model-row effort options and blocks unsupported effort values from request payloads. |
+| `coding-plans.vendors[].models[].editTools` | `string[]` | `["apply-patch","multi-find-replace","find-replace","code-rewrite"]` | Copilot-style edit tool declaration passed through to VS Code/Copilot as `capabilities.editToolsHint` for edit-tool preference selection. |
+| `coding-plans.vendors[].models[].reasoningEffortFormat` | `string` | Derived from protocol | Copilot-style reasoning effort wire-format metadata: `chat-completions` / `responses`. Not applicable for anthropic protocol. |
+| `coding-plans.vendors[].models[].zeroDataRetentionEnabled` | `boolean` | Empty | Declarative metadata only; it does not change upstream provider retention behavior. |
+| `coding-plans.advanced.defaultReservedOutput` | `number` | `60000` | Request-side default output token budget. It only overrides request budgeting and is still capped by the model output limit. |
+| `coding-plans.commitMessage.showGenerateCommand` | `boolean` | `true` | Whether to show "Generate Commit Message" command. |
+| `coding-plans.commitMessage.language` | `string` | `en` | Commit message language: `en` / `zh-cn`. |
+| `coding-plans.commitMessage.useRecentCommitStyle` | `boolean` | `false` | Whether to reference the style of the last 20 commits. |
+| `coding-plans.commitMessage.modelVendor` | `string` | Empty | Preferred vendor name when generating commit messages. |
+| `coding-plans.commitMessage.modelId` | `string` | Empty | Preferred model name when generating commit messages. |
+| `coding-plans.commitMessage.options.prompt` | `string` | Built-in prompt | Override generation prompt. |
+| `coding-plans.commitMessage.options.maxDiffLines` | `number` | `3000` | Maximum number of lines to read from diff. |
+| `coding-plans.commitMessage.options.pipelineMode` | `string` | `single` | Generation pipeline: `single` / `two-stage` / `auto`. |
+| `coding-plans.commitMessage.options.maxBodyBulletCount` | `number` | `7` | Maximum number of body bullets. |
+| `coding-plans.commitMessage.options.subjectMaxLength` | `number` | `72` | Maximum subject length. |
+| `coding-plans.commitMessage.options.requireConventionalType` | `boolean` | `true` | Whether to enforce Conventional Commits type. |
+| `coding-plans.commitMessage.options.warnOnValidationFailure` | `boolean` | `true` | Whether to show warning on validation failure. |
 
-API Key 推荐通过「设置 API Key」写入 VS Code Secret Storage。`coding-plans.vendors[].apiKey` 仅作为已废弃的临时配置入口保留；非空时优先于 Secret Storage 生效。若当前供应商未配置密钥，扩展会按相同 `baseUrl` 从其它 `vendors[].apiKey` 兜底读取。
+API keys should be stored through "Set API Key" in VS Code Secret Storage. `coding-plans.vendors[].apiKey` is kept only as a deprecated temporary entry; when non-empty, it takes precedence over Secret Storage. If the current vendor has no key, the extension falls back to another `vendors[].apiKey` with the same `baseUrl`.
 
-### 上下文窗口展示
+### Context Window Display
 
-受限于 VS Code 公开 API，本扩展额外实现了上下文窗口展示：
+Limited by VS Code's public API, this extension additionally implements context window display:
 
-- **System Instructions**：System 类提示词占用（系统提示、模式说明、策略提示等），属于 prompt tokens。
-- **Tool Definitions**：工具定义占用（工具名、描述、参数 JSON Schema），属于 prompt tokens。
-- **Reserved Output**：为本轮回答预留的输出 token 预算，非已生成的回复内容。
-- **Context Window**：配置了 `contextSize` 时，运行时按总窗口拆分为 80% 输入窗口与 20% 输出窗口；未配置 `contextSize` 时使用显式 `maxInputTokens/maxOutputTokens`，且总窗口按两者求和对齐原生 custom endpoint 口径。当前公开 API 不提供将上游 usage 明细分发回原生 Context Window 的接口，因此本扩展自行维护上下文窗口的分子展示。
-- 状态栏显示统一的 `CodingPlans` 条目：正文以简洁百分比展示套餐 usage 与 context 占比，悬浮查看详细信息。
-- 若供应商配置了 `usageUrl`，会额外展示套餐额度百分比。
+- **System Instructions**: System-class prompts occupy (system prompts, mode descriptions, strategy prompts, etc.), counted as prompt tokens.
+- **Tool Definitions**: Tool definitions occupy (tool names, descriptions, parameter JSON Schema), counted as prompt tokens.
+- **Reserved Output**: Output token budget reserved for this round of response, not the actual generated reply content.
+- **Context Window**: When `contextSize` is configured, runtime splits the total window into 80% input and 20% output. When `contextSize` is not configured, it uses explicit `maxInputTokens/maxOutputTokens`, and the total window follows the native custom endpoint convention of `maxInputTokens + maxOutputTokens`. The current public API does not provide an interface to return upstream usage breakdown to the native Context Window, so this extension maintains the numerator display of the context window itself.
+- Status bar displays a unified `CodingPlans` entry: the body shows a concise percentage of plan usage and context ratio; hover to view detailed information.
+- If the vendor has `usageUrl` configured, it additionally displays plan quota percentage.
 
-## 高级功能
+## Advanced Features
 
-### 智能 Commit 消息生成
+### Intelligent Commit Message Generation
 
-1. 按 `Ctrl+Shift+P`，输入 `Coding Plans: Generate Commit Message`
-2. 插件会分析当前 Git 变更，自动生成符合规范的提交消息
-3. 可选择使用的模型（默认使用当前配置的供应商）
+1. Press `Ctrl+Shift+P`, type `Coding Plans: Generate Commit Message`
+2. The extension analyzes current Git changes and automatically generates a Conventional Commits-compliant commit message
+3. You can select the model to use (defaults to the currently configured vendor)
 
-### 多工作区独立配置
+### Multi-Workspace Independent Configuration
 
-供应商配置可按工作区/文件夹保存；API Key 推荐按供应商名保存在 VS Code Secret Storage（本地）。
+Vendor configurations can be saved per workspace/folder; API Keys should be stored in VS Code Secret Storage (local) by vendor name.
 
-## 📊 GitHub Pages 看板
+## 📊 GitHub Pages Dashboard
 
 <div align="center">
 
-### [🚀 在线访问看板 →](https://jqknono.github.io/coding-plans-for-copilot/)
+### [🚀 Visit Live Dashboard →](https://jqknono.github.io/coding-plans-for-copilot/)
 
-[![看板预览](https://raw.githubusercontent.com/jqknono/coding-plans-for-copilot/main/preview.png)](https://jqknono.github.io/coding-plans-for-copilot/)
+[![Dashboard Preview](https://raw.githubusercontent.com/jqknono/coding-plans-for-copilot/main/preview.png)](https://jqknono.github.io/coding-plans-for-copilot/)
 
-**每日自动更新** · 多维度筛选 · URL 状态同步 · 响应式设计
+**Daily Auto-Update** · Multi-Dimensional Filtering · URL State Sync · Responsive Design
 
 </div>
 
-编码套餐看板是一个部署在 GitHub Pages 上的实时数据面板，聚合了国内主流 AI 编码套餐的月费与权益信息，以及 OpenRouter 供应商的性能指标。数据通过定时任务每日自动抓取，无需手动维护。
+The Coding Plans Dashboard is a real-time data panel deployed on GitHub Pages, aggregating monthly fees and benefits from mainstream domestic AI coding plans, as well as OpenRouter vendor performance metrics. Data is automatically scraped daily via scheduled tasks — no manual maintenance required.
 
-### 看板总览
+### Dashboard Overview
 
-| 标签页 | 内容 | 数据源 | 更新频率 |
+| Tab | Content | Data Source | Update Frequency |
 | --- | --- | --- | --- |
-| 📦 **大陆套餐** | 人民币月费套餐（智谱、Kimi、火山引擎等 20+ 供应商） | 供应商官网抓取 | 每日 10:00 |
-| 🌍 **海外套餐** | 美元计价套餐（Cerebras、Synthetic 等） | OpenRouter API + 官网 | 每日 16:00 |
-| 📊 **Provider 指标** | 可用率、延迟（p50/p90/p99）、吞吐（RPS） | OpenRouter API | 每日 16:00 |
+| 📦 **Domestic Plans** | RMB monthly plans (Zhipu, Kimi, Volcengine, etc. 20+ vendors) | Vendor website scraping | Daily 10:00 |
+| 🌍 **Overseas Plans** | USD plans (Cerebras, Synthetic, etc.) | OpenRouter API + websites | Daily 16:00 |
+| 📊 **Provider Metrics** | Availability, latency (p50/p90/p99), throughput (RPS) | OpenRouter API | Daily 16:00 |
 
-### 功能特性
+### Features
 
-| 特性 | 说明 |
+| Feature | Description |
 | --- | --- |
-| **三标签视图** | 大陆套餐、海外套餐、OpenRouter 性能指标独立切换，互不干扰 |
-| **自动抓取** | 每日定时抓取供应商定价与性能指标，数据实时可靠 |
-| **多维筛选** | 支持按模型厂商、模型名称、供应商、缓存优惠等维度交叉筛选 |
-| **实时指标** | 展示最近 30 分钟供应商可用率、延迟分位（p50/p90/p99）、每秒请求数（RPS） |
-| **失败追踪** | 抓取失败项单独展示在折叠区，便于排查问题 |
-| **URL 状态同步** | 筛选条件自动同步到 URL `hash`，支持分享链接和浏览器回退 |
-| **响应式设计** | 完美适配桌面端和移动端浏览 |
-| **零后端** | 纯静态页面 + JSON 数据文件，部署简单，访问快速 |
+| **Three-Tab Views** | Domestic Plans, Overseas Plans, and OpenRouter Performance Metrics switch independently |
+| **Automated Scraping** | Daily scheduled scraping of vendor pricing and performance metrics for reliable, up-to-date data |
+| **Multi-Dimensional Filtering** | Cross-filter by model vendor, model name, provider, cache discount, and more |
+| **Real-Time Metrics** | Displays vendor availability, latency percentiles (p50/p90/p99), and requests per second (RPS) over the last 30 minutes |
+| **Failure Tracking** | Failed scraping items displayed in a collapsible section for easy troubleshooting |
+| **URL State Sync** | Filter conditions automatically sync to URL `hash`, supporting link sharing and browser back/forward |
+| **Responsive Design** | Perfectly adapts to both desktop and mobile browsing |
+| **Zero Backend** | Pure static pages + JSON data files — simple deployment, fast loading |
 
-### 数据流水线
+### Data Pipeline
 
 ```mermaid
 graph TB
-    subgraph 定时任务["⏰ 定时任务 (GitHub Actions)"]
+    subgraph Scheduled["⏰ Scheduled Tasks (GitHub Actions)"]
         direction LR
         T1["pricing:fetch"]
         T2["metrics:fetch"]
         T3["openrouter:plans:fetch"]
     end
 
-    subgraph 数据文件["📁 assets/"]
+    subgraph DataFiles["📁 assets/"]
         D1["provider-pricing.json"]
         D2["openrouter-provider-metrics.json"]
         D3["openrouter-provider-plans.json"]
     end
 
-    subgraph 看板["🌐 GitHub Pages 看板"]
-        P1["📦 大陆套餐"]
-        P2["🌍 海外套餐"]
-        P3["📊 Provider 指标"]
+    subgraph Dashboard["🌐 GitHub Pages Dashboard"]
+        P1["📦 Domestic Plans"]
+        P2["🌍 Overseas Plans"]
+        P3["📊 Provider Metrics"]
     end
 
     T1 --> D1
@@ -306,65 +315,65 @@ graph TB
     D3 --> P2
 ```
 
-### 标签页详情
+### Tab Details
 
-#### 📦 大陆套餐
+#### 📦 Domestic Plans
 
-- **覆盖范围**：智谱、Kimi、讯飞、火山引擎、MiniMax、百度千帆、腾讯云、京东云、快手 KAT、X-AIO、Compshare、阿里云、Infini、小米 MiMo、摩尔线程、阶跃星辰、联通云、国家超算互联网等 20+ 供应商
-- **计价方式**：人民币（CNY）
-- **筛选规则**：仅展示标准月费套餐（不含年费、季费与首月特惠价）
-- **展示内容**：套餐名称、价格、包含额度、有效期、购买链接
-- **异常处理**：抓取失败项在底部折叠区展示
+- **Coverage**: Zhipu, Kimi, iFLYTEK, Volcengine, MiniMax, Baidu Qianfan, Tencent Cloud, JD Cloud, Kuaishou KAT, X-AIO, Compshare, Alibaba Cloud, Infini, Xiaomi MiMo, Moore Threads, StepFun, China Unicom Cloud, National Supercomputing Internet, and 20+ more vendors
+- **Currency**: Chinese Yuan (CNY)
+- **Filtering Rules**: Standard monthly plans only (excluding annual, quarterly, and first-month promotional prices)
+- **Display**: Plan name, price, included quota, validity period, purchase links
+- **Error Handling**: Failed scraping items displayed in a collapsible section at the bottom
 
-#### 🌍 海外套餐
+#### 🌍 Overseas Plans
 
-- **覆盖范围**：Cerebras Code、Synthetic、Chutes、Kilo Pass 等 OpenRouter 供应商
-- **计价方式**：美元（USD）
-- **数据来源**：OpenRouter API + 供应商官网 Playwright 抓取
-- **展示内容**：套餐名称、价格、包含额度、OpenRouter 链接、官方定价页
-- **异常处理**：访问受限或解析失败项放入 `Pending` 折叠区
+- **Coverage**: Cerebras Code, Synthetic, Chutes, Kilo Pass, and other OpenRouter vendors
+- **Currency**: US Dollar (USD)
+- **Data Sources**: OpenRouter API + vendor website Playwright scraping
+- **Display**: Plan name, price, included quota, OpenRouter link, official pricing page
+- **Error Handling**: Access-restricted or parsing-failed items placed in `Pending` collapsible section
 
-#### 📊 Provider 性能指标
+#### 📊 Provider Performance Metrics
 
-- **可用率**：供应商最近 30 分钟的成功请求比例
-- **延迟指标**：
-  - **p50**：中位延迟（50% 请求不超过该值）
-  - **p90**：90 分位延迟
-  - **p99**：尾部延迟（最慢 1% 请求）
-- **吞吐指标**：每秒处理的请求数（RPS）
-- **筛选维度**：
-  - 按模型厂商（DeepSeek、Qwen、MoonshotAI、ByteDance 等）
-  - 按模型名称（deepseek-chat、qwen-max 等）
-  - 按供应商（Cerebras、Chutes、Kilo 等）
-  - 按缓存优惠（有/无 prompt cache 折扣）
+- **Availability**: Vendor success request ratio over the last 30 minutes
+- **Latency Metrics**:
+  - **p50**: Median latency (50% of requests complete within this value)
+  - **p90**: 90th percentile latency
+  - **p99**: Tail latency (slowest 1% of requests)
+- **Throughput Metrics**: Requests processed per second (RPS)
+- **Filtering Dimensions**:
+  - By model vendor (DeepSeek, Qwen, MoonshotAI, ByteDance, etc.)
+  - By model name (deepseek-chat, qwen-max, etc.)
+  - By provider (Cerebras, Chutes, Kilo, etc.)
+  - By cache discount (with/without prompt cache discount)
 
-### 本地运行
+### Local Development
 
 ```bash
-# 安装依赖
+# Install dependencies
 npm install
 
-# 抓取最新数据（按顺序执行）
-npm run pricing:fetch          # 抓取大陆供应商定价
-npm run metrics:fetch          # 抓取 OpenRouter 性能指标
-npm run openrouter:plans:fetch # 抓取海外供应商套餐
+# Fetch latest data (execute in order)
+npm run pricing:fetch          # Fetch domestic vendor pricing
+npm run metrics:fetch          # Fetch OpenRouter performance metrics
+npm run openrouter:plans:fetch # Fetch overseas vendor plans
 
-# 启动本地预览服务
+# Start local preview server
 npm run serve:page
-# 访问 http://127.0.0.1:4173
+# Visit http://127.0.0.1:4173
 
-# 运行扩展测试
+# Run extension tests
 npm test
-# 或只运行 VS Code Desktop 冒烟测试（首次会下载测试版 VS Code）
+# Or only run the VS Code Desktop smoke suite (downloads a test VS Code on first run)
 npm run test:desktop
 ```
 
-### 数据文件结构
+### Data File Structure
 
-看板使用以下核心数据文件（位于 `assets/` 目录）：
+The dashboard uses the following core data files (located in the `assets/` directory):
 
 ```json
-// provider-pricing.json — 大陆供应商月费套餐
+// provider-pricing.json — Domestic vendor monthly plans
 {
   "generatedAt": "2026-05-06T12:00:00+08:00",
   "providers": [
@@ -372,7 +381,7 @@ npm run test:desktop
       "provider": "zhipu-ai",
       "sourceUrls": ["https://bigmodel.cn/glm-coding"],
       "plans": [
-        { "name": "GLM Coding 套餐", "price": 199, "currency": "¥", ... }
+        { "name": "GLM Coding Plan", "price": 199, "currency": "¥", ... }
       ]
     }
   ],
@@ -381,7 +390,7 @@ npm run test:desktop
 ```
 
 ```json
-// openrouter-provider-metrics.json — 供应商性能指标
+// openrouter-provider-metrics.json — Vendor performance metrics
 {
   "generatedAt(Beijing)": "2026-05-06 12:00:00",
   "captureWindow": "30 minutes",
@@ -398,7 +407,7 @@ npm run test:desktop
 ```
 
 ```json
-// openrouter-provider-plans.json — 海外供应商套餐
+// openrouter-provider-plans.json — Overseas vendor plans
 {
   "providers": [ ... ],
   "pending": [ ... ],
@@ -406,39 +415,51 @@ npm run test:desktop
   "generatedAt(Beijing)": "2026-05-06 16:00:00"
 }
 ```
+  "captureWindow": "30 minutes",
+  "models": [
+    {
+      "id": "deepseek/deepseek-chat",
+      "organization": "deepseek",
+      "providers": [
+        { "provider_name": "Cerebras", "uptime": 99.9, "latency_p50": 120, ... }
+      ]
+    }
+  ]
+}
+```
 
 ---
 
-## 开发
+## Development
 
-详细的开发文档请查看 [DEV.md](DEV.md)，测试分层与命令说明见 [docs/testing.md](docs/testing.md)。
-
----
-
-## 更新日志
-
-查看 [CHANGELOG.md](CHANGELOG.md) 了解版本更新详情。
+Detailed development documentation can be found in [DEV.md](DEV.md). Test layers and commands are documented in [docs/testing.md](docs/testing.md).
 
 ---
 
-## 问题反馈
+## Changelog
 
-- **功能建议**：提交 [Issue](https://github.com/jqknono/coding-plans-for-copilot/issues)
-- **使用问题**：在 Issue 中附上错误日志和 `settings.json` 相关配置片段（隐去敏感信息）
-- **厂商接入**：欢迎提交 Pull Request
+Check [CHANGELOG.md](CHANGELOG.md) for version update details.
 
 ---
 
-## 许可证
+## Feedback
+
+- **Feature Suggestions**: Submit [Issue](https://github.com/jqknono/coding-plans-for-copilot/issues)
+- **Usage Questions**: Include error logs and relevant `settings.json` configuration snippets (with sensitive information redacted) in the Issue
+- **Vendor Integration**: Pull Requests are welcome
+
+---
+
+## License
 
 MIT License
 
 ---
 
-## 贡献指南
+## Contribution Guidelines
 
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交变更 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 提交 Pull Request
+1. Fork this repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request

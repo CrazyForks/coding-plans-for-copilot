@@ -23,7 +23,7 @@ argument-hint: "可选：供应商名、失败现象或要改的脚本"
 ## 原则
 
 - 不手改 `assets/*.json`；动态页用 Playwright MCP（见 [AGENTS.md](../../../AGENTS.md)）。
-- 改 JSON 字段须对照 `pages/app.js` 与 [AGENTS.md](../../../AGENTS.md) 契约一节。
+- 改 JSON 字段须对照 `pages/app.js` 与 [AGENTS.md](../../../AGENTS.md)「Script and Page Contracts / 契约」一节。
 
 ## 参考
 
