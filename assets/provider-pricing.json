@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-11T08:58:29.337Z",
+  "generatedAt": "2026-08-12T04:06:08.072Z",
   "providers": [
     {
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/1de8e41bf510aea8fb7daee7f0f34c63.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/d29daf9a76ee7b2490c452a9822eb09f.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan"
       ],
@@ -1255,7 +1255,9 @@
             "用量限制: 每 5 小时：最多约 6,000 次请求 每周：最多约 45,000 次请求 每订阅月：最多约 90,000 次请求"
           ]
         }
-      ]
+      ],
+      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
+      "staleFailure": "tencent-cloud-ai: fetch failed; Playwright fallback failed: page.goto: Timeout 12000ms exceeded. Call log: - navigating to \"https://cloud.tencent.com/document/product/1823/130092\", waiting until \"commit\""
     },
     {
       "provider": "tencent-cloud-token-plan",
@@ -1639,6 +1641,7 @@
     }
   ],
   "failures": [
-    "zhipu-ai: Task timed out after 30000ms"
+    "zhipu-ai: Task timed out after 30000ms",
+    "tencent-cloud-ai: fetch failed; Playwright fallback failed: page.goto: Timeout 12000ms exceeded.\nCall log:\n  - navigating to \"https://cloud.tencent.com/document/product/1823/130092\", waiting until \"commit\"\n"
   ]
 }
