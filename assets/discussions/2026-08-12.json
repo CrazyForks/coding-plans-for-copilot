@@ -1,0 +1,173 @@
+{
+  "date": "2026-08-12",
+  "generatedAt": "2026-08-12T07:25:50.641Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 64,
+    "postsAfterKeywordFilter": 25,
+    "relevantPosts": 4,
+    "discussionsCreated": 4,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Codex, Claude Code, Cursor, DeepSeek, Kimi, Zhipu, Workbuddy, Grok, Reasonix, Cherry Studio": 1,
+      "Cursor": 1,
+      "智谱 GLM": 1,
+      "OpenAI, Kimi, Qwen, GLM, ClaudeCode, Codex, QCoder, OpenCode, cc-switch": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1233834",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1233834",
+      "title": "接下来是 智能体 桌面端 的百花齐放。看看你已经装了多少了，还需要装多少",
+      "content": "是否感觉到，各家现在不仅在加急训练发布最新版的模型，连客户端都列入了下次版本的计划中。codex ，claude code,workbuddy,cursor 也有 Agents window ，后面已经在路上的是 grok 的，还有国内 deepseek 的，kimi 的，智谱的。目前三方的有 Reasonix ，cherry studio 等等，github 上还有一些开源的。最后谁来大一统？",
+      "author": "anranzide",
+      "createdAt": "2026-08-12T06:26:10.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.85,
+        "supplier": "Codex, Claude Code, Cursor, DeepSeek, Kimi, Zhipu, Workbuddy, Grok, Reasonix, Cherry Studio",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "The post discusses the proliferation of AI agent desktop clients from various providers (Codex, Claude Code, Cursor, DeepSeek, Kimi, Zhipu, etc.) and speculates on which will eventually dominate the market.",
+        "topics": [
+          "智能体",
+          "桌面端客户端",
+          "模型发布",
+          "市场竞争"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/287",
+      "analyzedAt": "2026-08-12T07:40:31.014Z"
+    },
+    {
+      "id": "v2ex-1233820",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1233820",
+      "title": "谁知道 Cursor 里面的 Grok 4.5 大概是什么水平？",
+      "content": "比 Composer2.5 强吗？比 GLM5.2 和 dsv4f 呢？ 有没有主用 cursor 的说说",
+      "author": "shintendo",
+      "createdAt": "2026-08-12T05:33:37.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "Cursor",
+        "supplierCategory": "aggregator",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户询问Cursor中集成的Grok 4.5的性能水平，并与Composer2.5、GLM5.2和dsv4f进行比较，询问是否有主用Cursor的用户体验分享。",
+        "topics": [
+          "Cursor",
+          "Grok 4.5",
+          "Composer2.5",
+          "GLM5.2",
+          "dsv4f",
+          "性能比较",
+          "用户体验"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/288",
+      "analyzedAt": "2026-08-12T07:40:36.063Z"
+    },
+    {
+      "id": "v2ex-1233814",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1233814",
+      "title": "嘿嘿开心，白赚一笔钱，现在 glm v2 值 1300 元左右",
+      "content": "2026-05-18 11:00:01 当时每天上午 10 点发售但是运气差抢不到，于是海鲜花 153 元购买剩半个多月的 glm 5.1 套餐，算下来加价 50 元 2026-08-12 12:00:00 中午躺车里睡觉逛闲鱼发现有人 500 收套餐 2026-08-12 12:20:00 海鲜发布 定价 1500 v2 pro 剩一个月 2026-08-12 12:58:00 海鲜 1300 元卖出 想买的人很多，到卖出之前约 40 分钟，十来个人问价格。 于我自己而言，平时 openai+opencode go ，这个套餐总是闲置。",
+      "author": "seagull7558",
+      "createdAt": "2026-08-12T05:05:59.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "智谱 GLM",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.8,
+        "summary": "用户分享了自己购买智谱GLM 5.1套餐的经历，包括多次尝试购买失败、通过闲鱼转卖获利，以及对套餐使用情况的反馈。",
+        "topics": [
+          "套餐对比",
+          "购买经历",
+          "转售",
+          "闲置使用"
+        ],
+        "planMentioned": "GLM 5.1",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/289",
+      "analyzedAt": "2026-08-12T07:40:40.870Z"
+    },
+    {
+      "id": "v2ex-1233768",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1233768",
+      "title": "手持多家模型，怎么选 Agent/Cli",
+      "content": "应该不少人都有多家的模型吧，A\\ OpenAI Kimi Qwen GLM 大家怎么用的的？ 1. 切个模型换个对应的 cli ，ClaudeCode Codex QCoder 2. OpenCode 一次性全接入 3. 特定的 Cli + cc-switch, 例如：ClaudeCode + cc-switch 最新在试着用 ClaudeCode + GPT 5.6, 感觉比直接 A\\ 的订阅用起来，蠢了不少。。。",
+      "author": "allanwell",
+      "createdAt": "2026-08-12T02:47:11.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "OpenAI, Kimi, Qwen, GLM, ClaudeCode, Codex, QCoder, OpenCode, cc-switch",
+        "supplierCategory": "aggregator",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户讨论如何选择和使用多个AI编码助手模型，包括使用不同的CLI工具和订阅方式，并提到ClaudeCode+GPT 5.6的使用体验优于直接订阅。",
+        "topics": [
+          "多模型使用",
+          "CLI工具",
+          "订阅方式",
+          "模型对比",
+          "使用体验"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/290",
+      "analyzedAt": "2026-08-12T07:40:46.896Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1233837: LLM returned invalid JSON: Unexpected token 'U', \"User Safety: safe\" is not valid JSON",
+    "analysis failed for v2ex-1233788: The operation was aborted due to timeout",
+    "analysis failed for v2ex-1233731: LLM output schema validation failed: isRelevant: expected boolean, got undefined; isCodingPlan: expected boolean, got undefined; relevance: expected number 0-1, got undefined; category: expected non-empty string, got undefined"
+  ]
+}
