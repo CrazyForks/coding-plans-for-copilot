@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-12T09:12:51.810Z",
+  "generatedAt": "2026-08-13T04:10:47.318Z",
   "providers": [
     {
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/f7735e03eacdee9cfe698675130b0931.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/66531af9c667f9c67aa80d107db29514.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan"
       ],
@@ -421,7 +421,9 @@
             "Lite 与 Pro 共计 12000 个专属免费名额"
           ]
         }
-      ]
+      ],
+      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
+      "staleFailure": "cucloud-coding-plan: page.waitForFunction: Timeout 12000ms exceeded."
     },
     {
       "provider": "github-copilot",
@@ -1639,6 +1641,7 @@
     }
   ],
   "failures": [
-    "zhipu-ai: Task timed out after 30000ms"
+    "zhipu-ai: Task timed out after 30000ms",
+    "cucloud-coding-plan: page.waitForFunction: Timeout 12000ms exceeded."
   ]
 }
