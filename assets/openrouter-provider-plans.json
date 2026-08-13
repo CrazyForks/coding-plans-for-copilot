@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-12T09:14:05.259Z",
-  "generatedAtBeijing": "2026年8月12日 17:14:05",
-  "sourceGeneratedAt": "2026-08-12T09:12:51.810Z",
-  "sourceGeneratedAtBeijing": "2026年8月12日 17:12:51",
-  "sourceMetricsGeneratedAt": "2026-08-12T09:13:03.066Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月12日 17:13:03",
+  "generatedAt": "2026-08-13T09:14:59.405Z",
+  "generatedAtBeijing": "2026年8月13日 17:14:59",
+  "sourceGeneratedAt": "2026-08-13T09:13:51.781Z",
+  "sourceGeneratedAtBeijing": "2026年8月13日 17:13:51",
+  "sourceMetricsGeneratedAt": "2026-08-13T09:13:56.237Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月13日 17:13:56",
   "summary": {
     "openrouterProviderCount": 102,
     "metricsProviderCount": 44,
@@ -49,14 +49,14 @@
           "notes": null,
           "serviceDetails": [
             "支持的模型: 支持的模型判断说明 判定规则： 1. 本清单为精确字符串白名单 2. 必须逐字符完全匹配，版本号/子型号任何差异均视为不支持 3. 禁止做版本兼容推理 判定示范： - ❌ \"GLM-5.1 \" → 清单只有 glm-5.0 → 不支持 - ❌ \"qwen3-coder-max \" → 清单无此项 → 不支持 仅支持以下精确版本： 推荐模型： qwen3.7-plus （支持图片理解）、 qwen3.6-plus （支持图片理解）、 kimi-k2.5 （支持图片理解）、 glm-5 、 MiniMax-M2.5 更多模型：qwen3.5-plus（支持图片理解） 、 qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7",
-            "用量限制: 每 5 小时 6,000 次请求 每周 45,000 次请求 每月 90,000 次请求",
+            "用量限制: 每 5 小时最多 6,000 次请求 每周最多 45,000 次请求 每月最多 90,000 次请求",
             "支持的模型: 支持的模型判断说明 判定规则： 1. 本清单为精确字符串白名单 2. 必须逐字符完全匹配，版本号/子型号任何差异均视为不支持 3. 禁止做版本兼容推理 判定示范： - ❌ \"GLM-5.1\" → 清单只有 glm-5.0 → 不支持 - ❌ \"qwen3-coder-max\" → 清单无此项 → 不支持 仅支持以下精确版本： 推荐模型： qwen3.7-plus （支持图片理解）、 qwen3.6-plus （支持图片理解）、 kimi-k2.5 （支持图片理解）、 glm-5 、 MiniMax-M2.5 更多模型：qwen3.5-plus（支持图片理解） 、 qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7"
           ]
         }
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/f7735e03eacdee9cfe698675130b0931.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/66531af9c667f9c67aa80d107db29514.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -726,7 +726,7 @@
       ],
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.331/index.js",
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.333/index.js",
         "https://docs.byteplus.com"
       ],
       "pricingPageUrl": "https://www.volcengine.com/activity/codingplan",
@@ -1141,7 +1141,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://deepinfra.com",
       "pricingPageUrl": "https://deepinfra.com/pricing",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $107 / $1.30 / $0.10）",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $107 / $0.08 / $0.016）",
       "blocked": false
     },
     {
@@ -1249,7 +1249,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://www.morphllm.com",
       "pricingPageUrl": "https://www.morphllm.com",
-      "reason": "官网价格页探测失败：homepage: HTTP 429",
+      "reason": "官网价格页探测失败：https://www.morphllm.com/pricing: HTTP 429",
       "blocked": true
     },
     {

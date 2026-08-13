@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-13T08:53:15.191Z",
+  "generatedAt": "2026-08-13T09:13:51.781Z",
   "providers": [
     {
       "provider": "aliyun-ai",
@@ -621,7 +621,9 @@
             "适配工具：完美适配多种开发场景，支持 Claude Code、OpenCode、OpenClaw、Roo Code、Cursor等主流 AI 编码工具，多工具之间套餐额度共享"
           ]
         }
-      ]
+      ],
+      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
+      "staleFailure": "jdcloud-ai: Task timed out after 30000ms"
     },
     {
       "provider": "kilo-pass",
@@ -761,6 +763,81 @@
             "Kimi Code 60 倍额度",
             "Agent 集群可用 120 次（4 个子任务并行）",
             "专业数据库 12000 次调用"
+          ]
+        },
+        {
+          "name": "Adagio（海外）",
+          "currentPrice": 0,
+          "currentPriceText": "$0/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": "试用计划",
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 免费试用",
+            "Kimi Code 试用套餐权益"
+          ]
+        },
+        {
+          "name": "Moderato（海外）",
+          "currentPrice": 19,
+          "currentPriceText": "$19/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 基础会员",
+            "Kimi Code 月度订阅权益"
+          ]
+        },
+        {
+          "name": "Allegretto（海外）",
+          "currentPrice": 39,
+          "currentPriceText": "$39/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 进阶会员",
+            "Kimi Code 月度订阅权益"
+          ]
+        },
+        {
+          "name": "Allegro（海外）",
+          "currentPrice": 99,
+          "currentPriceText": "$99/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 高级会员",
+            "Kimi Code 月度订阅权益"
+          ]
+        },
+        {
+          "name": "Vivace（海外）",
+          "currentPrice": 199,
+          "currentPriceText": "$199/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 旗舰会员",
+            "Kimi Code 月度订阅权益"
           ]
         }
       ]
@@ -1563,5 +1640,7 @@
       ]
     }
   ],
-  "failures": []
+  "failures": [
+    "jdcloud-ai: Task timed out after 30000ms"
+  ]
 }
