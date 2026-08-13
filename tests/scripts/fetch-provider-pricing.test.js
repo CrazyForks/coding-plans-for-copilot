@@ -368,6 +368,79 @@ test('Kimi parsers keep mainland RMB plans and overseas USD plans separate', () 
   assert.match(overseasPlans[0].serviceDetails.join('\n'), /计价币种: 美元（USD）/);
 });
 
+test('Kimi goods payload maps REGION_CN and LEVEL_TRIAL enum labels', () => {
+  const payload = {
+    goods: [
+      {
+        title: 'Adagio',
+        useRegion: 'REGION_CN',
+        membershipLevel: 'LEVEL_FREE',
+        amounts: [{ currency: 'CNY', priceInCents: 0 }],
+        billingCycle: { timeUnit: 'TIME_UNIT_MONTH' },
+      },
+      {
+        title: 'Andante',
+        useRegion: 'REGION_CN',
+        membershipLevel: 'LEVEL_TRIAL',
+        amounts: [{ currency: 'CNY', priceInCents: 4900 }],
+        billingCycle: { timeUnit: 'TIME_UNIT_MONTH' },
+      },
+      {
+        title: 'Moderato',
+        useRegion: 'REGION_CN',
+        membershipLevel: 'LEVEL_BASIC',
+        amounts: [{ currency: 'CNY', priceInCents: 9900 }],
+        billingCycle: { timeUnit: 'TIME_UNIT_MONTH' },
+      },
+    ],
+  };
+
+  const plans = buildKimiCodePlansFromGoodsPayload(payload, { defaultRegion: 'REGION_CN' });
+
+  assert.equal(plans.length, 3);
+  assert.deepEqual(
+    plans.map((plan) => plan.name),
+    ['Adagio（大陆）', 'Andante（大陆）', 'Moderato（大陆）'],
+  );
+  assert.deepEqual(
+    plans.map((plan) => plan.currentPriceText),
+    ['¥0/月', '¥49/月', '¥99/月'],
+  );
+  const trialDetails = plans[1].serviceDetails.join('\n');
+  assert.match(trialDetails, /适用区域: 大陆/);
+  assert.match(trialDetails, /会员等级: 试用会员/);
+  assert.doesNotMatch(trialDetails, /REGION_CN|LEVEL_TRIAL/);
+});
+
+test('Kimi goods payload excludes mainland plans to avoid domestic duplicates', () => {
+  const payload = {
+    goods: [
+      {
+        title: 'Andante',
+        useRegion: 'REGION_CN',
+        membershipLevel: 'LEVEL_TRIAL',
+        amounts: [{ currency: 'CNY', priceInCents: 4900 }],
+        billingCycle: { timeUnit: 'TIME_UNIT_MONTH' },
+      },
+      {
+        title: 'Moderato',
+        useRegion: 'REGION_OVERSEA',
+        membershipLevel: 'LEVEL_BASIC',
+        amounts: [{ currency: 'USD', priceInCents: 1900 }],
+        billingCycle: { timeUnit: 'TIME_UNIT_MONTH' },
+      },
+    ],
+  };
+
+  const plans = buildKimiCodePlansFromGoodsPayload(payload, {
+    excludeRegions: ['REGION_CN', 'REGION_MAINLAND'],
+  });
+
+  assert.equal(plans.length, 1);
+  assert.equal(plans[0].name, 'Moderato（海外）');
+  assert.equal(plans[0].currentPriceText, '$19/月');
+});
+
 test('parseChutesPlansFromText tolerates home page plans without Base tier', () => {
   const pageText = `
     Pricing

@@ -42,6 +42,7 @@ const PROVIDER_IDS = {
 
 const KIMI_MEMBERSHIP_LEVEL_LABELS = {
   LEVEL_FREE: '免费试用',
+  LEVEL_TRIAL: '试用会员',
   LEVEL_BASIC: '基础会员',
   LEVEL_INTERMEDIATE: '进阶会员',
   LEVEL_ADVANCED: '高级会员',
@@ -58,6 +59,7 @@ const TENCENT_CODING_PLAN_NAVIGATION_OPTIONS = {
   timeout: 12_000,
 };
 const KIMI_REGION_LABELS = {
+  REGION_CN: '大陆',
   REGION_MAINLAND: '大陆',
   REGION_OVERSEA: '海外',
 };
@@ -1061,7 +1063,7 @@ function mergeJdCloudPricingAndDocsPlans(pricingPlans, docsPlans) {
 }
 
 function buildKimiCodePlansFromGoodsPayload(payload, options = {}) {
-  const { featureCandidates = [], defaultRegion = 'REGION_OVERSEA' } = options;
+  const { featureCandidates = [], defaultRegion = 'REGION_OVERSEA', excludeRegions = [] } = options;
   const plans = [];
 
   for (const goods of payload?.goods || []) {
@@ -1075,6 +1077,9 @@ function buildKimiCodePlansFromGoodsPayload(payload, options = {}) {
     }
 
     const region = normalizeText(goods?.useRegion || defaultRegion);
+    if (excludeRegions.includes(region)) {
+      continue;
+    }
     const regionLabel = getKimiRegionLabel(region);
     const membershipLevel = normalizeText(goods?.membershipLevel || '');
     const membershipLabel = KIMI_MEMBERSHIP_LEVEL_LABELS[membershipLevel] || membershipLevel;
@@ -1164,7 +1169,12 @@ async function parseKimiCodingPlans() {
     },
     body: '{}',
   });
-  const overseasPlans = buildKimiCodePlansFromGoodsPayload(payload, { featureCandidates });
+  // The goods API also returns mainland (REGION_CN / REGION_MAINLAND) plans with
+  // fewer details than the domestic help page, so keep those out to avoid duplicates.
+  const overseasPlans = buildKimiCodePlansFromGoodsPayload(payload, {
+    featureCandidates,
+    excludeRegions: ['REGION_CN', 'REGION_MAINLAND'],
+  });
   const plans = dedupePlans([...domesticPlans, ...overseasPlans]);
   if (plans.length === 0) {
     throw new Error('Unable to build Kimi domestic or overseas plans');
@@ -1411,7 +1421,11 @@ async function parseZhipuCodingPlansWithPlaywright() {
     await page.waitForFunction(
       () => {
         const text = String(document.body?.innerText || '');
-        return /即刻与\s*GLM\s*一起\s*Coding/.test(text) && /连续包[月季年]/.test(text) && /特惠订阅/.test(text);
+        return (
+          /即刻与\s*GLM\s*一起\s*Coding/.test(text) &&
+          /连续包[月季年]/.test(text) &&
+          /每周\s*[0-9,]+\s*积分/.test(text)
+        );
       },
       { timeout: 20_000 },
     );
@@ -1432,7 +1446,7 @@ async function parseZhipuCodingPlansWithPlaywright() {
     await page.waitForFunction(
       () => {
         const activeTabText = String(document.querySelector('.switch-tab-item.active')?.textContent || '');
-        const cards = Array.from(document.querySelectorAll('.claude-code-package-box .package-card'));
+        const cards = Array.from(document.querySelectorAll('.cp-card'));
         return /连续包月/.test(activeTabText) && cards.length >= 3;
       },
       { timeout: 10_000 },
@@ -1444,13 +1458,13 @@ async function parseZhipuCodingPlansWithPlaywright() {
           .replace(/\s+/g, ' ')
           .trim();
       const cleanup = (value) => normalize(value).replace(/^[^A-Za-z0-9\u4e00-\u9fa5¥￥]+/, '');
-      const cards = Array.from(document.querySelectorAll('.claude-code-package-box .package-card')).map((card) => {
-        const tier = cleanup(card.querySelector('.package-card-title .font-prompt')?.textContent || '');
-        const currentPriceText = cleanup(card.querySelector('.package-card-sale-price')?.textContent || '');
-        const originalPriceText = cleanup(card.querySelector('.package-card-original-price')?.textContent || '');
-        const notes = cleanup(card.querySelector('.package-card-next-price-box')?.textContent || '');
-        const featureTitle = cleanup(card.querySelector('.package-card-attr-title span')?.textContent || '');
-        const serviceDetails = Array.from(card.querySelectorAll('.package-card-attr-item'))
+      const cards = Array.from(document.querySelectorAll('.cp-card')).map((card) => {
+        const tier = cleanup(card.querySelector('.cp-card__title')?.textContent || '');
+        const currentPriceText = cleanup(card.querySelector('.cp-card__price-current')?.textContent || '');
+        const originalPriceText = cleanup(card.querySelector('.cp-card__price-original')?.textContent || '');
+        const badge = cleanup(card.querySelector('.cp-card__badge')?.textContent || '');
+        const description = cleanup(card.querySelector('.cp-card__description')?.textContent || '');
+        const serviceDetails = Array.from(card.querySelectorAll('.cp-card__feature-text'))
           .map((node) => cleanup(node.textContent))
           .filter(Boolean);
 
@@ -1458,8 +1472,8 @@ async function parseZhipuCodingPlansWithPlaywright() {
           tier,
           currentPriceText,
           originalPriceText,
-          notes,
-          serviceDetails: featureTitle ? [featureTitle, ...serviceDetails] : serviceDetails,
+          notes: badge,
+          serviceDetails: description ? [description, ...serviceDetails] : serviceDetails,
         };
       });
 
@@ -1479,7 +1493,7 @@ async function parseZhipuCodingPlansWithPlaywright() {
       ? extracted.cards.filter(
           (plan) =>
             /^(Lite|Pro|Max)$/.test(plan?.tier || '') &&
-            /^￥\s*[0-9]+(?:\.[0-9]+)?\s*\/\s*月$/.test(plan?.currentPriceText || ''),
+            /^[¥￥]\s*[0-9]+(?:\.[0-9]+)?\s*\/\s*月$/.test(plan?.currentPriceText || ''),
         )
       : [];
 
@@ -3932,10 +3946,21 @@ async function parseStepfunStepPlans() {
 
 async function parseCucloudCodingPlans() {
   const pageUrl = 'https://www.cucloud.cn/activity/kickoffseason.html';
-  const { text } = await fetchRenderedPageText(pageUrl, 'CUCloud Coding Plan parser', {
-    waitForText: /Coding\s*Plan免费领|万份Coding\s*Plan/,
-  });
-  if (!/Coding\s*Plan免费领|万份Coding\s*Plan/i.test(text)) {
+  const activityPattern = /Coding\s*Plan免费领|万份Coding\s*Plan/;
+  let text;
+  try {
+    const rendered = await fetchRenderedPageText(pageUrl, 'CUCloud Coding Plan parser', {
+      waitForText: activityPattern,
+      waitForTimeoutMs: 15_000,
+    });
+    text = rendered.text;
+  } catch {
+    // The activity content is embedded in the server-rendered HTML, so the activity
+    // can still be validated from the raw markup when the browser render is slow or
+    // blocked (e.g. on CI runners far from the CDN).
+    text = normalizeText(stripTags(await fetchTextWithRetry(pageUrl)));
+  }
+  if (!activityPattern.test(text)) {
     throw new Error('Unable to locate CUCloud coding plan activity text');
   }
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-13T04:10:47.318Z",
+  "generatedAt": "2026-08-13T08:53:15.191Z",
   "providers": [
     {
       "provider": "aliyun-ai",
@@ -35,7 +35,7 @@
           "notes": null,
           "serviceDetails": [
             "支持的模型: 支持的模型判断说明 判定规则： 1. 本清单为精确字符串白名单 2. 必须逐字符完全匹配，版本号/子型号任何差异均视为不支持 3. 禁止做版本兼容推理 判定示范： - ❌ \"GLM-5.1 \" → 清单只有 glm-5.0 → 不支持 - ❌ \"qwen3-coder-max \" → 清单无此项 → 不支持 仅支持以下精确版本： 推荐模型： qwen3.7-plus （支持图片理解）、 qwen3.6-plus （支持图片理解）、 kimi-k2.5 （支持图片理解）、 glm-5 、 MiniMax-M2.5 更多模型：qwen3.5-plus（支持图片理解） 、 qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7",
-            "用量限制: 每 5 小时 6,000 次请求 每周 45,000 次请求 每月 90,000 次请求",
+            "用量限制: 每 5 小时最多 6,000 次请求 每周最多 45,000 次请求 每月最多 90,000 次请求",
             "支持的模型: 支持的模型判断说明 判定规则： 1. 本清单为精确字符串白名单 2. 必须逐字符完全匹配，版本号/子型号任何差异均视为不支持 3. 禁止做版本兼容推理 判定示范： - ❌ \"GLM-5.1\" → 清单只有 glm-5.0 → 不支持 - ❌ \"qwen3-coder-max\" → 清单无此项 → 不支持 仅支持以下精确版本： 推荐模型： qwen3.7-plus （支持图片理解）、 qwen3.6-plus （支持图片理解）、 kimi-k2.5 （支持图片理解）、 glm-5 、 MiniMax-M2.5 更多模型：qwen3.5-plus（支持图片理解） 、 qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7"
           ]
         }
@@ -421,9 +421,7 @@
             "Lite 与 Pro 共计 12000 个专属免费名额"
           ]
         }
-      ],
-      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
-      "staleFailure": "cucloud-coding-plan: page.waitForFunction: Timeout 12000ms exceeded."
+      ]
     },
     {
       "provider": "github-copilot",
@@ -763,81 +761,6 @@
             "Kimi Code 60 倍额度",
             "Agent 集群可用 120 次（4 个子任务并行）",
             "专业数据库 12000 次调用"
-          ]
-        },
-        {
-          "name": "Adagio（海外）",
-          "currentPrice": 0,
-          "currentPriceText": "$0/月",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": "试用计划",
-          "serviceDetails": [
-            "计价币种: 美元（USD）",
-            "适用区域: 海外",
-            "会员等级: 免费试用",
-            "Kimi Code 试用套餐权益"
-          ]
-        },
-        {
-          "name": "Moderato（海外）",
-          "currentPrice": 19,
-          "currentPriceText": "$19/月",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": null,
-          "serviceDetails": [
-            "计价币种: 美元（USD）",
-            "适用区域: 海外",
-            "会员等级: 基础会员",
-            "Kimi Code 月度订阅权益"
-          ]
-        },
-        {
-          "name": "Allegretto（海外）",
-          "currentPrice": 39,
-          "currentPriceText": "$39/月",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": null,
-          "serviceDetails": [
-            "计价币种: 美元（USD）",
-            "适用区域: 海外",
-            "会员等级: 进阶会员",
-            "Kimi Code 月度订阅权益"
-          ]
-        },
-        {
-          "name": "Allegro（海外）",
-          "currentPrice": 99,
-          "currentPriceText": "$99/月",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": null,
-          "serviceDetails": [
-            "计价币种: 美元（USD）",
-            "适用区域: 海外",
-            "会员等级: 高级会员",
-            "Kimi Code 月度订阅权益"
-          ]
-        },
-        {
-          "name": "Vivace（海外）",
-          "currentPrice": 199,
-          "currentPriceText": "$199/月",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": null,
-          "serviceDetails": [
-            "计价币种: 美元（USD）",
-            "适用区域: 海外",
-            "会员等级: 旗舰会员",
-            "Kimi Code 月度订阅权益"
           ]
         }
       ]
@@ -1332,7 +1255,7 @@
       "provider": "volcengine-ai",
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.331/index.js"
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.333/index.js"
       ],
       "plans": [
         {
@@ -1591,30 +1514,31 @@
       "plans": [
         {
           "name": "GLM Coding Lite",
-          "currentPrice": 49,
-          "currentPriceText": "¥49/月",
+          "currentPrice": 118,
+          "currentPriceText": "¥118/月",
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
-          "notes": "下个月度续费金额：¥49",
+          "notes": null,
           "serviceDetails": [
-            "基础用量额度",
             "适合小型 Repo 轻量级迭代",
+            "每周 10,000 积分",
             "逐步开放最新旗舰模型及功能",
-            "支持 Claude Code 等 20+ 编程工具"
+            "支持 ZCode、Claude Code 等 20+ 编程工具"
           ]
         },
         {
           "name": "GLM Coding Pro",
-          "currentPrice": 149,
-          "currentPriceText": "¥149/月",
+          "currentPrice": 538,
+          "currentPriceText": "¥538/月",
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
-          "notes": "下个月度续费金额：¥149",
+          "notes": "最受欢迎",
           "serviceDetails": [
-            "5x Lite 用量额度 + Lite 全量权益",
             "适合中型 Repo 日常开发",
+            "6倍 Lite 用量额度",
+            "Lite 全部权益",
             "优先体验最新旗舰模型及功能",
             "覆盖多款精选 MCP 工具",
             "更快生成速度"
@@ -1622,26 +1546,22 @@
         },
         {
           "name": "GLM Coding Max",
-          "currentPrice": 469,
-          "currentPriceText": "¥469/月",
+          "currentPrice": 1078,
+          "currentPriceText": "¥1078/月",
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
-          "notes": "下个月度续费金额：¥469",
+          "notes": null,
           "serviceDetails": [
-            "20x Lite 用量额度 + Pro 全量权益",
             "适合高阶用户中大型 Repo 深度开发",
+            "14倍 Lite 用量额度",
+            "Pro 全部权益",
             "首发接入最新旗舰模型及功能",
             "高峰期专属资源优先保障"
           ]
         }
-      ],
-      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
-      "staleFailure": "zhipu-ai: Task timed out after 30000ms"
+      ]
     }
   ],
-  "failures": [
-    "zhipu-ai: Task timed out after 30000ms",
-    "cucloud-coding-plan: page.waitForFunction: Timeout 12000ms exceeded."
-  ]
+  "failures": []
 }
