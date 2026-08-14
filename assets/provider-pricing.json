@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-13T09:13:51.781Z",
+  "generatedAt": "2026-08-14T04:06:51.996Z",
   "providers": [
     {
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/66531af9c667f9c67aa80d107db29514.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/1892909a689048ead52051513947b297.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan"
       ],
@@ -621,9 +621,7 @@
             "适配工具：完美适配多种开发场景，支持 Claude Code、OpenCode、OpenClaw、Roo Code、Cursor等主流 AI 编码工具，多工具之间套餐额度共享"
           ]
         }
-      ],
-      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
-      "staleFailure": "jdcloud-ai: Task timed out after 30000ms"
+      ]
     },
     {
       "provider": "kilo-pass",
@@ -1332,7 +1330,7 @@
       "provider": "volcengine-ai",
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.333/index.js"
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.334/index.js"
       ],
       "plans": [
         {
@@ -1640,7 +1638,5 @@
       ]
     }
   ],
-  "failures": [
-    "jdcloud-ai: Task timed out after 30000ms"
-  ]
+  "failures": []
 }
