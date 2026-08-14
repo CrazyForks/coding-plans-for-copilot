@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-14T04:06:51.996Z",
+  "generatedAt": "2026-08-14T09:08:42.629Z",
   "providers": [
     {
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/1892909a689048ead52051513947b297.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/484f48ec5f85c7f94343a8382b17131b.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan"
       ],
@@ -1330,7 +1330,7 @@
       "provider": "volcengine-ai",
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.334/index.js"
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.336/index.js"
       ],
       "plans": [
         {

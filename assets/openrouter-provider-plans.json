@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-08-13T09:14:59.405Z",
-  "generatedAtBeijing": "2026年8月13日 17:14:59",
-  "sourceGeneratedAt": "2026-08-13T09:13:51.781Z",
-  "sourceGeneratedAtBeijing": "2026年8月13日 17:13:51",
-  "sourceMetricsGeneratedAt": "2026-08-13T09:13:56.237Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月13日 17:13:56",
+  "generatedAt": "2026-08-14T09:09:42.283Z",
+  "generatedAtBeijing": "2026年8月14日 17:09:42",
+  "sourceGeneratedAt": "2026-08-14T09:08:42.629Z",
+  "sourceGeneratedAtBeijing": "2026年8月14日 17:08:42",
+  "sourceMetricsGeneratedAt": "2026-08-14T09:08:43.558Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月14日 17:08:43",
   "summary": {
     "openrouterProviderCount": 102,
-    "metricsProviderCount": 44,
-    "resolvedMetricsProviderCount": 44,
+    "metricsProviderCount": 45,
+    "resolvedMetricsProviderCount": 45,
     "unresolvedMetricsProviderCount": 0,
     "structuredProviderCount": 8,
     "heuristicProviderCount": 8,
     "providersWithPlans": 16,
-    "pendingCount": 28,
+    "pendingCount": 29,
     "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
@@ -56,7 +56,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/66531af9c667f9c67aa80d107db29514.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/484f48ec5f85c7f94343a8382b17131b.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -726,7 +726,7 @@
       ],
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.333/index.js",
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.336/index.js",
         "https://docs.byteplus.com"
       ],
       "pricingPageUrl": "https://www.volcengine.com/activity/codingplan",
@@ -1054,13 +1054,14 @@
         "https://z.ai/_next/static/chunks/9571-09b09f1ff6f94c03.js",
         "https://z.ai/_next/static/chunks/1700-17e4fa831373a480.js",
         "https://z.ai/_next/static/chunks/282-ad9a268130a1b874.js",
+        "https://z.ai/_next/static/chunks/4029-2d2cbc4a8e10c5df.js",
         "https://z.ai/_next/static/chunks/6499-f4abcb651de5502f.js",
         "https://z.ai/_next/static/chunks/9129-33f23a013691f17e.js",
         "https://z.ai/_next/static/chunks/1591-0db469822f8dae9d.js",
-        "https://z.ai/_next/static/chunks/1433-5ac5405c76c96226.js",
-        "https://z.ai/_next/static/chunks/9649-118bf2538b2424be.js",
-        "https://z.ai/_next/static/chunks/9857-166ab5ce8c384250.js",
-        "https://z.ai/_next/static/chunks/8519-13a567e64c5c6084.js"
+        "https://z.ai/_next/static/chunks/8338-3a2774b6011ae976.js",
+        "https://z.ai/_next/static/chunks/5857-33b79b01f7de1ede.js",
+        "https://z.ai/_next/static/chunks/9857-35f25e54ffbf6ac5.js",
+        "https://z.ai/_next/static/chunks/8519-31ca4c1194a2ae37.js"
       ],
       "pricingPageUrl": "https://z.ai/subscribe",
       "officialWebsiteUrl": "https://z.ai",
@@ -1238,9 +1239,9 @@
       "slug": "modelrun",
       "openrouterName": "ModelRun",
       "providerId": null,
-      "officialWebsiteUrl": "https://modelrun.org",
-      "pricingPageUrl": "https://modelrun.org",
-      "reason": "官网价格页探测失败：https://modelrun.org/pricing: HTTP 404",
+      "officialWebsiteUrl": "https://www.modular.com",
+      "pricingPageUrl": "https://www.modular.com/pricing",
+      "reason": "官网价格页探测失败：https://www.modular.com/prices: HTTP 404",
       "blocked": false
     },
     {
@@ -1286,6 +1287,15 @@
       "officialWebsiteUrl": "https://parasail.io",
       "pricingPageUrl": "https://www.parasail.io/pricing",
       "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $3.00 / $15.00 / $0.30）",
+      "blocked": false
+    },
+    {
+      "slug": "relace",
+      "openrouterName": "Relace",
+      "providerId": null,
+      "officialWebsiteUrl": "https://www.relace.ai",
+      "pricingPageUrl": "https://relace.ai/pricing",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $1.00 / $3.00 / $0.20）",
       "blocked": false
     },
     {
