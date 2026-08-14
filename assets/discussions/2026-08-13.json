@@ -1,0 +1,81 @@
+{
+  "date": "2026-08-13",
+  "generatedAt": "2026-08-14T07:25:13.898Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 56,
+    "postsAfterKeywordFilter": 16,
+    "relevantPosts": 1,
+    "discussionsCreated": 1,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Zhipu (智谱)": 1,
+      "Codex": 1,
+      "HongMaCode": 1,
+      "DeepSeek": 1,
+      "tibo": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1234169",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234169",
+      "title": "抨击一下 tibo 现在的重置行为：作秀营销而非真正让利用户",
+      "content": "回顾一下 tibo 最近的几次重置，上上上次重置，没记错的话，正好是更早一次重置的一周后，也就是说本来就自然重置了，马上又再重置一次，大多数用户都还没消耗什么 token 就迎来了重置。 上上次重置则是在 8.12 附近，而最后一张重置卡是 8.13 凌晨到期，上上次重置实际上变相削弱了最后一张重置卡的价值。 最新一次重置则是今天上午十点多的时候，距离上次重置卡到期不超过十二个小时。 可以看到，tibo 的最近几次手动重置时间，都 和自然重置时间非常接近 ，尤其是在没有预告重置的情况下，对普通用户而言并没有太大价值。 轻度用户这里就不考虑了，我们这里把中度用户分成三类（一个重度用户简单等同于多个中度用户）： 每天平均用 14% 左右，均匀地用完周 token ；对这一类用户，tibo 的最近的重置行为没有任何好处，当然也没什么坏处； 一重置就把 token 用完，对这类用户而言，tibo 的重置让他们大赚特赚； 前面三四天少用一点，等重置时间快到了，再重度使用，tibo 最近几次的重置行为其实是让他们吃亏的， 总 token 用量反而比以前低了 。 v2ex 其实有用户也发帖说对于 t",
+      "author": "zwyyy456",
+      "createdAt": "2026-08-13T09:43:25.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "tibo",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.95,
+        "summary": "用户抨击tibo最近的几次重置行为，认为是作秀营销而非真正让利用户，讨论了重置对不同用户类型的影响以及对工作节奏的打乱。",
+        "topics": [
+          "重置",
+          "套餐",
+          "token",
+          "订阅",
+          "用户体验",
+          "定价"
+        ],
+        "planMentioned": "coding plan",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/296",
+      "analyzedAt": "2026-08-14T07:33:06.922Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1234376: The operation was aborted due to timeout",
+    "analysis failed for v2ex-1234372: LLM output schema validation failed: category: expected one of available categories, got \"其他\""
+  ]
+}

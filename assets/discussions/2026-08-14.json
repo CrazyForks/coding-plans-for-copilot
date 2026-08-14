@@ -1,0 +1,170 @@
+{
+  "date": "2026-08-14",
+  "generatedAt": "2026-08-14T07:25:13.898Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 56,
+    "postsAfterKeywordFilter": 16,
+    "relevantPosts": 4,
+    "discussionsCreated": 4,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Zhipu (智谱)": 1,
+      "Codex": 1,
+      "HongMaCode": 1,
+      "DeepSeek": 1,
+      "tibo": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1234368",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234368",
+      "title": "GLM 5.3 也来了， DeepSWE 跑分 66.9，后训练有说法啊",
+      "content": "后训练有点说法啊",
+      "author": "xqk111",
+      "createdAt": "2026-08-14T06:09:51.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.8,
+        "supplier": "Zhipu (智谱)",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.7,
+        "summary": "用户讨论了Zhipu AI的GLM 5.3模型更新及其在DeepSWE基准测试中的表现，提及后训练的传闻。",
+        "topics": [
+          "模型更新",
+          "基准测试",
+          "后训练",
+          "GLM 5.3"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/292",
+      "analyzedAt": "2026-08-14T07:32:45.386Z"
+    },
+    {
+      "id": "v2ex-1234358",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234358",
+      "title": "CodexBoard：爽当 PM ！我同时开发六个项目的方法论工具",
+      "content": "痛点 最近一直在用 Codex 干活，Codex 的项目概念还挺好的，在一个项目中不停干活就行了，但是最近又要做基准测试、又要开发测试集、又要干上班的活，经常忙了这个忘那个，这个任务还在规划，那个任务正在等批准，还有一个已经写完代码但忘了验收。中间再穿插几个命令审批和 Codex 提问因此还是搬出了 PM 最爱 Kanban 的概念（我发朋友圈里确实是 PM 说很棒 hhh ），每个项目一眼能看到各个任务的进行状态。 最早我只是想做一个简单的看板，把这些任务分别摆到「待办、规划、确认、执行、验收、完成」几个状态里。 后来做着做着，又加了独立工作区、方案确认、执行证据、审批通知、模型选择，再后来连 Codex 的 Skills 和 Apps 也接了进去，最后就变成了现在这个 CodexBoard 。 介绍 CodexBoard 不是什么复杂的先进理念，而是把“派活”这件事给重放了。 它目前还是通过 Codex CLI 的 app-server 工作，只是在上面加了一层本地任务管理。 大概的流程是： 创建任务 → 先生成方案 → 人工确认 → 独立执行 → 查看证据 → 验收完成 每个任务",
+      "author": "LDa",
+      "createdAt": "2026-08-14T05:50:03.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "Codex",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "用户分享了自主开发的 CodexBoard 工具，用于管理多个 AI 编码助手任务，提升项目协调效率。",
+        "topics": [
+          "项目管理",
+          "Codex",
+          "多任务处理",
+          "技术实现",
+          "本地化部署"
+        ],
+        "planMentioned": "Codex",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/293",
+      "analyzedAt": "2026-08-14T07:32:51.592Z"
+    },
+    {
+      "id": "v2ex-1234353",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234353",
+      "title": "[限量 50 名] 全模型一键配置助手与 Auto 智能路由开启内测",
+      "content": "各位 HongMaCode 用户： 为了让大家更简单、更高效地在 Codex App 、Codex CLI 和 Claude Code 中使用 HongMaCode 站内模型，我们近期推出了全新的 HongMaCode 一键配置助手 ，并同步开放 Auto 智能路由 功能内测。 本次面向 HongMaCode 已注册用户招募 50 名内测体验官 。每位入选用户可获得总计 100 美元等值的专属 API 测试额度 ，用于完成内测任务。 一、本次内测可以体验什么？ 1. 一键配置 Codex 和 Claude Code 无需手动修改复杂的 JSON 、TOML 或环境变量。配置助手可以检测本地客户端，并帮助你快速完成 HongMaCode API 地址、密钥及模型配置。 2. 一次接入站内多个模型 配置完成后，可以在 Codex App 、Codex CLI 或 Claude Code 中使用 HongMaCode 支持的模型，减少反复修改模型名称和供应商配置的工作。 3. Auto 智能路由 Auto 会根据任务复杂度、模型能力、可用状态及使用成本，在满足任务质量要求的前提下，自动选择更",
+      "author": "wlfh2008",
+      "createdAt": "2026-08-14T05:36:41.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "HongMaCode",
+        "supplierCategory": "aggregator",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.8,
+        "summary": "HongMaCode 开启一键配置助手与 Auto 智能路由内测，为入选用户提供 100 美元等值的 API 测试额度，用于在 Codex 和 Claude Code 等 AI 编程工具中使用。",
+        "topics": [
+          "内测",
+          "API额度",
+          "配置助手",
+          "智能路由",
+          "体验卡"
+        ],
+        "planMentioned": "API 测试额度",
+        "language": "zh",
+        "category": "Announcements"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/294",
+      "analyzedAt": "2026-08-14T07:32:58.073Z"
+    },
+    {
+      "id": "v2ex-1234352",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234352",
+      "title": "咋一晚上就出现了这么多 DeepSeek Harness 的插件",
+      "content": "咋一晚上就出现了这么多 DeepSeek Harness 的插件，晚上都不睡觉开发的吗",
+      "author": "l764191074537",
+      "createdAt": "2026-08-14T05:35:02.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.85,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "The user is surprised that many DeepSeek Harness plugins appeared overnight and jokes about developers not sleeping while developing them.",
+        "topics": [
+          "DeepSeek",
+          "插件",
+          "开发"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/295",
+      "analyzedAt": "2026-08-14T07:33:02.522Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1234376: The operation was aborted due to timeout",
+    "analysis failed for v2ex-1234372: LLM output schema validation failed: category: expected one of available categories, got \"其他\""
+  ]
+}
