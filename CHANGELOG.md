@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.14.0] - 2026-08-15
+- feat(web): add VS Code Web extension entry point and browser-compatible bundle
+- feat(web): support coding model providers, model refresh, Secret Storage, and SCM-based commit generation in vscode.dev and github.dev
+- build(web): package and verify separate Node.js and browser extension bundles
+
 ## [0.13.5] - 2026-08-15
 - feat(web): add VS Code Web extension entry point and browser-compatible bundle
 - feat(web): support coding model providers, model refresh, Secret Storage, and SCM-based commit generation in vscode.dev and github.dev
@@ -39,7 +44,3 @@ All notable changes to this project will be documented in this file.
 ## [0.12.1] - 2026-06-26
 - feat(app): 完善模型目录与服务兜底逻辑
 - feat(pricing): 更新服务商套餐数据与前端展示逻辑
-
-## [0.12.0] - 2026-06-25
-- feat(provider): 支持关闭额外请求封装并优化 Grok 协议与 Token 计数
-- feat(pricing): add 华为云 Token Plan (智果园) — closes #160
