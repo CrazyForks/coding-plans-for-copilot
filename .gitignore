@@ -3,6 +3,7 @@ node_modules
 out/
 dist/
 .vscode-test/
+.vscode-test-web/
 *.log
 .DS_Store
 *.log

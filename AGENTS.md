@@ -57,7 +57,7 @@
 
 ## Code Map (Extension)
 
-- Entry: `src/extension.ts` (registers `LanguageModelChatProvider`, commands, and SCM menus).
+- Entries: `src/extension.node.ts` (Node.js host) and `src/extension.web.ts` (browser host); shared activation is in `src/extension.ts`.
 - Configuration: `src/config/configStore.ts` (`coding-plans.vendors` normalization; new configs use `defaultApiStyle` / `models[].apiStyle`, `apiType` is only read for migration).
 - Protocols and requests: `src/providers/genericProvider.ts`, `genericProviderProtocols.ts`; VS Code API adaptation: `lmChatProviderAdapter.ts`.
 - Behavior and regression notes: see [DEV.md](DEV.md), [docs/testing.md](docs/testing.md); acceptance scenarios in [cases/](cases/) (non-automated; review or supplement before changing behavior).
@@ -71,7 +71,7 @@
 | Publish extension | `npm run package:vsix`; see [DEV.md](DEV.md) for release and pre-release version conventions |
 
 - Common commands: `compile` (typecheck+bundle), `package:vsix`, `test:unit`, `test:desktop`, `test:pages`.
-- VSIX only packages files listed in the manifest such as `out/extension.js` (see `.vscodeignore`); new runtime resources must be added to the packaging/esbuild config as well.
+- VSIX only packages allowlisted runtime entries `out/extension.node.js` and `out/extension.web.js` (see `.vscodeignore`); new runtime resources must be added to the packaging/esbuild config as well.
 
 ## Documentation Consistency
 

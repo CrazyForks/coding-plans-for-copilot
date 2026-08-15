@@ -95,7 +95,7 @@ export class CodingPlanStatusBarController implements vscode.Disposable {
 
 export class PlanUsagePollingController implements vscode.Disposable {
   private readonly disposables: vscode.Disposable[] = [];
-  private refreshTimer: NodeJS.Timeout | undefined;
+  private refreshTimer: ReturnType<typeof setTimeout> | undefined;
   private refreshInFlight: Promise<void> | undefined;
   private preferredVendorName: string | undefined;
   private disposed = false;

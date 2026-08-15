@@ -66,6 +66,20 @@
         "**/.vscode-server/extensions/github.copilot-chat-*/**"
       ],
       "preLaunchTask": "npm: compile"
+    },
+    {
+      "name": "Run Web Extension",
+      "type": "pwa-extensionHost",
+      "request": "launch",
+      "debugWebWorkerHost": true,
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}",
+        "--extensionDevelopmentKind=web"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/out/extension.web.js"
+      ],
+      "preLaunchTask": "npm: compile"
     }
   ]
 }

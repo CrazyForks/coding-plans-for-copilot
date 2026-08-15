@@ -2,7 +2,7 @@
     "name": "coding-plans-for-copilot",
     "displayName": "%displayName%",
     "description": "%description%",
-    "version": "0.13.4",
+    "version": "0.13.5",
     "publisher": "techfetch-dev",
     "activationEvents": [
         "onStartupFinished"
@@ -19,7 +19,8 @@
         "Other"
     ],
     "icon": "assets/icon.png",
-    "main": "./out/extension.js",
+    "main": "./out/extension.node.js",
+    "browser": "./out/extension.web.js",
     "contributes": {
         "languageModelChatProviders": [
             {
@@ -585,10 +586,11 @@
         "test": "npm run test:unit && npm run test:desktop",
         "test:unit": "node ./out/test/runTest.js",
         "test:desktop": "vscode-test --label desktop",
+        "test:vsix": "node --test tests/scripts/vsix-package-files.test.js",
         "changelog:update": "node ./scripts/update-changelog.js",
         "package": "npm run bundle:prod",
-        "package:vsix": "npm run package && npx @vscode/vsce package",
-        "package:vsix:pre": "npm run package && npx @vscode/vsce package --pre-release",
+        "package:vsix": "npm run package && npm run test:vsix && npx @vscode/vsce package",
+        "package:vsix:pre": "npm run package && npm run test:vsix && npx @vscode/vsce package --pre-release",
         "publish:marketplace": "npm run changelog:update && npm run package && npx @vscode/vsce publish",
         "publish:marketplace:pre": "npm run changelog:update && npm run package && npx @vscode/vsce publish --pre-release",
         "pricing:fetch": "node ./scripts/fetch-provider-pricing.js",

@@ -16,6 +16,13 @@
 
 ---
 
+## VS Code Web 平台
+
+本扩展现可运行于 VS Code Web，包括 `vscode.dev` 与 `github.dev`。只要目标宿主提供 Copilot Chat 和 SCM/Git 提供商，语言模型提供商、供应商配置和 Secret Storage API Key、模型刷新、模型配置复制、用量状态栏及提交消息命令都会可用。
+
+- 浏览器扩展宿主不能运行本地 Git 可执行程序。启用 `coding-plans.commitMessage.useRecentCommitStyle` 时，Web 端只会跳过可选的最近提交风格样本，提交消息仍基于当前 SCM diff 生成。
+- 请求由浏览器扩展宿主直接发出。配置的 API 端点，包括 `/models` 和可选用量端点，都必须允许对应的跨域请求（CORS）。若上游 API 不支持浏览器请求，请使用支持 CORS 的供应商端点或代理。
+
 ## 核心特性
 
 - **多协议统一接入**：支持 OpenAI Chat（`/chat/completions`）、OpenAI Responses（`/responses`）、Anthropic（`/messages`）三种协议风格，适配任意兼容供应商。

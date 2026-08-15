@@ -16,6 +16,13 @@ This extension is a general protocol adapter, not a clone of Copilot's private e
 
 ---
 
+## VS Code for the Web
+
+Coding Plans runs in VS Code for the Web, including `vscode.dev` and `github.dev`. The language model provider, vendor configuration and Secret Storage API keys, model refresh, model-configuration copy, usage status, and commit-message commands remain available when the host provides Copilot Chat and an SCM/Git provider.
+
+- Browser extension hosts cannot run a local Git executable. When `coding-plans.commitMessage.useRecentCommitStyle` is enabled, the web host skips only the optional recent-commit style samples; commit generation still uses the current SCM diff.
+- Requests originate in the browser extension host. Each configured API endpoint, including `/models` and optional usage endpoints, must allow the required cross-origin requests (CORS). Use a CORS-enabled vendor endpoint or proxy when the upstream API does not support browser requests.
+
 ## Core Features
 
 - **Multi-Protocol Unified Access**: Supports OpenAI Chat (`/chat/completions`), OpenAI Responses (`/responses`), and Anthropic (`/messages`) three protocol styles, adapting to any compatible vendor.

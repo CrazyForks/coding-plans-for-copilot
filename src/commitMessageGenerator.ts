@@ -1,10 +1,7 @@
 import * as vscode from 'vscode';
-import { execFile } from 'node:child_process';
-import * as path from 'node:path';
 import { getMessage } from './i18n/i18n';
 import {
   CODING_PLANS_VENDOR,
-  COMMIT_LOG_ENTRY_SEPARATOR,
   COMMIT_MESSAGE_MODEL_ID_SETTING_KEY,
   COMMIT_MESSAGE_MODEL_SELECTION_LOG_PREFIX,
   COMMIT_MESSAGE_MODEL_VENDOR_SETTING_KEY,
@@ -47,7 +44,6 @@ import {
   LEGACY_COMMIT_MESSAGE_WARN_ON_VALIDATION_FAILURE_SETTING_KEY,
   REQUEST_SOURCE_COMMIT_MESSAGE,
   REQUEST_SOURCE_MODEL_OPTION_KEY,
-  RECENT_COMMIT_STYLE_MAX_ENTRY_LENGTH,
   REQUEST_CANCELLED_ERROR_CODE,
   SELECT_CHAT_MODELS_CACHE_TTL_MS,
   SELECT_CHAT_MODELS_TIMEOUT_MS,
@@ -145,8 +141,15 @@ type CommitMessageModelSource = {
   getAvailableModels(): vscode.LanguageModelChat[];
 };
 
+export type RecentCommitMessagesProvider = (
+  repo: GitRepository,
+  count: number,
+  maxPromptLength: number,
+) => Promise<string[]>;
+
 let chatModelsSelectionCache: ChatModelsSelectionCacheState | undefined;
 let commitMessageModelSource: CommitMessageModelSource | undefined;
+let recentCommitMessagesProvider: RecentCommitMessagesProvider | undefined;
 
 const LANGUAGE_ENFORCEMENT_RULES: Record<CommitMessageLanguage, LanguageEnforcementRule> = {
   'zh-cn': {
@@ -170,6 +173,10 @@ function shouldUseRecentCommitStyle(): boolean {
   return vscode.workspace
     .getConfiguration('coding-plans')
     .get<boolean>(COMMIT_MESSAGE_USE_RECENT_STYLE_SETTING_KEY, false);
+}
+
+export function registerRecentCommitMessagesProvider(provider?: RecentCommitMessagesProvider): void {
+  recentCommitMessagesProvider = provider;
 }
 
 function normalizePipelineMode(value: string | undefined): CommitMessagePipelineMode {
@@ -469,69 +476,6 @@ function normalizeNewlines(text: string): string {
   return text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 }
 
-function getRepositoryRootPath(repo: GitRepository): string | undefined {
-  const rootPath = repo.rootUri?.fsPath?.trim();
-  if (!rootPath) {
-    return undefined;
-  }
-  return rootPath;
-}
-
-function trimCommitStyleSample(message: string, maxLength = RECENT_COMMIT_STYLE_MAX_ENTRY_LENGTH): string {
-  const normalized = normalizeNewlines(message).trim();
-  if (!normalized) {
-    return '';
-  }
-  if (normalized.length <= maxLength) {
-    return normalized;
-  }
-  return `${normalized.slice(0, Math.max(0, maxLength - 3))}...`;
-}
-
-async function getRecentCommitMessages(
-  repo: GitRepository,
-  count: number,
-  maxPromptLength = DEFAULT_LLM_MAX_PROMPT_LENGTH,
-): Promise<string[]> {
-  const rootPath = getRepositoryRootPath(repo);
-  if (!rootPath) {
-    return [];
-  }
-
-  const safeCount = Math.max(1, Math.floor(count));
-  const safeMaxPromptLength = Math.max(500, Math.floor(maxPromptLength));
-  // Try to keep enough samples: avoid one long body consuming the whole style budget.
-  const perEntryMaxLength = Math.max(
-    80,
-    Math.min(RECENT_COMMIT_STYLE_MAX_ENTRY_LENGTH, Math.floor(safeMaxPromptLength / safeCount)),
-  );
-  const stdout = await new Promise<string>((resolve) => {
-    execFile(
-      'git',
-      ['-C', rootPath, 'log', '--no-merges', `-${safeCount}`, `--pretty=format:%B${COMMIT_LOG_ENTRY_SEPARATOR}`],
-      { encoding: 'utf8', maxBuffer: 1024 * 1024 },
-      (error, out) => {
-        if (error) {
-          resolve('');
-          return;
-        }
-        resolve(out);
-      },
-    );
-  });
-
-  if (!stdout.trim()) {
-    return [];
-  }
-
-  // We already cap each entry, so we can keep the full requested sample size.
-  return normalizeNewlines(stdout)
-    .split(COMMIT_LOG_ENTRY_SEPARATOR)
-    .map((message) => trimCommitStyleSample(message, perEntryMaxLength))
-    .filter((message) => message.length > 0)
-    .slice(0, safeCount);
-}
-
 function buildStyleReferenceBlock(recentMessages: string[]): string | undefined {
   if (recentMessages.length === 0) {
     return undefined;
@@ -809,26 +753,19 @@ function isGitRepository(value: unknown): value is GitRepository {
   return typeof value.diff === 'function' && isRecord(value.inputBox) && typeof value.inputBox.value === 'string';
 }
 
-function normalizeFsPath(fsPath: string): string {
-  const normalized = path.normalize(fsPath);
-  return process.platform === 'win32' ? normalized.toLowerCase() : normalized;
+function isUriEqualOrWithin(uriToCheck: vscode.Uri, rootUri: vscode.Uri): boolean {
+  if (uriToCheck.scheme !== rootUri.scheme || uriToCheck.authority !== rootUri.authority) {
+    return false;
+  }
+
+  const normalizedRootPath = rootUri.path.endsWith('/') ? rootUri.path.slice(0, -1) : rootUri.path;
+  return uriToCheck.path === normalizedRootPath || uriToCheck.path.startsWith(`${normalizedRootPath}/`);
 }
 
-function areFsPathsEqual(left: string, right: string): boolean {
-  return normalizeFsPath(left) === normalizeFsPath(right);
-}
-
-function isPathEqualOrWithin(pathToCheck: string, rootPath: string): boolean {
-  const normalizedPathToCheck = normalizeFsPath(pathToCheck);
-  const normalizedRootPath = normalizeFsPath(rootPath);
-  const relative = path.relative(normalizedRootPath, normalizedPathToCheck);
-  return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
-}
-
-function findRepositoryByRootPath(repositories: GitRepository[], rootPath: string): GitRepository | undefined {
+function findRepositoryByRootUri(repositories: GitRepository[], rootUri: vscode.Uri): GitRepository | undefined {
   return repositories.find((repo) => {
-    const candidateRootPath = repo.rootUri?.fsPath;
-    return typeof candidateRootPath === 'string' && areFsPathsEqual(candidateRootPath, rootPath);
+    const candidateRootUri = repo.rootUri;
+    return candidateRootUri?.toString() === rootUri.toString();
   });
 }
 
@@ -874,13 +811,10 @@ function findRepositoryByUri(gitApi: GitAPI, uri: vscode.Uri): GitRepository | u
   if (repositoryFromApi) {
     return repositoryFromApi;
   }
-  if (uri.scheme !== 'file') {
-    return undefined;
-  }
 
   return gitApi.repositories.find((repo) => {
-    const repoRootPath = repo.rootUri?.fsPath;
-    return typeof repoRootPath === 'string' && isPathEqualOrWithin(uri.fsPath, repoRootPath);
+    const repoRootUri = repo.rootUri;
+    return repoRootUri ? isUriEqualOrWithin(uri, repoRootUri) : false;
   });
 }
 
@@ -890,9 +824,9 @@ function resolveRepositoryFromCommandContext(gitApi: GitAPI, commandContext: unk
       return commandContext;
     }
 
-    const rootPath = commandContext.rootUri?.fsPath;
-    if (typeof rootPath === 'string') {
-      const matched = findRepositoryByRootPath(gitApi.repositories, rootPath);
+    const rootUri = commandContext.rootUri;
+    if (rootUri) {
+      const matched = findRepositoryByRootUri(gitApi.repositories, rootUri);
       if (matched) {
         return matched;
       }
@@ -1582,7 +1516,7 @@ async function selectChatModelsOnceWithTimeout(
     hasCancellationToken: !!token,
     selector: selectorLog,
   });
-  let timeoutHandle: NodeJS.Timeout | undefined;
+  let timeoutHandle: ReturnType<typeof setTimeout> | undefined;
   let cancellationDisposable: vscode.Disposable | undefined;
   const timeoutPromise = new Promise<never>((_, reject) => {
     timeoutHandle = setTimeout(() => {
@@ -1997,8 +1931,8 @@ export async function generateCommitMessage(commandContext?: unknown): Promise<v
         const model = selection.model;
         const settings = getCommitMessageSettings();
         const language = getCommitLanguage();
-        const styleReferenceBlockPromise = shouldUseRecentCommitStyle()
-          ? getRecentCommitMessages(repo, DEFAULT_RECENT_COMMIT_STYLE_SAMPLE_SIZE, settings.llmMaxPromptLength).then(
+        const styleReferenceBlockPromise = shouldUseRecentCommitStyle() && recentCommitMessagesProvider
+          ? recentCommitMessagesProvider(repo, DEFAULT_RECENT_COMMIT_STYLE_SAMPLE_SIZE, settings.llmMaxPromptLength).then(
               buildStyleReferenceBlock,
             )
           : Promise.resolve<string | undefined>(undefined);

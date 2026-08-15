@@ -9,6 +9,9 @@ npm install
 # Compile
 npm run compile
 
+# Verify the Web bundle and VSIX allowlist
+npm run test:vsix
+
 # Lint
 npm run lint
 
@@ -34,12 +37,17 @@ npm run package:vsix:pre
 | --- | --- |
 | `npm run test:unit` | Runs the pure code regression tests in `src/test/runTest.ts`. |
 | `npm run test:desktop` | Uses `@vscode/test-cli` to invoke `@vscode/test-electron`; on the first run it downloads the Stable VS Code Desktop into `.vscode-test/`, then launches an isolated test instance to run `src/test/suite/**/*.test.ts`. |
+| `Run Web Extension` | VS Code debug entry that launches the browser extension host using `out/extension.web.js`. |
 | `npm test` | Runs `test:unit` first, then `test:desktop`. |
 | `Run Extension Tests` | VS Code debug entry; reads `.vscode-test.js` in the repository root. |
 
 More test layers and execution chains: see [docs/testing.md](docs/testing.md).
 
 ## Packaging and Publishing
+
+The extension package contains separate runtime entry points: `out/extension.node.js` for the Node.js extension host and `out/extension.web.js` for browser extension hosts. `npm run compile` and `npm run package` build both entries; `npm run test:vsix` verifies that both are packaged and that the browser bundle has no Node runtime imports.
+
+In VS Code for the Web, configured upstream endpoints must support CORS. Commit-message generation can use a host-provided SCM/Git API, but recent-commit style sampling remains a desktop-only enhancement because it runs `git log` locally.
 
 ```bash
 npm run package:vsix

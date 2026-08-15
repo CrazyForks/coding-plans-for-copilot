@@ -556,8 +556,6 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     hasOnDidChangeChatModels: typeof vscode.lm?.onDidChangeChatModels === 'function',
   });
 
-  // Register commit-message commands first so they remain available
-  // even if provider initialization fails.
   context.subscriptions.push(
     vscode.commands.registerCommand('coding-plans.generateCommitMessage', generateCommitMessage),
   );

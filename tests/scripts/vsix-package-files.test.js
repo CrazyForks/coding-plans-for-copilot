@@ -14,7 +14,8 @@ const expectedVsixFiles = [
   'package.json',
   'LICENSE',
   'CHANGELOG.md',
-  'out/extension.js',
+  'out/extension.node.js',
+  'out/extension.web.js',
   'assets/icon.png',
 ];
 const expectedVsixFileSet = [...expectedVsixFiles].sort();
@@ -40,6 +41,16 @@ test('VSIX package only includes explicitly allowed files', () => {
   const files = listVsixFiles();
 
   assert.deepEqual([...files].sort(), expectedVsixFileSet);
+});
+
+test('web extension entry is declared and contains no Node runtime imports', () => {
+  const manifest = JSON.parse(fs.readFileSync(path.join(repoRoot, 'package.json'), 'utf8'));
+  const webBundle = fs.readFileSync(path.join(repoRoot, 'out', 'extension.web.js'), 'utf8');
+  const requiredModules = Array.from(webBundle.matchAll(/require\(["']([^"']+)["']\)/g), (match) => match[1]);
+
+  assert.equal(manifest.main, './out/extension.node.js');
+  assert.equal(manifest.browser, './out/extension.web.js');
+  assert.deepEqual([...new Set(requiredModules)], ['vscode']);
 });
 
 test('VSIX package ignores new files unless they are allowlisted', () => {

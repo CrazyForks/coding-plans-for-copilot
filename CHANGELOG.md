@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.13.5] - 2026-08-15
+- feat(web): add VS Code Web extension entry point and browser-compatible bundle
+- feat(web): support coding model providers, model refresh, Secret Storage, and SCM-based commit generation in vscode.dev and github.dev
+- build(web): package and verify separate Node.js and browser extension bundles
+
 ## [0.13.4] - 2026-08-04
 - fix(config): chatLanguageModels.json 导出完整 endpoint url 与运行时一致
 - feat(command): 新增 "Copy Model as chatLanguageModels.json" 命令
@@ -38,6 +43,3 @@ All notable changes to this project will be documented in this file.
 ## [0.12.0] - 2026-06-25
 - feat(provider): 支持关闭额外请求封装并优化 Grok 协议与 Token 计数
 - feat(pricing): add 华为云 Token Plan (智果园) — closes #160
-
-## [0.11.11] - 2026-06-16
-- feat(config): 新增 coding-plans.autoRefreshModels 配置项

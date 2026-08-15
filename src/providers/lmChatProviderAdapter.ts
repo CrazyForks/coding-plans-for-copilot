@@ -1,5 +1,3 @@
-import * as fs from 'node:fs';
-import * as path from 'node:path';
 import * as vscode from 'vscode';
 import { ContextUsageState, LastContextUsageSnapshot } from '../contextUsageState';
 import { BaseAIProvider, BaseLanguageModel, getCompactErrorMessage } from './baseProvider';
@@ -23,7 +21,6 @@ import { logger } from '../logging/outputChannelLogger';
 import { NormalizedTokenUsage, readAttachedTokenUsage } from './tokenUsage';
 
 const MAX_EMPTY_MODEL_RESPONSE_RETRIES = 2;
-const LM_INFO_LOG_PATH = path.join(process.cwd(), 'temp', 'lm-info-log.jsonl');
 const LANGUAGE_MODELS_PICKER_LOG_PREFIX = '[coding-plans][language-models-picker]';
 
 interface CodingPlansRequestModelOptions {
@@ -873,12 +870,6 @@ export class LMChatProviderAdapter implements vscode.LanguageModelChatProvider, 
       ...payload,
     };
     logger.debug(`${LANGUAGE_MODELS_PICKER_LOG_PREFIX} ${stage}`, entry);
-    try {
-      fs.mkdirSync(path.dirname(LM_INFO_LOG_PATH), { recursive: true });
-      fs.appendFileSync(LM_INFO_LOG_PATH, JSON.stringify(entry) + '\n', 'utf8');
-    } catch {
-      // ignore diagnostic logging failures
-    }
   }
 
   private summarizePickerOptions(options: vscode.PrepareLanguageModelChatModelOptions): Record<string, unknown> {
