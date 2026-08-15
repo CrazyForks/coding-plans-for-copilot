@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-08-14T09:09:42.283Z",
-  "generatedAtBeijing": "2026年8月14日 17:09:42",
-  "sourceGeneratedAt": "2026-08-14T09:08:42.629Z",
-  "sourceGeneratedAtBeijing": "2026年8月14日 17:08:42",
-  "sourceMetricsGeneratedAt": "2026-08-14T09:08:43.558Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月14日 17:08:43",
+  "generatedAt": "2026-08-15T08:31:50.291Z",
+  "generatedAtBeijing": "2026年8月15日 16:31:50",
+  "sourceGeneratedAt": "2026-08-15T08:30:49.080Z",
+  "sourceGeneratedAtBeijing": "2026年8月15日 16:30:49",
+  "sourceMetricsGeneratedAt": "2026-08-15T08:30:50.608Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月15日 16:30:50",
   "summary": {
     "openrouterProviderCount": 102,
-    "metricsProviderCount": 45,
-    "resolvedMetricsProviderCount": 45,
+    "metricsProviderCount": 46,
+    "resolvedMetricsProviderCount": 46,
     "unresolvedMetricsProviderCount": 0,
     "structuredProviderCount": 8,
     "heuristicProviderCount": 8,
     "providersWithPlans": 16,
-    "pendingCount": 29,
+    "pendingCount": 30,
     "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
@@ -1101,6 +1101,15 @@
       "blocked": false
     },
     {
+      "slug": "azure",
+      "openrouterName": "Azure",
+      "providerId": null,
+      "officialWebsiteUrl": "https://www.microsoft.com",
+      "pricingPageUrl": "https://learn.microsoft.com/en-us/windows-hardware/drivers/",
+      "reason": "官网价格页探测失败：https://www.microsoft.com/pricing: HTTP 404",
+      "blocked": false
+    },
+    {
       "slug": "baseten",
       "openrouterName": "BaseTen",
       "providerId": null,
@@ -1268,7 +1277,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://novita.ai",
       "pricingPageUrl": "https://novita.ai/pricing",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.14 / $0.028 / $0.28）",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $1.32 / $0.35 / $3.96）",
       "blocked": false
     },
     {
