@@ -1,6 +1,6 @@
 {
   "date": "2026-08-14",
-  "generatedAt": "2026-08-14T07:25:13.898Z",
+  "generatedAt": "2026-08-15T06:38:47.829Z",
   "config": {
     "sources": [
       "v2ex",
@@ -24,17 +24,15 @@
     "relevanceThreshold": 0.7
   },
   "summary": {
-    "totalPostsFetched": 56,
-    "postsAfterKeywordFilter": 16,
-    "relevantPosts": 4,
-    "discussionsCreated": 4,
+    "totalPostsFetched": 52,
+    "postsAfterKeywordFilter": 22,
+    "relevantPosts": 6,
+    "discussionsCreated": 6,
     "discussionsSkipped": 0,
     "supplierMentions": {
-      "Zhipu (智谱)": 1,
-      "Codex": 1,
-      "HongMaCode": 1,
-      "DeepSeek": 1,
-      "tibo": 1
+      "DeepSeek": 2,
+      "DeepSeek, Kimi, GLM, OpenAI, GPT, CodeX": 1,
+      "Claude, Codex": 1
     }
   },
   "posts": [
@@ -158,13 +156,72 @@
       },
       "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/295",
       "analyzedAt": "2026-08-14T07:33:02.522Z"
+    },
+    {
+      "id": "v2ex-1234407",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234407",
+      "title": "目前国内价格合适,能用的开发模型有哪些.",
+      "content": "这几天被 gpt5.6 搞的心态爆炸. 各种 bug,不按规范来. 一问就是“你说的对,我马上改”. token 消耗又极快,plus 周额度基本也就一天. 想想还不如直接买国内模型,多写点约束也不是不能用.",
+      "author": "ainyyy",
+      "createdAt": "2026-08-14T07:57:34.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": null,
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.8,
+        "summary": "用户因GPT-5.6的高token消耗、额度限制和不稳定性而转向国内模型，认为国内模型更具成本效益尽管需要更多约束。",
+        "topics": [
+          "定价",
+          "模型对比",
+          "token消耗",
+          "国内模型"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/301",
+      "analyzedAt": "2026-08-15T06:50:41.995Z"
+    },
+    {
+      "id": "v2ex-1234390",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234390",
+      "title": "dsh 内测人员路过，讲一下心路历程",
+      "content": "第一就是老中青三代齐聚，老登多刚 18 岁的二次元小妹妹也有 第二就是 deepseek 加班好猛，谁说不加班的，高薪也不好赚啊 第三就是 dsh 真的蛮好用的，配合 deepseek 4 flash 真的指哪打哪 问题就是内测期间 dsh 经常大改，然后插件很容易全爆炸，跟着屁股改有点累 还有就是内测群氛围是真好，内鬼也是真多，最后几天每天都有人被✈️出去 最后宣传下我内测期间写的 dsh 学习资料： [点击进入 DSH Find]( https://dshfind.com/zh ) 还有 https://github.com/hikariming/dshfind 除了论文解读外，我人工把自己喜欢的插件都标记好了，欢迎来玩哦",
+      "author": "hikariming",
+      "createdAt": "2026-08-14T07:02:38.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "作者作为dsh内测人员，分享了使用体验，包括产品的优点如配合deepseek 4 flash指哪打哪，以及内测期间的问题如频繁更新导致插件不稳定。",
+        "topics": [
+          "内测",
+          "插件",
+          "使用体验",
+          "DeepSeek"
+        ],
+        "planMentioned": "deepseek 4 flash",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/302",
+      "analyzedAt": "2026-08-15T06:50:45.109Z"
     }
   ],
   "failures": [
     "linuxdo: https://linux.do/latest.rss → 429",
     "linuxdo: https://linux.do/latest.json → 429",
     "linuxdo: https://linux.do/latest.json → 429",
-    "analysis failed for v2ex-1234376: The operation was aborted due to timeout",
-    "analysis failed for v2ex-1234372: LLM output schema validation failed: category: expected one of available categories, got \"其他\""
+    "analysis failed for v2ex-1234586: The operation was aborted due to timeout"
   ]
 }

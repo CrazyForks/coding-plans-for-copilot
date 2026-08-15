@@ -1,0 +1,175 @@
+{
+  "date": "2026-08-15",
+  "generatedAt": "2026-08-15T06:38:47.829Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 52,
+    "postsAfterKeywordFilter": 22,
+    "relevantPosts": 4,
+    "discussionsCreated": 4,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "DeepSeek": 2,
+      "DeepSeek, Kimi, GLM, OpenAI, GPT, CodeX": 1,
+      "Claude, Codex": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1234597",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234597",
+      "title": "DeepSeek Harness 安装问题",
+      "content": "在服务器上安装遇到的问题 内存 1G 无法安装，报错达到内存上限，找了台 2G 的才可以 可能是因为 arm 架构的问题，中间提示需要编译 node-pty 等。 还要 approve-scripts 相关包 安装体验远不如 Claude Code",
+      "author": "nextone",
+      "createdAt": "2026-08-15T06:35:22.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.85,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.9,
+        "summary": "用户在服务器上安装DeepSeek Harness时遇到内存不足和ARM架构相关问题，导致安装失败，并认为安装体验远不如Claude Code。",
+        "topics": [
+          "安装问题",
+          "内存限制",
+          "ARM架构",
+          "编译错误",
+          "体验对比"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/297",
+      "analyzedAt": "2026-08-15T06:50:20.838Z"
+    },
+    {
+      "id": "v2ex-1234559",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234559",
+      "title": "Vibe Coding 成果展示 IOS app",
+      "content": "无代码基础的硬件工程师，最近中年危机，遂摸索 Vibe Coding ，现在展示成果了。欢迎大家来体验和提建议。 已经修了好几版本了，可能还有好多 bug😄。 大佬们轻喷。 送 3 个月会员免费码： https://apps.apple.com/redeem/?ctx=offercodes&amp;id=6796547041&amp;code=WIS202608 到期不会自动续费 支持离线使用，照片仅在本地处理、不会上传，可以放心体验。 中文名：照见世界",
+      "author": "lengerqi",
+      "createdAt": "2026-08-15T03:49:34.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": null,
+        "supplierCategory": null,
+        "sentiment": "positive",
+        "sentimentConfidence": 0.85,
+        "summary": "A hardware engineer with no coding background shares their Vibe Coding project — an iOS app called '照见世界' — and offers 3-month free membership codes for others to try. The app works offline and processes photos locally without uploading.",
+        "topics": [
+          "Vibe Coding",
+          "iOS app",
+          "体验卡",
+          "免费码",
+          "使用体验"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/298",
+      "analyzedAt": "2026-08-15T06:50:25.936Z"
+    },
+    {
+      "id": "v2ex-1234552",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234552",
+      "title": "讨论点不一样的,你更倾向于使用不同 ai 使用各种不同的 harness, 还是一个 harness 接入不同 ai?为什么?",
+      "content": "例如: deepseek+dsh | kimi+kimicode | glm+zcode 或者: codex+gpt|ds|kimi|glm | opencode+ds|kimi|glm 你们更喜欢哪一种?都出于什么样的考虑?",
+      "author": "cvooc",
+      "createdAt": "2026-08-15T03:28:51.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.8,
+        "supplier": "DeepSeek, Kimi, GLM, OpenAI, GPT, CodeX",
+        "supplierCategory": "other",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "讨论不同AI助手与代码工具(如deepseek+dsh, kimi+kimicode, glm+zcode等)的组合使用偏好，询问用户更倾向于单一AI多用途还是多AI单用途的原因。",
+        "topics": [
+          "AI助手",
+          "代码工具",
+          "组合使用",
+          "偏好讨论",
+          "DeepSeek",
+          "Kimi",
+          "GLM",
+          "OpenAI",
+          "GPT",
+          "CodeX",
+          "Opencode"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/299",
+      "analyzedAt": "2026-08-15T06:50:31.484Z"
+    },
+    {
+      "id": "v2ex-1234551",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234551",
+      "title": "我想了解下，目前国产大模型，有哪些可以媲美 codex 和 claude 的？",
+      "content": "之前主要用 100$的 claude 月订阅，感觉还是太贵了，不想定了 也用了 20$的 codex 月订阅，好用是好用，就是经常额度不够 所以我想了解下国产的 平替 有哪些好用的？",
+      "author": "aidevs",
+      "createdAt": "2026-08-15T03:22:12.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Claude, Codex",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "The user is asking about domestic Chinese AI models that can match the performance of Codex and Claude, mentioning they previously used $100/month Claude subscription and $20/month Codex subscription but found them expensive or with insufficient quotas.",
+        "topics": [
+          "订阅",
+          "定价",
+          "套餐对比",
+          "国产替代"
+        ],
+        "planMentioned": "Claude 月订阅, Codex 月订阅",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/300",
+      "analyzedAt": "2026-08-15T06:50:36.475Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1234586: The operation was aborted due to timeout"
+  ]
+}
