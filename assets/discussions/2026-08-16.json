@@ -1,0 +1,112 @@
+{
+  "date": "2026-08-16",
+  "generatedAt": "2026-08-16T06:40:12.735Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 50,
+    "postsAfterKeywordFilter": 20,
+    "relevantPosts": 2,
+    "discussionsCreated": 2,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "DeepSeek": 3,
+      "Z.ai, GLM Coding Plan, DeepSeek, OpenRouter": 1,
+      "Tura": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1234724",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234724",
+      "title": "dsh + deepseek pro 前端能力感觉还行了，让他生成一个 macos 的前端页面",
+      "content": "https://drop-95290a61-5c4.cumbersome-message-157.workers.dev/",
+      "author": "zhixiao",
+      "createdAt": "2026-08-16T02:44:45.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.85,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "用户测试了DeepSeek Pro的前端开发能力，对其生成macOS前端页面的效果表示满意",
+        "topics": [
+          "DeepSeek",
+          "前端开发",
+          "代码生成",
+          "技术体验"
+        ],
+        "planMentioned": "DeepSeek Pro",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/303",
+      "analyzedAt": "2026-08-16T06:49:43.469Z"
+    },
+    {
+      "id": "v2ex-1234709",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234709",
+      "title": "pi-usage 一个 Pi Coding Agent 扩展，在 Pi 内部显示 AI 供应商用量与配额",
+      "content": "Hello, 从 OC 转到 Pi ，搞了个 pi-usage , 支持 Z.ai / GLM Coding Plan 、 DeepSeek 和 OpenRouter 。注意：必须在 Pi 中配置了对应供应商时才会出现。 安装 pi install npm:@imdlan/pi-usage 用 pi update --extensions 更新；用 pi remove npm:@imdlan/pi-usage 卸载。 仓库 https://github.com/imdlan/pi-usage 命令 命令 行为 自动刷新？ /usage 所有供应商的用量摘要，含配额重置时间（本地时间）。 ❌ 一次性快照 /usage zai Z.ai 详细用量表：5 小时配额、MCP 月度配额（含分工具明细）、分模型用量。 ❌ /usage deepseek DeepSeek 按币种余额（ CNY/USD ），含赠送/充值明细。 ❌ /usage openrouter OpenRouter key 消费上限（已用/剩余/重置）+ 日/周/月花费 + 账户积分余额（ USD ）。 ❌ /usage ref",
+      "author": "dlan",
+      "createdAt": "2026-08-16T00:52:06.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "Z.ai, GLM Coding Plan, DeepSeek, OpenRouter",
+        "supplierCategory": "other",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.85,
+        "summary": "该帖介绍了一个名为 pi-usage 的 Pi Coding Agent 扩展，用于在 Pi 编辑器内显示 Z.ai/GLM Coding Plan、DeepSeek 和 OpenRouter 等 AI 供应商的使用量、配额和费用信息，并说明了安装、使用方法及功能细节。",
+        "topics": [
+          "使用量",
+          "配额",
+          "Z.ai",
+          "GLM Coding Plan",
+          "DeepSeek",
+          "OpenRouter",
+          "Pi 编辑器",
+          "插件",
+          "安装",
+          "使用体验"
+        ],
+        "planMentioned": "GLM Coding Plan",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/304",
+      "analyzedAt": "2026-08-16T06:49:50.930Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1234666: The operation was aborted due to timeout"
+  ]
+}

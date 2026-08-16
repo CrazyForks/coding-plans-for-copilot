@@ -1,6 +1,6 @@
 {
   "date": "2026-08-15",
-  "generatedAt": "2026-08-15T06:38:47.829Z",
+  "generatedAt": "2026-08-16T06:40:12.735Z",
   "config": {
     "sources": [
       "v2ex",
@@ -24,15 +24,15 @@
     "relevanceThreshold": 0.7
   },
   "summary": {
-    "totalPostsFetched": 52,
-    "postsAfterKeywordFilter": 22,
-    "relevantPosts": 4,
-    "discussionsCreated": 4,
+    "totalPostsFetched": 50,
+    "postsAfterKeywordFilter": 20,
+    "relevantPosts": 7,
+    "discussionsCreated": 7,
     "discussionsSkipped": 0,
     "supplierMentions": {
-      "DeepSeek": 2,
-      "DeepSeek, Kimi, GLM, OpenAI, GPT, CodeX": 1,
-      "Claude, Codex": 1
+      "DeepSeek": 3,
+      "Z.ai, GLM Coding Plan, DeepSeek, OpenRouter": 1,
+      "Tura": 1
     }
   },
   "posts": [
@@ -164,12 +164,105 @@
       },
       "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/300",
       "analyzedAt": "2026-08-15T06:50:36.475Z"
+    },
+    {
+      "id": "v2ex-1234702",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234702",
+      "title": "感叹 AI 让 Bukkit 系服务端也是吃上社交类 Fabric Mod",
+      "content": "DeepSeek v4 Flash 最近要涨价了，趁着涨价之前蹬了好多东西，大部分和 MC 有关。 先是把 WorldComment 从 1.21.8 升级到了 1.21.11 。虽然版本号看起来没多少，但这几个版本正巧 Mojang 爆改渲染管线。DeekSeek 花了大概 4 元完成了移植。又额外花了 1 元做出了 Bukkit 支持，带有完整的查询和回滚防破坏，效率惊人。 下图是运行在 Paper 服务端上的： 然后是 FreeDraw ，同样是 flash 一把梭升级 1.21.11+Bukkit ，不过过程坎坷了些，因为要适配 ViveCraft 对 VR 设备和 Iris 的渲染，实际用了差不多 15 元。不过换来了非常稳定，而且也带查询、回滚、撤销功能，还支持各种权限节点能精准控制画笔和橡皮擦之类的东西。 和光影适配的也很完美，Bliss 的光晕感太美丽了。 另一个用 flash 搓的是 PictureSign ，由于依赖库大笔重构，外加渲染系统重构，我在这个上面吃了不少苦头。差不多 15-18 才打磨到可用。不过效果也非常棒——完全客户端，视频图片音乐都不走服务器带宽。",
+      "author": "AkaGhost",
+      "createdAt": "2026-08-15T19:33:38.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "The author shares their experience using DeepSeek v4 Flash to port Minecraft mods from Fabric to Bukkit, discussing the costs involved (under 50 yuan total) and the impressive results achieved before the upcoming price increase.",
+        "topics": [
+          "DeepSeek",
+          "定价",
+          "使用体验",
+          "编程",
+          "Minecraft模组"
+        ],
+        "planMentioned": "DeepSeek v4 Flash",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/305",
+      "analyzedAt": "2026-08-16T06:49:56.183Z"
+    },
+    {
+      "id": "v2ex-1234701",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234701",
+      "title": "多步骤 MCP 的 token 损耗，可能主要来自每一步的模型重入",
+      "content": "很多 MCP 演示只有一次工具调用；真实任务更像：创建项目 → 读取项目 ID → 导入素材 → 把 clip ID 交给下一步 → 导出 → 交付。 普通 agent 每完成一步，都要把结果带回模型，再让模型把 ID 填进下一次调用。Tura 的 command_run Macro 想解决的是这段“交接”：一次描述依赖图，前一步成功产生的变量给后一步在运行时解析；没有依赖的命令可以一起执行。 公开的电商广告工作流里，两边都通过同样 5 项检查、交付相同结果。Tura Direct 用 3 次模型请求，对照为 11 次；总 token 是 56,372 对 262,915 （少 78.6%）。有意思的是 MCP 调用不是更少，而是 11 对 9：省下的是把累计上下文反复送回模型的成本，不是少干活。 依赖链更长时，Macro 内每保留一次交接，就少一次模型重入，所以这部分节省会累积；但不是所有任务都严格线性，缓存、重试和任务结构都会影响结果。 完整 trace 、基准边界和变量继承规则： https://turaai.net/blog#what-we-learned-from-the-m",
+      "author": "yohjisakamoto",
+      "createdAt": "2026-08-15T19:24:10.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Tura",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.85,
+        "summary": "讨论 Tura AI 的 MCP 工作流优化，分析多步骤编码任务中 token 消耗问题，对比不同 agent 的性能表现，并提供基准测试数据和源码链接。",
+        "topics": [
+          "token消耗",
+          "MCP工作流",
+          "agent性能",
+          "基准测试",
+          "变量继承"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/306",
+      "analyzedAt": "2026-08-16T06:50:02.477Z"
+    },
+    {
+      "id": "v2ex-1234671",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234671",
+      "title": "爆肝一下午，整了个桌面版 DeepSeek Harness，你不用再装 Node.js 了",
+      "content": "爆肝了一下午把 DeepSeek Harness 做了个轻量桌面壳子，开源在 GitHub： https://github.com/qufei1993/dsh-desktop 原则 “不改 DeepSeek Harness 本体内容”，只做桌面端包装；默认启动直接打开官方的 DeepSeek Harness 页面。也就是说，你进来看到的还是原生态界面。 另外做了两个实用点：一是内置 Node.js 运行时，解决“没装/版本不一致”导致的麻烦；二是做了版本管理和切换（可选更新到新版本、也可保留旧版本），让桌面端用起来更可控。 目前支持 macOS + Windows ，目标就是把“网页打开+命令行启动”这层体验改得像普通 App 一样丝滑顺手。",
+      "author": "qufei1993",
+      "createdAt": "2026-08-15T13:26:44.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.85,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "开发者分享了一个桌面版 DeepSeek Harness 的开源项目，解决了 Node.js 版本兼容问题，并提供了版本管理功能，提升了使用体验。",
+        "topics": [
+          "DeepSeek",
+          "桌面版",
+          "版本管理",
+          "Node.js",
+          "开源"
+        ],
+        "planMentioned": "DeepSeek Harness",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/307",
+      "analyzedAt": "2026-08-16T06:50:09.032Z"
     }
   ],
   "failures": [
     "linuxdo: https://linux.do/latest.rss → 429",
     "linuxdo: https://linux.do/latest.json → 429",
     "linuxdo: https://linux.do/latest.json → 429",
-    "analysis failed for v2ex-1234586: The operation was aborted due to timeout"
+    "analysis failed for v2ex-1234666: The operation was aborted due to timeout"
   ]
 }
