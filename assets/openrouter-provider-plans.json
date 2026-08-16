@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-08-15T08:31:50.291Z",
-  "generatedAtBeijing": "2026年8月15日 16:31:50",
-  "sourceGeneratedAt": "2026-08-15T08:30:49.080Z",
-  "sourceGeneratedAtBeijing": "2026年8月15日 16:30:49",
-  "sourceMetricsGeneratedAt": "2026-08-15T08:30:50.608Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月15日 16:30:50",
+  "generatedAt": "2026-08-16T08:32:07.729Z",
+  "generatedAtBeijing": "2026年8月16日 16:32:07",
+  "sourceGeneratedAt": "2026-08-16T08:31:08.623Z",
+  "sourceGeneratedAtBeijing": "2026年8月16日 16:31:08",
+  "sourceMetricsGeneratedAt": "2026-08-16T08:31:09.623Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月16日 16:31:09",
   "summary": {
     "openrouterProviderCount": 102,
-    "metricsProviderCount": 46,
-    "resolvedMetricsProviderCount": 46,
+    "metricsProviderCount": 45,
+    "resolvedMetricsProviderCount": 45,
     "unresolvedMetricsProviderCount": 0,
     "structuredProviderCount": 8,
     "heuristicProviderCount": 8,
     "providersWithPlans": 16,
-    "pendingCount": 30,
+    "pendingCount": 29,
     "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
@@ -1296,15 +1296,6 @@
       "officialWebsiteUrl": "https://parasail.io",
       "pricingPageUrl": "https://www.parasail.io/pricing",
       "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $3.00 / $15.00 / $0.30）",
-      "blocked": false
-    },
-    {
-      "slug": "relace",
-      "openrouterName": "Relace",
-      "providerId": null,
-      "officialWebsiteUrl": "https://www.relace.ai",
-      "pricingPageUrl": "https://relace.ai/pricing",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $1.00 / $3.00 / $0.20）",
       "blocked": false
     },
     {
