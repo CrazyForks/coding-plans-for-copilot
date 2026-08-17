@@ -1,0 +1,207 @@
+{
+  "date": "2026-08-17",
+  "generatedAt": "2026-08-17T06:56:44.150Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 57,
+    "postsAfterKeywordFilter": 23,
+    "relevantPosts": 5,
+    "discussionsCreated": 5,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "DeepSeek": 2,
+      "Apinoria": 1,
+      "Codex": 1,
+      "opencode go": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1234982",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234982",
+      "title": "现在哪家模型性价比最高",
+      "content": "经过这次的 deepseek 涨价，现在他还有性价比吗？综合来说现在你们认为性价比最高的前三家模型服务是哪三家呢？",
+      "author": "JackieTsien",
+      "createdAt": "2026-08-17T05:57:33.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户询问 DeepSeek 价格上涨后是否仍具性价比，并要求推荐当前性价比最高的三家模型服务。",
+        "topics": [
+          "定价",
+          "性价比",
+          "模型服务"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/308",
+      "analyzedAt": "2026-08-17T07:11:26.625Z"
+    },
+    {
+      "id": "v2ex-1234961",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234961",
+      "title": "[正式开站] Apinoria | GPT Pro 20x 号池 / Claude MAX 号池，前 50 名送 $5",
+      "content": "之前在论坛里发过一次小范围测试，Apinoria 跑了一段时间之后，今天算是正式开站了。 网址： www.apinoria.com 这段时间陆续有一些朋友帮忙测试，有人连续跑了很多个小时，也有单次任务消耗到数亿 Token ，目前整体稳定性比我们最开始预期得还不错。 收到最多的反馈基本也是两个字： 稳定。 所以正式运营之后，我们还是决定沿着原来的方向做： 不卷全网最低价，尽量把稳定、可靠和长期可用做好。 目前支持 GPT 系列 GPT 5.6 Luna GPT 5.6 Terra GPT 5.6 Sol Claude 系列 Claude Opus Claude Sonnet Claude Fable 不是拿低等级账号混池，也不靠极限超售去压价格，这也是我们没有去卷市场最低倍率的原因之一。 正式运营价格 GPT 系列：0.35 倍率 Claude 系列：1.6 倍率 这个价格肯定不是市场上最便宜的。 现在很多中转已经卷到非常低的倍率了，我们确实卷不过，也不准备硬卷。 我们的想法一直比较简单： 宁可价格稍微高一点，也希望用户真正跑任务的时候，能够稳定、连续地用下去。 目前站点使用的 海外住",
+      "author": "gexinger",
+      "createdAt": "2026-08-17T04:34:29.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Apinoria",
+        "supplierCategory": "aggregator",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "Apinoria 正式开站，提供 GPT 和 Claude 系列模型的号池服务，主打稳定与可靠，并推出充值赠送、邀请返利及前 50 名注册送 $5 等开站促销活动。",
+        "topics": [
+          "开站公告",
+          "号池",
+          "定价倍率",
+          "稳定性",
+          "促销活动",
+          "充值赠送",
+          "邀请返利",
+          "免费额度",
+          "Codex",
+          "Claude Code",
+          "Cursor"
+        ],
+        "planMentioned": "Apinoria GPT/Claude 号池服务",
+        "language": "zh",
+        "category": "Announcements"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/309",
+      "analyzedAt": "2026-08-17T07:11:32.636Z"
+    },
+    {
+      "id": "v2ex-1234956",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234956",
+      "title": "codex 用 apple 的 礼品卡买的 20 刀套餐，没额度了，能升级到 pro5x，马上给我增加额度吗",
+      "content": "codex 用 apple 的 礼品卡买的 20 刀套餐，没额度了，能升级到 pro5x ，马上给我增加额度吗。 另外我的 codex 怎么没看到 5.6 的模型啊，我只有 5.5 和 5.4 的",
+      "author": "haidaotao",
+      "createdAt": "2026-08-17T04:06:42.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Codex",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "The user purchased a $20 Codex plan using an Apple gift card but has run out of quota. They are asking to upgrade to Pro 5X and have their quota increased immediately. They also mention not seeing the 5.6 model, only having access to 5.5 and 5.4.",
+        "topics": [
+          "套餐升级",
+          "额度",
+          "Pro 5X",
+          "模型版本",
+          "Apple 礼品卡"
+        ],
+        "planMentioned": "Pro 5X",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/310",
+      "analyzedAt": "2026-08-17T07:11:37.689Z"
+    },
+    {
+      "id": "v2ex-1234954",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234954",
+      "title": "问一下 opencode go 现在 5 小时 flash 额度大概有多少亿 token 可以使用？",
+      "content": "现在还有必要开 opencode go 的套餐么？ 这涨价真扛不住直链 api 。 2 倍还能勉强接受，4 倍真有点扛不住。",
+      "author": "foryou2023",
+      "createdAt": "2026-08-17T04:04:01.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "opencode go",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.9,
+        "summary": "用户询问opencode go套餐的5小时flash token额度，并抱怨涨价幅度过大，直链API难以承受。",
+        "topics": [
+          "定价",
+          "套餐",
+          "涨价",
+          "token额度"
+        ],
+        "planMentioned": "opencode go",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/311",
+      "analyzedAt": "2026-08-17T07:11:40.964Z"
+    },
+    {
+      "id": "v2ex-1234893",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1234893",
+      "title": "opencode 的 deepseek 涨价了，不能爽蹬了😭",
+      "content": "",
+      "author": "tmtstudio",
+      "createdAt": "2026-08-17T02:19:31.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.9,
+        "summary": "opencode 的 deepseek 涨价了，不能爽蹬了😭",
+        "topics": [
+          "定价",
+          "DeepSeek",
+          "套餐",
+          "价格上涨",
+          "用户体验"
+        ],
+        "planMentioned": "DeepSeek",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/312",
+      "analyzedAt": "2026-08-17T07:11:44.550Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1234978: LLM returned invalid JSON: Unexpected token 'U', \"User Safety: safe\" is not valid JSON",
+    "analysis failed for v2ex-1234955: The operation was aborted due to timeout",
+    "analysis failed for v2ex-1234926: LLM returned invalid JSON: Unexpected token 'U', \"User Safety: safe\" is not valid JSON"
+  ]
+}
