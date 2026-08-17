@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-08-16T08:32:07.729Z",
-  "generatedAtBeijing": "2026年8月16日 16:32:07",
-  "sourceGeneratedAt": "2026-08-16T08:31:08.623Z",
-  "sourceGeneratedAtBeijing": "2026年8月16日 16:31:08",
-  "sourceMetricsGeneratedAt": "2026-08-16T08:31:09.623Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月16日 16:31:09",
+  "generatedAt": "2026-08-17T08:46:01.071Z",
+  "generatedAtBeijing": "2026年8月17日 16:46:01",
+  "sourceGeneratedAt": "2026-08-17T08:44:58.506Z",
+  "sourceGeneratedAtBeijing": "2026年8月17日 16:44:58",
+  "sourceMetricsGeneratedAt": "2026-08-17T08:45:00.758Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月17日 16:45:00",
   "summary": {
     "openrouterProviderCount": 102,
-    "metricsProviderCount": 45,
-    "resolvedMetricsProviderCount": 45,
+    "metricsProviderCount": 46,
+    "resolvedMetricsProviderCount": 46,
     "unresolvedMetricsProviderCount": 0,
     "structuredProviderCount": 8,
     "heuristicProviderCount": 8,
     "providersWithPlans": 16,
-    "pendingCount": 29,
+    "pendingCount": 30,
     "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
@@ -564,81 +564,6 @@
             "Kimi Code 60 倍额度",
             "Agent 集群可用 120 次（4 个子任务并行）",
             "专业数据库 12000 次调用"
-          ]
-        },
-        {
-          "name": "Adagio（海外）",
-          "currentPrice": 0,
-          "currentPriceText": "$0/月",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": "试用计划",
-          "serviceDetails": [
-            "计价币种: 美元（USD）",
-            "适用区域: 海外",
-            "会员等级: 免费试用",
-            "Kimi Code 试用套餐权益"
-          ]
-        },
-        {
-          "name": "Moderato（海外）",
-          "currentPrice": 19,
-          "currentPriceText": "$19/月",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": null,
-          "serviceDetails": [
-            "计价币种: 美元（USD）",
-            "适用区域: 海外",
-            "会员等级: 基础会员",
-            "Kimi Code 月度订阅权益"
-          ]
-        },
-        {
-          "name": "Allegretto（海外）",
-          "currentPrice": 39,
-          "currentPriceText": "$39/月",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": null,
-          "serviceDetails": [
-            "计价币种: 美元（USD）",
-            "适用区域: 海外",
-            "会员等级: 进阶会员",
-            "Kimi Code 月度订阅权益"
-          ]
-        },
-        {
-          "name": "Allegro（海外）",
-          "currentPrice": 99,
-          "currentPriceText": "$99/月",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": null,
-          "serviceDetails": [
-            "计价币种: 美元（USD）",
-            "适用区域: 海外",
-            "会员等级: 高级会员",
-            "Kimi Code 月度订阅权益"
-          ]
-        },
-        {
-          "name": "Vivace（海外）",
-          "currentPrice": 199,
-          "currentPriceText": "$199/月",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": null,
-          "serviceDetails": [
-            "计价币种: 美元（USD）",
-            "适用区域: 海外",
-            "会员等级: 旗舰会员",
-            "Kimi Code 月度订阅权益"
           ]
         }
       ],
@@ -1296,6 +1221,15 @@
       "officialWebsiteUrl": "https://parasail.io",
       "pricingPageUrl": "https://www.parasail.io/pricing",
       "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $3.00 / $15.00 / $0.30）",
+      "blocked": false
+    },
+    {
+      "slug": "relace",
+      "openrouterName": "Relace",
+      "providerId": null,
+      "officialWebsiteUrl": "https://www.relace.ai",
+      "pricingPageUrl": "https://relace.ai/pricing",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $1.00 / $3.00 / $0.20）",
       "blocked": false
     },
     {
