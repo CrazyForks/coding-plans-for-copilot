@@ -1,0 +1,170 @@
+{
+  "date": "2026-08-18",
+  "generatedAt": "2026-08-18T06:43:07.174Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 58,
+    "postsAfterKeywordFilter": 16,
+    "relevantPosts": 4,
+    "discussionsCreated": 4,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Kimi, Claude": 1,
+      "Claude": 1,
+      "DeepSeek": 1,
+      "火山引擎, 阿里云": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1235287",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1235287",
+      "title": "kimi k3 用 kimi code 还是 claude code？",
+      "content": "有没有人测试过，用他家官方 harness 效果会更好吗？",
+      "author": "pvcxy18",
+      "createdAt": "2026-08-18T06:37:35.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "Kimi, Claude",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "用户在讨论使用 Kimi Code 还是 Claude Code 的效果，并询问使用官方 harness 是否会有更好的体验。",
+        "topics": [
+          "工具对比",
+          "使用体验",
+          "Kimi Code",
+          "Claude Code"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/313",
+      "analyzedAt": "2026-08-18T06:48:50.597Z"
+    },
+    {
+      "id": "v2ex-1235279",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1235279",
+      "title": "Claude API 企业级中转，国内直连稳定可靠，新用户免费领 10 美元",
+      "content": "aicoding.inc 是国内运营近两年的 Claude API 中转服务，已服务数万开发者和 200+ 企业客户。 企业级网络架构保障国内直连稳定性，完整支持 Claude Code 标准化接入。按官方价 1.9 折至 4.9 折消耗余额，按量计费，用量统计透明可查。支持国内支付体系，企业客户可对公转账。 技术团队持续维护服务稳定性，后台实时监控 API 可用性。新用户加入官方社群即可领取 10 美元测试额度，验证服务质量后再决定充值。 服务地址： https://aicoding.inc https://i.imgur.com/LQkJjVt.png",
+      "author": "aicodinginc",
+      "createdAt": "2026-08-18T05:53:53.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Claude",
+        "supplierCategory": "international-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "aicoding.inc 是国内运营近两年的 Claude API 中转服务，提供企业级网络架构保障国内直连稳定性，支持 Claude Code 标准化接入，按官方价 1.9 折至 4.9 折消耗余额，新用户加入官方社群即可领取 10 美元测试额度。",
+        "topics": [
+          "定价",
+          "企业级",
+          "稳定性",
+          "折扣",
+          "免费额度",
+          "体验卡",
+          "API 中转"
+        ],
+        "planMentioned": "Claude API",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/314",
+      "analyzedAt": "2026-08-18T06:48:55.520Z"
+    },
+    {
+      "id": "v2ex-1235254",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1235254",
+      "title": "deepseek harness 交流",
+      "content": "eepSeek Harness （ dsh ）发布有一阵子了——“一切皆插件”的理念确实挺有意思，模型、工具、会话、存储全部可以自由替换和组合。这段时间自己折腾了一下，跑通了 Web UI ，试着写了几个小插件，也踩了一些坑（比如 Windows 下的兼容性问题、第三方模型接入的配置等）。 有没有正在玩 Harness 的人一起聊聊： 插件开发经验与踩坑记录 定义 Bundle/Profile 的配置技巧 不同模型接入的适配实践 自进化 Agent 的探索 进群加我 wx 号（ wl12127759 ）",
+      "author": "baweikami",
+      "createdAt": "2026-08-18T04:07:26.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户分享了自己使用 DeepSeek Harness 的体验，包括插件开发、配置技巧和模型接入的实践，并邀请其他用户加入交流群。",
+        "topics": [
+          "插件开发",
+          "配置技巧",
+          "模型接入",
+          "交流群"
+        ],
+        "planMentioned": "DeepSeek Harness",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/315",
+      "analyzedAt": "2026-08-18T06:49:03.430Z"
+    },
+    {
+      "id": "v2ex-1235209",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1235209",
+      "title": "火山 agent plan 和阿里的 token plan 哪个相对划算点",
+      "content": "准备开个国内的，有人对比过这两家，哪个划算不，目前用的是火山的 coding plan,但是不够用，想升级",
+      "author": "admin666",
+      "createdAt": "2026-08-18T02:27:45.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "火山引擎, 阿里云",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户询问火山 agent plan和阿里的token plan哪个更划算，目前使用火山的coding plan但用得不够，想升级。",
+        "topics": [
+          "套餐对比",
+          "定价",
+          "升级",
+          "使用体验"
+        ],
+        "planMentioned": "火山 coding plan",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/316",
+      "analyzedAt": "2026-08-18T06:49:08.081Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1235201: The operation was aborted due to timeout"
+  ]
+}
