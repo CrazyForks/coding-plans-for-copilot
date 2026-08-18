@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-17T08:44:58.506Z",
+  "generatedAt": "2026-08-18T02:53:29.320Z",
   "providers": [
     {
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/484f48ec5f85c7f94343a8382b17131b.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/6c30c2c2bd226dde8f699006ed44acf4.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan"
       ],
@@ -34,9 +34,8 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "支持的模型: 支持的模型判断说明 判定规则： 1. 本清单为精确字符串白名单 2. 必须逐字符完全匹配，版本号/子型号任何差异均视为不支持 3. 禁止做版本兼容推理 判定示范： - ❌ \"GLM-5.1 \" → 清单只有 glm-5.0 → 不支持 - ❌ \"qwen3-coder-max \" → 清单无此项 → 不支持 仅支持以下精确版本： 推荐模型： qwen3.7-plus （支持图片理解）、 qwen3.6-plus （支持图片理解）、 kimi-k2.5 （支持图片理解）、 glm-5 、 MiniMax-M2.5 更多模型：qwen3.5-plus（支持图片理解） 、 qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7",
-            "用量限制: 每 5 小时最多 6,000 次请求 每周最多 45,000 次请求 每月最多 90,000 次请求",
-            "支持的模型: 支持的模型判断说明 判定规则： 1. 本清单为精确字符串白名单 2. 必须逐字符完全匹配，版本号/子型号任何差异均视为不支持 3. 禁止做版本兼容推理 判定示范： - ❌ \"GLM-5.1\" → 清单只有 glm-5.0 → 不支持 - ❌ \"qwen3-coder-max\" → 清单无此项 → 不支持 仅支持以下精确版本： 推荐模型： qwen3.7-plus （支持图片理解）、 qwen3.6-plus （支持图片理解）、 kimi-k2.5 （支持图片理解）、 glm-5 、 MiniMax-M2.5 更多模型：qwen3.5-plus（支持图片理解） 、 qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7"
+            "支持的模型: 仅支持以下精确版本： 推荐模型： qwen3.7-plus （支持图片理解）、 qwen3.6-plus （支持图片理解）、 kimi-k2.5 （支持图片理解）、 glm-5 、 MiniMax-M2.5 更多模型：qwen3.5-plus（支持图片理解） 、 qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7",
+            "用量限制: 每 5 小时 6,000 次请求 每周 45,000 次请求 每月 90,000 次请求"
           ]
         }
       ]
@@ -758,6 +757,81 @@
             "Kimi Code 60 倍额度",
             "Agent 集群可用 120 次（4 个子任务并行）",
             "专业数据库 12000 次调用"
+          ]
+        },
+        {
+          "name": "Adagio（海外）",
+          "currentPrice": 0,
+          "currentPriceText": "$0/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": "试用计划",
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 免费试用",
+            "Kimi Code 试用套餐权益"
+          ]
+        },
+        {
+          "name": "Moderato（海外）",
+          "currentPrice": 19,
+          "currentPriceText": "$19/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 基础会员",
+            "Kimi Code 月度订阅权益"
+          ]
+        },
+        {
+          "name": "Allegretto（海外）",
+          "currentPrice": 39,
+          "currentPriceText": "$39/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 进阶会员",
+            "Kimi Code 月度订阅权益"
+          ]
+        },
+        {
+          "name": "Allegro（海外）",
+          "currentPrice": 99,
+          "currentPriceText": "$99/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 高级会员",
+            "Kimi Code 月度订阅权益"
+          ]
+        },
+        {
+          "name": "Vivace（海外）",
+          "currentPrice": 199,
+          "currentPriceText": "$199/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 旗舰会员",
+            "Kimi Code 月度订阅权益"
           ]
         }
       ]
