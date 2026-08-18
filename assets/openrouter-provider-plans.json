@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-17T08:46:01.071Z",
-  "generatedAtBeijing": "2026年8月17日 16:46:01",
-  "sourceGeneratedAt": "2026-08-17T08:44:58.506Z",
-  "sourceGeneratedAtBeijing": "2026年8月17日 16:44:58",
-  "sourceMetricsGeneratedAt": "2026-08-17T08:45:00.758Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月17日 16:45:00",
+  "generatedAt": "2026-08-18T08:39:28.637Z",
+  "generatedAtBeijing": "2026年8月18日 16:39:28",
+  "sourceGeneratedAt": "2026-08-18T08:38:24.369Z",
+  "sourceGeneratedAtBeijing": "2026年8月18日 16:38:24",
+  "sourceMetricsGeneratedAt": "2026-08-18T08:38:25.724Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月18日 16:38:25",
   "summary": {
     "openrouterProviderCount": 102,
     "metricsProviderCount": 46,
@@ -48,15 +48,14 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "支持的模型: 支持的模型判断说明 判定规则： 1. 本清单为精确字符串白名单 2. 必须逐字符完全匹配，版本号/子型号任何差异均视为不支持 3. 禁止做版本兼容推理 判定示范： - ❌ \"GLM-5.1 \" → 清单只有 glm-5.0 → 不支持 - ❌ \"qwen3-coder-max \" → 清单无此项 → 不支持 仅支持以下精确版本： 推荐模型： qwen3.7-plus （支持图片理解）、 qwen3.6-plus （支持图片理解）、 kimi-k2.5 （支持图片理解）、 glm-5 、 MiniMax-M2.5 更多模型：qwen3.5-plus（支持图片理解） 、 qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7",
-            "用量限制: 每 5 小时最多 6,000 次请求 每周最多 45,000 次请求 每月最多 90,000 次请求",
-            "支持的模型: 支持的模型判断说明 判定规则： 1. 本清单为精确字符串白名单 2. 必须逐字符完全匹配，版本号/子型号任何差异均视为不支持 3. 禁止做版本兼容推理 判定示范： - ❌ \"GLM-5.1\" → 清单只有 glm-5.0 → 不支持 - ❌ \"qwen3-coder-max\" → 清单无此项 → 不支持 仅支持以下精确版本： 推荐模型： qwen3.7-plus （支持图片理解）、 qwen3.6-plus （支持图片理解）、 kimi-k2.5 （支持图片理解）、 glm-5 、 MiniMax-M2.5 更多模型：qwen3.5-plus（支持图片理解） 、 qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7"
+            "支持的模型: 仅支持以下精确版本： 推荐模型： qwen3.7-plus （支持图片理解）、 qwen3.6-plus （支持图片理解）、 kimi-k2.5 （支持图片理解）、 glm-5 、 MiniMax-M2.5 更多模型：qwen3.5-plus（支持图片理解） 、 qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7",
+            "用量限制: 每 5 小时 6,000 次请求 每周 45,000 次请求 每月 90,000 次请求"
           ]
         }
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/484f48ec5f85c7f94343a8382b17131b.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/6c30c2c2bd226dde8f699006ed44acf4.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -565,6 +564,81 @@
             "Agent 集群可用 120 次（4 个子任务并行）",
             "专业数据库 12000 次调用"
           ]
+        },
+        {
+          "name": "Adagio（海外）",
+          "currentPrice": 0,
+          "currentPriceText": "$0/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": "试用计划",
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 免费试用",
+            "Kimi Code 试用套餐权益"
+          ]
+        },
+        {
+          "name": "Moderato（海外）",
+          "currentPrice": 19,
+          "currentPriceText": "$19/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 基础会员",
+            "Kimi Code 月度订阅权益"
+          ]
+        },
+        {
+          "name": "Allegretto（海外）",
+          "currentPrice": 39,
+          "currentPriceText": "$39/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 进阶会员",
+            "Kimi Code 月度订阅权益"
+          ]
+        },
+        {
+          "name": "Allegro（海外）",
+          "currentPrice": 99,
+          "currentPriceText": "$99/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 高级会员",
+            "Kimi Code 月度订阅权益"
+          ]
+        },
+        {
+          "name": "Vivace（海外）",
+          "currentPrice": 199,
+          "currentPriceText": "$199/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 旗舰会员",
+            "Kimi Code 月度订阅权益"
+          ]
         }
       ],
       "sourceUrls": [
@@ -629,9 +703,9 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "能力: Doubao-Seed-Code 与 DeepSeek-V3.2 驱动",
-            "适配: 适配Claude Code等主流编程工具",
-            "用量: 用量达 Claude Pro 的 3 倍"
+            "能力: 支持 Doubao、GLM、DeepSeek、Kimi等模型",
+            "适配: 支持自由切换模型，或开启Auto模式",
+            "工具: 支持 Claude Code、Cursor等主流编程工具"
           ]
         },
         {
@@ -651,7 +725,7 @@
       ],
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.336/index.js",
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.156/index.js",
         "https://docs.byteplus.com"
       ],
       "pricingPageUrl": "https://www.volcengine.com/activity/codingplan",
@@ -1121,7 +1195,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://groq.com",
       "pricingPageUrl": "https://groq.com/",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $650）",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $350）",
       "blocked": false
     },
     {
@@ -1202,7 +1276,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://novita.ai",
       "pricingPageUrl": "https://novita.ai/pricing",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $1.32 / $0.35 / $3.96）",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $1.32 / $0.132 / $3.96）",
       "blocked": false
     },
     {
