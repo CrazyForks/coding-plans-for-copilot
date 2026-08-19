@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-18T08:38:24.369Z",
+  "generatedAt": "2026-08-19T02:55:25.478Z",
   "providers": [
     {
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/6c30c2c2bd226dde8f699006ed44acf4.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/15e8c23ef1178b08d350e3a68101e514.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan"
       ],
@@ -834,7 +834,9 @@
             "Kimi Code 月度订阅权益"
           ]
         }
-      ]
+      ],
+      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
+      "staleFailure": "kimi-ai: Task timed out after 30000ms"
     },
     {
       "provider": "kwaikat-ai",
@@ -1326,7 +1328,7 @@
       "provider": "volcengine-ai",
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.156/index.js"
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.336/index.js"
       ],
       "plans": [
         {
@@ -1338,9 +1340,9 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "能力: 支持 Doubao、GLM、DeepSeek、Kimi等模型",
-            "适配: 支持自由切换模型，或开启Auto模式",
-            "工具: 支持 Claude Code、Cursor等主流编程工具"
+            "能力: Doubao-Seed-Code 与 DeepSeek-V3.2 驱动",
+            "适配: 适配Claude Code等主流编程工具",
+            "用量: 用量达 Claude Pro 的 3 倍"
           ]
         },
         {
@@ -1634,5 +1636,7 @@
       ]
     }
   ],
-  "failures": []
+  "failures": [
+    "kimi-ai: Task timed out after 30000ms"
+  ]
 }
