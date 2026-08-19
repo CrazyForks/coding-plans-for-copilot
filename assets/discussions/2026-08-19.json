@@ -1,0 +1,212 @@
+{
+  "date": "2026-08-19",
+  "generatedAt": "2026-08-19T06:44:26.533Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 58,
+    "postsAfterKeywordFilter": 19,
+    "relevantPosts": 5,
+    "discussionsCreated": 5,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Grok": 1,
+      "OpenRouter, Zhipu, DeepSeek, ChatGLM": 1,
+      "CodePass": 1,
+      "Codex, Cursor, Claude Code": 1,
+      "Cursor, GLM": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1235586",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1235586",
+      "title": "🔥Grok 4.6 半价 · 今日最后一天 明天恢复原价，想上车就趁现在。",
+      "content": "注册即领，新人专享： ✅ $1 高级额度 — 直接解锁 Claude Opus 5 、GPT-5.6 顶级模型 ✅ 24h 不限量 — Auto / Composer / Grok （含 4.6 ）随便跑 实测折合约 $90 的调用量，几乎零成本体验满配 👉 30 秒注册： https://oon.nz/r/sMu （半价窗口今晚截止，错过等下轮）",
+      "author": "patamon0321",
+      "createdAt": "2026-08-19T06:18:18.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.85,
+        "supplier": "Grok",
+        "supplierCategory": "aggregator",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.8,
+        "summary": "推广某聚合AI编码助手服务的半价促销活动，新人注册$1即可解锁Claude Opus 5、GPT-5.6、Grok 4.6等顶级模型，24小时不限量使用Auto/Composer/Grok等功能。",
+        "topics": [
+          "定价",
+          "促销",
+          "体验卡",
+          "免费额度",
+          "注册",
+          "顶级模型"
+        ],
+        "planMentioned": "Grok 4.6 半价套餐",
+        "language": "zh",
+        "category": "Announcements"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/318",
+      "analyzedAt": "2026-08-19T06:53:14.322Z"
+    },
+    {
+      "id": "v2ex-1235582",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1235582",
+      "title": "codingplan 套餐方案",
+      "content": "RT ，大概日常写和维护 4-5 个软件项目，不算复杂，就是生物分析软件那样的，加上平时写一些小脚本跑分析，请问买什么套餐比较划算？我觉得 chatglm5.2+ds4flash 就够用了。目前的想法是，OpenCode Go+OpenRouter10 美元白嫖免费模型+zai 的 lite 订阅，zai 的订阅经常用超所以需要补充一下。请问站里有什么更好的建议吗？实测涨价之前的 DeepSeek 每个月按量付费至少用 200 元的",
+      "author": "yuanyuan11",
+      "createdAt": "2026-08-19T06:08:08.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "OpenRouter, Zhipu, DeepSeek, ChatGLM",
+        "supplierCategory": "aggregator",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户询问针对4-5个生物分析软件项目的合适AI编码套餐方案，目前考虑OpenCode Go+OpenRouter免费模型+zai lite订阅，实测DeepSeek按量付费月费200元，想寻求更划算的建议。",
+        "topics": [
+          "套餐方案",
+          "定价",
+          "DeepSeek",
+          "OpenRouter",
+          "Zhipu",
+          "ChatGLM",
+          "按量付费",
+          "成本分析",
+          "订阅",
+          "免费模型"
+        ],
+        "planMentioned": "OpenRouter 10 USD, Zhipu lite subscription, DeepSeek pay-as-you-go",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/319",
+      "analyzedAt": "2026-08-19T06:53:23.029Z"
+    },
+    {
+      "id": "v2ex-1235581",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1235581",
+      "title": "避坑提醒： CodePass ( code-pass.dev ) 随意改变买卖合同，订阅用户真的需要注意。",
+      "content": "记得 6 月底或者 7 月购买订阅时，宣传的是： Composer / Auto 无限使用 大家付费买的，不只是一个账号有效期，而是这个核心权益。 结果七月份 订阅周期还没结束，规则直接变了： 原来： Composer / Auto 无限使用 订阅期内变更： 有额度限制、有上限、用完受限 甚至剩余的 20-10% 高级额度也开始限速!!!!!! 不让用????? 这是什么概念？ 简单说就是： 用户付款的时候买的是“无限套餐”，服务用到一半，平台告诉你： “不好意思，现在升级规则了，之前的无限不算了。” 未来新套餐怎么调整，这是平台自己的商业决策。 但问题是： ** 已经付费、正在有效期内的订阅，为什么可以直接降低服务权益 ?? ** 最让人无法接受的不是价格变化，而是： 购买时宣传的核心权益发生变化； 已支付的服务周期被重新定义； 平台经营成本变化，风险全部转嫁给用户。 如果 无限量 只是一个吸引购买的营销词，那为什么当初把它作为核心卖点？ 如果 无限量 是真实服务承诺，那为什么用户订阅还没结束，就可以单方面变成 有限使用？ 以后购买任何 AI 中专站 订阅服务，建议大家不要只看“无限",
+      "author": "anviod",
+      "createdAt": "2026-08-19T06:04:30.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.92,
+        "supplier": "CodePass",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.88,
+        "summary": "作者提醒用户，CodePass 在订阅期间随意更改“无限使用”套餐的权益，导致已付费用户权益缩水，建议保存购买凭证并警惕类似变更。",
+        "topics": [
+          "订阅",
+          "套餐变更",
+          "无限量",
+          "权益缩水",
+          "用户体验",
+          "投诉"
+        ],
+        "planMentioned": "Composer / Auto 无限使用",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/320",
+      "analyzedAt": "2026-08-19T06:53:29.126Z"
+    },
+    {
+      "id": "v2ex-1235560",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1235560",
+      "title": "旧会话越聊越笨，新会话又得重讲？我给 Matt Pocock Skill 炼了套《影分身之术》：本体想清楚，分身写代码，完事回来汇报 ——大厂 Agent 开发技术分享",
+      "content": "先跟大家聊下背景 平时写代码，不管你用 Codex 、Cursor 、Claude Code 还是别的 Agent ，基本都是在一个会话里聊问题、聊需求、聊项目背景。你告诉它怎么做，有什么注意点，把你知道的上下文都交给它。等双方把需求和方案确认下来，再让它开始写代码、做实施。 一般都是这样一个流程。 这样聊出来的内容其实非常有价值。里面有项目背景、有用户真正想要什么、有已经做过的取舍，也有那些看起来没写进需求、但做错了就会跑偏的细节。 问题是，后面还一直在同一个会话里写代码。文件内容、搜索结果、命令输出、测试日志会不断往里塞，会话越来越长，也会不断压缩。每压一次，前面聊过的东西都会占一部分上下文，剩余空间就越来越小。 打个比方，最开始可能还有 100%，压缩以后可能 80%、60%，最后只剩百分之十几。这个时候聊不了几句话、做不了多少事，又得压缩，很费时间。上下文太多，模型速度会越来越慢，效果也可能越来越差。 但你又不太敢直接开新会话。因为前面已经把需求和上下文都对齐了，新会话还得重新读仓库、理解现有代码，再把这些内容和任务对应起来。 怕丢上下文，又不太敢开新会话。这就是我想解决的问题",
+      "author": "t20000622yy",
+      "createdAt": "2026-08-19T04:07:05.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "Codex, Cursor, Claude Code",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "The author shares a technique called 'Shadow Clone Technique' to solve the problem of context window overflow in long AI coding conversations. By forking sessions and using spec-based goals, they can preserve context while letting cloned agents write code in parallel worktrees.",
+        "topics": [
+          "Agent开发",
+          "上下文管理",
+          "会话优化",
+          "Codex",
+          "Cursor",
+          "Claude Code",
+          "工作流优化"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/321",
+      "analyzedAt": "2026-08-19T06:53:36.081Z"
+    },
+    {
+      "id": "v2ex-1235549",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1235549",
+      "title": "cursor 和 glm 如何选呢",
+      "content": "准备和老板沟通买 token ，现在纠结 glm 还是 cursor ，有没有大佬推荐下",
+      "author": "begitcn",
+      "createdAt": "2026-08-19T03:45:18.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Cursor, GLM",
+        "supplierCategory": "other",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户在考虑与老板沟商购买AI编码助手token时，纠结选择Cursor（国际提供商）还是GLM（智谱提供商），寻求社区推荐。",
+        "topics": [
+          "定价",
+          "套餐对比",
+          "Cursor",
+          "GLM",
+          "订阅"
+        ],
+        "planMentioned": "Cursor, GLM",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/322",
+      "analyzedAt": "2026-08-19T06:53:40.288Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 403",
+    "linuxdo: https://linux.do/latest.json → 403",
+    "linuxdo: https://linux.do/latest.json → 403",
+    "analysis failed for v2ex-1235579: The operation was aborted due to timeout"
+  ]
+}
