@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-08-18T08:39:28.637Z",
-  "generatedAtBeijing": "2026年8月18日 16:39:28",
-  "sourceGeneratedAt": "2026-08-18T08:38:24.369Z",
-  "sourceGeneratedAtBeijing": "2026年8月18日 16:38:24",
-  "sourceMetricsGeneratedAt": "2026-08-18T08:38:25.724Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月18日 16:38:25",
+  "generatedAt": "2026-08-19T08:40:10.148Z",
+  "generatedAtBeijing": "2026年8月19日 16:40:10",
+  "sourceGeneratedAt": "2026-08-19T08:38:55.704Z",
+  "sourceGeneratedAtBeijing": "2026年8月19日 16:38:55",
+  "sourceMetricsGeneratedAt": "2026-08-19T08:39:08.842Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月19日 16:39:08",
   "summary": {
     "openrouterProviderCount": 102,
-    "metricsProviderCount": 46,
-    "resolvedMetricsProviderCount": 46,
+    "metricsProviderCount": 47,
+    "resolvedMetricsProviderCount": 47,
     "unresolvedMetricsProviderCount": 0,
     "structuredProviderCount": 8,
-    "heuristicProviderCount": 8,
-    "providersWithPlans": 16,
-    "pendingCount": 30,
+    "heuristicProviderCount": 7,
+    "providersWithPlans": 15,
+    "pendingCount": 32,
     "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
@@ -55,7 +55,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/6c30c2c2bd226dde8f699006ed44acf4.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/15e8c23ef1178b08d350e3a68101e514.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -324,12 +324,12 @@
           "notes": "用量: 月度约 6 亿+ token M3 用量",
           "serviceDetails": [
             "月度约 6 亿+ token M3 用量",
-            "支持 MiniMax 全系模型（M3 / M2.7 / 图像 / 语音 / 音乐）",
+            "支持 MiniMax 旗舰模型（M3 / M2.7 / 图像 / 语音）",
             "可同时支持 3-4 个 Agent 并发运行",
             "支持主流的编程工具，并持续扩展中",
             "1M 长上下文，适合处理长文档 / 大型代码库",
             "M3 原生多模态理解：图像 / 视频输入",
-            "文本 / 图像 / 语音 / 音乐 共享同一额度"
+            "文本 / 图像 / 语音 共享同一额度"
           ]
         },
         {
@@ -342,13 +342,13 @@
           "notes": "用量: 月度约 18 亿+ token M3 用量",
           "serviceDetails": [
             "月度约 18 亿+ token M3 用量",
-            "支持 MiniMax 全系模型（M3 / M2.7 / 图像 / 语音 / 音乐）",
+            "支持 MiniMax 旗舰模型（M3 / M2.7 / 图像 / 语音）",
             "可同时支持 4-5 个 Agent 并发运行",
             "支持主流的编程工具，并持续扩展中",
             "1M 长上下文，适合处理长文档 / 大型代码库",
             "M3 原生多模态理解：图像 / 视频输入",
-            "文本 / 图像 / 语音 / 音乐 共享同一额度",
-            "支持视频生成，3 条 / 日"
+            "文本 / 图像 / 语音 共享同一额度",
+            "支持 Hailuo2.3视频生成，3条 / 日"
           ]
         },
         {
@@ -361,13 +361,13 @@
           "notes": "用量: 月度约 71 亿+ token M3 用量",
           "serviceDetails": [
             "月度约 71 亿+ token M3 用量",
-            "支持 MiniMax 全系模型（M3 / M2.7 / 图像 / 语音 / 音乐）",
+            "支持 MiniMax 旗舰模型（M3 / M2.7 / 图像 / 语音）",
             "可同时支持 6-7 个 Agent 并发运行",
             "支持主流的编程工具，并持续扩展中",
             "1M 长上下文，适合处理长文档 / 大型代码库",
             "M3 原生多模态理解：图像 / 视频输入",
-            "文本 / 图像 / 语音 / 音乐 共享同一额度",
-            "支持视频生成，5 条 / 日"
+            "文本 / 图像 / 语音 共享同一额度",
+            "支持 Hailuo2.3视频生成，5条 / 日"
           ]
         }
       ],
@@ -703,9 +703,9 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "能力: 支持 Doubao、GLM、DeepSeek、Kimi等模型",
-            "适配: 支持自由切换模型，或开启Auto模式",
-            "工具: 支持 Claude Code、Cursor等主流编程工具"
+            "能力: Doubao-Seed-Code 与 DeepSeek-V3.2 驱动",
+            "适配: 适配Claude Code等主流编程工具",
+            "用量: 用量达 Claude Pro 的 3 倍"
           ]
         },
         {
@@ -725,7 +725,7 @@
       ],
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.156/index.js",
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.336/index.js",
         "https://docs.byteplus.com"
       ],
       "pricingPageUrl": "https://www.volcengine.com/activity/codingplan",
@@ -899,48 +899,6 @@
       "termsOfServiceUrl": "https://www.streamlake.ai/document/DOC/mgkchnd89grpt1961fw",
       "statusPageUrl": "https://status.streamlake.ai/",
       "parseMode": "provider-pricing-structured"
-    },
-    {
-      "slug": "together",
-      "openrouterName": "Together",
-      "providerId": null,
-      "plans": [
-        {
-          "name": "Base",
-          "currentPrice": 10,
-          "currentPriceText": "$10.00",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": "来源: https://www.together.ai/pricing",
-          "serviceDetails": [
-            "官网价格页参考，具体权益以官网说明为准"
-          ]
-        },
-        {
-          "name": "Base",
-          "currentPrice": 15,
-          "currentPriceText": "$15.00",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": null,
-          "serviceDetails": [
-            "官网价格页参考，具体权益以官网说明为准"
-          ]
-        }
-      ],
-      "sourceUrls": [
-        "https://www.together.ai",
-        "https://www.together.ai/pricing"
-      ],
-      "pricingPageUrl": "https://www.together.ai/pricing",
-      "officialWebsiteUrl": "https://www.together.ai",
-      "websiteSource": "terms_of_service_url",
-      "privacyPolicyUrl": "https://www.together.ai/privacy",
-      "termsOfServiceUrl": "https://www.together.ai/terms-of-service",
-      "statusPageUrl": "https://status.together.ai/",
-      "parseMode": "official-website-heuristic"
     },
     {
       "slug": "venice",
@@ -1298,6 +1256,15 @@
       "blocked": false
     },
     {
+      "slug": "reka",
+      "openrouterName": "Reka",
+      "providerId": null,
+      "officialWebsiteUrl": "https://reka.ai",
+      "pricingPageUrl": "https://reka.ai",
+      "reason": "官网价格页探测失败：https://reka.ai/pricing: HTTP 404",
+      "blocked": false
+    },
+    {
       "slug": "relace",
       "openrouterName": "Relace",
       "providerId": null,
@@ -1331,6 +1298,15 @@
       "officialWebsiteUrl": "https://docs.siliconflow.com",
       "pricingPageUrl": "https://docs.siliconflow.com",
       "reason": "官网价格页探测失败：https://docs.siliconflow.com/pricing: HTTP 404",
+      "blocked": false
+    },
+    {
+      "slug": "together",
+      "openrouterName": "Together",
+      "providerId": null,
+      "officialWebsiteUrl": "https://www.together.ai",
+      "pricingPageUrl": "https://www.together.ai/pricing",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.30 / $0.06 / $1.20）",
       "blocked": false
     },
     {
