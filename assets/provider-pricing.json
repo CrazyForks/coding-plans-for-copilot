@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T07:53:10.625Z",
+  "generatedAt": "2026-08-20T08:39:52.892Z",
   "providers": [
     {
       "provider": "aliyun-ai",
@@ -774,7 +774,9 @@
             "专业数据库 12000 次调用"
           ]
         }
-      ]
+      ],
+      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
+      "staleFailure": "kimi-ai: Kimi domestic membership page is missing pricing markers"
     },
     {
       "provider": "kwaikat-ai",
@@ -1574,5 +1576,7 @@
       ]
     }
   ],
-  "failures": []
+  "failures": [
+    "kimi-ai: Kimi domestic membership page is missing pricing markers"
+  ]
 }
