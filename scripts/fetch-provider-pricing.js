@@ -49,7 +49,7 @@ const KIMI_MEMBERSHIP_LEVEL_LABELS = {
   LEVEL_STANDARD: '旗舰会员',
 };
 
-const KIMI_DOMESTIC_MEMBERSHIP_URL = 'https://www.kimi.com/zh-cn/help/membership/membership-pricing';
+const KIMI_DOMESTIC_MEMBERSHIP_URL = 'https://www.kimi.com/help/membership/membership-pricing';
 const KIMI_OVERSEAS_CODE_URL = 'https://www.kimi.com/code';
 const KIMI_GOODS_API_URL = 'https://www.kimi.com/apiv2/kimi.gateway.order.v1.GoodsService/ListGoods';
 const KIMI_DOMESTIC_PLAN_NAMES = ['Adagio', 'Andante', 'Moderato', 'Allegretto', 'Allegro'];
@@ -101,6 +101,22 @@ function decodeHtml(value) {
 
 function stripTags(value) {
   return decodeHtml(String(value || '').replace(/<[^>]+>/g, ' '));
+}
+
+function htmlToVisibleText(html) {
+  const blockTag = 'p|div|tr|h[1-6]|li|section|article|blockquote|table|thead|tbody|ul|ol';
+  const withBreaks = String(html || '')
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<(?:br|hr)\s*\/?>/gi, '\n')
+    .replace(new RegExp(`</(?:${blockTag}|figcaption)>`, 'gi'), '\n')
+    .replace(new RegExp(`<(?:${blockTag})\\b[^>]*>`, 'gi'), '\n');
+
+  return withBreaks
+    .split('\n')
+    .map((line) => stripTags(line))
+    .filter(Boolean)
+    .join('\n');
 }
 
 function normalizeText(value) {
@@ -987,6 +1003,15 @@ function parseKimiDomesticMembershipPlansFromText(pageText) {
   return dedupePlans(plans);
 }
 
+function parseKimiDomesticMembershipPlansFromHtml(html) {
+  return parseKimiDomesticMembershipPlansFromText(htmlToVisibleText(html));
+}
+
+function kimiDomesticMembershipTextHasPricingMarkers(pageText) {
+  const text = String(pageText || '');
+  return /订阅方式与价格/.test(text) && /Kimi Code/.test(text) && /(?:人民币|¥)/.test(text);
+}
+
 function parseJdCloudCodingPlansFromDocsText(pageText) {
   const rawText = decodeUnicodeLiteral(String(pageText || ''));
   const text = /<[^>]+>/.test(rawText) ? normalizeText(stripTags(rawText)) : normalizeText(rawText);
@@ -1118,34 +1143,32 @@ function buildKimiCodePlansFromGoodsPayload(payload, options = {}) {
   return dedupePlans(plans);
 }
 
-async function fetchKimiDomesticMembershipTextWithPlaywright() {
-  const chromium = await loadPlaywrightChromium('Kimi domestic membership parser');
-  const browser = await chromium.launch(getPlaywrightLaunchOptions());
-  try {
-    const page = await browser.newPage();
-    await blockNonEssentialPlaywrightRequests(page);
-    await page.goto(KIMI_DOMESTIC_MEMBERSHIP_URL, {
-      waitUntil: 'domcontentloaded',
-      timeout: 20_000,
-    });
-    await page.waitForFunction(
-      () => {
-        const text = String(document.body?.innerText || '');
-        return /订阅方式与价格/.test(text) && /Kimi Code/.test(text) && /人民币|¥/.test(text);
-      },
-      { timeout: 20_000 },
-    );
-    return await page.evaluate(() => String(document.body?.innerText || ''));
-  } finally {
-    await browser.close();
-  }
-}
-
 async function parseKimiCodingPlans() {
-  const domesticHelpText = await fetchKimiDomesticMembershipTextWithPlaywright();
-  const domesticPlans = parseKimiDomesticMembershipPlansFromText(domesticHelpText);
+  const [domesticHelpHtml, pageHtml, payload] = await Promise.all([
+    fetchText(KIMI_DOMESTIC_MEMBERSHIP_URL),
+    fetchText(KIMI_OVERSEAS_CODE_URL),
+    fetchJson(KIMI_GOODS_API_URL, {
+      method: 'POST',
+      headers: {
+        ...COMMON_HEADERS,
+        accept: 'application/json, text/plain, */*',
+        'content-type': 'application/json',
+        origin: 'https://www.kimi.com',
+        referer: KIMI_OVERSEAS_CODE_URL,
+      },
+      body: '{}',
+    }),
+  ]);
 
-  const pageHtml = await fetchText(KIMI_OVERSEAS_CODE_URL);
+  const domesticHelpText = htmlToVisibleText(domesticHelpHtml);
+  if (!kimiDomesticMembershipTextHasPricingMarkers(domesticHelpText)) {
+    throw new Error('Kimi domestic membership page is missing pricing markers');
+  }
+  const domesticPlans = parseKimiDomesticMembershipPlansFromText(domesticHelpText);
+  if (domesticPlans.length === 0) {
+    throw new Error('Unable to parse Kimi domestic membership plans');
+  }
+
   const commonScriptRaw =
     pageHtml.match(/\/\/statics\.moonshot\.cn\/kimi-web-seo\/assets\/common-[^"'\s]+\.js/i)?.[0] || null;
   const commonScriptUrl = commonScriptRaw ? absoluteUrl(commonScriptRaw, KIMI_OVERSEAS_CODE_URL) : null;
@@ -1158,17 +1181,6 @@ async function parseKimiCodingPlans() {
       featureCandidates = [];
     }
   }
-  const payload = await fetchJson(KIMI_GOODS_API_URL, {
-    method: 'POST',
-    headers: {
-      ...COMMON_HEADERS,
-      accept: 'application/json, text/plain, */*',
-      'content-type': 'application/json',
-      origin: 'https://www.kimi.com',
-      referer: KIMI_OVERSEAS_CODE_URL,
-    },
-    body: '{}',
-  });
   // The goods API also returns mainland (REGION_CN / REGION_MAINLAND) plans with
   // fewer details than the domestic help page, so keep those out to avoid duplicates.
   const overseasPlans = buildKimiCodePlansFromGoodsPayload(payload, {
@@ -4355,7 +4367,18 @@ async function main() {
   }
 }
 
+function printHelp() {
+  console.log('Usage: node scripts/fetch-provider-pricing.js [-h|--help]');
+  console.log('');
+  console.log('Fetches coding-plan prices into assets/provider-pricing.json.');
+}
+
 if (require.main === module) {
+  if (process.argv.includes('-h') || process.argv.includes('--help')) {
+    printHelp();
+    process.exit(0);
+  }
+
   main().catch((error) => {
     console.error('[pricing] fatal:', error);
     process.exit(1);
@@ -4375,6 +4398,7 @@ module.exports = {
   parseHuaweiTokenPlans,
   navigateTencentCodingPlanPage,
   parseCompshareCodingPlansFromHtml,
+  parseKimiDomesticMembershipPlansFromHtml,
   parseKimiDomesticMembershipPlansFromText,
   parseJdCloudCodingPlansFromDocsText,
   parseJdCloudCodingPlansFromPageHtml,

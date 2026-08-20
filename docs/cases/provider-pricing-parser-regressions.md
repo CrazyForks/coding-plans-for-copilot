@@ -16,6 +16,10 @@
 - `xfyun-ai`：月套餐表包含「无忧版（已下线）」，在售档位名不再满足旧 `版$` 规则，且用量改为请求次数
 - `baidu-qianfan-ai`：`codingplan.html` 从 Coding Plan 表格切换为 Token Plan 个人版四档卡片
 
+2026-08-20 Kimi 大陆帮助页改为 Next.js SSR，旧 `/zh-cn/help/` 地址会 301，且 Playwright `domcontentloaded` + 文案等待会超过 30 秒任务上限：
+
+- `kimi-ai`：`Task timed out after 30000ms`
+
 ## 解析路径
 
 ```mermaid
@@ -80,6 +84,21 @@ flowchart TD
   - 解析结果包含 `Token Plan Pro` / `¥99.9/月`（原价 `¥200/月`）
   - 解析结果包含 `Token Plan Max` / `¥299.9/月`（原价 `¥600/月`）
   - `provider-pricing.json.failures` 不包含 `baidu-qianfan-ai`
+
+### 用例 6：Kimi 大陆帮助页 SSR HTML 解析
+
+- 前置条件：访问 `https://www.kimi.com/help/membership/membership-pricing`
+- 当：页面为压缩 SSR HTML，表格仅保留 Andante/Moderato/Allegretto/Allegro 四档，且不再展示 Adagio
+- 则：
+  - 不启动 Playwright，不依赖 `document.body.innerText` 换行
+  - 从 HTML 块级标签还原可见文本后解析
+  - 解析结果包含 `Andante（大陆）` / `¥49/月`
+  - 解析结果包含 `Moderato（大陆）` / `¥99/月`
+  - 解析结果包含 `Allegretto（大陆）` / `¥199/月`
+  - 解析结果包含 `Allegro（大陆）` / `¥699/月`
+  - 不包含 `Adagio`
+  - 单供应商抓取在 30 秒任务上限内完成
+  - `provider-pricing.json.failures` 不包含 `kimi-ai`
 
 ## 验证命令
 

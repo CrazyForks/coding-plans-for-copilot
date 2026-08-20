@@ -74,7 +74,7 @@ const PROVIDER_BUY_URLS = {
 
 const PROVIDER_CURRENCY_BUY_URLS = {
   'kimi-ai': {
-    '¥': 'https://www.kimi.com/zh-cn/help/membership/membership-pricing',
+    '¥': 'https://www.kimi.com/help/membership/membership-pricing',
     '$': 'https://www.kimi.com/code',
   },
 };

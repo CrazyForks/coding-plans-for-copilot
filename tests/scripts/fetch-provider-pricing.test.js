@@ -12,6 +12,7 @@ const {
   parseAliyunTokenPlansFromDocsHtml,
   parseHuaweiTokenPlans,
   parseCompshareCodingPlansFromHtml,
+  parseKimiDomesticMembershipPlansFromHtml,
   parseKimiDomesticMembershipPlansFromText,
   parseJdCloudCodingPlansFromDocsText,
   parseJdCloudCodingPlansFromPageHtml,
@@ -366,6 +367,52 @@ test('Kimi parsers keep mainland RMB plans and overseas USD plans separate', () 
   assert.equal(overseasPlans[0].name, 'Moderato（海外）');
   assert.equal(overseasPlans[0].currentPriceText, '$19/月');
   assert.match(overseasPlans[0].serviceDetails.join('\n'), /计价币种: 美元（USD）/);
+});
+
+test('Kimi domestic parser reads current four-tier SSR help HTML without Playwright', () => {
+  const html = [
+    '<!DOCTYPE html><html><body>',
+    '<nav><a>Kimi Code</a></nav>',
+    '<h1>会员收费与套餐介绍</h1>',
+    '<p>Kimi 提供四档会员计划</p>',
+    '<h2>订阅方式与价格</h2>',
+    '<table><thead><tr><th>套餐</th><th>定位</th><th>连续包月</th><th>连续包年</th></tr></thead><tbody>',
+    '<tr><td>Andante</td><td>日常使用</td><td>¥49/月</td><td>年付更优惠</td></tr>',
+    '<tr><td>Moderato</td><td>效率升级</td><td>¥99/月</td><td>年付更优惠</td></tr>',
+    '<tr><td>Allegretto</td><td>专业优选</td><td>¥199/月</td><td>年付更优惠</td></tr>',
+    '<tr><td>Allegro</td><td>全能尊享</td><td>¥699/月</td><td>年付更优惠</td></tr>',
+    '</tbody></table>',
+    '<h2>各套餐权益详情</h2>',
+    '<h3>Andante — ¥49/月</h3><ul><li>Agent 用量约 30 个</li><li>Kimi Code 可调用</li></ul>',
+    '<h3>Moderato — ¥99/月</h3><p>在 Andante 基础上：</p><ul><li>Agent 用量约 60 个</li><li>Kimi Code 可调用</li></ul>',
+    '<h3>Allegretto — ¥199/月</h3><p>在 Andante 基础上：</p><ul><li>Agent 用量约 150 个</li><li>Kimi Code 可调用</li></ul>',
+    '<h3>Allegro — ¥699/月</h3><p>在 Andante 基础上：</p><ul><li>Agent 用量约 360 个</li><li>Kimi Code 可调用</li></ul>',
+    '<p>以上 Agent 用量数值基于常见任务 token 消耗估算。</p><h2>额度说明</h2>',
+    '</body></html>',
+  ].join('');
+
+  assert.equal(parseKimiDomesticMembershipPlansFromText(html).length, 0);
+
+  const plans = parseKimiDomesticMembershipPlansFromHtml(html);
+  assert.equal(plans.length, 4);
+  assert.deepEqual(
+    plans.map((plan) => ({
+      name: plan.name,
+      currentPriceText: plan.currentPriceText,
+    })),
+    [
+      { name: 'Andante（大陆）', currentPriceText: '¥49/月' },
+      { name: 'Moderato（大陆）', currentPriceText: '¥99/月' },
+      { name: 'Allegretto（大陆）', currentPriceText: '¥199/月' },
+      { name: 'Allegro（大陆）', currentPriceText: '¥699/月' },
+    ],
+  );
+  assert.equal(
+    plans.some((plan) => /^Adagio/.test(plan.name)),
+    false,
+  );
+  assert.match(plans[0].serviceDetails.join('\n'), /Kimi Code 可调用/);
+  assert.match(plans[1].serviceDetails.join('\n'), /Agent 用量约 60 个/);
 });
 
 test('Kimi goods payload maps REGION_CN and LEVEL_TRIAL enum labels', () => {

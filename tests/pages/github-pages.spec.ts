@@ -152,7 +152,7 @@ test('抓取失败的 provider 不渲染套餐卡片', async ({ page }) => {
           },
           {
             provider: 'kimi-ai',
-            sourceUrls: ['https://www.kimi.com/zh-cn/help/membership/membership-pricing'],
+            sourceUrls: ['https://www.kimi.com/help/membership/membership-pricing'],
             plans: [
               {
                 name: 'Kimi 测试套餐',
@@ -199,7 +199,7 @@ test('Moonshot Kimi 海内外套餐按人民币和美元分开展示', async ({ 
   await expect(domesticCard.getByText('计价币种: 人民币（CNY）').first()).toBeVisible();
   await expect(domesticCard.getByRole('link', { name: '前往了解' })).toHaveAttribute(
     'href',
-    'https://www.kimi.com/zh-cn/help/membership/membership-pricing',
+    'https://www.kimi.com/help/membership/membership-pricing',
   );
 
   await page.getByRole('tab', { name: '海外套餐' }).click();

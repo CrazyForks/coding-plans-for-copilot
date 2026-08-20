@@ -5,6 +5,7 @@
 - All scripts must implement the `-h` parameter.
 - This project is implemented only for the current target version by default; do not keep compatibility code for old VS Code versions, old configurations, or old data structures.
 - Price/plan information changes should be implemented by improving the fetch scripts first, not by directly editing `assets/*.json` data files (they are written by scripts only during script verification).
+- `CHANGELOG.md` records VS Code extension (`src/`) changes only. Do not add entries for pricing fetch scripts, dashboard pages, assets JSON, crawler, or CI workflows.
 
 ## Project Positioning
 
@@ -81,3 +82,4 @@
   - `DEV.md`
   - `package.json` (contributes.configuration)
 - If docs conflict with code, the code behavior wins, and fix the docs in the same change.
+- `CHANGELOG.md` is the extension version history for Marketplace releases; dashboard/script-only changes stay out of it.
