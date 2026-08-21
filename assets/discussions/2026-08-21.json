@@ -1,0 +1,105 @@
+{
+  "date": "2026-08-21",
+  "generatedAt": "2026-08-21T06:48:29.462Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 59,
+    "postsAfterKeywordFilter": 13,
+    "relevantPosts": 2,
+    "discussionsCreated": 2,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "OpenAI": 1,
+      "AggAI": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1236149",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1236149",
+      "title": "codex 订阅额度降幅达 50%！刚刚 tibo 已经回应，是为防止滥用行为",
+      "content": "🚨 Codex 用户可能刚刚遭遇了大幅度的额度削减。 据 NerfTrack 估算，ChatGPT Plus 的每周使用限额（按 API 等值价值计算）在短短几天内从约 160 美元降至 80 美元。 甚至连 Pro 用户也反映，他们的每周配额在 1 到 3 天内就耗尽了。 OpenAI 可能在几乎没有预先通知的情况下，将 Codex 的使用限额削减了一半。 https://x.com/DanDr1s/status/2090468087669587978 刚刚 tibo 已经回应 https://x.com/thsottiaux/status/2090675027670978569",
+      "author": "royalknight",
+      "createdAt": "2026-08-21T05:40:30.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "OpenAI",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.9,
+        "summary": "OpenAI 大幅削减 Codex 的使用额度，ChatGPT Plus 每周等效配额从约 160 美元降至 80 美元，甚至 Pro 用户也在几天内用完配额，官方称这是为了防止滥用。",
+        "topics": [
+          "定价",
+          "额度削减",
+          "Codex",
+          "OpenAI",
+          "滥用防护"
+        ],
+        "planMentioned": "Codex",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/330",
+      "analyzedAt": "2026-08-21T06:55:41.979Z"
+    },
+    {
+      "id": "v2ex-1236041",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1236041",
+      "title": "统计一下大家现在 vibe coding 的方案",
+      "content": "之前用 codex ，但是最近 codex 重置频率的越来越少，额度告急 请教一下大家现在都用什么方案来 vibe coding 呀",
+      "author": "KissAndRun",
+      "createdAt": "2026-08-21T01:25:32.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": null,
+        "supplierCategory": null,
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "用户询问大家现在使用的 vibe coding 方案，提到之前使用 Codex，额度紧张。",
+        "topics": [
+          "方案",
+          "vibe coding",
+          "Codex",
+          "额度"
+        ],
+        "planMentioned": "Codex",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/331",
+      "analyzedAt": "2026-08-21T06:55:47.922Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}

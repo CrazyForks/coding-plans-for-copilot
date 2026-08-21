@@ -1,0 +1,75 @@
+{
+  "date": "2026-08-20",
+  "generatedAt": "2026-08-21T06:48:29.462Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 59,
+    "postsAfterKeywordFilter": 13,
+    "relevantPosts": 1,
+    "discussionsCreated": 1,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "OpenAI": 1,
+      "AggAI": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1235883",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1235883",
+      "title": "Codex / Claude Code 用户来送额度，评论 ID 送 $10",
+      "content": "AggAI：注册送 $5 ，入群再送 $5 ，邀请双方各得 $3 最开始 AggAI 是我们自己使用的 AI API 服务，主要用于 Claude Code 、Codex 、Gemini CLI 、OpenCode 等工具。 目前支持 GPT-5.6 、Claude 、DeepSeek 、GLM 、Kimi 、MiniMax 等模型，统一 API Key 和 Base URL ，支持多线路、失败重试、按量计费和用量查询。 GPT-5.5 / GPT-5.6 系列使用 Pro 账号池线路： 当前分组倍率： default ：0.3 倍 vip ：0.25 倍 国模 ：0.6 倍 订阅 ：1 倍 模型价格： https://www.wyy22.com/pricing 配置文档： https://www.wyy22.com/docs 福利 注册 AggAI 赠送 $5 加入 QQ 群再赠送 $5 邀请好友注册，邀请人和被邀请人各得 $3 群内不定时掉落额外福利 QQ 群： 1103714380 注册后进群，联系管理员并提供 AggAI 用户 ID 即可领取。 官网： https://www.",
+      "author": "abb1513",
+      "createdAt": "2026-08-20T06:51:24.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "AggAI",
+        "supplierCategory": "aggregator",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "AggAI 是一个提供多模型 API 服务的平台，支持 Claude Code、Codex、Gemini CLI 等工具，现推出注册送 $5、入群送 $5、邀请好友各得 $3 的福利活动。",
+        "topics": [
+          "定价",
+          "套餐对比",
+          "福利",
+          "邀请制",
+          "API 服务"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/332",
+      "analyzedAt": "2026-08-21T06:55:53.275Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}
