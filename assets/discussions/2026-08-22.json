@@ -1,0 +1,107 @@
+{
+  "date": "2026-08-22",
+  "generatedAt": "2026-08-22T06:40:31.426Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 55,
+    "postsAfterKeywordFilter": 18,
+    "relevantPosts": 2,
+    "discussionsCreated": 2,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Claude": 1,
+      "Codex": 1,
+      "OpenAI": 1,
+      "DeepSeek": 1,
+      "Codex, Claude Code": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1236384",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1236384",
+      "title": "claude 换到 codex 体验，如何搞定账号？",
+      "content": "登录需要国外手机号？ 我记得刚出的时候体验没这么复杂？啥时候要验证国外手机号了？ 你们怎么搞的？闲鱼？",
+      "author": "csfreshman",
+      "createdAt": "2026-08-22T05:53:45.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.8,
+        "supplier": "Claude",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.7,
+        "summary": "用户询问如何获得Claude的Codex体验，包括是否需要国外手机号登录，并提到可能通过闲鱼购买账号。",
+        "topics": [
+          "登录",
+          "国外手机号",
+          "账号购买",
+          "体验"
+        ],
+        "planMentioned": "Claude Pro",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/333",
+      "analyzedAt": "2026-08-22T06:45:47.934Z"
+    },
+    {
+      "id": "v2ex-1236344",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1236344",
+      "title": "Codex 1000 credits 3 个邀请名额，符合要求的留邮箱",
+      "content": "我也发一个，每月 3 个 codex1000 额度邀请名额，需要的小伙伴留邮箱。 受邀条件如下，大家先检查下是否符合条件： 受邀者在过去 2 个月内不得使用过 ChatGPT 桌面版。 受邀人不能已拥有有效的推荐邀请。 本月剩余：3",
+      "author": "weRyoung",
+      "createdAt": "2026-08-22T01:35:46.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Codex",
+        "supplierCategory": "international-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.85,
+        "summary": "The user is sharing 3 monthly Codex 1000 credits invitation slots, with conditions that invitees must not have used ChatGPT desktop in the past 2 months and must not already have a valid referral invitation.",
+        "topics": [
+          "体验卡",
+          "抽奖",
+          "邀请",
+          "Codex"
+        ],
+        "planMentioned": "Codex 1000 credits",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/334",
+      "analyzedAt": "2026-08-22T06:45:52.484Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}

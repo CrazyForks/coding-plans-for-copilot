@@ -1,6 +1,6 @@
 {
   "date": "2026-08-21",
-  "generatedAt": "2026-08-21T06:48:29.462Z",
+  "generatedAt": "2026-08-22T06:40:31.426Z",
   "config": {
     "sources": [
       "v2ex",
@@ -24,14 +24,17 @@
     "relevanceThreshold": 0.7
   },
   "summary": {
-    "totalPostsFetched": 59,
-    "postsAfterKeywordFilter": 13,
-    "relevantPosts": 2,
-    "discussionsCreated": 2,
+    "totalPostsFetched": 55,
+    "postsAfterKeywordFilter": 18,
+    "relevantPosts": 5,
+    "discussionsCreated": 5,
     "discussionsSkipped": 0,
     "supplierMentions": {
+      "Claude": 1,
+      "Codex": 1,
       "OpenAI": 1,
-      "AggAI": 1
+      "DeepSeek": 1,
+      "Codex, Claude Code": 1
     }
   },
   "posts": [
@@ -95,6 +98,102 @@
       },
       "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/331",
       "analyzedAt": "2026-08-21T06:55:47.922Z"
+    },
+    {
+      "id": "v2ex-1236222",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1236222",
+      "title": "ChatGPT 5X 一个月 800 多舍不得",
+      "content": "PLUS 不够用，5X 又太贵 业务又没挣钱， 纠结，劝劝我",
+      "author": "Gitya",
+      "createdAt": "2026-08-21T08:26:21.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.85,
+        "supplier": "OpenAI",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "The user is torn between ChatGPT Plus and the 5X plan, finding the 5X plan too expensive at over 800 per month, and asks for advice since their business isn't profitable yet.",
+        "topics": [
+          "定价",
+          "ChatGPT",
+          "套餐选择",
+          "纠结"
+        ],
+        "planMentioned": "ChatGPT 5X",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/335",
+      "analyzedAt": "2026-08-22T06:45:58.432Z"
+    },
+    {
+      "id": "v2ex-1236307",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1236307",
+      "title": "迁到 DeepSeek Harness 后，我发现开发团队可以裁掉了",
+      "content": "这几天，当我们陆续完成即我桌面端到 DeepSeek Harness 的迁移后，我忽然发现，接下来我没活可派了。 Agent 的能力，DSH 的基建已经做的很好并在持续迭代；面向用户的所有界面，完全可由用户按自己的想法生成。实在懒得弄？插件市场有一堆他人开发的效果不错的插件。 我们唯一要做的，只是做好后端的定义，把数据存好，把接口给好。在用户哪些新场景需求没办法满足的时候，再对后端做点迭代。 绝大多数情况下，已经不需要开发者再干什么了！ 这不仅是我的个人感受，而是全团队都发现了的不可回避的事实。 在基于 DSH 的即我客户端落地的过程中，有几个同事，基于自己的需求，在里边开发出了一些非常好玩好用的贴合其自己的功能。比如： 决策镜子🪞，当自己犹豫不定的时候把向镜子提问，镜子会根据自己过往的数据给出判断行还是不行。 对话天气。把即我的所有私聊群聊根据最近的一些对话情况，转化为不同的天气效果呈现，更直观感知到这个对话里的情绪情况，判断是否想点进去看里边的内容。 我的人生剪影。根据自己每天的数据情况，生成自己的电影片段。感觉如果再介入一个文生图文生视频模型，直接就有一个可以每天连载对外日更的",
+      "author": "wolfhts",
+      "createdAt": "2026-08-21T14:38:22.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "DeepSeek",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.98,
+        "summary": "用户分享了迁移到 DeepSeek Harness 后开发团队角色剧变的体验，强调 AI 工具使插件化开发取代传统开发任务，导致开发岗位需求大幅减少。",
+        "topics": [
+          "DeepSeek Harness",
+          "插件",
+          "开发团队",
+          "AI 编程工具",
+          "角色转变",
+          "自动化"
+        ],
+        "planMentioned": "DeepSeek Harness",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/336",
+      "analyzedAt": "2026-08-22T06:46:05.681Z"
+    },
+    {
+      "id": "v2ex-1236313",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1236313",
+      "title": "因为 Tibo 不让用 sub2api，所以我给 Zed 里的 Codex 加了行级代码 Review",
+      "content": "平时使用 sub2api 反代模型在 cursor 用自己的模型，但是现在用 sub2api 会减少额度，又想开发时用自己订阅的 gpt，还想自己决定每一行代码的改动 之前在用 zed 时就知道可以调 codex 来使用，但是后面不支持外部 agent 的 single_file_review 就不怎么用了 研究了一下，使用 acp adapter 监听 codex app-server 的 fileChange 事件来实现 原理: Zed &lt;── ACP ──&gt; codex-acp &lt;── JSON-RPC ──&gt; Codex App Server │ └── fileChange ├── restore the pre-change file state └── fs/write_text_file(newText) → Zed Review Changes 效果: 仓库地址: codex-acp github 如果想在 zed 中使用 claude code 也支持 single_file_review，可以使用: claude-agent-acp git",
+      "author": "cdx",
+      "createdAt": "2026-08-21T15:56:11.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.85,
+        "supplier": "Codex, Claude Code",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "The author describes implementing line-level code review functionality for Codex in the Zed editor using ACP adapter, discussing the technical architecture and integration with Codex App Server. They also mention similar support for Claude Code.",
+        "topics": [
+          "Codex",
+          "Claude Code",
+          "Zed",
+          "Cursor",
+          "ACP",
+          "代码审查",
+          "技术实现",
+          "编辑器集成"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/337",
+      "analyzedAt": "2026-08-22T06:46:12.813Z"
     }
   ],
   "failures": [
