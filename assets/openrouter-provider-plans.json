@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-21T08:42:49.636Z",
-  "generatedAtBeijing": "2026年8月21日 16:42:49",
-  "sourceGeneratedAt": "2026-08-21T08:41:50.720Z",
-  "sourceGeneratedAtBeijing": "2026年8月21日 16:41:50",
-  "sourceMetricsGeneratedAt": "2026-08-21T08:41:51.725Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月21日 16:41:51",
+  "generatedAt": "2026-08-22T08:32:46.040Z",
+  "generatedAtBeijing": "2026年8月22日 16:32:46",
+  "sourceGeneratedAt": "2026-08-22T08:31:38.189Z",
+  "sourceGeneratedAtBeijing": "2026年8月22日 16:31:38",
+  "sourceMetricsGeneratedAt": "2026-08-22T08:31:41.625Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月22日 16:31:41",
   "summary": {
-    "openrouterProviderCount": 102,
+    "openrouterProviderCount": 103,
     "metricsProviderCount": 47,
     "resolvedMetricsProviderCount": 47,
     "unresolvedMetricsProviderCount": 0,
@@ -14,7 +14,7 @@
     "heuristicProviderCount": 7,
     "providersWithPlans": 15,
     "pendingCount": 32,
-    "blockedPendingCount": 2,
+    "blockedPendingCount": 3,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
   },
@@ -1164,7 +1164,7 @@
       "officialWebsiteUrl": "https://docs.nebius.com",
       "pricingPageUrl": "https://docs.nebius.com",
       "reason": "官网价格页探测失败：https://docs.nebius.com/pricing: HTTP 404",
-      "blocked": false
+      "blocked": true
     },
     {
       "slug": "novita",
