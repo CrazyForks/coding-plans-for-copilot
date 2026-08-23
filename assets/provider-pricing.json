@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-23T03:00:12.705Z",
+  "generatedAt": "2026-08-23T08:31:50.414Z",
   "providers": [
     {
       "provider": "aliyun-ai",
@@ -1299,7 +1299,9 @@
             "用量: 用量达 Claude Max（5x）的 3 倍，lite 套餐用量的5倍"
           ]
         }
-      ]
+      ],
+      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
+      "staleFailure": "volcengine-ai: Unable to parse Volcengine coding plan bundle"
     },
     {
       "provider": "x-aio",
@@ -1577,6 +1579,7 @@
     }
   ],
   "failures": [
-    "kimi-ai: Kimi domestic membership page is missing pricing markers"
+    "kimi-ai: Kimi domestic membership page is missing pricing markers",
+    "volcengine-ai: Unable to parse Volcengine coding plan bundle"
   ]
 }

@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-22T08:32:46.040Z",
-  "generatedAtBeijing": "2026年8月22日 16:32:46",
-  "sourceGeneratedAt": "2026-08-22T08:31:38.189Z",
-  "sourceGeneratedAtBeijing": "2026年8月22日 16:31:38",
-  "sourceMetricsGeneratedAt": "2026-08-22T08:31:41.625Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月22日 16:31:41",
+  "generatedAt": "2026-08-23T08:32:53.182Z",
+  "generatedAtBeijing": "2026年8月23日 16:32:53",
+  "sourceGeneratedAt": "2026-08-23T08:31:50.414Z",
+  "sourceGeneratedAtBeijing": "2026年8月23日 16:31:50",
+  "sourceMetricsGeneratedAt": "2026-08-23T08:31:51.492Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月23日 16:31:51",
   "summary": {
     "openrouterProviderCount": 103,
     "metricsProviderCount": 47,
@@ -1164,7 +1164,7 @@
       "officialWebsiteUrl": "https://docs.nebius.com",
       "pricingPageUrl": "https://docs.nebius.com",
       "reason": "官网价格页探测失败：https://docs.nebius.com/pricing: HTTP 404",
-      "blocked": true
+      "blocked": false
     },
     {
       "slug": "novita",
@@ -1236,7 +1236,7 @@
       "officialWebsiteUrl": "https://docs.siliconflow.com",
       "pricingPageUrl": "https://docs.siliconflow.com",
       "reason": "官网价格页探测失败：https://docs.siliconflow.com/pricing: HTTP 404",
-      "blocked": false
+      "blocked": true
     },
     {
       "slug": "together",
