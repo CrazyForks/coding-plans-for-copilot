@@ -1,0 +1,109 @@
+{
+  "date": "2026-08-23",
+  "generatedAt": "2026-08-23T06:41:23.233Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 48,
+    "postsAfterKeywordFilter": 15,
+    "relevantPosts": 2,
+    "discussionsCreated": 2,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "OpenAI": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1236557",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1236557",
+      "title": "gpt plus 不够用想重置卡，要不要先开到 pro 20X 再重置划算点",
+      "content": "21 号重置的额度马上用完了，准备用送的重置卡，预估重置一次也肯定不够完成开发，要不要先开 pro 20X 然后再重置呢? 还是说用日抛号更省钱？日抛号会不会存在上下文丢失或者幻觉的问题呢",
+      "author": "qq1147",
+      "createdAt": "2026-08-23T06:20:31.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "OpenAI",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "用户讨论是否升级到OpenAI的Pro 20X计划以获得更多重置额度，并询问日抛号的潜在问题",
+        "topics": [
+          "定价",
+          "套餐对比",
+          "重置",
+          "日抛号",
+          "上下文丢失",
+          "幻觉"
+        ],
+        "planMentioned": "Pro 20X",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/338",
+      "analyzedAt": "2026-08-23T06:47:20.190Z"
+    },
+    {
+      "id": "v2ex-1236531",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1236531",
+      "title": "AI 写了一百万行代码后，我学到了什么",
+      "content": "我不会写代码。 过去两个月，我主要通过 AI Coding 做了一个叫 MarkOVO 的项目：把 PDF 、Word 、PPT 、等多格式文件统一转换成 Markdown ，支持 Web 、API 、CLI 和 MCP 四种使用方式。 Git 历史里累计新增了大约 101 万行内容。代码、测试和文档都由 AI 完成，我主要负责决定做什么，以及最后的结果能不能上线。 TL;DR：我的几个关键认识 AI 可以快速写出大量功能，但决定做什么、应该怎么做，比写出功能更重要。 哪怕是最强的 AI 模型，如果没有先设计好交互，最后做出来的还是一坨屎，给再多 skills 也没用。 巨量的真实测试集和人工检查，是保证最终效果的核心。测试覆盖率 90%，产品照样可能不能用。 Markdown 很适合 AI 做计划、记忆和长程执行，但 HTML 才适合人把握项目 Human in the Loop 会是一个相对长期的状态。人可能会越来越少写代码，但仍然要为 AI 做出来的结果负责。 为什么做 MarkOVO 最开始只是因为我经常需要把文件交给 AI 处理。但之前 Cursor 经常打不开 PDF 。所",
+      "author": "yyzyfish5",
+      "createdAt": "2026-08-23T03:56:04.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": null,
+        "supplierCategory": "other",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.85,
+        "summary": "用户分享了使用AI编码开发MarkOVO项目的经验，强调AI在生成代码和测试中的效率，但指出规划和人工检查的重要性，以及AI生成代码需要严格的人工审查。",
+        "topics": [
+          "AI编码",
+          "代码生成",
+          "测试",
+          "人工检查",
+          "项目规划",
+          "Markdown",
+          "HTML"
+        ],
+        "planMentioned": "MarkOVO",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/339",
+      "analyzedAt": "2026-08-23T06:47:25.258Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1236509: The operation was aborted due to timeout"
+  ]
+}
