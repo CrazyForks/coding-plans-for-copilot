@@ -1143,9 +1143,69 @@ function buildKimiCodePlansFromGoodsPayload(payload, options = {}) {
   return dedupePlans(plans);
 }
 
+const KIMI_DOMESTIC_HELP_HEADERS = {
+  ...COMMON_HEADERS,
+  'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
+};
+
+async function fetchKimiDomesticMembershipHtmlWithPlaywright() {
+  const chromium = await loadPlaywrightChromium('Kimi domestic membership parser');
+  const browser = await chromium.launch(getPlaywrightLaunchOptions());
+  try {
+    const page = await browser.newPage();
+    await blockNonEssentialPlaywrightRequests(page);
+    await page.goto(KIMI_DOMESTIC_MEMBERSHIP_URL, {
+      waitUntil: 'domcontentloaded',
+      timeout: 20_000,
+    });
+    await page.waitForFunction(
+      () => {
+        const text = String(document.body?.innerText || '');
+        return /订阅方式与价格/.test(text) && /Kimi Code/.test(text) && /人民币|¥/.test(text);
+      },
+      { timeout: 20_000 },
+    );
+    return page.evaluate(() => String(document.documentElement?.outerHTML || ''));
+  } finally {
+    await browser.close();
+  }
+}
+
+async function resolveKimiDomesticMembershipPlans() {
+  let primaryError = null;
+  try {
+    const domesticHelpHtml = await fetchText(KIMI_DOMESTIC_MEMBERSHIP_URL, {
+      headers: KIMI_DOMESTIC_HELP_HEADERS,
+    });
+    const domesticHelpText = htmlToVisibleText(domesticHelpHtml);
+    if (kimiDomesticMembershipTextHasPricingMarkers(domesticHelpText)) {
+      const plans = parseKimiDomesticMembershipPlansFromText(domesticHelpText);
+      if (plans.length > 0) {
+        return { plans };
+      }
+      primaryError = new Error('Unable to parse Kimi domestic membership plans');
+    } else {
+      primaryError = new Error('Kimi domestic membership page is missing pricing markers');
+    }
+  } catch (error) {
+    primaryError = error;
+  }
+
+  let renderedHtml;
+  try {
+    renderedHtml = await fetchKimiDomesticMembershipHtmlWithPlaywright();
+  } catch (error) {
+    throw new Error(`${primaryError.message}; Playwright fallback failed: ${error.message}`);
+  }
+  const renderedPlans = parseKimiDomesticMembershipPlansFromHtml(renderedHtml);
+  if (renderedPlans.length === 0) {
+    throw new Error('Unable to parse Kimi domestic membership plans from rendered page');
+  }
+  return { plans: renderedPlans };
+}
+
 async function parseKimiCodingPlans() {
-  const [domesticHelpHtml, pageHtml, payload] = await Promise.all([
-    fetchText(KIMI_DOMESTIC_MEMBERSHIP_URL),
+  const [pageHtml, payload] = await Promise.all([
     fetchText(KIMI_OVERSEAS_CODE_URL),
     fetchJson(KIMI_GOODS_API_URL, {
       method: 'POST',
@@ -1160,14 +1220,7 @@ async function parseKimiCodingPlans() {
     }),
   ]);
 
-  const domesticHelpText = htmlToVisibleText(domesticHelpHtml);
-  if (!kimiDomesticMembershipTextHasPricingMarkers(domesticHelpText)) {
-    throw new Error('Kimi domestic membership page is missing pricing markers');
-  }
-  const domesticPlans = parseKimiDomesticMembershipPlansFromText(domesticHelpText);
-  if (domesticPlans.length === 0) {
-    throw new Error('Unable to parse Kimi domestic membership plans');
-  }
+  const { plans: domesticPlans } = await resolveKimiDomesticMembershipPlans();
 
   const commonScriptRaw =
     pageHtml.match(/\/\/statics\.moonshot\.cn\/kimi-web-seo\/assets\/common-[^"'\s]+\.js/i)?.[0] || null;
@@ -1434,9 +1487,7 @@ async function parseZhipuCodingPlansWithPlaywright() {
       () => {
         const text = String(document.body?.innerText || '');
         return (
-          /即刻与\s*GLM\s*一起\s*Coding/.test(text) &&
-          /连续包[月季年]/.test(text) &&
-          /每周\s*[0-9,]+\s*积分/.test(text)
+          /即刻与\s*GLM\s*一起\s*Coding/.test(text) && /连续包[月季年]/.test(text) && /每周\s*[0-9,]+\s*积分/.test(text)
         );
       },
       { timeout: 20_000 },
@@ -1980,7 +2031,9 @@ function readBaiduCardField(cardHtml, label) {
   }
 
   const plain = stripTags(html);
-  const plainMatch = plain.match(new RegExp(`${label}\\s+([^\\n]+?)(?=\\s*(?:商品类型|额度规格|使用期限|限时|￥|¥|立即购买|$))`, 'i'));
+  const plainMatch = plain.match(
+    new RegExp(`${label}\\s+([^\\n]+?)(?=\\s*(?:商品类型|额度规格|使用期限|限时|￥|¥|立即购买|$))`, 'i'),
+  );
   return normalizeText(plainMatch?.[1] || '');
 }
 
@@ -1994,7 +2047,9 @@ function parseBaiduTokenPlansFromHtml(html) {
 
   const plainText = stripTags(html);
   const toolIntro = normalizeText(
-    plainText.match(/适配\s*((?:Cursor|Claude\s*Code|Windsurf|Cline)(?:\s*[、,，]\s*[^等。；\n]+){0,5}等主流\s*AI\s*Coding\s*工具)/i)?.[1] ||
+    plainText.match(
+      /适配\s*((?:Cursor|Claude\s*Code|Windsurf|Cline)(?:\s*[、,，]\s*[^等。；\n]+){0,5}等主流\s*AI\s*Coding\s*工具)/i,
+    )?.[1] ||
       plainText.match(/适配\s*((?:Cursor|Claude\s*Code|Windsurf|Cline)[^。；\n]{0,40})/i)?.[1] ||
       '',
   );
@@ -2051,8 +2106,7 @@ function parseBaiduTokenPlansFromHtml(html) {
           Number.isFinite(originalAmount) && originalAmount > currentAmount
             ? `¥${formatAmount(originalAmount)}/月`
             : null,
-        originalPrice:
-          Number.isFinite(originalAmount) && originalAmount > currentAmount ? originalAmount : null,
+        originalPrice: Number.isFinite(originalAmount) && originalAmount > currentAmount ? originalAmount : null,
         unit: '月',
         notes: [promoLabel, audienceText ? `适用: ${audienceText}` : null].filter(Boolean).join('；') || null,
         serviceDetails: normalizeServiceDetails([
@@ -2825,7 +2879,6 @@ async function parseCompshareCodingPlans() {
   };
 }
 
-
 function parseAliyunServiceDetailsFromPageHtml(html) {
   const featureMatches = [
     {
@@ -2932,7 +2985,6 @@ function parseAliyunServiceDetailsFromDocsHtml(html) {
 
   return detailsByTier;
 }
-
 
 async function parseAliyunCodingPlans() {
   const pageUrl = 'https://www.aliyun.com/benefit/scene/codingplan';
@@ -3079,7 +3131,8 @@ async function parseAliyunCodingPlans() {
         originalPrice: Number.isFinite(originalAmount) ? originalAmount : null,
         unit: '月',
         notes:
-          planDef.tier === 'Lite' && (serviceDetailsByTier.get(planDef.tier) || []).some((detail) => /停止新购/.test(detail))
+          planDef.tier === 'Lite' &&
+          (serviceDetailsByTier.get(planDef.tier) || []).some((detail) => /停止新购/.test(detail))
             ? '已停止新购/续费升级，仅已购用户可用至到期'
             : promoLabel || null,
         serviceDetails: serviceDetailsByTier.get(planDef.tier) || (activityName ? [activityName] : null),
@@ -3103,9 +3156,7 @@ function parseAliyunTokenPlansFromDocsHtml(html) {
   const docsUrl = 'https://help.aliyun.com/zh/model-studio/token-plan-overview';
   // Token Plan team pricing is presented as columns in the current docs page.
   const cleanupDocsCell = (value) => normalizeText(value).replace(/\\n/g, ' ').replace(/\s+/g, ' ').trim();
-  const teamTableMatch = String(html || '').match(
-    /<table\b[^>]*\bid=(["'])tp-ov-tbl-team\1[^>]*>[\s\S]*?<\/table>/i,
-  );
+  const teamTableMatch = String(html || '').match(/<table\b[^>]*\bid=(["'])tp-ov-tbl-team\1[^>]*>[\s\S]*?<\/table>/i);
   const teamRows = teamTableMatch
     ? extractRows(teamTableMatch[0]).map((row) => row.map((cell) => cleanupDocsCell(cell)))
     : [];
@@ -3118,9 +3169,11 @@ function parseAliyunTokenPlansFromDocsHtml(html) {
   const modelRow = findTeamRow(/^模型$/);
 
   const parsePriceCell = (value) => {
-    const prices = [...cleanupDocsCell(value).matchAll(
-      /(?:¥|￥)?\s*([0-9]+(?:,[0-9]{3})*(?:\.\d+)?)\s*(?:元)?\s*\/\s*((?:座席|坐席|个)(?:\s*\/\s*月)?|月)/gi,
-    )].map((match) => ({
+    const prices = [
+      ...cleanupDocsCell(value).matchAll(
+        /(?:¥|￥)?\s*([0-9]+(?:,[0-9]{3})*(?:\.\d+)?)\s*(?:元)?\s*\/\s*((?:座席|坐席|个)(?:\s*\/\s*月)?|月)/gi,
+      ),
+    ].map((match) => ({
       amount: Number(match[1].replace(/,/g, '')),
       text: `¥${match[1]}/${match[2].replace(/\s+/g, '').replace(/坐席/g, '座席')}`,
     }));
@@ -3207,10 +3260,7 @@ function parseAliyunTokenPlansFromDocsHtml(html) {
         originalPriceText: sharedPackageRow[3] || null,
         unit: null,
         notes: null,
-        serviceDetails: normalizeServiceDetails([
-          credits ? `额度: ${credits}` : null,
-          '跨座席共享的弹性用量包',
-        ]),
+        serviceDetails: normalizeServiceDetails([credits ? `额度: ${credits}` : null, '跨座席共享的弹性用量包']),
       }),
     );
   }
