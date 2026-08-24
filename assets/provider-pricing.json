@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-24T03:01:13.356Z",
+  "generatedAt": "2026-08-24T08:49:52.595Z",
   "providers": [
     {
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/ec52b3d08b034f2c14a6a4cece77285f.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/8a3a2415ea2670a003e88da001d4bbf2.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan"
       ],
@@ -776,7 +776,7 @@
         }
       ],
       "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
-      "staleFailure": "kimi-ai: Kimi domestic membership page is missing pricing markers"
+      "staleFailure": "kimi-ai: Task timed out after 30000ms"
     },
     {
       "provider": "kwaikat-ai",
@@ -1360,7 +1360,9 @@
             "使用 LingClaw 构建个人助理"
           ]
         }
-      ]
+      ],
+      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
+      "staleFailure": "x-aio: Request failed: https://code.x-aio.com/assets/index-BlH8fPH1.js -> 522; Playwright fallback failed: page.evaluate: Error: Request failed: https://code.x-aio.com/assets/index-BlH8fPH1.js -> 525 at eval (eval at evaluate (:290:30), <anonymous>:4:15) at async <anonymous>:316:30"
     },
     {
       "provider": "xfyun-ai",
@@ -1577,6 +1579,7 @@
     }
   ],
   "failures": [
-    "kimi-ai: Kimi domestic membership page is missing pricing markers"
+    "kimi-ai: Task timed out after 30000ms",
+    "x-aio: Request failed: https://code.x-aio.com/assets/index-BlH8fPH1.js -> 522; Playwright fallback failed: page.evaluate: Error: Request failed: https://code.x-aio.com/assets/index-BlH8fPH1.js -> 525\n    at eval (eval at evaluate (:290:30), <anonymous>:4:15)\n    at async <anonymous>:316:30"
   ]
 }

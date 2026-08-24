@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-23T08:32:53.182Z",
-  "generatedAtBeijing": "2026年8月23日 16:32:53",
-  "sourceGeneratedAt": "2026-08-23T08:31:50.414Z",
-  "sourceGeneratedAtBeijing": "2026年8月23日 16:31:50",
-  "sourceMetricsGeneratedAt": "2026-08-23T08:31:51.492Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月23日 16:31:51",
+  "generatedAt": "2026-08-24T08:51:09.100Z",
+  "generatedAtBeijing": "2026年8月24日 16:51:09",
+  "sourceGeneratedAt": "2026-08-24T08:49:52.595Z",
+  "sourceGeneratedAtBeijing": "2026年8月24日 16:49:52",
+  "sourceMetricsGeneratedAt": "2026-08-24T08:50:07.676Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月24日 16:50:07",
   "summary": {
     "openrouterProviderCount": 103,
     "metricsProviderCount": 47,
@@ -14,7 +14,7 @@
     "heuristicProviderCount": 7,
     "providersWithPlans": 15,
     "pendingCount": 32,
-    "blockedPendingCount": 3,
+    "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
   },
@@ -55,7 +55,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/e9e7fe239eabf7a6a6c0b5e4a20b6c65.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/8a3a2415ea2670a003e88da001d4bbf2.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -992,7 +992,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://www.atlascloud.ai",
       "pricingPageUrl": "https://www.atlascloud.ai/pricing/models",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.134 / $0.1 / $0.086）",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.05 / $0.134 / $0.1）",
       "blocked": false
     },
     {
@@ -1236,7 +1236,7 @@
       "officialWebsiteUrl": "https://docs.siliconflow.com",
       "pricingPageUrl": "https://docs.siliconflow.com",
       "reason": "官网价格页探测失败：https://docs.siliconflow.com/pricing: HTTP 404",
-      "blocked": true
+      "blocked": false
     },
     {
       "slug": "together",
