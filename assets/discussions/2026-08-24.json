@@ -1,0 +1,107 @@
+{
+  "date": "2026-08-24",
+  "generatedAt": "2026-08-24T06:59:41.147Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 55,
+    "postsAfterKeywordFilter": 17,
+    "relevantPosts": 2,
+    "discussionsCreated": 2,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "OpenAI": 1,
+      "Claude, Codex": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1236795",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1236795",
+      "title": "也来邀请赠送 Codex 1000 credits",
+      "content": "前两天发现我也可以邀请，1000 credits ，还有人需要吗？ 条件是这么写的： “通过优惠中所述的官方推荐流程接受推荐。 使用优惠中所述的符合条件的电子邮件地址或账户。 如果优惠与 ChatGPT Business 工作空间相关，则需加入相应工作空间。 首次使用 ChatGPT 桌面版，或在优惠指定的回溯期内近期没有在 ChatGPT 桌面版中进行过符合条件的活动。 完成优惠中所述的符合条件的操作。 必须以 ChatGPT 席位成员身份加入工作空间。”",
+      "author": "qgewfg",
+      "createdAt": "2026-08-24T06:18:47.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "OpenAI",
+        "supplierCategory": "international-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.8,
+        "summary": "用户发现可以通过推荐活动获得1000个Codex积分，询问是否有需要的用户。推荐活动要求通过官方流程接受推荐，使用符合条件的账户，并完成相关操作。",
+        "topics": [
+          "推荐活动",
+          "Codex积分",
+          "ChatGPT Business",
+          "优惠条件"
+        ],
+        "planMentioned": "Codex 1000 credits",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/341",
+      "analyzedAt": "2026-08-24T07:08:57.230Z"
+    },
+    {
+      "id": "v2ex-1236783",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1236783",
+      "title": "最近 claude 表现如何？有必要从 codex 转过去吗？",
+      "content": "之前一直用 Claude ，7 月份有个大型项目完工以后就停止 claude max 订阅了，7 月中旬以后一直用 codex 做别的开发，感觉体验还不错。最近那个大型项目想继续开发，担心 codex 搞不定，想重新订阅 claude ，想请问下大佬们最近 claude 表现怎么样？有没有必要订阅回去？还是直接上 codex",
+      "author": "sudoy",
+      "createdAt": "2026-08-24T05:47:18.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Claude, Codex",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.85,
+        "summary": "用户讨论Claude和Codex订阅的体验，询问Claude最近表现如何以及是否需要重新订阅。",
+        "topics": [
+          "Claude",
+          "Codex",
+          "订阅",
+          "定价",
+          "体验"
+        ],
+        "planMentioned": "Claude Max, Codex",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/342",
+      "analyzedAt": "2026-08-24T07:09:02.058Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1236784: The operation was aborted due to timeout",
+    "analysis failed for v2ex-1236779: LLM returned invalid JSON: Unexpected token 'U', \"User Safety: safe\" is not valid JSON"
+  ]
+}
