@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-23T08:31:50.414Z",
+  "generatedAt": "2026-08-24T03:01:13.356Z",
   "providers": [
     {
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/e9e7fe239eabf7a6a6c0b5e4a20b6c65.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/ec52b3d08b034f2c14a6a4cece77285f.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan"
       ],
@@ -1299,9 +1299,7 @@
             "用量: 用量达 Claude Max（5x）的 3 倍，lite 套餐用量的5倍"
           ]
         }
-      ],
-      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
-      "staleFailure": "volcengine-ai: Unable to parse Volcengine coding plan bundle"
+      ]
     },
     {
       "provider": "x-aio",
@@ -1579,7 +1577,6 @@
     }
   ],
   "failures": [
-    "kimi-ai: Kimi domestic membership page is missing pricing markers",
-    "volcengine-ai: Unable to parse Volcengine coding plan bundle"
+    "kimi-ai: Kimi domestic membership page is missing pricing markers"
   ]
 }
