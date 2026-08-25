@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-24T08:51:09.100Z",
-  "generatedAtBeijing": "2026年8月24日 16:51:09",
-  "sourceGeneratedAt": "2026-08-24T08:49:52.595Z",
-  "sourceGeneratedAtBeijing": "2026年8月24日 16:49:52",
-  "sourceMetricsGeneratedAt": "2026-08-24T08:50:07.676Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月24日 16:50:07",
+  "generatedAt": "2026-08-25T08:44:58.149Z",
+  "generatedAtBeijing": "2026年8月25日 16:44:58",
+  "sourceGeneratedAt": "2026-08-25T08:43:45.477Z",
+  "sourceGeneratedAtBeijing": "2026年8月25日 16:43:45",
+  "sourceMetricsGeneratedAt": "2026-08-25T08:43:56.276Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月25日 16:43:56",
   "summary": {
     "openrouterProviderCount": 103,
     "metricsProviderCount": 47,
@@ -55,7 +55,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/8a3a2415ea2670a003e88da001d4bbf2.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/28d431f5eb02ada2d9ddcfea4060a7a3.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -992,7 +992,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://www.atlascloud.ai",
       "pricingPageUrl": "https://www.atlascloud.ai/pricing/models",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.05 / $0.134 / $0.1）",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.068 / $0.061 / $0.05）",
       "blocked": false
     },
     {
