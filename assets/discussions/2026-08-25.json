@@ -1,0 +1,106 @@
+{
+  "date": "2026-08-25",
+  "generatedAt": "2026-08-25T06:49:34.956Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 55,
+    "postsAfterKeywordFilter": 13,
+    "relevantPosts": 2,
+    "discussionsCreated": 2,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "智谱": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1237043",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1237043",
+      "title": "GLM MAX 套餐如何",
+      "content": "现在是 glm lite 套餐，主要用 gpt plus + 中转站，glm 这个就是兜底的，开的早，可以年付 300 多一个月订 glm max 版本。 最近 gpt plus 越来越不撑使了，中转站现在三天两头下架服务，套餐消耗比之前快太多了，体感能有好几倍吧。感觉越来越难用了。所以想后续转成 gpt plus + glm max 的形式，问为什么这种形式，那肯定是我穷咯。 想问下，有大佬订阅过 glm max 的嘛，速度咋样，glm lite 晚上有时候干活的时候，经常一个问题能把我差点跑睡着，速度太太慢了，glm max 会好一些吗，还有编程体验咋样，我的 lite 感觉简单问题还凑合，复杂一点的很难一次改好，需要反反复复。",
+      "author": "zzahsjlk",
+      "createdAt": "2026-08-25T05:23:04.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.92,
+        "supplier": "智谱",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.71,
+        "summary": "用户询问智谱 GLM MAX 套餐的使用体验和速度，对比 GLM Lite 表现不佳，考虑转用 GLM Max 以提升编程助手的响应速度和效果。",
+        "topics": [
+          "定价",
+          "套餐对比",
+          "使用体验",
+          "速度",
+          "编程体验",
+          "GLM Lite",
+          "GLM Max"
+        ],
+        "planMentioned": "GLM MAX",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/343",
+      "analyzedAt": "2026-08-25T06:54:18.595Z"
+    },
+    {
+      "id": "v2ex-1237041",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1237041",
+      "title": "百炼 token plan 只有 GLM5.2 无 GLM5.3 只是我一个人问题吗",
+      "content": "Cherry Studio 使用 https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1 拉 model 列表，只有 GLM5.2 无 GLM5.3 GLM5.3 官方发布一段时间了吧~",
+      "author": "ntgeralt",
+      "createdAt": "2026-08-25T05:16:03.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.88,
+        "supplier": null,
+        "supplierCategory": null,
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.65,
+        "summary": "The post discusses the 百炼 token plan where only GLM5.2 is available without GLM5.3, raising concerns about whether other users face similar limitations.",
+        "topics": [
+          "token plan",
+          "GLM5.2",
+          "GLM5.3",
+          "Cherry Studio"
+        ],
+        "planMentioned": "百炼 token plan",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/344",
+      "analyzedAt": "2026-08-25T06:54:22.822Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}
