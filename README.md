@@ -442,12 +442,6 @@ Detailed development documentation can be found in [DEV.md](DEV.md). Test layers
 
 ---
 
-## Changelog
-
-Check [CHANGELOG.md](CHANGELOG.md) for version update details.
-
----
-
 ## Feedback
 
 - **Feature Suggestions**: Submit [Issue](https://github.com/jqknono/coding-plans-for-copilot/issues)

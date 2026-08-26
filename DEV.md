@@ -83,8 +83,6 @@ $env:VSCE_PAT="your_pat"
 npm run publish:marketplace:pre
 ```
 
-Note: `npm run publish:marketplace` updates `CHANGELOG.md` automatically before publishing (generates the entry matching the current `package.json` version). `CHANGELOG.md` records VS Code extension changes only, not pricing scripts, dashboard pages, or assets JSON.
-
 Pre-release channel conventions:
 
 - This project uses the same extension `Pre-Release` channel on the VS Code Marketplace; no separate extension ID.
