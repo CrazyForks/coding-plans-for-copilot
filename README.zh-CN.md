@@ -70,7 +70,7 @@ code --install-extension techfetch-dev.coding-plans-for-copilot
 2. 在供应商选项框中选择你已注册的平台（如智谱、Kimi、火山引擎等）
 3. 选择「Set API Key」，粘贴你的 API Key；扩展会保存密钥并刷新模型
 4. 打开 Copilot Chat（`Ctrl+L`），在模型选择器中选择 `Coding Plans` 提供的模型
-5. 如需设置 `topP`，在 `coding-plans.vendors[].models[]` 中配置模型级覆盖项；`temperature` 与 `Thinking Effort` 请在模型行 `More Actions` 中按请求设置，其中 OpenAI Chat 兼容模型支持 `none` / `low` / `medium` / `high` / `xhigh` / `max`，OpenAI Responses 模型支持 `low` / `medium` / `high` / `xhigh` / `max`（默认 `max`）；Responses API 模型还会显示 `Personality`（默认 `none` 不注入，选择 `pragmatic` / `friendly` 后通过 `instructions` 生效）
+5. `Thinking Effort` 请在模型行 `More Actions` 中按请求设置，其中 OpenAI Chat 兼容模型支持 `none` / `low` / `medium` / `high` / `xhigh` / `max`，并显示 `Thinking Type`（`enabled` / `disabled` / `default`，默认 `default`；`default` 不携带 `thinking` 字段，只发送 `reasoning_effort`，与原生 Custom Endpoint 一致）。需要 `thinking.enabled` 时请选择 `enabled`。OpenAI Responses 模型支持 `low` / `medium` / `high` / `xhigh` / `max`（默认 `max`）。More Actions 仅包含 thinking 相关项。供应商配置里的 `temperature` / `topP` 仍会保留，但不会下发。
 6. 当供应商启用 `useModelsEndpoint` 时，可执行 `Coding Plans: Update Coding Plans Models List`，扩展会重新请求 `/models`，写回 `coding-plans.vendors[].models` 并刷新 VS Code 模型选择器。保存 settings 默认只刷新当前已配置模型，不会自动请求 `/models` 或写回模型列表；如需禁止 settings/API Key 变化自动刷新运行时模型和 VS Code 模型选择器，可将 `coding-plans.autoRefreshModels` 设为 `false`，手动刷新命令不受影响。
    - 刷新过程中会优先使用 [models.dev](https://models.dev/) 的 `catalog.json`，失败时回退 `api.json`，按模型 ID/名称为新发现模型补全 `description`、`capabilities`、`contextSize`、`apiStyle` 和 `price`；匹配时会忽略模型名最后路径段中 `:` 后的标记（如 `:free`）；`description` 会显示 `id | Lab | Family | Weights | ReleaseDate`，其中 `Lab` 来自模型 ID 前缀；`capabilities.thinking` 对应 models.dev 的 `reasoning`；新模型 `apiStyle` 仅按模型自身来源推导：OpenAI 与 Grok/xAI 使用 `openai-responses`，Anthropic 使用 `anthropic`，其它默认 `openai-chat`；Grok 模型若仍保留旧的 `openai-chat` 会在刷新时自动升级为 `openai-responses`；价格按所有匹配模型来源取中位数，不使用本地供应商名匹配 models.dev provider；如果无法获取或无法匹配，则保留上游 `/models` 与内置默认值。已有手工模型配置不会被刷新覆盖；扩展自动生成的 fallback 描述（如 `供应商名 model: 模型名`）可被升级为 models.dev 新结构。
 也可以直接编辑 `settings.json`，插件会打开设置页并定位到 `coding-plans.vendors`。
@@ -188,16 +188,15 @@ code --install-extension techfetch-dev.coding-plans-for-copilot
 | `coding-plans.vendors[].apiKey` | `string` | 空 | 已废弃。供应商 API Key；非空时优先于 VS Code Secret Storage 中保存的同名供应商密钥。当前供应商未配置密钥时，可按相同 `baseUrl` 兜底复用其它 `vendors[].apiKey`。 |
 | `coding-plans.vendors[].usageUrl` | `string` | 空 | 套餐 usage 接口地址，配置后状态栏显示额度百分比。 |
 | `coding-plans.vendors[].defaultApiStyle` | `string` | `openai-chat` | 协议风格：`openai-chat` / `openai-responses` / `anthropic`。 |
-| `coding-plans.vendors[].enableExtraRequestWrapping` | `boolean` | `true` | 是否启用插件额外请求封装。开启时保留 payload 增强、reasoning/tool continuation 往返缓存和兼容性回退；关闭时仍保留 thinking 参数与 thinking 过程展示，但移除其余增强项，更接近原生 custom endpoint。 |
-| `coding-plans.vendors[].defaultTemperature` | `number` / `null` | 空 | 已废弃。供应商默认 temperature；留空或 `null` 时运行时不发送 `temperature`。仅 `openai-chat` 与 `anthropic` 运行时使用该值。 |
-| `coding-plans.vendors[].defaultTopP` | `number` | `0` | 供应商默认 topP；`0` 表示不发送 `top_p`。`anthropic` 风格请求始终忽略该值，不发送 `top_p`。 |
+| `coding-plans.vendors[].defaultTemperature` | `number` / `null` | 空 | 已废弃。供应商默认 temperature。配置会保留，但不会下发。 |
+| `coding-plans.vendors[].defaultTopP` | `number` | `0` | 供应商默认 topP。配置会保留，但不会下发。 |
 | `coding-plans.vendors[].useModelsEndpoint` | `boolean` | `false` | 是否从 `/models` 拉取模型列表；执行 `Coding Plans: Update Coding Plans Models List` 后会将发现到的模型写回 `models`。 |
 | `coding-plans.vendors[].models[].name` | `string` | 必填 | 模型名称。 |
 | `coding-plans.vendors[].models[].enabled` | `boolean` | `true` | 是否在 Manage Language Models 中显示该模型；设为 `false` 时保留配置但隐藏。 |
 | `coding-plans.vendors[].models[].description` | `string` | 空 | 模型描述。 |
 | `coding-plans.vendors[].models[].apiStyle` | `string` | 继承供应商 | 模型级协议风格覆盖。 |
-| `coding-plans.vendors[].models[].temperature` | `number` / `"inherit"` | `"inherit"` | 已废弃。模型级 temperature 覆盖；`"inherit"` 表示使用供应商 `defaultTemperature`。仅 `openai-chat` 与 `anthropic` 运行时使用该值。Responses API 模型行请使用 `Personality`。 |
-| `coding-plans.vendors[].models[].topP` | `number` | 继承供应商 | 模型级 topP 覆盖；`0` 表示不发送 `top_p`。`anthropic` 风格请求始终忽略该值，不发送 `top_p`。 |
+| `coding-plans.vendors[].models[].temperature` | `number` / `"inherit"` | `"inherit"` | 已废弃。模型级 temperature 覆盖；`"inherit"` 表示使用供应商 `defaultTemperature`。配置会保留，但不会下发。 |
+| `coding-plans.vendors[].models[].topP` | `number` | 继承供应商 | 模型级 topP 覆盖。配置会保留，但不会下发。 |
 | `coding-plans.vendors[].models[].capabilities` | `object` | `{ tools: true, vision: false }` | 模型能力声明。`thinking` 对应 models.dev 的 `reasoning`。 |
 | `coding-plans.vendors[].models[].toolCalling` | `boolean` / `number` | `true` | Copilot 风格工具调用能力别名；等价于 `capabilities.tools`。 |
 | `coding-plans.vendors[].models[].vision` | `boolean` | 继承 `defaultVision` | Copilot 风格视觉能力别名；等价于 `capabilities.vision`。 |

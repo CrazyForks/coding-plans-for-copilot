@@ -6,7 +6,7 @@
 | --- | --- |
 | Affected protocol | `anthropic` |
 | Failure mode | 上游拒绝同时指定 `temperature` 与 `top_p`，返回 `Invalid request` |
-| Compatibility target | 兼容 Anthropic `/messages` 及其兼容端点 |
+| Current behavior | Anthropic 请求不发送 `temperature` 或 `top_p` |
 
 ### Request Design
 
@@ -17,9 +17,9 @@ sequenceDiagram
   participant Upstream as Anthropic-Compatible API
 
   VSCode->>Ext: chat request
-  Ext->>Ext: resolve sampling + output budget
-  Ext->>Upstream: /messages with temperature + max_tokens
-  Note right of Ext: omit top_p
+  Ext->>Ext: resolve thinking + output budget
+  Ext->>Upstream: /messages with max_tokens
+  Note right of Ext: omit temperature and top_p
   Upstream-->>Ext: assistant response
 ```
 
@@ -27,7 +27,7 @@ sequenceDiagram
 
 | Area | Change |
 | --- | --- |
-| `src/providers/genericProvider.ts` | Anthropic payload 保留 `temperature`，省略 `top_p` |
-| `src/test/runTest.ts` | 新增 Anthropic sampling compatibility 回归测试，断言 `top_p` 不出现在 payload 中 |
-| `README.md` / `README.zh-CN.md` / `DEV.md` | 补充 `topP` 在 `anthropic` 风格下仅作为配置保留、运行时不下发的说明 |
-| `package.nls*.json` | 更新配置项文案，避免用户误判 `topP` 会直接传给 Anthropic 风格端点 |
+| `src/providers/genericProvider.ts` | Anthropic payload 省略 `temperature` 与 `top_p` |
+| `src/test/runTest.ts` | 回归测试断言采样字段不出现在 payload 中 |
+| `README.md` / `README.zh-CN.md` / `DEV.md` | 说明 `temperature` / `topP` 仅作为配置保留、运行时不下发 |
+| `package.nls*.json` | 更新配置项文案，避免用户误判采样字段会下发 |

@@ -507,8 +507,9 @@ export function applyOpenAIChatStreamChunk(
   state: OpenAIChatStreamState,
   chunk: OpenAIChatStreamChunk,
   generateToolCallId: GenerateToolCallId,
-): { textDelta: string } {
+): { textDelta: string; reasoningDelta: string } {
   let textDelta = '';
+  let reasoningDelta = '';
   if (typeof chunk.id === 'string' && chunk.id.trim().length > 0) {
     state.responseId = chunk.id;
   }
@@ -534,6 +535,7 @@ export function applyOpenAIChatStreamChunk(
       readOpenAICompatibleText(choice.message?.reasoning);
     if (fallbackText.length > 0) {
       state.fallbackContent += fallbackText;
+      reasoningDelta += fallbackText;
     }
 
     const toolCalls =
@@ -578,7 +580,7 @@ export function applyOpenAIChatStreamChunk(
     }
   }
 
-  return { textDelta };
+  return { textDelta, reasoningDelta };
 }
 
 export function finalizeOpenAIChatStreamState(
@@ -746,7 +748,7 @@ export function applyOpenAIResponsesStreamEvent(
   eventType: string | undefined,
   payload: OpenAIResponsesStreamEvent,
   generateToolCallId: GenerateToolCallId,
-): { textDelta: string } {
+): { textDelta: string; reasoningDelta?: string } {
   const resolvedEventType = eventType || payload.type;
   let textDelta = '';
 
@@ -808,7 +810,7 @@ export function applyOpenAIResponsesStreamEvent(
     if (reasoningDelta.length > 0) {
       state.reasoningContent += reasoningDelta;
     }
-    return { textDelta };
+    return { textDelta, reasoningDelta };
   }
 
   if (resolvedEventType === 'response.function_call_arguments.delta') {
@@ -861,12 +863,17 @@ export function applyOpenAIResponsesStreamEvent(
   }
 
   if (resolvedEventType === 'response.completed' && payload.response) {
-    if (state.content.length === 0) {
-      const parsed = parseOpenAIResponsesResponse(payload.response, generateToolCallId);
+    const parsed = parseOpenAIResponsesResponse(payload.response, generateToolCallId);
+    let reasoningDelta = '';
+    if (!state.reasoningContent && parsed.reasoningContent) {
+      state.reasoningContent = parsed.reasoningContent;
+      reasoningDelta = parsed.reasoningContent;
+    }
+    if (state.content.length === 0 && parsed.content.length > 0) {
       state.content = parsed.content;
       textDelta = parsed.content;
     }
-    return { textDelta };
+    return { textDelta, reasoningDelta };
   }
 
   return { textDelta };
@@ -926,7 +933,7 @@ export function applyAnthropicStreamEvent(
   state: AnthropicStreamState,
   eventType: string | undefined,
   payload: AnthropicStreamEvent,
-): { textDelta: string } {
+): { textDelta: string; reasoningDelta?: string } {
   const resolvedEventType = eventType || payload.type;
   let textDelta = '';
 
@@ -970,10 +977,10 @@ export function applyAnthropicStreamEvent(
     if (initialText.length > 0) {
       if (isThinkingBlock) {
         state.reasoningContent += initialText;
-      } else {
-        state.content += initialText;
-        textDelta = initialText;
+        return { textDelta, reasoningDelta: initialText };
       }
+      state.content += initialText;
+      textDelta = initialText;
     }
     return { textDelta };
   }
@@ -1001,7 +1008,7 @@ export function applyAnthropicStreamEvent(
     if (block.type === 'thinking' && deltaThinking.length > 0) {
       block.text += deltaThinking;
       state.reasoningContent += deltaThinking;
-      return { textDelta };
+      return { textDelta, reasoningDelta: deltaThinking };
     }
 
     if (payload.delta?.type === 'input_json_delta' && typeof payload.delta.partial_json === 'string') {

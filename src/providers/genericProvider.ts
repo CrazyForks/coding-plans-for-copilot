@@ -18,15 +18,10 @@ import {
   ChatThinkingEffort,
   DEFAULT_MODEL_TOOLS,
   DEFAULT_REQUEST_MAX_TOKENS,
-  DEFAULT_TOP_P,
   EFFORT_MODEL_OPTION_KEY,
-  PERSONALITY_MODEL_OPTION_KEY,
-  PERSONALITY_VALUES,
   RESPONSE_TRACE_ID_FIELD,
   RESPONSES_THINKING_EFFORT_VALUES,
   ResponsesThinkingEffort,
-  ResponsesPersonality,
-  TEMPERATURE_MODEL_OPTION_KEY,
   THINKING_EFFORT_MODEL_OPTION_KEY,
   THINKING_TYPE_MODEL_OPTION_KEY,
 } from '../constants';
@@ -81,7 +76,6 @@ import {
   toAnthropicMessages,
   toOpenAIChatMessages,
   toOpenAIResponsesInputWithoutInstructions,
-  toOpenAIResponsesPayloadParts,
 } from './genericProviderProtocols';
 import { attachTokenUsage, normalizeTokenUsage, NormalizedTokenUsage } from './tokenUsage';
 
@@ -110,19 +104,10 @@ interface RequestTraceContext {
   protocol: VendorApiStyle;
 }
 
-interface ResolvedSamplingOptions {
-  temperature?: number;
-  topP: number;
-}
-
-type TemperatureModelOption = number | 'none';
-
 interface RequestModelOptions {
-  [TEMPERATURE_MODEL_OPTION_KEY]?: unknown;
   [THINKING_EFFORT_MODEL_OPTION_KEY]?: unknown;
   [EFFORT_MODEL_OPTION_KEY]?: unknown;
   [THINKING_TYPE_MODEL_OPTION_KEY]?: unknown;
-  [PERSONALITY_MODEL_OPTION_KEY]?: unknown;
 }
 
 interface ResolvedThinkingOptions<Effort extends string> {
@@ -145,8 +130,6 @@ interface ResolvedAnthropicThinkingOptions {
   effort?: AnthropicEffort;
 }
 
-type OutputLimitProtocol = 'openai-chat' | 'openai-responses' | 'anthropic';
-
 interface ParsedSseEvent {
   event?: string;
   data: string;
@@ -158,14 +141,10 @@ interface StreamingCompletionResult {
   toolCalls: ChatToolCall[];
   usage?: Record<string, unknown>;
   responseId?: string;
+  streamedReasoning?: boolean;
 }
 
-const MAX_REASONING_CONTENT_CACHE_ENTRIES = 512;
 const EMPTY_MODEL_RESPONSE_ERROR_CODE = 'coding-plans.empty-model-response';
-const RESPONSES_PERSONALITY_INSTRUCTIONS: Record<ResponsesPersonality, string> = {
-  pragmatic: 'Personality: pragmatic. Be concise, direct, practical, and focused on actionable results.',
-  friendly: 'Personality: friendly. Be warm, clear, collaborative, and focused on useful next steps.',
-};
 
 function markEmptyModelResponseError(error: vscode.LanguageModelError): vscode.LanguageModelError {
   try {
@@ -291,9 +270,7 @@ export class GenericAIProvider extends BaseAIProvider {
   private modelVendorMap = new Map<string, ModelVendorMapping>();
   private readonly vendorDiscoveryState = new Map<string, VendorDiscoveryState>();
   private readonly disabledStreamingModelIds = new Set<string>();
-  private readonly disabledOpenAIResponsesReasoningModelIds = new Set<string>();
   private readonly emptyOpenAIChatPromptedModelKeys = new Set<string>();
-  private readonly reasoningContentByToolCallId = new Map<string, string>();
   private refreshModelsInFlight: Promise<void> | undefined;
   private refreshModelsPending = false;
   private forceDiscoveryRetryRequested = false;
@@ -667,26 +644,6 @@ export class GenericAIProvider extends BaseAIProvider {
     return vendor.models.find((model) => model.name.trim().toLowerCase() === normalizedModelName);
   }
 
-  private resolveSamplingOptions(
-    request: GenericChatRequest,
-    vendor: VendorConfig,
-    modelName: string,
-  ): ResolvedSamplingOptions {
-    const model = this.findConfiguredModel(vendor, modelName);
-    const requestTemperature = this.readTemperatureFromModelOptions(request.options?.modelOptions);
-    return {
-      temperature:
-        requestTemperature === 'none'
-          ? undefined
-          : (requestTemperature ?? model?.temperature ?? vendor.defaultTemperature),
-      topP: model?.topP ?? vendor.defaultTopP ?? DEFAULT_TOP_P,
-    };
-  }
-
-  private resolveResponsesPersonality(request: GenericChatRequest): ResponsesPersonality | undefined {
-    return this.readPersonalityFromModelOptions(request.options?.modelOptions);
-  }
-
   private buildChatThinkingOptions(
     request: GenericChatRequest,
   ): ResolvedThinkingOptions<Exclude<ChatThinkingEffort, 'none'>> | undefined {
@@ -726,16 +683,16 @@ export class GenericAIProvider extends BaseAIProvider {
       };
     }
 
-    if (thinkingToggle === 'default') {
+    if (thinkingToggle === 'enabled') {
       return {
+        thinking: {
+          type: 'enabled',
+        },
         effort: thinkingEffort,
       };
     }
 
     return {
-      thinking: {
-        type: 'enabled',
-      },
       effort: thinkingEffort,
     };
   }
@@ -744,9 +701,6 @@ export class GenericAIProvider extends BaseAIProvider {
     request: GenericChatRequest,
   ): ResolvedOpenAIResponsesReasoningOptions | undefined {
     if (!this.isModelThinkingEnabled(request)) {
-      return undefined;
-    }
-    if (this.disabledOpenAIResponsesReasoningModelIds.has(request.modelId)) {
       return undefined;
     }
 
@@ -887,78 +841,6 @@ export class GenericAIProvider extends BaseAIProvider {
     return typeof raw === 'string' && raw.trim().length > 0 ? raw.trim().toLowerCase() : undefined;
   }
 
-  private readPersonalityFromModelOptions(modelOptions: unknown): ResponsesPersonality | undefined {
-    if (!modelOptions || typeof modelOptions !== 'object' || Array.isArray(modelOptions)) {
-      return undefined;
-    }
-
-    const raw = (modelOptions as RequestModelOptions)[PERSONALITY_MODEL_OPTION_KEY];
-    if (typeof raw !== 'string') {
-      return undefined;
-    }
-
-    const normalized = raw.trim().toLowerCase();
-    return PERSONALITY_VALUES.includes(normalized as ResponsesPersonality)
-      ? (normalized as ResponsesPersonality)
-      : undefined;
-  }
-
-  private readTemperatureFromModelOptions(modelOptions: unknown): TemperatureModelOption | undefined {
-    if (!modelOptions || typeof modelOptions !== 'object' || Array.isArray(modelOptions)) {
-      return undefined;
-    }
-
-    const raw = (modelOptions as RequestModelOptions)[TEMPERATURE_MODEL_OPTION_KEY];
-    if (typeof raw === 'number' && Number.isFinite(raw)) {
-      return this.normalizeModelOptionTemperature(raw);
-    }
-    if (typeof raw === 'string' && raw.trim().length > 0) {
-      const normalized = raw.trim().toLowerCase();
-      if (normalized === 'inherit') {
-        return undefined;
-      }
-      if (normalized === 'none') {
-        return 'none';
-      }
-      return this.normalizeModelOptionTemperature(Number(normalized));
-    }
-    return undefined;
-  }
-
-  private normalizeModelOptionTemperature(value: number): TemperatureModelOption | undefined {
-    if (!Number.isFinite(value)) {
-      return undefined;
-    }
-
-    if (Math.abs(value) < 1e-9) {
-      return 'none';
-    }
-
-    const supportedTemperatures = [0.1, 0.4, 0.7, 1];
-    return supportedTemperatures.find((candidate) => Math.abs(candidate - value) < 1e-9);
-  }
-
-  private buildOpenAIResponsesInstructions(
-    baseInstructions: string | undefined,
-    personality: ResponsesPersonality | undefined,
-  ): string {
-    return [baseInstructions?.trim(), personality ? RESPONSES_PERSONALITY_INSTRUCTIONS[personality] : undefined]
-      .filter((part): part is string => typeof part === 'string' && part.length > 0)
-      .join('\n\n');
-  }
-
-  private shouldSendOutputTokenLimit(
-    _vendor: VendorConfig,
-    _modelName: string,
-    protocol: OutputLimitProtocol,
-  ): boolean {
-    if (protocol === 'anthropic') {
-      // Anthropic-compatible endpoints require max_tokens in request payloads.
-      return true;
-    }
-    return false;
-  }
-
   protected createModel(modelInfo: AIModelConfig): BaseLanguageModel {
     return new GenericLanguageModel(this, modelInfo);
   }
@@ -986,7 +868,6 @@ export class GenericAIProvider extends BaseAIProvider {
       family: vendor.name,
       name: model.name,
       version: vendor.name,
-      enableExtraRequestWrapping: vendor.enableExtraRequestWrapping,
       maxTokens: resolvedTokens.maxTokens,
       maxInputTokens: resolvedTokens.maxInputTokens,
       maxOutputTokens: resolvedTokens.maxOutputTokens,
@@ -1025,87 +906,6 @@ export class GenericAIProvider extends BaseAIProvider {
 
   private buildConfiguredModelsForVendor(vendor: VendorConfig): AIModelConfig[] {
     return this.buildConfiguredModelsFromVendorModels(vendor, vendor.models);
-  }
-
-  private isExtraRequestWrappingEnabled(vendor: VendorConfig): boolean {
-    return vendor.enableExtraRequestWrapping !== false;
-  }
-
-  private hydrateOpenAIChatReasoningContent(messages: ChatMessage[]): ChatMessage[] {
-    return messages.map((message) => {
-      if (
-        message.role !== 'assistant' ||
-        (message.tool_calls?.length ?? 0) === 0 ||
-        message.reasoning_content?.trim()
-      ) {
-        return message;
-      }
-
-      const reasoningContent = this.resolveCachedReasoningContentForToolCalls(message.tool_calls ?? []);
-      if (!reasoningContent) {
-        return message;
-      }
-
-      return {
-        ...message,
-        reasoning_content: reasoningContent,
-      };
-    });
-  }
-
-  private resolveCachedReasoningContentForToolCalls(toolCalls: ChatToolCall[]): string | undefined {
-    const distinctReasoningContents = new Set<string>();
-    for (const toolCall of toolCalls) {
-      const callId = typeof toolCall.id === 'string' ? toolCall.id.trim() : '';
-      if (!callId) {
-        continue;
-      }
-      const reasoningContent = this.reasoningContentByToolCallId.get(callId);
-      if (reasoningContent?.trim()) {
-        distinctReasoningContents.add(reasoningContent);
-      }
-    }
-
-    if (distinctReasoningContents.size === 0) {
-      return undefined;
-    }
-
-    if (distinctReasoningContents.size > 1) {
-      logger.warn('Conflicting cached reasoning_content detected for assistant tool continuation', {
-        toolCallIds: toolCalls
-          .map((toolCall) => toolCall.id)
-          .filter((id): id is string => typeof id === 'string' && id.trim().length > 0),
-      });
-    }
-
-    return distinctReasoningContents.values().next().value;
-  }
-
-  private cacheReasoningContentForToolCalls(
-    toolCalls: ChatToolCall[] | undefined,
-    reasoningContent: string | undefined,
-  ): void {
-    const normalizedReasoningContent = reasoningContent?.trim();
-    if (!normalizedReasoningContent || !toolCalls?.length) {
-      return;
-    }
-
-    for (const toolCall of toolCalls) {
-      const callId = typeof toolCall.id === 'string' ? toolCall.id.trim() : '';
-      if (!callId) {
-        continue;
-      }
-      this.reasoningContentByToolCallId.delete(callId);
-      this.reasoningContentByToolCallId.set(callId, normalizedReasoningContent);
-    }
-
-    while (this.reasoningContentByToolCallId.size > MAX_REASONING_CONTENT_CACHE_ENTRIES) {
-      const oldestKey = this.reasoningContentByToolCallId.keys().next().value;
-      if (!oldestKey) {
-        break;
-      }
-      this.reasoningContentByToolCallId.delete(oldestKey);
-    }
   }
 
   private buildConfiguredModelsFromVendorModels(
@@ -1305,7 +1105,6 @@ export class GenericAIProvider extends BaseAIProvider {
           family: vendor.name,
           name: modelId,
           version: vendor.name,
-          enableExtraRequestWrapping: vendor.enableExtraRequestWrapping,
           maxTokens: resolvedTokens.maxTokens,
           maxInputTokens: resolvedTokens.maxInputTokens,
           maxOutputTokens: resolvedTokens.maxOutputTokens,
@@ -1368,21 +1167,15 @@ export class GenericAIProvider extends BaseAIProvider {
     trace: RequestTraceContext,
     token?: vscode.CancellationToken,
   ): Promise<vscode.LanguageModelChatResponse> {
-    const wrappingEnabled = this.isExtraRequestWrappingEnabled(vendor);
-    const providerMessages = wrappingEnabled
-      ? this.hydrateOpenAIChatReasoningContent(this.convertMessages(request.messages))
-      : this.convertMessages(request.messages);
+    const providerMessages = this.convertMessages(request.messages);
     this.logRequestMessageContentPreviews(trace, providerMessages);
     const messages = toOpenAIChatMessages(providerMessages);
     const supportsToolCalling = !!request.capabilities.toolCalling;
-    const sampling = this.resolveSamplingOptions(request, vendor, modelName);
     const thinkingOptions = this.buildChatThinkingOptions(request);
     const tools = supportsToolCalling ? this.buildToolDefinitions(request.options) : undefined;
     const toolChoice = supportsToolCalling ? this.buildToolChoice(request.options) : undefined;
     const streamAllowed = this.isStreamingAllowed(request);
-    const requestedOutputLimit = this.shouldSendOutputTokenLimit(vendor, modelName, 'openai-chat')
-      ? this.resolveRequestedOutputLimit(request)
-      : undefined;
+    const requestedOutputLimit = this.resolveRequestedOutputLimit(request);
     const maxTokens = requestedOutputLimit;
 
     const payload: OpenAIChatRequest = {
@@ -1391,8 +1184,6 @@ export class GenericAIProvider extends BaseAIProvider {
       tools,
       tool_choice: toolChoice,
       stream: streamAllowed,
-      ...(wrappingEnabled && sampling.temperature !== undefined ? { temperature: sampling.temperature } : {}),
-      ...(wrappingEnabled && sampling.topP > 0 ? { top_p: sampling.topP } : {}),
       ...(thinkingOptions?.thinking ? { thinking: thinkingOptions.thinking } : {}),
       ...(thinkingOptions?.effort ? { reasoning_effort: thinkingOptions.effort } : {}),
       ...(maxTokens === undefined ? {} : { max_tokens: maxTokens }),
@@ -1415,11 +1206,7 @@ export class GenericAIProvider extends BaseAIProvider {
         },
       });
       const requestInit = this.buildRequestInit(apiKey, 'openai-chat', token);
-      const executeRequest = (retryBaseUrl: string) =>
-        this.postWithRetry(`${retryBaseUrl}/chat/completions`, payload, requestInit, trace);
-      const response = wrappingEnabled
-        ? await this.withOptionalV1Retry(vendor, baseUrl, executeRequest, trace)
-        : await executeRequest(baseUrl);
+      const response = await this.postWithRetry(`${baseUrl}/chat/completions`, payload, requestInit, trace);
       if (this.isSseResponse(response)) {
         return this.buildStreamingChatResponse(
           trace,
@@ -1430,6 +1217,7 @@ export class GenericAIProvider extends BaseAIProvider {
           payload.max_tokens,
           async (queue) => {
             const state = createOpenAIChatStreamState();
+            let streamedReasoning = false;
             for await (const event of this.readSseEvents(response)) {
               if (event.data === '[DONE]') {
                 break;
@@ -1439,14 +1227,11 @@ export class GenericAIProvider extends BaseAIProvider {
                 continue;
               }
               const update = applyOpenAIChatStreamChunk(state, chunk, () => this.generateToolCallId());
-              if (update.textDelta.length > 0) {
-                queue.push(new vscode.LanguageModelTextPart(update.textDelta));
+              if (this.enqueueStreamContent(queue, update)) {
+                streamedReasoning = true;
               }
             }
             const finalized = finalizeOpenAIChatStreamState(state, () => this.generateToolCallId());
-            if (wrappingEnabled) {
-              this.cacheReasoningContentForToolCalls(finalized.toolCalls, finalized.reasoningContent);
-            }
             this.logUpstreamResponseSummary('openai-chat', vendor, modelName, {
               mode: 'stream',
               responseId: state.responseId,
@@ -1460,6 +1245,7 @@ export class GenericAIProvider extends BaseAIProvider {
               toolCalls: finalized.toolCalls,
               usage: finalized.usage as Record<string, unknown> | undefined,
               responseId: state.responseId,
+              streamedReasoning,
             };
           },
         );
@@ -1474,78 +1260,8 @@ export class GenericAIProvider extends BaseAIProvider {
         trace,
         parsedResponse,
         payload.max_tokens,
-        wrappingEnabled,
       );
     } catch (error: any) {
-      if (wrappingEnabled && this.shouldFallbackToNonStream(error)) {
-        this.disableStreamingForSession(request.modelId, 'anthropic_stream_unsupported', trace);
-        logger.warn('OpenAI chat stream is unsupported upstream; retrying without stream', {
-          ...trace,
-          error: this.summarizeError(error),
-        });
-        try {
-          const fallbackPayload: OpenAIChatRequest = { ...payload, stream: false };
-          const requestInit = this.buildRequestInit(apiKey, 'openai-chat', token);
-          const executeFallback = (retryBaseUrl: string) =>
-            this.postWithRetry(`${retryBaseUrl}/chat/completions`, fallbackPayload, requestInit, trace);
-          const fallbackResponse = await this.withOptionalV1Retry(vendor, baseUrl, executeFallback, trace);
-          const parsedFallback = await this.readParsedResponse<OpenAIChatResponse>(fallbackResponse);
-          return this.buildOpenAIChatResponseFromPayload(
-            request,
-            vendor,
-            modelName,
-            trace,
-            parsedFallback,
-            fallbackPayload.max_tokens,
-            wrappingEnabled,
-          );
-        } catch (fallbackError) {
-          const providerError = this.toProviderError(fallbackError);
-          logger.error('OpenAI chat fallback request failed', {
-            ...trace,
-            error: this.summarizeError(fallbackError),
-            translatedError: providerError.message,
-          });
-          throw providerError;
-        }
-      }
-
-      if (wrappingEnabled && payload.max_tokens === undefined && this.shouldRetryWithRequiredMaxTokens(error)) {
-        logger.warn('OpenAI chat request requires explicit max_tokens; retrying with fallback output limit', {
-          ...trace,
-          error: this.summarizeError(error),
-        });
-        try {
-          const fallbackPayload: OpenAIChatRequest = {
-            ...payload,
-            stream: false,
-            max_tokens: this.resolveRequiredOutputLimit(request),
-          };
-          const requestInit = this.buildRequestInit(apiKey, 'openai-chat', token);
-          const executeFallback = (retryBaseUrl: string) =>
-            this.postWithRetry(`${retryBaseUrl}/chat/completions`, fallbackPayload, requestInit, trace);
-          const fallbackResponse = await this.withOptionalV1Retry(vendor, baseUrl, executeFallback, trace);
-          const parsedFallback = await this.readParsedResponse<OpenAIChatResponse>(fallbackResponse);
-          return this.buildOpenAIChatResponseFromPayload(
-            request,
-            vendor,
-            modelName,
-            trace,
-            parsedFallback,
-            fallbackPayload.max_tokens,
-            wrappingEnabled,
-          );
-        } catch (fallbackError) {
-          const providerError = this.toProviderError(fallbackError);
-          logger.error('OpenAI chat max_tokens recovery retry failed', {
-            ...trace,
-            error: this.summarizeError(fallbackError),
-            translatedError: providerError.message,
-          });
-          throw providerError;
-        }
-      }
-
       const providerError = this.toProviderError(error);
       logger.error('OpenAI chat request failed', {
         ...trace,
@@ -1563,16 +1279,12 @@ export class GenericAIProvider extends BaseAIProvider {
     trace: RequestTraceContext,
     response: OpenAIChatResponse,
     maxTokens: number | undefined,
-    wrappingEnabled = true,
   ): vscode.LanguageModelChatResponse {
     const responseMessage = response.choices[0]?.message;
     const directContent = readOpenAIChatMessageContentText(responseMessage);
     const reasoningContent = readOpenAIChatMessageReasoningText(responseMessage);
     const content = directContent || ((responseMessage?.tool_calls?.length ?? 0) > 0 ? '' : reasoningContent);
     const usageData = response.usage;
-    if (wrappingEnabled) {
-      this.cacheReasoningContentForToolCalls(responseMessage?.tool_calls, reasoningContent);
-    }
     this.ensureNonEmptyCompletion('openai-chat', trace, vendor, modelName, content, responseMessage?.tool_calls);
     this.logUpstreamResponseSummary('openai-chat', vendor, modelName, summarizeOpenAIChatResponse(response));
     logger.debug('Parsed OpenAI chat response', {
@@ -1610,35 +1322,20 @@ export class GenericAIProvider extends BaseAIProvider {
   ): Promise<vscode.LanguageModelChatResponse> {
     const providerMessages = this.convertMessages(request.messages);
     this.logRequestMessageContentPreviews(trace, providerMessages);
-    const sampling = this.resolveSamplingOptions(request, vendor, modelName);
-    const wrappingEnabled = this.isExtraRequestWrappingEnabled(vendor);
     const reasoningOptions = this.buildOpenAIResponsesReasoningOptions(request);
-    const personality = wrappingEnabled ? this.resolveResponsesPersonality(request) : undefined;
     const tools = request.capabilities.toolCalling
       ? buildOpenAIResponsesToolDefinitions(this.buildToolDefinitions(request.options))
       : undefined;
     const toolChoice = request.capabilities.toolCalling ? this.buildToolChoice(request.options) : undefined;
     const responsesToolChoice = toolChoice === 'required' ? toolChoice : undefined;
     const streamAllowed = this.isStreamingAllowed(request);
-    const requestedOutputLimit = this.shouldSendOutputTokenLimit(vendor, modelName, 'openai-responses')
-      ? this.resolveRequestedOutputLimit(request)
-      : undefined;
+    const requestedOutputLimit = this.resolveRequestedOutputLimit(request);
     const maxOutputTokens = requestedOutputLimit;
-    const responsesPayloadParts: { instructions?: string; input: OpenAIResponsesInputItem[] } = wrappingEnabled
-      ? toOpenAIResponsesPayloadParts(providerMessages, () => this.generateToolCallId())
-      : {
-          input: toOpenAIResponsesInputWithoutInstructions(providerMessages, () => this.generateToolCallId()),
-        };
-    const instructions = wrappingEnabled
-      ? this.buildOpenAIResponsesInstructions(responsesPayloadParts.instructions, personality)
-      : '';
     const payload: OpenAIResponsesRequest = {
       model: modelName,
-      ...responsesPayloadParts,
-      ...(instructions.length > 0 ? { instructions } : {}),
+      input: toOpenAIResponsesInputWithoutInstructions(providerMessages, () => this.generateToolCallId()),
       tools,
       tool_choice: responsesToolChoice,
-      ...(wrappingEnabled && sampling.topP > 0 ? { top_p: sampling.topP } : {}),
       ...(reasoningOptions?.reasoning ? { reasoning: reasoningOptions.reasoning } : {}),
       stream: streamAllowed,
       ...(maxOutputTokens === undefined ? {} : { max_output_tokens: maxOutputTokens }),
@@ -1649,7 +1346,6 @@ export class GenericAIProvider extends BaseAIProvider {
         ...trace,
         baseUrl,
         payload: {
-          personality,
           topP: nextPayload.top_p,
           reasoning: nextPayload.reasoning,
           maxOutputTokens: nextPayload.max_output_tokens,
@@ -1661,11 +1357,7 @@ export class GenericAIProvider extends BaseAIProvider {
         },
       });
       const requestInit = this.buildRequestInit(apiKey, 'openai-responses', token);
-      const executeRequest = (retryBaseUrl: string) =>
-        this.postWithRetry(`${retryBaseUrl}/responses`, nextPayload, requestInit, trace);
-      const response = wrappingEnabled
-        ? await this.withOptionalV1Retry(vendor, baseUrl, executeRequest, trace)
-        : await executeRequest(baseUrl);
+      const response = await this.postWithRetry(`${baseUrl}/responses`, nextPayload, requestInit, trace);
       if (this.isSseResponse(response)) {
         return this.buildStreamingChatResponse(
           trace,
@@ -1676,6 +1368,7 @@ export class GenericAIProvider extends BaseAIProvider {
           nextPayload.max_output_tokens,
           async (queue) => {
             const state = createOpenAIResponsesStreamState();
+            let streamedReasoning = false;
             for await (const event of this.readSseEvents(response)) {
               if (event.data === '[DONE]') {
                 break;
@@ -1687,8 +1380,8 @@ export class GenericAIProvider extends BaseAIProvider {
               const update = applyOpenAIResponsesStreamEvent(state, event.event, streamEvent, () =>
                 this.generateToolCallId(),
               );
-              if (update.textDelta.length > 0) {
-                queue.push(new vscode.LanguageModelTextPart(update.textDelta));
+              if (this.enqueueStreamContent(queue, update)) {
+                streamedReasoning = true;
               }
             }
             const finalized = finalizeOpenAIResponsesStreamState(state, () => this.generateToolCallId());
@@ -1705,6 +1398,7 @@ export class GenericAIProvider extends BaseAIProvider {
               toolCalls: finalized.toolCalls,
               usage: finalized.usage as Record<string, unknown> | undefined,
               responseId: state.responseId,
+              streamedReasoning,
             };
           },
         );
@@ -1729,61 +1423,10 @@ export class GenericAIProvider extends BaseAIProvider {
     try {
       return await sendPayload(effectivePayload);
     } catch (error: any) {
-      let handledError = error;
-      if (wrappingEnabled && this.shouldRetryOpenAIResponsesWithoutReasoning(handledError, effectivePayload)) {
-        effectivePayload = this.withoutOpenAIResponsesReasoning(effectivePayload);
-        this.disableOpenAIResponsesReasoningForSession(request.modelId, 'unsupported_parameter', trace);
-        logger.warn('OpenAI responses reasoning parameters are unsupported upstream; retrying without reasoning', {
-          ...trace,
-          error: this.summarizeError(handledError),
-        });
-        try {
-          return await sendPayload(effectivePayload);
-        } catch (retryError) {
-          handledError = retryError;
-        }
-      }
-
-      if (wrappingEnabled && this.shouldFallbackToNonStream(handledError)) {
-        this.disableStreamingForSession(request.modelId, 'anthropic_stream_unsupported', trace);
-        logger.warn('OpenAI responses stream is unsupported upstream; retrying without stream', {
-          ...trace,
-          error: this.summarizeError(handledError),
-        });
-        try {
-          const fallbackPayload: OpenAIResponsesRequest = { ...effectivePayload, stream: false };
-          return await sendPayload(fallbackPayload);
-        } catch (fallbackError) {
-          if (wrappingEnabled && this.shouldRetryOpenAIResponsesWithoutReasoning(fallbackError, effectivePayload)) {
-            const fallbackPayload = this.withoutOpenAIResponsesReasoning({ ...effectivePayload, stream: false });
-            this.disableOpenAIResponsesReasoningForSession(request.modelId, 'unsupported_parameter', trace);
-            logger.warn(
-              'OpenAI responses reasoning parameters are unsupported on non-stream retry; retrying without reasoning',
-              {
-                ...trace,
-                error: this.summarizeError(fallbackError),
-              },
-            );
-            try {
-              return await sendPayload(fallbackPayload);
-            } catch (reasoningFallbackError) {
-              fallbackError = reasoningFallbackError;
-            }
-          }
-          const providerError = this.toProviderError(fallbackError);
-          logger.error('OpenAI responses fallback request failed', {
-            ...trace,
-            error: this.summarizeError(fallbackError),
-            translatedError: providerError.message,
-          });
-          throw providerError;
-        }
-      }
-
-      const providerError = this.toProviderError(handledError);
+      const providerError = this.toProviderError(error);
       logger.error('OpenAI responses request failed', {
         ...trace,
-        error: this.summarizeError(handledError),
+        error: this.summarizeError(error),
         translatedError: providerError.message,
       });
       throw providerError;
@@ -1848,17 +1491,13 @@ export class GenericAIProvider extends BaseAIProvider {
   ): Promise<vscode.LanguageModelChatResponse> {
     const providerMessages = this.convertMessages(request.messages);
     this.logRequestMessageContentPreviews(trace, providerMessages);
-    const sampling = this.resolveSamplingOptions(request, vendor, modelName);
-    const wrappingEnabled = this.isExtraRequestWrappingEnabled(vendor);
     const thinkingOptions = this.buildAnthropicThinkingOptions(request);
     const { system, messages } = toAnthropicMessages(providerMessages, () => this.generateToolCallId());
     const tools = request.capabilities.toolCalling
       ? buildAnthropicToolDefinitions(this.buildToolDefinitions(request.options))
       : undefined;
     const streamAllowed = this.isStreamingAllowed(request);
-    const requestedOutputLimit = this.shouldSendOutputTokenLimit(vendor, modelName, 'anthropic')
-      ? this.resolveRequestedOutputLimit(request)
-      : undefined;
+    const requestedOutputLimit = this.resolveRequestedOutputLimit(request);
     const maxTokens = requestedOutputLimit;
     const payload: AnthropicChatRequest = {
       model: modelName,
@@ -1868,7 +1507,6 @@ export class GenericAIProvider extends BaseAIProvider {
       tool_choice: tools ? buildAnthropicToolChoice(request.options) : undefined,
       ...(thinkingOptions?.thinking ? { thinking: thinkingOptions.thinking } : {}),
       ...(thinkingOptions?.effort ? { output_config: { effort: thinkingOptions.effort } } : {}),
-      ...(wrappingEnabled && sampling.temperature !== undefined ? { temperature: sampling.temperature } : {}),
       stream: streamAllowed,
       ...(maxTokens === undefined ? {} : { max_tokens: maxTokens }),
     };
@@ -1892,11 +1530,7 @@ export class GenericAIProvider extends BaseAIProvider {
         },
       });
       const requestInit = this.buildRequestInit(apiKey, 'anthropic', token);
-      const executeRequest = (retryBaseUrl: string) =>
-        this.postWithRetry(`${retryBaseUrl}/messages`, payload, requestInit, trace);
-      const response = wrappingEnabled
-        ? await this.withOptionalV1Retry(vendor, baseUrl, executeRequest, trace)
-        : await executeRequest(baseUrl);
+      const response = await this.postWithRetry(`${baseUrl}/messages`, payload, requestInit, trace);
       if (this.isSseResponse(response)) {
         return this.buildStreamingChatResponse(
           trace,
@@ -1908,6 +1542,7 @@ export class GenericAIProvider extends BaseAIProvider {
           async (queue) => {
             const state = createAnthropicStreamState();
             const streamEventSummaries: Array<Record<string, unknown>> = [];
+            let streamedReasoning = false;
             for await (const event of this.readSseEvents(response)) {
               if (event.data === '[DONE]') {
                 break;
@@ -1932,8 +1567,8 @@ export class GenericAIProvider extends BaseAIProvider {
                 throw this.toProviderError(this.buildAnthropicStreamError(streamEvent));
               }
               const update = applyAnthropicStreamEvent(state, event.event, streamEvent);
-              if (update.textDelta.length > 0) {
-                queue.push(new vscode.LanguageModelTextPart(update.textDelta));
+              if (this.enqueueStreamContent(queue, update)) {
+                streamedReasoning = true;
               }
             }
             const finalized = finalizeAnthropicStreamState(state, () => this.generateToolCallId());
@@ -1945,20 +1580,6 @@ export class GenericAIProvider extends BaseAIProvider {
                 usage: state.usage,
                 recentEvents: streamEventSummaries,
               });
-            }
-            if (wrappingEnabled && this.hasMalformedAnthropicStreamToolArguments(finalized.toolCalls)) {
-              this.disableStreamingForSession(request.modelId, 'anthropic_malformed_tool_arguments', trace);
-              logger.warn('Anthropic stream produced malformed tool arguments; retrying without stream', {
-                ...trace,
-                responseId: state.responseId,
-                toolCallCount: finalized.toolCalls.length,
-              });
-              const fallbackPayload: AnthropicChatRequest = { ...payload, stream: false };
-              const executeFallback = (retryBaseUrl: string) =>
-                this.postWithRetry(`${retryBaseUrl}/messages`, fallbackPayload, requestInit, trace);
-              const fallbackResponse = await this.withOptionalV1Retry(vendor, baseUrl, executeFallback, trace);
-              const parsedFallback = await this.readParsedResponse<AnthropicChatResponse>(fallbackResponse);
-              return this.parseAnthropicCompletion(vendor, modelName, trace, parsedFallback);
             }
             this.logUpstreamResponseSummary('anthropic', vendor, modelName, {
               mode: 'stream',
@@ -1974,6 +1595,7 @@ export class GenericAIProvider extends BaseAIProvider {
               toolCalls: finalized.toolCalls,
               usage: finalized.usage as Record<string, unknown> | undefined,
               responseId: state.responseId,
+              streamedReasoning,
             };
           },
         );
@@ -1990,73 +1612,6 @@ export class GenericAIProvider extends BaseAIProvider {
         payload.max_tokens,
       );
     } catch (error: any) {
-      if (wrappingEnabled && this.shouldFallbackToNonStream(error)) {
-        this.disableStreamingForSession(request.modelId, 'anthropic_stream_unsupported', trace);
-        logger.warn('Anthropic stream is unsupported upstream; retrying without stream', {
-          ...trace,
-          error: this.summarizeError(error),
-        });
-        try {
-          const fallbackPayload: AnthropicChatRequest = { ...payload, stream: false };
-          const requestInit = this.buildRequestInit(apiKey, 'anthropic', token);
-          const executeFallback = (retryBaseUrl: string) =>
-            this.postWithRetry(`${retryBaseUrl}/messages`, fallbackPayload, requestInit, trace);
-          const fallbackResponse = await this.withOptionalV1Retry(vendor, baseUrl, executeFallback, trace);
-          const parsedFallback = await this.readParsedResponse<AnthropicChatResponse>(fallbackResponse);
-          return this.buildAnthropicResponseFromPayload(
-            request,
-            vendor,
-            modelName,
-            trace,
-            parsedFallback,
-            fallbackPayload.max_tokens,
-          );
-        } catch (fallbackError) {
-          const providerError = this.toProviderError(fallbackError);
-          logger.error('Anthropic fallback request failed', {
-            ...trace,
-            error: this.summarizeError(fallbackError),
-            translatedError: providerError.message,
-          });
-          throw providerError;
-        }
-      }
-
-      if (wrappingEnabled && payload.max_tokens === undefined && this.shouldRetryWithRequiredMaxTokens(error)) {
-        logger.warn('Anthropic request requires explicit max_tokens; retrying with fallback output limit', {
-          ...trace,
-          error: this.summarizeError(error),
-        });
-        try {
-          const fallbackPayload: AnthropicChatRequest = {
-            ...payload,
-            stream: false,
-            max_tokens: this.resolveRequiredOutputLimit(request),
-          };
-          const requestInit = this.buildRequestInit(apiKey, 'anthropic', token);
-          const executeFallback = (retryBaseUrl: string) =>
-            this.postWithRetry(`${retryBaseUrl}/messages`, fallbackPayload, requestInit, trace);
-          const fallbackResponse = await this.withOptionalV1Retry(vendor, baseUrl, executeFallback, trace);
-          const parsedFallback = await this.readParsedResponse<AnthropicChatResponse>(fallbackResponse);
-          return this.buildAnthropicResponseFromPayload(
-            request,
-            vendor,
-            modelName,
-            trace,
-            parsedFallback,
-            fallbackPayload.max_tokens,
-          );
-        } catch (fallbackError) {
-          const providerError = this.toProviderError(fallbackError);
-          logger.error('Anthropic max_tokens recovery retry failed', {
-            ...trace,
-            error: this.summarizeError(fallbackError),
-            translatedError: providerError.message,
-          });
-          throw providerError;
-        }
-      }
-
       const providerError = this.toProviderError(error);
       logger.error('Anthropic request failed', {
         ...trace,
@@ -2251,22 +1806,6 @@ export class GenericAIProvider extends BaseAIProvider {
     return Math.max(1, Math.floor(model.maxOutputTokens));
   }
 
-  private resolveRequiredOutputLimit(request: GenericChatRequest): number {
-    const requested = this.resolveRequestedOutputLimit(request);
-    if (requested > 1) {
-      return requested;
-    }
-
-    const model = this.getModel(request.modelId);
-    if (!model) {
-      return requested;
-    }
-
-    const contextWindow = Math.max(1, Math.floor(model.maxTokens));
-    const fallback = Math.max(1, Math.min(contextWindow, 4096));
-    return Math.max(requested, fallback);
-  }
-
   private resolveOutputBuffer(
     request: GenericChatRequest,
     requestedOutputLimit: number | undefined,
@@ -2427,12 +1966,13 @@ export class GenericAIProvider extends BaseAIProvider {
   private buildRequestInit(apiKey: string, apiStyle: VendorApiStyle, token?: vscode.CancellationToken): RequestInit {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
     };
 
     if (apiStyle === 'anthropic') {
       headers['x-api-key'] = apiKey;
       headers['anthropic-version'] = '2023-06-01';
+    } else {
+      headers.Authorization = `Bearer ${apiKey}`;
     }
 
     const init: RequestInit = { headers };
@@ -2475,22 +2015,6 @@ export class GenericAIProvider extends BaseAIProvider {
 
     const message = compactDetail || getCompactErrorMessage(error) || getMessage('unknownError');
     return new vscode.LanguageModelError(getMessage('requestFailed', message));
-  }
-
-  private shouldRetryWithRequiredMaxTokens(error: any): boolean {
-    const detail = this.readApiErrorMessage(error) || getCompactErrorMessage(error);
-    const normalized = detail.trim().toLowerCase();
-    if (normalized.length === 0) {
-      return false;
-    }
-
-    if (normalized.includes('missing field max_tokens')) {
-      return true;
-    }
-
-    const mentionsMaxTokens = /max[_\s-]?tokens/.test(normalized);
-    const indicatesRequired = /(required|missing|must provide|expected)/.test(normalized);
-    return mentionsMaxTokens && indicatesRequired;
   }
 
   private readApiErrorMessage(error: any): string | undefined {
@@ -3043,21 +2567,20 @@ export class GenericAIProvider extends BaseAIProvider {
       });
   }
 
-  private disableOpenAIResponsesReasoningForSession(
-    modelId: string,
-    reason: string,
-    trace?: RequestTraceContext,
-  ): void {
-    if (this.disabledOpenAIResponsesReasoningModelIds.has(modelId)) {
-      return;
+  private enqueueStreamContent(
+    queue: AsyncIterableQueue<vscode.LanguageModelResponsePart | unknown>,
+    update: { textDelta: string; reasoningDelta?: string },
+  ): boolean {
+    const reasoningDelta = update.reasoningDelta ?? '';
+    if (reasoningDelta.length > 0) {
+      for (const part of this.buildResponseParts('', undefined, reasoningDelta)) {
+        queue.push(part);
+      }
     }
-
-    this.disabledOpenAIResponsesReasoningModelIds.add(modelId);
-    logger.warn('Disabled OpenAI responses reasoning parameters for current session', {
-      ...trace,
-      modelId,
-      reason,
-    });
+    if (update.textDelta.length > 0) {
+      queue.push(new vscode.LanguageModelTextPart(update.textDelta));
+    }
+    return reasoningDelta.length > 0;
   }
 
   private buildStreamingChatResponse(
@@ -3080,7 +2603,11 @@ export class GenericAIProvider extends BaseAIProvider {
       try {
         const finalized = await execute(queue);
         provider.ensureNonEmptyCompletion(protocol, trace, vendor, modelName, finalized.content, finalized.toolCalls);
-        for (const part of provider.buildResponseParts('', finalized.toolCalls, finalized.reasoningContent)) {
+        for (const part of provider.buildResponseParts(
+          '',
+          finalized.toolCalls,
+          finalized.streamedReasoning ? undefined : finalized.reasoningContent,
+        )) {
           queue.push(part);
         }
 
@@ -3131,70 +2658,6 @@ export class GenericAIProvider extends BaseAIProvider {
   private isSseResponse(response: Response): boolean {
     const contentType = response.headers.get('content-type') || '';
     return contentType.toLowerCase().includes('text/event-stream');
-  }
-
-  private shouldFallbackToNonStream(error: any): boolean {
-    const status = typeof error?.response?.status === 'number' ? error.response.status : undefined;
-    if (status !== 400 && status !== 404 && status !== 415 && status !== 422 && status !== 501) {
-      return false;
-    }
-
-    const detail = [
-      this.readApiErrorMessage(error),
-      typeof error?.response?.data === 'string' ? error.response.data : undefined,
-    ]
-      .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
-      .join(' ')
-      .toLowerCase();
-
-    return (
-      /(stream|streaming|sse|event-stream)/i.test(detail) &&
-      /(unsupported|not support|not supported|invalid|unknown|only|expect)/i.test(detail)
-    );
-  }
-
-  private shouldRetryOpenAIResponsesWithoutReasoning(error: any, payload: OpenAIResponsesRequest): boolean {
-    if (!payload.reasoning) {
-      return false;
-    }
-
-    const status = typeof error?.response?.status === 'number' ? error.response.status : undefined;
-    if (status !== 400 && status !== 422) {
-      return false;
-    }
-
-    const detail = [
-      this.readApiErrorMessage(error),
-      typeof error?.response?.data === 'string' ? error.response.data : undefined,
-    ]
-      .filter((value): value is string => typeof value === 'string' && value.trim().length > 0)
-      .join(' ')
-      .toLowerCase();
-
-    return (
-      /(unsupported|unknown|unrecognized|invalid|not support|not supported)/.test(detail) &&
-      /(reasoning|reasoning[_\s-]?effort|reasoning\.effort)/.test(detail)
-    );
-  }
-
-  private withoutOpenAIResponsesReasoning(payload: OpenAIResponsesRequest): OpenAIResponsesRequest {
-    const nextPayload: OpenAIResponsesRequest = { ...payload };
-    delete nextPayload.reasoning;
-    return nextPayload;
-  }
-
-  private hasMalformedAnthropicStreamToolArguments(toolCalls: ChatToolCall[]): boolean {
-    return toolCalls.some((toolCall) => this.isRawToolArgumentsPayload(toolCall.function.arguments));
-  }
-
-  private isRawToolArgumentsPayload(rawArguments: string): boolean {
-    const parsed = this.tryParseJson<Record<string, unknown>>(rawArguments);
-    if (!parsed || Array.isArray(parsed)) {
-      return false;
-    }
-
-    const keys = Object.keys(parsed);
-    return keys.length === 1 && keys[0] === 'raw' && typeof parsed.raw === 'string';
   }
 
   private tryParseJson<T>(raw: string): T | undefined {

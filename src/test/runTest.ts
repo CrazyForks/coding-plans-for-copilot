@@ -49,7 +49,6 @@ type VendorRecord = {
   usageUrl?: string;
   apiType?: 'chat' | 'responses' | 'anthropic';
   defaultApiStyle?: 'openai-chat' | 'openai-responses' | 'anthropic';
-  enableExtraRequestWrapping?: boolean;
   defaultTemperature?: number;
   defaultTopP?: number;
   defaultVision?: boolean;
@@ -1158,45 +1157,6 @@ async function runConfigNormalizationTests(configStoreCtor: ConfigStoreCtor): Pr
     {
       name: 'Vendor',
       baseUrl: 'https://example.test/v1',
-      defaultApiStyle: 'openai-chat',
-      defaultVision: false,
-      models: [],
-    },
-  ]);
-
-  configStore = new configStoreCtor(createExtensionContext() as never);
-  try {
-    const vendor = configStore.getVendors()[0];
-    assert.equal(vendor?.enableExtraRequestWrapping, true);
-    console.log('PASS enableExtraRequestWrapping 默认归一化为 true');
-  } finally {
-    configStore.dispose();
-  }
-
-  activeState = createState([
-    {
-      name: 'Vendor',
-      baseUrl: 'https://example.test/v1',
-      defaultApiStyle: 'openai-chat',
-      enableExtraRequestWrapping: false,
-      defaultVision: false,
-      models: [],
-    },
-  ]);
-
-  configStore = new configStoreCtor(createExtensionContext() as never);
-  try {
-    const vendor = configStore.getVendors()[0];
-    assert.equal(vendor?.enableExtraRequestWrapping, false);
-    console.log('PASS enableExtraRequestWrapping=false 可被保留');
-  } finally {
-    configStore.dispose();
-  }
-
-  activeState = createState([
-    {
-      name: 'Vendor',
-      baseUrl: 'https://example.test/v1',
       apiType: 'responses',
       defaultVision: false,
       models: [
@@ -1834,7 +1794,6 @@ async function runGenericProviderContextSizeTests(
     assert.deepEqual(models[0]?.capabilities, { toolCalling: true, imageInput: true, thinking: true });
     assert.equal(models[0]?.streaming, false);
     assert.equal('thinking' in ((models[0] ?? {}) as Record<string, unknown>), false);
-    assert.equal((models[0] as { enableExtraRequestWrapping?: boolean }).enableExtraRequestWrapping, true);
     assert.deepEqual(models[0]?.editTools, ['apply-patch']);
     assert.deepEqual(models[0]?.supportsReasoningEffort, ['high', 'xhigh']);
     assert.equal(models[0]?.reasoningEffortFormat, 'responses');
@@ -1849,40 +1808,6 @@ async function runGenericProviderContextSizeTests(
   } finally {
     copilotProvider.dispose();
     copilotConfigStore.dispose();
-  }
-
-  activeState = createState([
-    {
-      name: 'Vendor',
-      baseUrl: 'https://example.test/v1',
-      defaultApiStyle: 'openai-chat',
-      enableExtraRequestWrapping: false,
-      defaultVision: false,
-      models: [
-        {
-          name: 'plain',
-          contextSize: 64000,
-        },
-      ],
-    },
-  ]);
-
-  const wrappingConfigStore = new configStoreCtor(createExtensionContext() as never);
-  const wrappingProvider = new GenericAIProvider(createExtensionContext() as never, wrappingConfigStore) as unknown as {
-    buildConfiguredModelsForVendor(vendor: VendorRecord): Array<{
-      enableExtraRequestWrapping?: boolean;
-    }>;
-    dispose(): void;
-  };
-
-  try {
-    const vendor = wrappingConfigStore.getVendors()[0] as VendorRecord;
-    const models = wrappingProvider.buildConfiguredModelsForVendor(vendor);
-    assert.equal(models[0]?.enableExtraRequestWrapping, false);
-    console.log('PASS GenericAIProvider 会把 vendor enableExtraRequestWrapping 传递到运行时模型');
-  } finally {
-    wrappingProvider.dispose();
-    wrappingConfigStore.dispose();
   }
 
   activeState = createState([
@@ -4028,13 +3953,11 @@ async function runGenericProviderOutputLimitToggleTests(
     };
 
     const payloads: Record<string, unknown>[] = [];
-    let callCount = 0;
     globalThis.fetch = (async (_url: string | URL | Request, init?: RequestInit): Promise<Response> => {
       const payload = JSON.parse(String(init?.body ?? '{}')) as Record<string, unknown>;
       payloads.push(payload);
-      callCount += 1;
 
-      if (callCount === 1) {
+      if (!('max_tokens' in payload)) {
         return new Response(
           JSON.stringify({
             error: {
@@ -4136,10 +4059,10 @@ async function runGenericProviderOutputLimitToggleTests(
     ],
     'Vendor/coder',
   );
-  assert.equal('max_tokens' in zeroOutputDisabledResult.payload, false);
+  assert.equal(zeroOutputDisabledResult.payload.max_tokens, 12800);
   assert.equal('top_p' in zeroOutputDisabledResult.payload, false);
-  assert.equal(readAttachedTokenUsage(zeroOutputDisabledResult.response)?.outputBuffer, undefined);
-  console.log('PASS openai-chat 在 maxOutputTokens/topP 为 0 时不会下发 max_tokens/top_p');
+  assert.equal(readAttachedTokenUsage(zeroOutputDisabledResult.response)?.outputBuffer, 12800);
+  console.log('PASS openai-chat 会按模型输出窗口下发 max_tokens，且 topP 为 0 时不发送 top_p');
 
   const requiredMaxTokensRetryResult = await capturePayloadWithRequiredMaxTokensRetry(
     [
@@ -4158,38 +4081,13 @@ async function runGenericProviderOutputLimitToggleTests(
     ],
     'Vendor/coder',
   );
-  assert.equal(requiredMaxTokensRetryResult.payloads.length, 2);
-  assert.equal('max_tokens' in requiredMaxTokensRetryResult.payloads[0], false);
-  assert.equal(requiredMaxTokensRetryResult.payloads[1]?.max_tokens, 30000);
-  assert.equal(requiredMaxTokensRetryResult.payloads[1]?.stream, false);
+  assert.equal(requiredMaxTokensRetryResult.payloads.length, 1);
+  assert.equal(requiredMaxTokensRetryResult.payloads[0]?.max_tokens, 30000);
   assert.equal(
     readAttachedTokenUsage(requiredMaxTokensRetryResult.response)?.outputBuffer,
     30000,
   );
-  console.log('PASS 上游要求 max_tokens 时会自动重试并补发 max_tokens');
-
-  const noWrapRequiredMaxTokensRetryResult = await capturePayloadWithRequiredMaxTokensRetry(
-    [
-      {
-        name: 'Vendor',
-        baseUrl: 'https://example.test/v1',
-        defaultApiStyle: 'openai-chat',
-        enableExtraRequestWrapping: false,
-        defaultVision: false,
-        models: [
-          {
-            name: 'coder',
-            capabilities: { tools: true, vision: false },
-          },
-        ],
-      },
-    ],
-    'Vendor/coder',
-    { expectError: true },
-  );
-  assert.equal(noWrapRequiredMaxTokensRetryResult.payloads.length, 1);
-  assert.ok(noWrapRequiredMaxTokensRetryResult.error);
-  console.log('PASS openai-chat 关闭额外封装后缺少 max_tokens 不会自动重试');
+  console.log('PASS openai-chat 首次请求已带 max_tokens');
 
   const implicitReserveRetryResult = await capturePayloadWithRequiredMaxTokensRetry(
     [
@@ -4208,15 +4106,13 @@ async function runGenericProviderOutputLimitToggleTests(
     ],
     'Vendor/dynamic-coder',
   );
-  assert.equal(implicitReserveRetryResult.payloads.length, 2);
-  assert.equal('max_tokens' in implicitReserveRetryResult.payloads[0], false);
-  assert.equal(implicitReserveRetryResult.payloads[1]?.max_tokens, 30000);
-  assert.equal(implicitReserveRetryResult.payloads[1]?.stream, false);
+  assert.equal(implicitReserveRetryResult.payloads.length, 1);
+  assert.equal(implicitReserveRetryResult.payloads[0]?.max_tokens, 30000);
   assert.equal(
     readAttachedTokenUsage(implicitReserveRetryResult.response)?.outputBuffer,
     30000,
   );
-  console.log('PASS 默认输出上限会影响补发的 max_tokens 与 outputBuffer');
+  console.log('PASS 默认输出上限会写入首次请求的 max_tokens 与 outputBuffer');
 
   const positiveOutputResult = await capturePayload(
     [
@@ -4241,11 +4137,11 @@ async function runGenericProviderOutputLimitToggleTests(
       },
     },
   );
-  assert.equal('max_tokens' in positiveOutputResult.payload, false);
+  assert.equal(positiveOutputResult.payload.max_tokens, 12800);
   assert.equal('top_p' in positiveOutputResult.payload, false);
   assert.equal('temperature' in positiveOutputResult.payload, false);
-  assert.equal(readAttachedTokenUsage(positiveOutputResult.response)?.outputBuffer, undefined);
-  console.log('PASS openai-chat 在未配置 temperature/topP 时默认不发送 temperature/top_p');
+  assert.equal(readAttachedTokenUsage(positiveOutputResult.response)?.outputBuffer, 12800);
+  console.log('PASS openai-chat 在未配置 temperature/topP 时默认不发送 temperature/top_p，但会发送 max_tokens');
 
   const positiveTopPResult = await capturePayload(
     [
@@ -4271,8 +4167,8 @@ async function runGenericProviderOutputLimitToggleTests(
       },
     },
   );
-  assert.equal(positiveTopPResult.payload.top_p, 0.95);
-  console.log('PASS openai-chat 在 topP 为正数时会发送 top_p');
+  assert.equal('top_p' in positiveTopPResult.payload, false);
+  console.log('PASS openai-chat 配置正数 topP 时仍不发送 top_p');
 
   const modelZeroTopPResult = await capturePayload(
     [
@@ -4340,8 +4236,8 @@ async function runGenericProviderOutputLimitToggleTests(
     'Vendor/coder',
   );
   assert.equal('temperature' in responsesPositiveTopPResult, false);
-  assert.equal(responsesPositiveTopPResult.top_p, 0.85);
-  console.log('PASS openai-responses 在 topP 为正数时会发送 top_p');
+  assert.equal('top_p' in responsesPositiveTopPResult, false);
+  console.log('PASS openai-responses 配置正数 topP 时仍不发送 top_p');
 
   const responsesSystemPromptResult = await captureOpenAIResponsesPayload(
     [
@@ -4371,15 +4267,12 @@ async function runGenericProviderOutputLimitToggleTests(
       },
     ],
   );
-  assert.equal(
-    responsesSystemPromptResult.instructions,
-    'system policy',
-  );
+  assert.equal('instructions' in responsesSystemPromptResult, false);
   assert.deepEqual(
     (responsesSystemPromptResult.input as Array<{ role?: string }>).map((item) => item.role),
-    ['user'],
+    ['system', 'user'],
   );
-  console.log('PASS openai-responses 会把 system 消息发送到 instructions 字段');
+  console.log('PASS openai-responses 会把 system 消息保留在 input 中，不发送 instructions');
 
   const responsesFriendlyPersonalityResult = await captureOpenAIResponsesPayload(
     [
@@ -4412,11 +4305,8 @@ async function runGenericProviderOutputLimitToggleTests(
     },
   );
   assert.equal('temperature' in responsesFriendlyPersonalityResult, false);
-  assert.equal(
-    responsesFriendlyPersonalityResult.instructions,
-    'Personality: friendly. Be warm, clear, collaborative, and focused on useful next steps.',
-  );
-  console.log('PASS openai-responses 使用 Personality 写入 instructions，忽略 temperature 参数');
+  assert.equal('instructions' in responsesFriendlyPersonalityResult, false);
+  console.log('PASS openai-responses 忽略 Personality 与 temperature，不发送 instructions');
 
   const unwrappedOpenAIChatResult = await capturePayload(
     [
@@ -4424,7 +4314,6 @@ async function runGenericProviderOutputLimitToggleTests(
         name: 'Vendor',
         baseUrl: 'https://example.test/v1',
         defaultApiStyle: 'openai-chat',
-        enableExtraRequestWrapping: false,
         defaultVision: false,
         defaultTopP: 0.95,
         defaultTemperature: 0.4,
@@ -4446,9 +4335,10 @@ async function runGenericProviderOutputLimitToggleTests(
   );
   assert.equal('temperature' in unwrappedOpenAIChatResult.payload, false);
   assert.equal('top_p' in unwrappedOpenAIChatResult.payload, false);
-  assert.equal('thinking' in unwrappedOpenAIChatResult.payload, true);
+  assert.equal('thinking' in unwrappedOpenAIChatResult.payload, false);
   assert.equal('reasoning_effort' in unwrappedOpenAIChatResult.payload, true);
-  console.log('PASS openai-chat 关闭额外封装后仍保留 thinking，但不发送其它增强字段');
+  assert.equal(unwrappedOpenAIChatResult.payload.max_tokens, 12800);
+  console.log('PASS openai-chat 仍保留 reasoning_effort 与 max_tokens，但不发送 thinking 与其它增强字段');
 
   const unwrappedResponsesPayload = await captureOpenAIResponsesPayload(
     [
@@ -4456,7 +4346,6 @@ async function runGenericProviderOutputLimitToggleTests(
         name: 'Vendor',
         baseUrl: 'https://example.test/v1',
         defaultApiStyle: 'openai-responses',
-        enableExtraRequestWrapping: false,
         defaultVision: false,
         defaultTopP: 0.85,
         models: [
@@ -4488,12 +4377,13 @@ async function runGenericProviderOutputLimitToggleTests(
   );
   assert.equal('instructions' in unwrappedResponsesPayload, false);
   assert.equal('top_p' in unwrappedResponsesPayload, false);
+  assert.equal(unwrappedResponsesPayload.max_output_tokens, 12800);
   assert.deepEqual(unwrappedResponsesPayload.reasoning, { effort: 'high' });
   assert.deepEqual(
     (unwrappedResponsesPayload.input as Array<{ role?: string }>).map((item) => item.role),
     ['system', 'user'],
   );
-  console.log('PASS openai-responses 关闭额外封装后保留 system 与 reasoning，并省略其它增强字段');
+  console.log('PASS openai-responses 保留 system、reasoning 与 max_output_tokens，并省略其它增强字段');
 }
 
 async function runGenericProviderMultimodalPayloadTests(
@@ -4642,11 +4532,31 @@ async function runGenericProviderThinkingEffortTests(
   const { GenericAIProvider } = genericProviderModule;
   const originalFetch = globalThis.fetch;
 
-  async function capturePayload(
+  function readInitHeaders(init?: RequestInit): Record<string, string> {
+    const raw = init?.headers;
+    if (!raw) {
+      return {};
+    }
+    if (Array.isArray(raw)) {
+      return Object.fromEntries(raw.map(([key, value]) => [key.toLowerCase(), String(value)]));
+    }
+    if (typeof Headers !== 'undefined' && raw instanceof Headers) {
+      const result: Record<string, string> = {};
+      raw.forEach((value, key) => {
+        result[key.toLowerCase()] = value;
+      });
+      return result;
+    }
+    return Object.fromEntries(
+      Object.entries(raw as Record<string, string>).map(([key, value]) => [key.toLowerCase(), String(value)]),
+    );
+  }
+
+  async function captureRequest(
     vendors: VendorRecord[],
     modelId: string,
     options?: { modelOptions?: Record<string, unknown> },
-  ): Promise<Record<string, unknown>> {
+  ): Promise<{ payload: Record<string, unknown>; headers: Record<string, string> }> {
     activeState = createStaticVendorState(vendors);
     const configStore = new configStoreCtor(createExtensionContext() as never);
     const provider = new GenericAIProvider(createExtensionContext() as never, configStore) as unknown as {
@@ -4661,8 +4571,10 @@ async function runGenericProviderThinkingEffortTests(
     };
 
     let payload: Record<string, unknown> | undefined;
+    let headers: Record<string, string> = {};
     globalThis.fetch = (async (url: string | URL | Request, init?: RequestInit): Promise<Response> => {
       payload = JSON.parse(String(init?.body ?? '{}')) as Record<string, unknown>;
+      headers = readInitHeaders(init);
       const requestUrl = String(url);
       const isResponsesPayload = requestUrl.includes('/responses');
       const isAnthropicPayload = requestUrl.includes('/messages');
@@ -4771,12 +4683,24 @@ async function runGenericProviderThinkingEffortTests(
         options: { tools: [], ...options },
       });
       assert.ok(payload);
-      return payload;
+      return {
+        payload,
+        headers,
+      };
     } finally {
       globalThis.fetch = originalFetch;
       provider.dispose();
       configStore.dispose();
     }
+  }
+
+  async function capturePayload(
+    vendors: VendorRecord[],
+    modelId: string,
+    options?: { modelOptions?: Record<string, unknown> },
+  ): Promise<Record<string, unknown>> {
+    const captured = await captureRequest(vendors, modelId, options);
+    return captured.payload;
   }
 
   async function captureOpenAIResponsesReasoningFallbackPayloads(): Promise<Record<string, unknown>[]> {
@@ -4878,8 +4802,11 @@ async function runGenericProviderThinkingEffortTests(
           },
         },
       };
-      await provider.sendRequest(request);
-      await provider.sendRequest(request);
+      try {
+        await provider.sendRequest(request);
+      } catch {
+        // Unsupported reasoning is not retried; the first request fails as-is.
+      }
       return payloads;
     } finally {
       globalThis.fetch = originalFetch;
@@ -4945,7 +4872,68 @@ async function runGenericProviderThinkingEffortTests(
   );
   assert.equal('thinking' in defaultThinkingOpenAIChatPayload, false);
   assert.equal(defaultThinkingOpenAIChatPayload.reasoning_effort, 'high');
+  assert.equal(defaultThinkingOpenAIChatPayload.max_tokens, 12800);
   console.log('PASS openai-chat 在请求级 thinkingType=default 时不发送 thinking 参数');
+
+  const vscodeResolvedDefaultThinkingOpenAIChatPayload = await capturePayload(
+    [
+      {
+        name: 'Vendor',
+        baseUrl: 'https://example.test/v1',
+        defaultApiStyle: 'openai-chat',
+        defaultVision: false,
+        models: [
+          {
+            name: 'reasoner',
+            contextSize: 64000,
+            maxInputTokens: 32000,
+            maxOutputTokens: 16000,
+            capabilities: { tools: false, vision: false },
+          },
+        ],
+      },
+    ],
+    'Vendor/reasoner',
+    {
+      modelOptions: {
+        thinkingType: 'default',
+        thinkingEffort: 'high',
+      },
+    },
+  );
+  assert.equal('thinking' in vscodeResolvedDefaultThinkingOpenAIChatPayload, false);
+  assert.equal(vscodeResolvedDefaultThinkingOpenAIChatPayload.reasoning_effort, 'high');
+  console.log('PASS openai-chat 在 VS Code 注入 schema 默认 thinkingType=default 时不发送 thinking 参数');
+
+  const enabledThinkingOpenAIChatPayload = await capturePayload(
+    [
+      {
+        name: 'Vendor',
+        baseUrl: 'https://example.test/v1',
+        defaultApiStyle: 'openai-chat',
+        defaultVision: false,
+        models: [
+          {
+            name: 'reasoner',
+            contextSize: 64000,
+            maxInputTokens: 32000,
+            maxOutputTokens: 16000,
+            capabilities: { tools: false, vision: false },
+          },
+        ],
+      },
+    ],
+    'Vendor/reasoner',
+    {
+      modelOptions: {
+        thinkingType: 'enabled',
+        thinkingEffort: 'high',
+      },
+    },
+  );
+  assert.deepEqual(enabledThinkingOpenAIChatPayload.thinking, { type: 'enabled' });
+  assert.equal(enabledThinkingOpenAIChatPayload.reasoning_effort, 'high');
+  console.log('PASS openai-chat 在请求级 thinkingType=enabled 时发送 thinking.enabled 与 reasoning_effort');
 
   for (const thinkingEffort of ['low', 'medium', 'high', 'xhigh', 'max'] as const) {
     const overriddenOpenAIChatPayload = await capturePayload(
@@ -4973,10 +4961,11 @@ async function runGenericProviderThinkingEffortTests(
         },
       },
     );
-    assert.deepEqual(overriddenOpenAIChatPayload.thinking, { type: 'enabled' });
+    assert.equal('thinking' in overriddenOpenAIChatPayload, false);
     assert.equal(overriddenOpenAIChatPayload.reasoning_effort, thinkingEffort);
+    assert.equal(overriddenOpenAIChatPayload.max_tokens, 12800);
   }
-  console.log('PASS 请求级 thinkingEffort 可驱动 openai-chat 的 thinking 与 reasoning_effort');
+  console.log('PASS 请求级 thinkingEffort 可驱动 openai-chat 的 reasoning_effort，默认不发送 thinking');
 
   const overriddenTemperaturePayload = await capturePayload(
     [
@@ -5005,8 +4994,8 @@ async function runGenericProviderThinkingEffortTests(
       },
     },
   );
-  assert.equal(overriddenTemperaturePayload.temperature, 1);
-  console.log('PASS 请求级 temperature 可覆盖模型级与供应商级默认值');
+  assert.equal('temperature' in overriddenTemperaturePayload, false);
+  console.log('PASS 请求级 temperature 不会写入上游 payload');
 
   const requestInheritedTemperaturePayload = await capturePayload(
     [
@@ -5035,8 +5024,8 @@ async function runGenericProviderThinkingEffortTests(
       },
     },
   );
-  assert.equal(requestInheritedTemperaturePayload.temperature, 0.7);
-  console.log('PASS 请求级 temperature=inherit 会继承模型级与供应商级默认值');
+  assert.equal('temperature' in requestInheritedTemperaturePayload, false);
+  console.log('PASS 请求级 temperature=inherit 也不会写入上游 payload');
 
   const inheritedModelTemperaturePayload = await capturePayload(
     [
@@ -5060,8 +5049,8 @@ async function runGenericProviderThinkingEffortTests(
     ],
     'Vendor/reasoner',
   );
-  assert.equal(inheritedModelTemperaturePayload.temperature, 0.4);
-  console.log('PASS 模型级 temperature=inherit 会使用供应商 defaultTemperature');
+  assert.equal('temperature' in inheritedModelTemperaturePayload, false);
+  console.log('PASS 模型级 temperature=inherit 也不会写入上游 payload');
 
   const omittedTemperaturePayload = await capturePayload(
     [
@@ -5119,11 +5108,12 @@ async function runGenericProviderThinkingEffortTests(
     },
   );
   assert.deepEqual(openAIResponsesPayload.reasoning, { effort: 'high' });
+  assert.equal(openAIResponsesPayload.max_output_tokens, 12800);
   assert.equal('thinking' in openAIResponsesPayload, false);
   assert.equal('reasoning_effort' in openAIResponsesPayload, false);
   assert.equal('temperature' in openAIResponsesPayload, false);
   assert.equal('instructions' in openAIResponsesPayload, false);
-  console.log('PASS openai-responses 会按请求级 thinkingEffort 发送 reasoning.effort，默认不注入 Personality');
+  console.log('PASS openai-responses 会按请求级 thinkingEffort 发送 reasoning.effort，且不发送 instructions');
 
   const unsupportedOpenAIResponsesEffortPayload = await capturePayload(
     [
@@ -5183,11 +5173,9 @@ async function runGenericProviderThinkingEffortTests(
   console.log('PASS streaming=false 会让 openai-responses 走非流式请求');
 
   const responsesReasoningFallbackPayloads = await captureOpenAIResponsesReasoningFallbackPayloads();
-  assert.equal(responsesReasoningFallbackPayloads.length, 3);
+  assert.equal(responsesReasoningFallbackPayloads.length, 1);
   assert.deepEqual(responsesReasoningFallbackPayloads[0].reasoning, { effort: 'high' });
-  assert.equal('reasoning' in responsesReasoningFallbackPayloads[1], false);
-  assert.equal('reasoning' in responsesReasoningFallbackPayloads[2], false);
-  console.log('PASS openai-responses 遇到 reasoning 参数不兼容时会去掉 reasoning 重试并记住会话降级');
+  console.log('PASS openai-responses 遇到 reasoning 参数不兼容时不会去掉 reasoning 重试');
 
   const openAIResponsesXhighPayload = await capturePayload(
     [
@@ -5253,7 +5241,6 @@ async function runGenericProviderThinkingEffortTests(
         name: 'Vendor',
         baseUrl: 'https://example.test/v1',
         defaultApiStyle: 'openai-responses',
-        enableExtraRequestWrapping: false,
         defaultVision: false,
         defaultTopP: 0.8,
         models: [
@@ -5276,9 +5263,10 @@ async function runGenericProviderThinkingEffortTests(
     },
   );
   assert.deepEqual(unwrappedOpenAIResponsesPayload.reasoning, { effort: 'xhigh' });
+  assert.equal(unwrappedOpenAIResponsesPayload.max_output_tokens, 12800);
   assert.equal('top_p' in unwrappedOpenAIResponsesPayload, false);
   assert.equal('instructions' in unwrappedOpenAIResponsesPayload, false);
-  console.log('PASS openai-responses 关闭额外封装后仍保留 reasoning，但不发送 top_p/instructions');
+  console.log('PASS openai-responses 仍保留 reasoning 与 max_output_tokens，但不发送 top_p/instructions');
 
   const anthropicPayload = await capturePayload(
     [
@@ -5346,7 +5334,6 @@ async function runGenericProviderThinkingEffortTests(
         name: 'Vendor',
         baseUrl: 'https://example.test/anthropic/v1',
         defaultApiStyle: 'anthropic',
-        enableExtraRequestWrapping: false,
         defaultTemperature: 0.3,
         defaultVision: false,
         models: [
@@ -5372,7 +5359,66 @@ async function runGenericProviderThinkingEffortTests(
   assert.equal('temperature' in unwrappedAnthropicPayload, false);
   assert.deepEqual(unwrappedAnthropicPayload.thinking, { type: 'disabled' });
   assert.deepEqual(unwrappedAnthropicPayload.output_config, { effort: 'low' });
-  console.log('PASS anthropic 关闭额外封装后仍保留 thinking/effort，但省略其它增强字段');
+  console.log('PASS anthropic 仍保留 thinking/effort，但省略其它增强字段');
+
+  const anthropicAuthRequest = await captureRequest(
+    [
+      {
+        name: 'Vendor',
+        baseUrl: 'https://example.test/anthropic/v1',
+        defaultApiStyle: 'anthropic',
+        defaultVision: false,
+        models: [
+          {
+            name: 'reasoner',
+            contextSize: 64000,
+            maxInputTokens: 32000,
+            maxOutputTokens: 16000,
+            capabilities: { tools: false, vision: false },
+          },
+        ],
+      },
+    ],
+    'Vendor/reasoner',
+    {
+      modelOptions: {
+        effort: 'high',
+      },
+    },
+  );
+  assert.equal(anthropicAuthRequest.headers['x-api-key'], 'configured');
+  assert.equal(anthropicAuthRequest.headers['anthropic-version'], '2023-06-01');
+  assert.equal('authorization' in anthropicAuthRequest.headers, false);
+  console.log('PASS anthropic 请求头只发送 x-api-key 与 anthropic-version，不发送 Authorization');
+
+  const openAIChatAuthRequest = await captureRequest(
+    [
+      {
+        name: 'Vendor',
+        baseUrl: 'https://example.test/v1',
+        defaultApiStyle: 'openai-chat',
+        defaultVision: false,
+        models: [
+          {
+            name: 'reasoner',
+            contextSize: 64000,
+            maxInputTokens: 32000,
+            maxOutputTokens: 16000,
+            capabilities: { tools: false, vision: false },
+          },
+        ],
+      },
+    ],
+    'Vendor/reasoner',
+    {
+      modelOptions: {
+        thinkingEffort: 'high',
+      },
+    },
+  );
+  assert.equal(openAIChatAuthRequest.headers.authorization, 'Bearer configured');
+  assert.equal('x-api-key' in openAIChatAuthRequest.headers, false);
+  console.log('PASS openai-chat 请求头只发送 Authorization Bearer，不发送 x-api-key');
 }
 
 async function runGenericProviderAnthropicSamplingCompatibilityTests(
@@ -5459,102 +5505,14 @@ async function runGenericProviderAnthropicSamplingCompatibilityTests(
     });
 
     assert.ok(payload);
-  assert.equal(payload.temperature, 0.25);
+  assert.equal('temperature' in payload, false);
   assert.equal(payload.max_tokens, 30000);
   assert.equal('top_p' in payload, false);
-  console.log('PASS anthropic 请求会保留 temperature 但不发送 top_p');
+  console.log('PASS anthropic 请求发送必需 max_tokens，但不发送 temperature 与 top_p');
   } finally {
     globalThis.fetch = originalFetch;
     provider.dispose();
     configStore.dispose();
-  }
-
-  activeState = createStaticVendorState([
-    {
-      name: 'Vendor',
-      baseUrl: 'https://example.test/anthropic/v1',
-      defaultApiStyle: 'anthropic',
-      enableExtraRequestWrapping: false,
-      defaultTemperature: 0.4,
-      defaultTopP: 0.9,
-      defaultVision: false,
-      models: [
-        {
-          name: 'coder',
-          temperature: 0.25,
-          topP: 0.8,
-          capabilities: { tools: false, vision: false },
-        },
-      ],
-    },
-  ]);
-
-  const unwrappedConfigStore = new configStoreCtor(createExtensionContext() as never);
-  const unwrappedProvider = new GenericAIProvider(createExtensionContext() as never, unwrappedConfigStore) as unknown as {
-    refreshModels(): Promise<void>;
-    sendRequest(request: {
-      modelId: string;
-      messages: Array<{ role: string; content: Array<{ value: string }> }>;
-      capabilities: { toolCalling: boolean; imageInput: boolean };
-      options?: { tools?: unknown[] };
-    }): Promise<unknown>;
-    dispose(): void;
-  };
-
-  let unwrappedPayload: Record<string, unknown> | undefined;
-  globalThis.fetch = (async (_url: string | URL | Request, init?: RequestInit): Promise<Response> => {
-    unwrappedPayload = JSON.parse(String(init?.body ?? '{}')) as Record<string, unknown>;
-    return new Response(
-      JSON.stringify({
-        id: 'msg_test',
-        role: 'assistant',
-        content: [
-          {
-            type: 'text',
-            text: 'ok',
-          },
-        ],
-        stop_reason: 'end_turn',
-        usage: {
-          input_tokens: 4,
-          output_tokens: 2,
-        },
-      }),
-      {
-        status: 200,
-        headers: {
-          'content-type': 'application/json',
-        },
-      },
-    );
-  }) as typeof globalThis.fetch;
-
-  try {
-    (unwrappedConfigStore as unknown as { getApiKey(vendorName: string): Promise<string> }).getApiKey = async (
-      vendorName: string,
-    ) => (vendorName === 'Vendor' ? 'configured' : '');
-    await unwrappedProvider.refreshModels();
-    await unwrappedProvider.sendRequest({
-      modelId: 'Vendor/coder',
-      messages: [
-        {
-          role: 'user',
-          content: [{ value: 'reply with ok' }],
-        },
-      ],
-      capabilities: { toolCalling: false, imageInput: false },
-      options: { tools: [] },
-    });
-
-    assert.ok(unwrappedPayload);
-    assert.equal(unwrappedPayload.max_tokens, 30000);
-    assert.equal('temperature' in unwrappedPayload, false);
-    assert.equal('top_p' in unwrappedPayload, false);
-    console.log('PASS anthropic 关闭额外封装后仍发送必需 max_tokens 但省略增强采样字段');
-  } finally {
-    globalThis.fetch = originalFetch;
-    unwrappedProvider.dispose();
-    unwrappedConfigStore.dispose();
   }
 }
 
@@ -5729,13 +5687,12 @@ async function runGenericProviderAnthropicStreamFallbackTests(
       secondTextChunks.push(chunk);
     }
 
-    assert.equal(payloads.length, 3);
+    assert.equal(payloads.length, 2);
     assert.equal(payloads[0]?.stream, true);
-    assert.equal(payloads[1]?.stream, false);
-    assert.equal(payloads[2]?.stream, false);
-    assert.deepEqual(textChunks, ['fallback answer']);
+    assert.equal(payloads[1]?.stream, true);
+    assert.deepEqual(textChunks, []);
     assert.deepEqual(secondTextChunks, ['fallback answer']);
-    console.log('PASS anthropic 流式 tool 参数退化后当前会话会持续使用非流式');
+    console.log('PASS anthropic 流式 malformed tool 参数不会触发非流式回退');
   } finally {
     globalThis.fetch = originalFetch;
     provider.dispose();
@@ -6083,7 +6040,6 @@ async function runGenericProviderOpenAIReasoningContinuationTests(
       {
         role: 'assistant',
         content: '',
-        reasoning_content: 'Need the get_date tool first.',
         tool_calls: [
           {
             id: 'call_reasoning_1',
@@ -6101,11 +6057,56 @@ async function runGenericProviderOpenAIReasoningContinuationTests(
         content: '2026-04-27',
       },
   ]);
-  console.log('PASS openai-chat 会在 tool continuation 中保留并回传 reasoning_content');
+  console.log('PASS openai-chat tool continuation 不回传 reasoning_content');
   } finally {
     globalThis.fetch = originalFetch;
     provider.dispose();
     configStore.dispose();
+  }
+}
+
+function classifyLanguageModelResponsePart(part: unknown): string {
+  const vscode = require('vscode') as typeof import('vscode');
+  if (part instanceof vscode.LanguageModelTextPart) {
+    return 'text';
+  }
+  if (part instanceof vscode.LanguageModelToolCallPart) {
+    return 'tool';
+  }
+  if (part instanceof vscode.LanguageModelDataPart) {
+    return 'data';
+  }
+  if (((part as { constructor?: { name?: string } } | undefined)?.constructor?.name ?? '').includes('ThinkingPart')) {
+    return 'thinking';
+  }
+  return 'unknown';
+}
+
+function assertThinkingPartsBeforeText(parts: unknown[], label: string): void {
+  const kinds = parts.map(classifyLanguageModelResponsePart).filter((kind) => kind === 'thinking' || kind === 'text');
+  const firstText = kinds.indexOf('text');
+  const lastThinking = kinds.lastIndexOf('thinking');
+  assert.ok(firstText >= 0, `${label}: missing text part (${kinds.join(',')})`);
+  assert.ok(lastThinking >= 0, `${label}: missing thinking part (${kinds.join(',')})`);
+  assert.ok(
+    lastThinking < firstText,
+    `${label}: expected thinking before text, got ${kinds.join(',')}`,
+  );
+}
+
+async function runGenericProviderThinkingBeforeOutputTests(
+  configStoreCtor: ConfigStoreCtor,
+  genericProviderModule: GenericProviderModule,
+): Promise<void> {
+  const { GenericAIProvider } = genericProviderModule;
+  const originalFetch = globalThis.fetch;
+
+  async function collectStreamParts(response: { stream: AsyncIterable<unknown> }): Promise<unknown[]> {
+    const parts: unknown[] = [];
+    for await (const part of response.stream) {
+      parts.push(part);
+    }
+    return parts;
   }
 
   activeState = createStaticVendorState([
@@ -6113,87 +6114,58 @@ async function runGenericProviderOpenAIReasoningContinuationTests(
       name: 'Vendor',
       baseUrl: 'https://example.test/openai/v1',
       defaultApiStyle: 'openai-chat',
-      enableExtraRequestWrapping: false,
       defaultVision: false,
       models: [
         {
-          name: 'deepseek-v4-flash',
+          name: 'reasoner',
+          streaming: false,
           contextSize: 64000,
           maxInputTokens: 32000,
           maxOutputTokens: 16000,
-          capabilities: { tools: true, vision: false },
+          capabilities: { tools: false, vision: false },
         },
       ],
     },
   ]);
 
-  const unwrappedConfigStore = new configStoreCtor(createExtensionContext() as never);
-  const unwrappedProvider = new GenericAIProvider(createExtensionContext() as never, unwrappedConfigStore) as unknown as {
+  const nonStreamConfigStore = new configStoreCtor(createExtensionContext() as never);
+  const nonStreamProvider = new GenericAIProvider(
+    createExtensionContext() as never,
+    nonStreamConfigStore,
+  ) as unknown as {
     refreshModels(): Promise<void>;
     sendRequest(request: {
       modelId: string;
-      messages: Array<{ role: string; content: unknown[] }>;
+      messages: Array<{ role: string; content: Array<{ value: string }> }>;
       capabilities: { toolCalling: boolean; imageInput: boolean };
       options?: { tools?: unknown[] };
-    }): Promise<{ stream: AsyncIterable<unknown>; text: AsyncIterable<string> }>;
+    }): Promise<{ stream: AsyncIterable<unknown> }>;
     dispose(): void;
   };
-  const unwrappedPayloads: Record<string, unknown>[] = [];
 
   globalThis.fetch = (async (_url: string | URL | Request, init?: RequestInit): Promise<Response> => {
-    unwrappedPayloads.push(JSON.parse(String(init?.body ?? '{}')) as Record<string, unknown>);
-    if (unwrappedPayloads.length === 1) {
-      const sseBody = [
-        `data: ${JSON.stringify({
-          id: 'chat_reasoning_1',
-          choices: [
-            {
-              index: 0,
-              delta: {
-                reasoning_content: [{ type: 'reasoning', text: 'Need the get_date tool first.' }],
-                tool_calls: [
-                  {
-                    index: 0,
-                    id: 'call_reasoning_1',
-                    type: 'function',
-                    function: {
-                      name: 'get_date',
-                      arguments: '{}',
-                    },
-                  },
-                ],
-              },
-              finish_reason: 'tool_calls',
-            },
-          ],
-        })}`,
-        '',
-        'data: [DONE]',
-        '',
-      ].join('\n');
-      return new Response(sseBody, {
-        status: 200,
-        headers: {
-          'content-type': 'text/event-stream',
-        },
-      });
-    }
-
+    void init;
     return new Response(
       JSON.stringify({
-        id: 'chat_reasoning_2',
+        id: 'chat_think_then_text',
         created: 1,
-        model: 'deepseek-v4-flash',
+        model: 'reasoner',
         choices: [
           {
             index: 0,
             message: {
               role: 'assistant',
-              content: 'done',
+              reasoning_content: 'plan first',
+              content: 'hello',
             },
             finish_reason: 'stop',
           },
         ],
+        usage: {
+          prompt_tokens: 4,
+          completion_tokens: 2,
+          total_tokens: 6,
+        },
       }),
       {
         status: 200,
@@ -6205,62 +6177,119 @@ async function runGenericProviderOpenAIReasoningContinuationTests(
   }) as typeof globalThis.fetch;
 
   try {
-    (unwrappedConfigStore as unknown as { getApiKey(vendorName: string): Promise<string> }).getApiKey = async (
+    (nonStreamConfigStore as unknown as { getApiKey(vendorName: string): Promise<string> }).getApiKey = async (
       vendorName: string,
     ) => (vendorName === 'Vendor' ? 'configured' : '');
-    await unwrappedProvider.refreshModels();
-
-    const firstResponse = await unwrappedProvider.sendRequest({
-      modelId: 'Vendor/deepseek-v4-flash',
+    await nonStreamProvider.refreshModels();
+    const nonStreamResponse = await nonStreamProvider.sendRequest({
+      modelId: 'Vendor/reasoner',
       messages: [
         {
           role: 'user',
-          content: [{ value: 'Please call get_date first.' }],
+          content: [{ value: 'hi' }],
         },
       ],
-      capabilities: { toolCalling: true, imageInput: false },
+      capabilities: { toolCalling: false, imageInput: false },
       options: { tools: [] },
     });
-
-    const firstResponseParts: unknown[] = [];
-    for await (const part of firstResponse.stream) {
-      firstResponseParts.push(part);
-    }
-
-    const roundTrippedAssistantParts = firstResponseParts.filter(
-      (part) => part instanceof vscode.LanguageModelToolCallPart,
-    );
-
-    await unwrappedProvider.sendRequest({
-      modelId: 'Vendor/deepseek-v4-flash',
-      messages: [
-        {
-          role: 'user',
-          content: [{ value: 'Please call get_date first.' }],
-        },
-        {
-          role: 'assistant',
-          content: roundTrippedAssistantParts,
-        },
-        {
-          role: 'user',
-          content: [
-            new vscode.LanguageModelToolResultPart('call_reasoning_1', [
-              new vscode.LanguageModelTextPart('2026-04-27'),
-            ]),
-          ],
-        },
-      ],
-      capabilities: { toolCalling: true, imageInput: false },
-      options: { tools: [] },
-    });
-
-    assert.equal('reasoning_content' in ((unwrappedPayloads[1]?.messages as Array<Record<string, unknown>>)[1] ?? {}), false);
-    console.log('PASS openai-chat 关闭额外封装后 tool continuation 不回传 reasoning_content');
+    assertThinkingPartsBeforeText(await collectStreamParts(nonStreamResponse), 'openai-chat non-stream');
+    console.log('PASS openai-chat 非流式响应先思考再输出');
   } finally {
     globalThis.fetch = originalFetch;
-    unwrappedProvider.dispose();
-    unwrappedConfigStore.dispose();
+    nonStreamProvider.dispose();
+    nonStreamConfigStore.dispose();
+  }
+
+  activeState = createStaticVendorState([
+    {
+      name: 'Vendor',
+      baseUrl: 'https://example.test/openai/v1',
+      defaultApiStyle: 'openai-chat',
+      defaultVision: false,
+      models: [
+        {
+          name: 'reasoner',
+          contextSize: 64000,
+          maxInputTokens: 32000,
+          maxOutputTokens: 16000,
+          capabilities: { tools: false, vision: false },
+        },
+      ],
+    },
+  ]);
+
+  const streamConfigStore = new configStoreCtor(createExtensionContext() as never);
+  const streamProvider = new GenericAIProvider(createExtensionContext() as never, streamConfigStore) as unknown as {
+    refreshModels(): Promise<void>;
+    sendRequest(request: {
+      modelId: string;
+      messages: Array<{ role: string; content: Array<{ value: string }> }>;
+      capabilities: { toolCalling: boolean; imageInput: boolean };
+      options?: { tools?: unknown[] };
+    }): Promise<{ stream: AsyncIterable<unknown> }>;
+    dispose(): void;
+  };
+
+  globalThis.fetch = (async (_url: string | URL | Request, init?: RequestInit): Promise<Response> => {
+    void init;
+    const sseBody = [
+      `data: ${JSON.stringify({
+        id: 'chat_think_stream',
+        choices: [
+          {
+            index: 0,
+            delta: {
+              reasoning_content: 'plan first',
+            },
+          },
+        ],
+      })}`,
+      '',
+      `data: ${JSON.stringify({
+        id: 'chat_think_stream',
+        choices: [
+          {
+            index: 0,
+            delta: {
+              content: 'hello',
+            },
+          },
+        ],
+      })}`,
+      '',
+      'data: [DONE]',
+      '',
+    ].join('\n');
+    return new Response(sseBody, {
+      status: 200,
+      headers: {
+        'content-type': 'text/event-stream',
+      },
+    });
+  }) as typeof globalThis.fetch;
+
+  try {
+    (streamConfigStore as unknown as { getApiKey(vendorName: string): Promise<string> }).getApiKey = async (
+      vendorName: string,
+    ) => (vendorName === 'Vendor' ? 'configured' : '');
+    await streamProvider.refreshModels();
+    const streamResponse = await streamProvider.sendRequest({
+      modelId: 'Vendor/reasoner',
+      messages: [
+        {
+          role: 'user',
+          content: [{ value: 'hi' }],
+        },
+      ],
+      capabilities: { toolCalling: false, imageInput: false },
+      options: { tools: [] },
+    });
+    assertThinkingPartsBeforeText(await collectStreamParts(streamResponse), 'openai-chat stream');
+    console.log('PASS openai-chat 流式响应先思考再输出，结束后不再追加思考');
+  } finally {
+    globalThis.fetch = originalFetch;
+    streamProvider.dispose();
+    streamConfigStore.dispose();
   }
 }
 
@@ -6384,6 +6413,7 @@ function runProtocolStreamTests(protocolsModule: ProtocolsModule): void {
   );
   const finalizedReasoningOnlyChat = finalizeOpenAIChatStreamState(reasoningOnlyChatState, () => 'generated_call');
   assert.equal(reasoningOnlyChatDelta.textDelta, '');
+  assert.equal(reasoningOnlyChatDelta.reasoningDelta, 'fallback ');
   assert.equal(finalizedReasoningOnlyChat.content, 'fallback text');
   assert.equal(finalizedReasoningOnlyChat.reasoningContent, 'fallback text');
 
@@ -6611,6 +6641,18 @@ function runProtocolStreamTests(protocolsModule: ProtocolsModule): void {
     total_tokens: 17,
   });
   console.log('PASS openai-responses 标准 item_id 参数增量会合并为单个具名工具调用');
+
+  const responsesReasoningState = createOpenAIResponsesStreamState();
+  const responsesReasoningDelta = applyOpenAIResponsesStreamEvent(
+    responsesReasoningState,
+    'response.reasoning_text.delta',
+    {
+      delta: 'plan first',
+    },
+    () => 'generated_call',
+  );
+  assert.equal(responsesReasoningDelta.textDelta, '');
+  assert.equal(responsesReasoningDelta.reasoningDelta, 'plan first');
 
   const interleavedResponsesState = createOpenAIResponsesStreamState();
   let generatedInterleavedToolCallIds = 0;
@@ -6923,6 +6965,24 @@ function runProtocolStreamTests(protocolsModule: ProtocolsModule): void {
     output_tokens: 3,
   });
   console.log('PASS anthropic 流式事件可正确累积文本与工具调用');
+
+  const anthropicThinkingState = createAnthropicStreamState();
+  applyAnthropicStreamEvent(anthropicThinkingState, 'content_block_start', {
+    index: 0,
+    content_block: {
+      type: 'thinking',
+      thinking: '',
+    },
+  });
+  const anthropicThinkingDelta = applyAnthropicStreamEvent(anthropicThinkingState, 'content_block_delta', {
+    index: 0,
+    delta: {
+      type: 'thinking_delta',
+      thinking: 'plan first',
+    },
+  });
+  assert.equal(anthropicThinkingDelta.textDelta, '');
+  assert.equal(anthropicThinkingDelta.reasoningDelta, 'plan first');
 
   const anthropicUsageState = createAnthropicStreamState();
   applyAnthropicStreamEvent(anthropicUsageState, 'message_start', {
@@ -8037,7 +8097,7 @@ async function runLMChatProviderAdapterModelFilteringTests(
           }
         ).configurationSchema?.properties ?? {},
       ),
-      ['thinkingEffort', 'thinkingType', 'temperature'],
+      ['thinkingEffort', 'thinkingType'],
     );
     assert.deepEqual(
       (
@@ -8098,47 +8158,11 @@ async function runLMChatProviderAdapterModelFilteringTests(
       (
         vendorGroupModels[0] as unknown as {
           configurationSchema?: {
-            properties?: Record<
-              string,
-              {
-                type?: string;
-                default?: unknown;
-              }
-            >;
+            properties?: Record<string, unknown>;
           };
         }
-      ).configurationSchema?.properties?.temperature?.type,
-      'string',
-    );
-    assert.deepEqual(
-      (
-        vendorGroupModels[0] as unknown as {
-          configurationSchema?: {
-            properties?: Record<
-              string,
-              {
-                enum?: unknown[];
-              }
-            >;
-          };
-        }
-      ).configurationSchema?.properties?.temperature?.enum,
-      ['inherit', 'none', '0.1', '0.4', '0.7', '1'],
-    );
-    assert.equal(
-      (
-        vendorGroupModels[0] as unknown as {
-          configurationSchema?: {
-            properties?: Record<
-              string,
-              {
-                default?: unknown;
-              }
-            >;
-          };
-        }
-      ).configurationSchema?.properties?.temperature?.default,
-      'none',
+      ).configurationSchema?.properties?.temperature,
+      undefined,
     );
     assert.equal((vendorGroupModels[0] as unknown as { inputCost?: number }).inputCost, 4);
     assert.equal((vendorGroupModels[0] as unknown as { cacheCost?: number }).cacheCost, 1);
@@ -8305,47 +8329,11 @@ async function runLMChatProviderAdapterModelFilteringTests(
       (
         otherGroupModels[0] as unknown as {
           configurationSchema?: {
-            properties?: Record<
-              string,
-              {
-                type?: string;
-                default?: unknown;
-              }
-            >;
+            properties?: Record<string, unknown>;
           };
         }
-      ).configurationSchema?.properties?.personality?.type,
-      'string',
-    );
-    assert.deepEqual(
-      (
-        otherGroupModels[0] as unknown as {
-          configurationSchema?: {
-            properties?: Record<
-              string,
-              {
-                enum?: unknown[];
-              }
-            >;
-          };
-        }
-      ).configurationSchema?.properties?.personality?.enum,
-      ['none', 'pragmatic', 'friendly'],
-    );
-    assert.equal(
-      (
-        otherGroupModels[0] as unknown as {
-          configurationSchema?: {
-            properties?: Record<
-              string,
-              {
-                default?: unknown;
-              }
-            >;
-          };
-        }
-      ).configurationSchema?.properties?.personality?.default,
-      'none',
+      ).configurationSchema?.properties?.personality,
+      undefined,
     );
 
     const anthropicGroupModels = await adapter.provideLanguageModelChatInformation(
@@ -8472,35 +8460,6 @@ async function runLMChatProviderAdapterModelFilteringTests(
       ).configurationSchema?.properties?.thinkingEffort,
       undefined,
     );
-
-    availableModels = [
-      {
-        ...models[0],
-        id: 'Vendor/plain',
-        name: 'plain',
-        enableExtraRequestWrapping: false,
-      } as never,
-    ];
-    const unwrappedVendorModels = await adapter.provideLanguageModelChatInformation(
-      {
-        silent: true,
-        group: 'Vendor',
-      } as never,
-      {} as never,
-    );
-    assert.deepEqual(
-      Object.keys(
-        (
-          unwrappedVendorModels[0] as unknown as {
-            configurationSchema?: {
-              properties?: Record<string, unknown>;
-            };
-          }
-        ).configurationSchema?.properties ?? {},
-      ),
-      ['thinkingEffort', 'thinkingType'],
-    );
-    availableModels = models;
 
     const vendorModels = await adapter.provideLanguageModelChatInformation(
       {
@@ -8798,7 +8757,6 @@ async function runLMChatProviderAdapterModelConfigurationForwardingTest(
       {
         modelConfiguration: {
           thinkingEffort: 'xhigh',
-          personality: 'friendly',
         },
         modelOptions: {
           thinkingEffort: 'high',
@@ -8819,7 +8777,6 @@ async function runLMChatProviderAdapterModelConfigurationForwardingTest(
 
     assert.deepEqual(capturedOptions?.modelOptions, {
       thinkingEffort: 'high',
-      personality: 'friendly',
     });
     assert.deepEqual(
       reportedParts.map((part) => part.value),
@@ -8875,6 +8832,7 @@ async function main(): Promise<void> {
     await runGenericProviderAnthropicStreamFallbackTests(ConfigStore, genericProviderModule);
     await runGenericProviderAnthropicStreamErrorEventTests(ConfigStore, genericProviderModule);
     await runGenericProviderOpenAIReasoningContinuationTests(ConfigStore, baseProviderModule, genericProviderModule);
+    await runGenericProviderThinkingBeforeOutputTests(ConfigStore, genericProviderModule);
     runProtocolStreamTests(protocolsModule);
     runTokenUsageNormalizationTests(tokenUsageModule);
     runContextUsageStateTests(contextUsageStateModule);

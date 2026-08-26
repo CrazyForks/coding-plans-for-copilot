@@ -11,10 +11,8 @@ import {
   REQUEST_SOURCE_MODEL_OPTION_KEY,
   RESPONSE_TRACE_ID_FIELD,
   RESPONSES_THINKING_EFFORT_VALUES,
-  TEMPERATURE_MODEL_OPTION_KEY,
   THINKING_EFFORT_MODEL_OPTION_KEY,
   THINKING_TYPE_MODEL_OPTION_KEY,
-  PERSONALITY_MODEL_OPTION_KEY,
 } from '../constants';
 import { getMessage } from '../i18n/i18n';
 import { logger } from '../logging/outputChannelLogger';
@@ -76,7 +74,6 @@ type ProvideLanguageModelChatResponseOptionsWithModelConfiguration = vscode.Prov
 
 function createModelConfigurationSchema(model: BaseLanguageModel): LanguageModelConfigurationSchema {
   const properties: Record<string, LanguageModelConfigurationSchemaProperty> = {};
-  const wrappingEnabled = model.enableExtraRequestWrapping !== false;
 
   if (model.capabilities.thinking !== false) {
     if (model.apiStyle === 'anthropic') {
@@ -132,30 +129,6 @@ function createModelConfigurationSchema(model: BaseLanguageModel): LanguageModel
         };
       }
     }
-  }
-
-  if (!wrappingEnabled) {
-    return {
-      properties,
-    };
-  }
-
-  if (model.apiStyle === 'openai-responses') {
-    properties[PERSONALITY_MODEL_OPTION_KEY] = {
-      type: 'string',
-      title: getMessage('personalityTitle'),
-      description: getMessage('personalityDescription'),
-      enum: ['none', 'pragmatic', 'friendly'],
-      default: 'none',
-    };
-  } else {
-    properties[TEMPERATURE_MODEL_OPTION_KEY] = {
-      type: 'string',
-      title: getMessage('temperatureTitle'),
-      description: getMessage('temperatureDescription'),
-      enum: ['inherit', 'none', '0.1', '0.4', '0.7', '1'],
-      default: 'none',
-    };
   }
 
   return {

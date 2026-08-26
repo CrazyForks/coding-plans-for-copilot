@@ -22,7 +22,7 @@ applyTo: "src/**/*.ts"
 - 配置：优先 `defaultApiStyle` / `models[].apiStyle`（`openai-chat` | `openai-responses` | `anthropic`），勿在新逻辑里依赖已弃用的 `apiType`。
 - `contextSize`：按 80% 输入 / 20% 输出拆分；勿与随意手写的 `maxInputTokens`/`maxOutputTokens` 打架。
 - 未加 scope 的 `coding-plans` 根不应在无 group 时向 `selectChatModels` 暴露模型；模型路径为 `coding-plans > vendorName > family`（desktop 冒烟会覆盖）。
-- `enableExtraRequestWrapping` 默认开启（`!== false`）；改请求封装行为时对照 `genericProvider.ts` 与厂商实测。
+- 请求路径固定为原生 Custom Endpoint：不发送 temperature / topP / personality；聊天请求不做兼容性隐式重试（`/models` 的 `withOptionalV1Retry` 除外）。改请求构造时对照 `genericProvider.ts` 与厂商实测。
 
 ## 校验
 

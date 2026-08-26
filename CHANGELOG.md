@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.14.4] - 2026-08-26
+- fix(provider): 流式与非流式响应先发出思考过程，再发出正文，对齐原生 Custom Endpoint
+
+## [0.14.3] - 2026-08-26
+- fix(config): 移除 enableExtraRequestWrapping，请求路径固定为原生 Custom Endpoint 行为
+
+## [0.14.2] - 2026-08-26
+- fix(provider): 默认请求包对齐原生 Custom Endpoint：openai-chat 默认只发 reasoning_effort；openai-chat/responses 下发输出上限；anthropic 只使用 x-api-key
+
+## [0.14.1] - 2026-08-26
+- fix(provider): openai-chat Thinking Type 默认改为 enabled，使 Thinking Effort 实际下发 thinking
+- fix(config): enableExtraRequestWrapping 默认改为 false
+
 ## [0.14.0] - 2026-08-15
 - feat(web): add VS Code Web extension entry point and browser-compatible bundle
 - feat(web): support coding model providers, model refresh, Secret Storage, and SCM-based commit generation in vscode.dev and github.dev

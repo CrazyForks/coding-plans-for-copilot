@@ -59,7 +59,6 @@ export interface VendorConfig {
   usageUrl?: string;
   apiType?: VendorApiType;
   defaultApiStyle: VendorApiStyle;
-  enableExtraRequestWrapping: boolean;
   defaultTemperature?: number;
   defaultTopP?: number;
   useModelsEndpoint: boolean;
@@ -760,7 +759,6 @@ export class ConfigStore implements vscode.Disposable {
       typeof obj.usageUrl === 'string' && obj.usageUrl.trim().length > 0 ? obj.usageUrl.trim() : undefined;
     const apiType = this.normalizeApiType(obj.apiType);
     const defaultApiStyle = this.normalizeApiStyle(obj.defaultApiStyle ?? obj.apiType);
-    const enableExtraRequestWrapping = obj.enableExtraRequestWrapping !== false;
     const defaultTemperature = this.readSamplingNumber(obj.defaultTemperature, 0, 2);
     const defaultTopP = this.readSamplingNumber(obj.defaultTopP, 0, 1);
     const useModelsEndpoint = typeof obj.useModelsEndpoint === 'boolean' ? obj.useModelsEndpoint : true;
@@ -777,7 +775,6 @@ export class ConfigStore implements vscode.Disposable {
       usageUrl,
       apiType,
       defaultApiStyle,
-      enableExtraRequestWrapping,
       defaultTemperature,
       defaultTopP,
       useModelsEndpoint,

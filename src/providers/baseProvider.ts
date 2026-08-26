@@ -29,7 +29,6 @@ export interface AIModelConfig {
   apiStyle?: string;
   apiType?: string;
   version?: string;
-  enableExtraRequestWrapping?: boolean;
   /**
    * Maximum input context window size in tokens.
    */
@@ -232,7 +231,6 @@ export abstract class BaseLanguageModel implements vscode.LanguageModelChat {
   public readonly apiStyle?: string;
   public readonly apiType?: string;
   public readonly version: string;
-  public readonly enableExtraRequestWrapping: boolean;
   public readonly maxTokens: number;
   public readonly maxInputTokens: number;
   public readonly maxOutputTokens: number;
@@ -261,7 +259,6 @@ export abstract class BaseLanguageModel implements vscode.LanguageModelChat {
     this.apiStyle = typeof modelInfo.apiStyle === 'string' ? modelInfo.apiStyle : undefined;
     this.apiType = typeof modelInfo.apiType === 'string' ? modelInfo.apiType : undefined;
     this.version = modelInfo.version || MODEL_VERSION_LABEL;
-    this.enableExtraRequestWrapping = modelInfo.enableExtraRequestWrapping !== false;
     this.maxTokens = Math.max(1, Math.floor(modelInfo.maxTokens));
     this.maxInputTokens = Math.max(1, Math.floor(modelInfo.maxInputTokens ?? DEFAULT_TOKEN_SIDE_LIMIT));
     this.maxOutputTokens = Math.max(1, Math.floor(modelInfo.maxOutputTokens ?? DEFAULT_TOKEN_SIDE_LIMIT));
@@ -1100,13 +1097,13 @@ export abstract class BaseAIProvider implements vscode.Disposable {
   ): Array<vscode.LanguageModelResponsePart | unknown> {
     const parts: Array<vscode.LanguageModelResponsePart | unknown> = [];
 
-    if (content.trim().length > 0) {
-      parts.push(new vscode.LanguageModelTextPart(content));
-    }
-
     const trimmedReasoningContent = reasoningContent?.trim();
     if (trimmedReasoningContent) {
       parts.push(this.createReasoningResponsePart(trimmedReasoningContent));
+    }
+
+    if (content.trim().length > 0) {
+      parts.push(new vscode.LanguageModelTextPart(content));
     }
 
     for (const toolCall of toolCalls ?? []) {
