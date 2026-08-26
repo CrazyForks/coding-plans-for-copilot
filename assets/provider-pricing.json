@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-25T08:43:45.477Z",
+  "generatedAt": "2026-08-26T03:02:50.845Z",
   "providers": [
     {
       "provider": "aliyun-ai",
@@ -35,7 +35,12 @@
           "notes": null,
           "serviceDetails": [
             "支持的模型: 仅支持以下精确版本： 推荐模型： qwen3.7-plus （支持图片理解）、 qwen3.6-plus （支持图片理解）、 kimi-k2.5 （支持图片理解）、 glm-5 、 MiniMax-M2.5 更多模型：qwen3.5-plus（支持图片理解） 、 qwen3-max-2026-01-23、qwen3-coder-next、qwen3-coder-plus、glm-4.7",
-            "用量限制: 每 5 小时 6,000 次请求 每周 45,000 次请求 每月 90,000 次请求"
+            "用量限制: 每 5 小时 6,000 次请求 每周 45,000 次请求 每月 90,000 次请求",
+            "OpenClaw 开源、自托管个人 AI 助手: Hermes Agent 开源 AI 代理框架，内置自学习循环",
+            "OpenCode 开源 AI 编程代理工具: Cursor AI 原生代码编辑器",
+            "Qwen Code 开源命令行 AI 编码工具: QwenPaw 开源个人 AI 助手，支持本地与云端部署",
+            "Chatbox 跨平台 AI 桌面客户端: Cline VS Code 扩展，智能代码补全和调试",
+            "Lingma 阿里云智能编码助手，提供独立 IDE: Kilo CLI 轻量高性能命令行编程工具"
           ]
         }
       ]
@@ -106,7 +111,9 @@
             "跨座席共享的弹性用量包"
           ]
         }
-      ]
+      ],
+      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
+      "staleFailure": "aliyun-token-plan: Aliyun Token Plan docs do not expose plan prices"
     },
     {
       "provider": "baidu-qianfan-ai",
@@ -1577,6 +1584,7 @@
     }
   ],
   "failures": [
-    "kimi-ai: Task timed out after 30000ms"
+    "kimi-ai: Task timed out after 30000ms",
+    "aliyun-token-plan: Aliyun Token Plan docs do not expose plan prices"
   ]
 }
