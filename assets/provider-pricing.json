@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-26T03:02:50.845Z",
+  "generatedAt": "2026-08-26T08:45:29.970Z",
   "providers": [
     {
       "provider": "aliyun-ai",
@@ -1066,7 +1066,9 @@
             "支持模型: Qwen3-235B-A22B - 适用于代码生成、工程理解、复杂指令处理与多轮开发协作场景"
           ]
         }
-      ]
+      ],
+      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
+      "staleFailure": "scnet-coding-plan: fetch failed"
     },
     {
       "provider": "stepfun-step-plan",
@@ -1173,7 +1175,7 @@
       "provider": "tencent-cloud-ai",
       "sourceUrls": [
         "https://cloud.tencent.com/document/product/1823/130092",
-        "https://buy.cloud.tencent.com/hunyuan"
+        "https://console.cloud.tencent.com/tokenhub/codingplan"
       ],
       "plans": [
         {
@@ -1185,7 +1187,7 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "用量限制: 每 5 小时：最多约 1,200 次请求 每周：最多约 9,000 次请求 每订阅月：最多约 18,000 次请求"
+            "用量限制: 每 5 小时：最多约 1,200 次请求每周：最多约 9,000 次请求每订阅月：最多约 18,000 次请求"
           ]
         },
         {
@@ -1197,7 +1199,7 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "用量限制: 每 5 小时：最多约 6,000 次请求 每周：最多约 45,000 次请求 每订阅月：最多约 90,000 次请求"
+            "用量限制: 每 5 小时：最多约 6,000 次请求每周：最多约 45,000 次请求每订阅月：最多约 90,000 次请求"
           ]
         }
       ]
@@ -1306,7 +1308,9 @@
             "用量: 用量达 Claude Max（5x）的 3 倍，lite 套餐用量的5倍"
           ]
         }
-      ]
+      ],
+      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
+      "staleFailure": "volcengine-ai: Unable to parse Volcengine coding plan bundle"
     },
     {
       "provider": "x-aio",
@@ -1585,6 +1589,8 @@
   ],
   "failures": [
     "kimi-ai: Task timed out after 30000ms",
-    "aliyun-token-plan: Aliyun Token Plan docs do not expose plan prices"
+    "volcengine-ai: Unable to parse Volcengine coding plan bundle",
+    "aliyun-token-plan: Aliyun Token Plan docs do not expose plan prices",
+    "scnet-coding-plan: fetch failed"
   ]
 }
