@@ -1198,7 +1198,7 @@ export abstract class BaseAIProvider implements vscode.Disposable {
     );
   }
 
-  private createReasoningResponsePart(reasoningContent: string): vscode.LanguageModelDataPart | unknown {
+  protected createReasoningResponsePart(reasoningContent: string): vscode.LanguageModelDataPart | unknown {
     const thinkingCtor = (vscode as unknown as { LanguageModelThinkingPart?: new (...args: any[]) => unknown })
       .LanguageModelThinkingPart;
     if (thinkingCtor) {

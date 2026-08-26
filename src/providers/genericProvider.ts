@@ -2573,9 +2573,9 @@ export class GenericAIProvider extends BaseAIProvider {
   ): boolean {
     const reasoningDelta = update.reasoningDelta ?? '';
     if (reasoningDelta.length > 0) {
-      for (const part of this.buildResponseParts('', undefined, reasoningDelta)) {
-        queue.push(part);
-      }
+      // Streamed reasoning deltas must not be trimmed: whitespace often sits at
+      // chunk boundaries (e.g. "word ") and trimming per delta would join words.
+      queue.push(this.createReasoningResponsePart(reasoningDelta));
     }
     if (update.textDelta.length > 0) {
       queue.push(new vscode.LanguageModelTextPart(update.textDelta));

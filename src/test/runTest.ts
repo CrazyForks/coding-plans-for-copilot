@@ -6094,6 +6094,121 @@ function assertThinkingPartsBeforeText(parts: unknown[], label: string): void {
   );
 }
 
+async function runGenericProviderStreamingReasoningWhitespaceTests(
+  configStoreCtor: ConfigStoreCtor,
+  genericProviderModule: GenericProviderModule,
+): Promise<void> {
+  const { GenericAIProvider } = genericProviderModule;
+  const vscode = require('vscode') as typeof import('vscode');
+  const originalFetch = globalThis.fetch;
+
+  activeState = createStaticVendorState([
+    {
+      name: 'Vendor',
+      baseUrl: 'https://example.test/openai/v1',
+      defaultApiStyle: 'openai-chat',
+      defaultVision: false,
+      models: [
+        {
+          name: 'reasoner',
+          contextSize: 64000,
+          maxInputTokens: 32000,
+          maxOutputTokens: 16000,
+          capabilities: { tools: false, vision: false },
+        },
+      ],
+    },
+  ]);
+
+  const configStore = new configStoreCtor(createExtensionContext() as never);
+  const provider = new GenericAIProvider(createExtensionContext() as never, configStore) as unknown as {
+    refreshModels(): Promise<void>;
+    sendRequest(request: {
+      modelId: string;
+      messages: Array<{ role: string; content: Array<{ value: string }> }>;
+      capabilities: { toolCalling: boolean; imageInput: boolean };
+      options?: { tools?: unknown[] };
+    }): Promise<{ stream: AsyncIterable<unknown>; text: AsyncIterable<string> }>;
+    dispose(): void;
+  };
+
+  globalThis.fetch = (async (): Promise<Response> => {
+    const sseBody = [
+      `data: ${JSON.stringify({
+        id: 'chat_ws_1',
+        choices: [{ index: 0, delta: { reasoning_content: 'The ' } }],
+      })}`,
+      '',
+      `data: ${JSON.stringify({
+        id: 'chat_ws_1',
+        choices: [{ index: 0, delta: { reasoning_content: 'user ' } }],
+      })}`,
+      '',
+      `data: ${JSON.stringify({
+        id: 'chat_ws_1',
+        choices: [{ index: 0, delta: { reasoning_content: ' asks:' } }],
+      })}`,
+      '',
+      `data: ${JSON.stringify({
+        id: 'chat_ws_1',
+        choices: [{ index: 0, delta: { content: 'answer' }, finish_reason: 'stop' }],
+      })}`,
+      '',
+      'data: [DONE]',
+      '',
+    ].join('\n');
+    return new Response(sseBody, {
+      status: 200,
+      headers: {
+        'content-type': 'text/event-stream',
+      },
+    });
+  }) as typeof globalThis.fetch;
+
+  try {
+    (configStore as unknown as { getApiKey(vendorName: string): Promise<string> }).getApiKey = async () => 'configured';
+    await provider.refreshModels();
+    const response = await provider.sendRequest({
+      modelId: 'Vendor/reasoner',
+      messages: [
+        {
+          role: 'user',
+          content: [{ value: 'hello' }],
+        },
+      ],
+      capabilities: { toolCalling: false, imageInput: false },
+      options: { tools: [] },
+    });
+
+    const reasoningChunks: string[] = [];
+    const textChunks: string[] = [];
+    for await (const part of response.stream) {
+      if (
+        part instanceof vscode.LanguageModelDataPart ||
+        ((part as { constructor?: { name?: string } } | undefined)?.constructor?.name ?? '').includes('ThinkingPart')
+      ) {
+        if (part instanceof vscode.LanguageModelDataPart) {
+          const typed = part as import('vscode').LanguageModelDataPart;
+          const parsed = JSON.parse(new TextDecoder().decode(typed.data)) as { reasoning_content?: string };
+          reasoningChunks.push(parsed.reasoning_content ?? '');
+        } else {
+          reasoningChunks.push((part as { value?: unknown }).value as string);
+        }
+      } else if (part instanceof vscode.LanguageModelTextPart) {
+        textChunks.push(part.value);
+      }
+    }
+
+    assert.equal(reasoningChunks.join(''), 'The user  asks:');
+    assert.equal(textChunks.join(''), 'answer');
+    console.log('PASS 流式 reasoning 增量保留词间空格（不逐块 trim）');
+  } finally {
+    globalThis.fetch = originalFetch;
+    provider.dispose();
+    configStore.dispose();
+  }
+}
+
 async function runGenericProviderThinkingBeforeOutputTests(
   configStoreCtor: ConfigStoreCtor,
   genericProviderModule: GenericProviderModule,
@@ -8832,6 +8947,7 @@ async function main(): Promise<void> {
     await runGenericProviderAnthropicStreamFallbackTests(ConfigStore, genericProviderModule);
     await runGenericProviderAnthropicStreamErrorEventTests(ConfigStore, genericProviderModule);
     await runGenericProviderOpenAIReasoningContinuationTests(ConfigStore, baseProviderModule, genericProviderModule);
+    await runGenericProviderStreamingReasoningWhitespaceTests(ConfigStore, genericProviderModule);
     await runGenericProviderThinkingBeforeOutputTests(ConfigStore, genericProviderModule);
     runProtocolStreamTests(protocolsModule);
     runTokenUsageNormalizationTests(tokenUsageModule);
