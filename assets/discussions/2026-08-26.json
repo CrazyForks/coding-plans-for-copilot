@@ -1,0 +1,77 @@
+{
+  "date": "2026-08-26",
+  "generatedAt": "2026-08-26T06:50:55.591Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 57,
+    "postsAfterKeywordFilter": 13,
+    "relevantPosts": 1,
+    "discussionsCreated": 1,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Modelflare": 1,
+      "Claude": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1237329",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1237329",
+      "title": "[V2EX | BTS 开学季] 给学生党准备了一点 API 小福利，前 66 名留言的新老用户送满 20-5 美金券，新用户注册留言依然赠送 0.75 美金",
+      "content": "各位 v 友好📖，开学季快到了，又到了重新整理开发环境和学习工作流的时候 📖 不管是刚入学、准备选课，还是要赶课程设计、实验项目、毕业设计，最近不少佬友应该都在重新折腾自己的工具链✍️ 资料整理、代码调试、课程项目、实习准备，很多地方都需要用到 API 和 Coding Agent 。 工具可以帮忙，但学习和作业还是要按照学校的规范来完成哈～～～～ 网站入口： 点击进入官网🔥 这次我们准备了两层开学福利： 第一层：前 66 位新老用户 前 66 位 留下有效留言的 v 友，不论新老用户，都可以领取一张 Modelflare 专属充值优惠券： 单笔钱包充值满 US$20 ，支付立减 US$5 。 先说明一下，这次发放的是充值优惠券，不是直接到账的 US$5 Credits 。 第二层：新用户留言福利 活动期间完成注册的新用户： 注册可获得 US$0.25 ； 在活动帖留下有效留言，再获得 US$0.50 Credits 。 所以，符合条件的新用户如果同时进入前 66 位，最多可以获得： US$0.25 注册奖励 US$0.50 留言奖励 一张满 US$20 减 US$5 的充值优惠",
+      "author": "WorkerMatt",
+      "createdAt": "2026-08-26T05:18:25.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.85,
+        "supplier": "Modelflare",
+        "supplierCategory": "international-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "V2EX BTS back-to-school event offering Modelflare API credits and $5 recharge coupons to students, encouraging them to share their coding and development needs.",
+        "topics": [
+          "抽奖",
+          "体验卡",
+          "API",
+          "Coding Agent",
+          "优惠券",
+          "开学福利"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/345",
+      "analyzedAt": "2026-08-26T06:56:25.227Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1237333: The operation was aborted due to timeout"
+  ]
+}

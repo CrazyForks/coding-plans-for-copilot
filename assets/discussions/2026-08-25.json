@@ -1,6 +1,6 @@
 {
   "date": "2026-08-25",
-  "generatedAt": "2026-08-25T06:49:34.956Z",
+  "generatedAt": "2026-08-26T06:50:55.591Z",
   "config": {
     "sources": [
       "v2ex",
@@ -24,13 +24,14 @@
     "relevanceThreshold": 0.7
   },
   "summary": {
-    "totalPostsFetched": 55,
+    "totalPostsFetched": 57,
     "postsAfterKeywordFilter": 13,
-    "relevantPosts": 2,
-    "discussionsCreated": 2,
+    "relevantPosts": 3,
+    "discussionsCreated": 3,
     "discussionsSkipped": 0,
     "supplierMentions": {
-      "智谱": 1
+      "Modelflare": 1,
+      "Claude": 1
     }
   },
   "posts": [
@@ -96,11 +97,44 @@
       },
       "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/344",
       "analyzedAt": "2026-08-25T06:54:22.822Z"
+    },
+    {
+      "id": "v2ex-1237175",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1237175",
+      "title": "Claude 是真是👍，四天被封俩号，不想折腾了",
+      "content": "最近重构一个项目，sol5.6 老降智商，防御性编码太多，设计出来的东西也要跟他掰扯很久才能如意 第一次 想想开个 Claude 试试，AppStore 付款，爽蹬一个下午，感觉还挺耐用，一个半小时差不多跑完了五小时限额的 80%。 然后喜提 ON HOLD 。很快啊，写了解封邮件。calude 你不讲武德啊，我正儿八经搞项目呢，你给我封了是弄啥嘞。 然后丝滑小连招，appleStore 同步申请退款。 过了一天 apple 退款到账，第二天 calude 回复 remain ON HOLD 。不给我解封是吧，你等着 第二次 然后又注册了一个号 这次做足准备，查了 calude 封号原因，ip 是很大一个因素，重金上车了美区 DMIT EB VPS 。号称家宽优化 那顶的确实比第一次久一点，足足用了三天！不过我分析可能是头两天没怎么用，今天重度使用了一下，直接又 ON HOLD 了， 我淦霖娘啊 CLAUDE ！ 让 gpt 帮我写了解封申请，不过已经不抱什么希望了，就这样吧 bro 。 最后 折腾了一圈，用回了 GPT 、感觉也不是那么差嘛。 claude 不让用，咱也没必要上赶着给",
+      "author": "creafTi",
+      "createdAt": "2026-08-25T13:43:44.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "Claude",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.9,
+        "summary": "用户尝试使用 Claude 进行编码，起初体验不错，但账号很快被封禁并冻结，两次注册后最终放弃，转回使用 GPT。",
+        "topics": [
+          "定价",
+          "账号封禁",
+          "退款",
+          "使用体验",
+          "套餐限额",
+          "故障排查"
+        ],
+        "planMentioned": "Claude",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/346",
+      "analyzedAt": "2026-08-26T06:56:31.525Z"
     }
   ],
   "failures": [
     "linuxdo: https://linux.do/latest.rss → 429",
     "linuxdo: https://linux.do/latest.json → 429",
-    "linuxdo: https://linux.do/latest.json → 429"
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1237333: The operation was aborted due to timeout"
   ]
 }
