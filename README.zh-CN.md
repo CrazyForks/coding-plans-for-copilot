@@ -427,12 +427,6 @@ npm run test:desktop
 
 ---
 
-## 更新日志
-
-查看 [CHANGELOG.md](CHANGELOG.md) 了解版本更新详情。
-
----
-
 ## 问题反馈
 
 - **功能建议**：提交 [Issue](https://github.com/jqknono/coding-plans-for-copilot/issues)

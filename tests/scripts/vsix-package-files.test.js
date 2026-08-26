@@ -13,7 +13,6 @@ const expectedVsixFiles = [
   'package.nls.json',
   'package.json',
   'LICENSE',
-  'CHANGELOG.md',
   'out/extension.node.js',
   'out/extension.web.js',
   'assets/icon.png',
