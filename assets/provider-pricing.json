@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-26T08:45:29.970Z",
+  "generatedAt": "2026-08-27T12:21:22.192Z",
   "providers": [
     {
       "provider": "aliyun-ai",
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/28d431f5eb02ada2d9ddcfea4060a7a3.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/c4168434338ea869501403624dd9c120.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan"
       ],
@@ -1066,9 +1066,7 @@
             "支持模型: Qwen3-235B-A22B - 适用于代码生成、工程理解、复杂指令处理与多轮开发协作场景"
           ]
         }
-      ],
-      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
-      "staleFailure": "scnet-coding-plan: fetch failed"
+      ]
     },
     {
       "provider": "stepfun-step-plan",
@@ -1175,7 +1173,7 @@
       "provider": "tencent-cloud-ai",
       "sourceUrls": [
         "https://cloud.tencent.com/document/product/1823/130092",
-        "https://console.cloud.tencent.com/tokenhub/codingplan"
+        "https://buy.cloud.tencent.com/hunyuan"
       ],
       "plans": [
         {
@@ -1187,7 +1185,7 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "用量限制: 每 5 小时：最多约 1,200 次请求每周：最多约 9,000 次请求每订阅月：最多约 18,000 次请求"
+            "用量限制: 每 5 小时：最多约 1,200 次请求 每周：最多约 9,000 次请求 每订阅月：最多约 18,000 次请求"
           ]
         },
         {
@@ -1199,7 +1197,7 @@
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "用量限制: 每 5 小时：最多约 6,000 次请求每周：最多约 45,000 次请求每订阅月：最多约 90,000 次请求"
+            "用量限制: 每 5 小时：最多约 6,000 次请求 每周：最多约 45,000 次请求 每订阅月：最多约 90,000 次请求"
           ]
         }
       ]
@@ -1277,7 +1275,7 @@
       "provider": "volcengine-ai",
       "sourceUrls": [
         "https://www.volcengine.com/activity/codingplan",
-        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.336/index.js"
+        "https://lf6-cdn2-tos.bytegoofy.com/gftar/toutiao/fe_arch/fes2_app_1761224550685339/1.0.0.337/index.js"
       ],
       "plans": [
         {
@@ -1308,9 +1306,7 @@
             "用量: 用量达 Claude Max（5x）的 3 倍，lite 套餐用量的5倍"
           ]
         }
-      ],
-      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
-      "staleFailure": "volcengine-ai: Unable to parse Volcengine coding plan bundle"
+      ]
     },
     {
       "provider": "x-aio",
@@ -1589,8 +1585,6 @@
   ],
   "failures": [
     "kimi-ai: Task timed out after 30000ms",
-    "volcengine-ai: Unable to parse Volcengine coding plan bundle",
-    "aliyun-token-plan: Aliyun Token Plan docs do not expose plan prices",
-    "scnet-coding-plan: fetch failed"
+    "aliyun-token-plan: Aliyun Token Plan docs do not expose plan prices"
   ]
 }
