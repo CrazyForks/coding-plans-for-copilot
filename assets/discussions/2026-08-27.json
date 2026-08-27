@@ -1,0 +1,75 @@
+{
+  "date": "2026-08-27",
+  "generatedAt": "2026-08-27T17:24:17.776Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 55,
+    "postsAfterKeywordFilter": 7,
+    "relevantPosts": 1,
+    "discussionsCreated": 1,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Empero, AIHubMix, Cline, TokenHarbor, TokenRouter, HiLinkup, B.ai": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1237723",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1237723",
+      "title": "免费模型汇总",
+      "content": "汇总一下免费模型： Empero （德国实验室，两个都能打） 这是这两天 X 上提得最多的。 站点： https://free.empero.org Base URL： https://free.empero.org/v1 Key：随便填，常用 free 模型：glm-5.3-flash 、qwen3.8-flash （就是 Flash-Next ） 注意：prompt 和回复会记下来（ IP 哈希），用来训他们自己的开源模型。别丢隐私。忙的时候容易 503 ，重试就行。 AIHubMix 站点： https://aihubmix.com/models?q=free Base URL： https://aihubmix.com/v1 免费项是 Coding GLM 5.3：5 次/分钟、500 次/天、每天 100 万 token 需要注册拿 key 。页面上没看到免费 Qwen3.8-Next 。 Cline 装 Cline 登录就能用 GLM-5.3 / Flash ，不用自己配 API 。 站点： https://cline.bot 适合直接写代码，不适合你自己搭 gateway",
+      "author": "ken2025",
+      "createdAt": "2026-08-27T13:54:01.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Empero, AIHubMix, Cline, TokenHarbor, TokenRouter, HiLinkup, B.ai",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.85,
+        "summary": "该帖子总结了多种AI代码辅助模型的免费版本，包括GLM-5.3-Flash、Qwen3.8系列和DeepSeek V4等，详细介绍了各平台的免费额度、使用限制、注册要求以及限时促销活动。",
+        "topics": [
+          "免费模型",
+          "定价",
+          "套餐对比",
+          "推广",
+          "订阅"
+        ],
+        "planMentioned": "GLM-5.3-Flash",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/348",
+      "analyzedAt": "2026-08-27T17:28:35.916Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1237720: The operation was aborted due to timeout"
+  ]
+}
