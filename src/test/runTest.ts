@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 
+const ENABLE_THINKING_OPTION_KEY = '_enableThinking';
+
 type ConfigChangeListener = (event: { affectsConfiguration: (section: string) => boolean }) => void;
 
 type UpdateCall = {
@@ -4967,6 +4969,99 @@ async function runGenericProviderThinkingEffortTests(
   }
   console.log('PASS 请求级 thinkingEffort 可驱动 openai-chat 的 reasoning_effort，默认不发送 thinking');
 
+  const copilotAliasOpenAIChatPayload = await capturePayload(
+    [
+      {
+        name: 'Vendor',
+        baseUrl: 'https://example.test/v1',
+        defaultApiStyle: 'openai-chat',
+        defaultVision: false,
+        models: [
+          {
+            name: 'reasoner',
+            contextSize: 64000,
+            maxInputTokens: 32000,
+            maxOutputTokens: 16000,
+            capabilities: { tools: false, vision: false },
+          },
+        ],
+      },
+    ],
+    'Vendor/reasoner',
+    {
+      modelOptions: {
+        reasoningEffort: 'high',
+      },
+    },
+  );
+  assert.equal('thinking' in copilotAliasOpenAIChatPayload, false);
+  assert.equal(copilotAliasOpenAIChatPayload.reasoning_effort, 'high');
+  console.log('PASS openai-chat 会把 Copilot 风格 reasoningEffort 当作 thinkingEffort');
+
+  const copilotDisableThinkingOpenAIChatPayload = await capturePayload(
+    [
+      {
+        name: 'Vendor',
+        baseUrl: 'https://example.test/v1',
+        defaultApiStyle: 'openai-chat',
+        defaultVision: false,
+        models: [
+          {
+            name: 'reasoner',
+            contextSize: 64000,
+            maxInputTokens: 32000,
+            maxOutputTokens: 16000,
+            capabilities: { tools: false, vision: false },
+          },
+        ],
+      },
+    ],
+    'Vendor/reasoner',
+    {
+      modelOptions: {
+        thinkingType: 'default',
+        thinkingEffort: 'high',
+        [ENABLE_THINKING_OPTION_KEY]: false,
+      },
+    },
+  );
+  assert.deepEqual(copilotDisableThinkingOpenAIChatPayload.thinking, { type: 'disabled' });
+  assert.equal('reasoning_effort' in copilotDisableThinkingOpenAIChatPayload, false);
+  assert.equal(ENABLE_THINKING_OPTION_KEY in copilotDisableThinkingOpenAIChatPayload, false);
+  console.log('PASS openai-chat 会让 Copilot _enableThinking=false 覆盖 schema 默认 thinkingType=default');
+
+  const explicitEnabledKeepsThinkingOpenAIChatPayload = await capturePayload(
+    [
+      {
+        name: 'Vendor',
+        baseUrl: 'https://example.test/v1',
+        defaultApiStyle: 'openai-chat',
+        defaultVision: false,
+        models: [
+          {
+            name: 'reasoner',
+            contextSize: 64000,
+            maxInputTokens: 32000,
+            maxOutputTokens: 16000,
+            capabilities: { tools: false, vision: false },
+          },
+        ],
+      },
+    ],
+    'Vendor/reasoner',
+    {
+      modelOptions: {
+        thinkingType: 'enabled',
+        thinkingEffort: 'high',
+        [ENABLE_THINKING_OPTION_KEY]: false,
+      },
+    },
+  );
+  assert.deepEqual(explicitEnabledKeepsThinkingOpenAIChatPayload.thinking, { type: 'enabled' });
+  assert.equal(explicitEnabledKeepsThinkingOpenAIChatPayload.reasoning_effort, 'high');
+  assert.equal(ENABLE_THINKING_OPTION_KEY in explicitEnabledKeepsThinkingOpenAIChatPayload, false);
+  console.log('PASS openai-chat 不会用 _enableThinking=false 覆盖显式 thinkingType=enabled');
+
   const overriddenTemperaturePayload = await capturePayload(
     [
       {
@@ -5114,6 +5209,64 @@ async function runGenericProviderThinkingEffortTests(
   assert.equal('temperature' in openAIResponsesPayload, false);
   assert.equal('instructions' in openAIResponsesPayload, false);
   console.log('PASS openai-responses 会按请求级 thinkingEffort 发送 reasoning.effort，且不发送 instructions');
+
+  const copilotAliasOpenAIResponsesPayload = await capturePayload(
+    [
+      {
+        name: 'Vendor',
+        baseUrl: 'https://example.test/v1',
+        defaultApiStyle: 'openai-responses',
+        defaultVision: false,
+        models: [
+          {
+            name: 'reasoner',
+            contextSize: 64000,
+            maxInputTokens: 32000,
+            maxOutputTokens: 16000,
+            capabilities: { tools: false, vision: false },
+          },
+        ],
+      },
+    ],
+    'Vendor/reasoner',
+    {
+      modelOptions: {
+        reasoningEffort: 'max',
+      },
+    },
+  );
+  assert.deepEqual(copilotAliasOpenAIResponsesPayload.reasoning, { effort: 'max' });
+  console.log('PASS openai-responses 会把 Copilot 风格 reasoningEffort 当作 thinkingEffort');
+
+  const copilotDisableOpenAIResponsesPayload = await capturePayload(
+    [
+      {
+        name: 'Vendor',
+        baseUrl: 'https://example.test/v1',
+        defaultApiStyle: 'openai-responses',
+        defaultVision: false,
+        models: [
+          {
+            name: 'reasoner',
+            contextSize: 64000,
+            maxInputTokens: 32000,
+            maxOutputTokens: 16000,
+            capabilities: { tools: false, vision: false },
+          },
+        ],
+      },
+    ],
+    'Vendor/reasoner',
+    {
+      modelOptions: {
+        thinkingEffort: 'max',
+        [ENABLE_THINKING_OPTION_KEY]: false,
+      },
+    },
+  );
+  assert.equal('reasoning' in copilotDisableOpenAIResponsesPayload, false);
+  assert.equal(ENABLE_THINKING_OPTION_KEY in copilotDisableOpenAIResponsesPayload, false);
+  console.log('PASS openai-responses 会让 Copilot _enableThinking=false 省略 reasoning');
 
   const unsupportedOpenAIResponsesEffortPayload = await capturePayload(
     [
@@ -5297,6 +5450,99 @@ async function runGenericProviderThinkingEffortTests(
   assert.deepEqual(anthropicPayload.thinking, { type: 'adaptive' });
   assert.deepEqual(anthropicPayload.output_config, { effort: 'xhigh' });
   console.log('PASS anthropic 会分别按请求级 thinking 开关与 effort 发送 thinking 和 output_config.effort');
+
+  const copilotAliasAnthropicPayload = await capturePayload(
+    [
+      {
+        name: 'Vendor',
+        baseUrl: 'https://example.test/anthropic/v1',
+        defaultApiStyle: 'anthropic',
+        defaultVision: false,
+        models: [
+          {
+            name: 'reasoner',
+            contextSize: 64000,
+            maxInputTokens: 32000,
+            maxOutputTokens: 16000,
+            capabilities: { tools: false, vision: false },
+          },
+        ],
+      },
+    ],
+    'Vendor/reasoner',
+    {
+      modelOptions: {
+        reasoningEffort: 'high',
+        thinkingType: 'think',
+      },
+    },
+  );
+  assert.deepEqual(copilotAliasAnthropicPayload.thinking, { type: 'adaptive' });
+  assert.deepEqual(copilotAliasAnthropicPayload.output_config, { effort: 'high' });
+  console.log('PASS anthropic 会把 Copilot 风格 reasoningEffort 当作 effort');
+
+  const copilotDisableAnthropicPayload = await capturePayload(
+    [
+      {
+        name: 'Vendor',
+        baseUrl: 'https://example.test/anthropic/v1',
+        defaultApiStyle: 'anthropic',
+        defaultVision: false,
+        models: [
+          {
+            name: 'reasoner',
+            contextSize: 64000,
+            maxInputTokens: 32000,
+            maxOutputTokens: 16000,
+            capabilities: { tools: false, vision: false },
+          },
+        ],
+      },
+    ],
+    'Vendor/reasoner',
+    {
+      modelOptions: {
+        effort: 'high',
+        thinkingType: 'think',
+        [ENABLE_THINKING_OPTION_KEY]: false,
+      },
+    },
+  );
+  assert.deepEqual(copilotDisableAnthropicPayload.thinking, { type: 'disabled' });
+  assert.deepEqual(copilotDisableAnthropicPayload.output_config, { effort: 'high' });
+  assert.equal(ENABLE_THINKING_OPTION_KEY in copilotDisableAnthropicPayload, false);
+  console.log('PASS anthropic 会让 Copilot _enableThinking=false 覆盖 schema 默认 thinkingType=think');
+
+  const copilotEnableThinkingNoopAnthropicPayload = await capturePayload(
+    [
+      {
+        name: 'Vendor',
+        baseUrl: 'https://example.test/anthropic/v1',
+        defaultApiStyle: 'anthropic',
+        defaultVision: false,
+        models: [
+          {
+            name: 'reasoner',
+            contextSize: 64000,
+            maxInputTokens: 32000,
+            maxOutputTokens: 16000,
+            capabilities: { tools: false, vision: false },
+          },
+        ],
+      },
+    ],
+    'Vendor/reasoner',
+    {
+      modelOptions: {
+        effort: 'high',
+        [ENABLE_THINKING_OPTION_KEY]: true,
+      },
+    },
+  );
+  assert.equal('thinking' in copilotEnableThinkingNoopAnthropicPayload, false);
+  assert.deepEqual(copilotEnableThinkingNoopAnthropicPayload.output_config, { effort: 'high' });
+  assert.equal(ENABLE_THINKING_OPTION_KEY in copilotEnableThinkingNoopAnthropicPayload, false);
+  console.log('PASS anthropic 不会用 _enableThinking=true 强开 thinking');
 
   const anthropicThinkingDisabledPayload = await capturePayload(
     [
@@ -8903,6 +9149,149 @@ async function runLMChatProviderAdapterModelConfigurationForwardingTest(
   }
 }
 
+async function runLMChatProviderAdapterReasoningEffortAliasTests(
+  lmChatProviderAdapterModule: LMChatProviderAdapterModule,
+): Promise<void> {
+  const vscode = require('vscode') as {
+    Disposable: new (callback?: () => void) => { dispose(): void };
+    LanguageModelTextPart: new (value: string) => { value: string };
+  };
+  const { LMChatProviderAdapter } = lmChatProviderAdapterModule;
+
+  async function captureForwardedModelOptions(options: Record<string, unknown>): Promise<Record<string, unknown> | undefined> {
+    let capturedOptions: { modelOptions?: Record<string, unknown> } | undefined;
+    const targetModel = {
+      id: 'Vendor/coder',
+      name: 'coder',
+      maxTokens: 64000,
+      async sendRequest(_messages: unknown[], requestOptions?: { modelOptions?: Record<string, unknown> }): Promise<unknown> {
+        capturedOptions = requestOptions;
+        return {
+          stream: (async function* stream(): AsyncIterable<{ value: string }> {
+            yield { value: 'ok' };
+          })(),
+        };
+      },
+    };
+    const adapter = new LMChatProviderAdapter({
+      getVendor(): string {
+        return 'coding-plans';
+      },
+      getModel(modelId: string): typeof targetModel | undefined {
+        return modelId === targetModel.id ? targetModel : undefined;
+      },
+      onDidChangeModels(): { dispose(): void } {
+        return new vscode.Disposable();
+      },
+    } as never);
+
+    try {
+      await adapter.provideLanguageModelChatResponse(
+        {
+          id: targetModel.id,
+          name: targetModel.name,
+        } as never,
+        [
+          {
+            role: 1,
+            content: [new vscode.LanguageModelTextPart('hello')],
+          },
+        ] as never,
+        options as never,
+        {
+          report(): void {},
+        } as never,
+        {
+          isCancellationRequested: false,
+          onCancellationRequested(): { dispose(): void } {
+            return new vscode.Disposable();
+          },
+        } as never,
+      );
+      return capturedOptions?.modelOptions;
+    } finally {
+      adapter.dispose();
+    }
+  }
+
+  assert.deepEqual(
+    await captureForwardedModelOptions({
+      modelConfiguration: {
+        reasoningEffort: 'xhigh',
+      },
+    }),
+    {
+      reasoningEffort: 'xhigh',
+      thinkingEffort: 'xhigh',
+    },
+  );
+  console.log('PASS LMChatProviderAdapter 会把 Copilot reasoningEffort 归一成 thinkingEffort');
+
+  assert.deepEqual(
+    await captureForwardedModelOptions({
+      modelConfiguration: {
+        thinkingEffort: 'high',
+      },
+      modelOptions: {
+        reasoningEffort: 'xhigh',
+      },
+    }),
+    {
+      thinkingEffort: 'high',
+      reasoningEffort: 'xhigh',
+    },
+  );
+  console.log('PASS LMChatProviderAdapter 在已有 thinkingEffort 时不会用 reasoningEffort 覆盖');
+
+  assert.deepEqual(
+    await captureForwardedModelOptions({
+      modelOptions: {
+        [ENABLE_THINKING_OPTION_KEY]: true,
+      },
+    }),
+    {
+      [ENABLE_THINKING_OPTION_KEY]: true,
+    },
+  );
+  console.log('PASS LMChatProviderAdapter 不会用 _enableThinking=true 改写 thinkingType');
+
+  assert.deepEqual(
+    await captureForwardedModelOptions({
+      modelConfiguration: {
+        thinkingEffort: 'high',
+        thinkingType: 'default',
+      },
+      modelOptions: {
+        [ENABLE_THINKING_OPTION_KEY]: false,
+      },
+    }),
+    {
+      thinkingEffort: 'high',
+      thinkingType: 'disabled',
+      [ENABLE_THINKING_OPTION_KEY]: false,
+    },
+  );
+  console.log('PASS LMChatProviderAdapter 会让 Copilot _enableThinking=false 覆盖 schema 默认 thinkingType=default');
+
+  assert.deepEqual(
+    await captureForwardedModelOptions({
+      modelConfiguration: {
+        thinkingEffort: 'high',
+        thinkingType: 'enabled',
+      },
+      modelOptions: {
+        [ENABLE_THINKING_OPTION_KEY]: false,
+      },
+    }),
+    {
+      thinkingEffort: 'high',
+      thinkingType: 'enabled',
+      [ENABLE_THINKING_OPTION_KEY]: false,
+    },
+  );
+  console.log('PASS LMChatProviderAdapter 不会用 _enableThinking=false 覆盖显式 thinkingType=enabled');
+}
+
 async function main(): Promise<void> {
   const restore = installVscodeMock();
   try {
@@ -8960,6 +9349,7 @@ async function main(): Promise<void> {
     await runLMChatProviderAdapterCliproxyapiPickerTests(ConfigStore, lmChatProviderAdapterModule);
     await runLMChatProviderAdapterModelOptionsForwardingTests(lmChatProviderAdapterModule);
     await runLMChatProviderAdapterModelConfigurationForwardingTest(lmChatProviderAdapterModule);
+    await runLMChatProviderAdapterReasoningEffortAliasTests(lmChatProviderAdapterModule);
     await runLMChatProviderAdapterProvideTokenCountTests(contextUsageStateModule, lmChatProviderAdapterModule);
     await runLMChatProviderAdapterEmptyResponseRetryTests(lmChatProviderAdapterModule);
   } finally {

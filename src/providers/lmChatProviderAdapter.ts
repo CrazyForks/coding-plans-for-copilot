@@ -6,7 +6,9 @@ import { isEmptyModelResponseError } from './genericProvider';
 import {
   ANTHROPIC_EFFORT_VALUES,
   CHAT_THINKING_EFFORT_VALUES,
+  ENABLE_THINKING_MODEL_OPTION_KEY,
   EFFORT_MODEL_OPTION_KEY,
+  REASONING_EFFORT_MODEL_OPTION_KEY,
   REQUEST_SOURCE_COMMIT_MESSAGE,
   REQUEST_SOURCE_MODEL_OPTION_KEY,
   RESPONSE_TRACE_ID_FIELD,
@@ -380,6 +382,7 @@ export class LMChatProviderAdapter implements vscode.LanguageModelChatProvider, 
 
     let traceId = this.generateTraceId('adapter');
     const requestMessageSummaries = messages.map((message) => this.summarizeRequestMessage(message));
+    const forwardedOptions = this.toForwardedRequestOptions(options);
     logger.info('Adapter received language model chat request', {
       traceId,
       provider: vendor,
@@ -388,15 +391,16 @@ export class LMChatProviderAdapter implements vscode.LanguageModelChatProvider, 
       messageCount: messages.length,
       toolCount: options?.tools?.length ?? 0,
       toolMode: options?.toolMode,
+      thinking: this.summarizeForwardedThinkingOptions(forwardedOptions.modelOptions),
     });
     logger.debug('Adapter request message details', {
       traceId,
       provider: vendor,
       modelId: model.id,
       messages: requestMessageSummaries,
+      modelOptions: forwardedOptions.modelOptions,
+      thinking: this.summarizeForwardedThinkingOptions(forwardedOptions.modelOptions),
     });
-
-    const forwardedOptions = this.toForwardedRequestOptions(options);
 
     try {
       for (let attempt = 0; ; attempt += 1) {
@@ -806,16 +810,87 @@ export class LMChatProviderAdapter implements vscode.LanguageModelChatProvider, 
       return options as unknown as vscode.LanguageModelChatRequestOptions;
     }
 
-    const forwardedModelOptions = {
+    const forwardedModelOptions = this.normalizeForwardedModelOptions({
       ...(modelConfiguration ?? {}),
       ...(modelOptions ?? {}),
-    };
-    delete forwardedModelOptions[REQUEST_SOURCE_MODEL_OPTION_KEY];
+    });
 
     return {
       ...options,
       modelOptions: Object.keys(forwardedModelOptions).length > 0 ? forwardedModelOptions : undefined,
     } as unknown as vscode.LanguageModelChatRequestOptions;
+  }
+
+  private normalizeForwardedModelOptions(modelOptions: Record<string, unknown>): Record<string, unknown> {
+    const forwardedModelOptions = { ...modelOptions };
+    delete forwardedModelOptions[REQUEST_SOURCE_MODEL_OPTION_KEY];
+
+    const thinkingEffort = this.readNormalizedOptionString(forwardedModelOptions, THINKING_EFFORT_MODEL_OPTION_KEY);
+    const reasoningEffort = this.readNormalizedOptionString(forwardedModelOptions, REASONING_EFFORT_MODEL_OPTION_KEY);
+    if (!thinkingEffort && reasoningEffort) {
+      forwardedModelOptions[THINKING_EFFORT_MODEL_OPTION_KEY] = reasoningEffort;
+    }
+
+    const thinkingType = this.readNormalizedOptionString(forwardedModelOptions, THINKING_TYPE_MODEL_OPTION_KEY);
+    const enableThinking = this.readBooleanOption(forwardedModelOptions, ENABLE_THINKING_MODEL_OPTION_KEY);
+    if (enableThinking === false && !this.isExplicitThinkingType(thinkingType)) {
+      forwardedModelOptions[THINKING_TYPE_MODEL_OPTION_KEY] = 'disabled';
+    }
+
+    return forwardedModelOptions;
+  }
+
+  private summarizeForwardedThinkingOptions(modelOptions: unknown): Record<string, unknown> {
+    const record = this.readObjectRecord(modelOptions);
+    if (!record) {
+      return {};
+    }
+
+    return {
+      thinkingEffort: record[THINKING_EFFORT_MODEL_OPTION_KEY],
+      reasoningEffort: record[REASONING_EFFORT_MODEL_OPTION_KEY],
+      effort: record[EFFORT_MODEL_OPTION_KEY],
+      thinkingType: record[THINKING_TYPE_MODEL_OPTION_KEY],
+      enableThinking: record[ENABLE_THINKING_MODEL_OPTION_KEY],
+    };
+  }
+
+  private isExplicitThinkingType(thinkingType: string | undefined): boolean {
+    if (!thinkingType) {
+      return false;
+    }
+    const normalized = thinkingType.trim().toLowerCase();
+    return (
+      normalized === 'enabled' ||
+      normalized === 'disabled' ||
+      normalized === 'non-think' ||
+      normalized === 'true' ||
+      normalized === 'false'
+    );
+  }
+
+  private readNormalizedOptionString(modelOptions: Record<string, unknown>, key: string): string | undefined {
+    const raw = modelOptions[key];
+    return typeof raw === 'string' && raw.trim().length > 0 ? raw.trim() : undefined;
+  }
+
+  private readBooleanOption(modelOptions: Record<string, unknown>, key: string): boolean | undefined {
+    const raw = modelOptions[key];
+    if (typeof raw === 'boolean') {
+      return raw;
+    }
+    if (typeof raw !== 'string') {
+      return undefined;
+    }
+
+    const normalized = raw.trim().toLowerCase();
+    if (normalized === 'true') {
+      return true;
+    }
+    if (normalized === 'false') {
+      return false;
+    }
+    return undefined;
   }
 
   private readObjectRecord(value: unknown): Record<string, unknown> | undefined {

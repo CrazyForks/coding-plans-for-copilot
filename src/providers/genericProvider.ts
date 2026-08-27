@@ -18,7 +18,9 @@ import {
   ChatThinkingEffort,
   DEFAULT_MODEL_TOOLS,
   DEFAULT_REQUEST_MAX_TOKENS,
+  ENABLE_THINKING_MODEL_OPTION_KEY,
   EFFORT_MODEL_OPTION_KEY,
+  REASONING_EFFORT_MODEL_OPTION_KEY,
   RESPONSE_TRACE_ID_FIELD,
   RESPONSES_THINKING_EFFORT_VALUES,
   ResponsesThinkingEffort,
@@ -106,8 +108,10 @@ interface RequestTraceContext {
 
 interface RequestModelOptions {
   [THINKING_EFFORT_MODEL_OPTION_KEY]?: unknown;
+  [REASONING_EFFORT_MODEL_OPTION_KEY]?: unknown;
   [EFFORT_MODEL_OPTION_KEY]?: unknown;
   [THINKING_TYPE_MODEL_OPTION_KEY]?: unknown;
+  [ENABLE_THINKING_MODEL_OPTION_KEY]?: unknown;
 }
 
 interface ResolvedThinkingOptions<Effort extends string> {
@@ -704,6 +708,10 @@ export class GenericAIProvider extends BaseAIProvider {
       return undefined;
     }
 
+    if (this.isResponsesThinkingDisabled(request.options?.modelOptions)) {
+      return undefined;
+    }
+
     const effort = this.readOpenAIResponsesThinkingEffortFromModelOptions(request.options?.modelOptions);
     if (!effort || !this.isReasoningEffortSupported(request, effort)) {
       return undefined;
@@ -747,7 +755,10 @@ export class GenericAIProvider extends BaseAIProvider {
   }
 
   private readChatThinkingEffortFromModelOptions(modelOptions: unknown): ChatThinkingEffort | undefined {
-    const normalized = this.readNormalizedModelOptionString(modelOptions, THINKING_EFFORT_MODEL_OPTION_KEY);
+    const normalized = this.readFirstNormalizedModelOptionString(modelOptions, [
+      THINKING_EFFORT_MODEL_OPTION_KEY,
+      REASONING_EFFORT_MODEL_OPTION_KEY,
+    ]);
     if (!normalized) {
       return undefined;
     }
@@ -762,7 +773,10 @@ export class GenericAIProvider extends BaseAIProvider {
   private readOpenAIResponsesThinkingEffortFromModelOptions(
     modelOptions: unknown,
   ): ResponsesThinkingEffort | undefined {
-    const normalized = this.readNormalizedModelOptionString(modelOptions, THINKING_EFFORT_MODEL_OPTION_KEY);
+    const normalized = this.readFirstNormalizedModelOptionString(modelOptions, [
+      THINKING_EFFORT_MODEL_OPTION_KEY,
+      REASONING_EFFORT_MODEL_OPTION_KEY,
+    ]);
     if (!normalized) {
       return undefined;
     }
@@ -772,9 +786,11 @@ export class GenericAIProvider extends BaseAIProvider {
   }
 
   private readAnthropicEffortFromModelOptions(modelOptions: unknown): AnthropicEffort | undefined {
-    const normalized =
-      this.readNormalizedModelOptionString(modelOptions, EFFORT_MODEL_OPTION_KEY) ??
-      this.readNormalizedModelOptionString(modelOptions, THINKING_EFFORT_MODEL_OPTION_KEY);
+    const normalized = this.readFirstNormalizedModelOptionString(modelOptions, [
+      EFFORT_MODEL_OPTION_KEY,
+      THINKING_EFFORT_MODEL_OPTION_KEY,
+      REASONING_EFFORT_MODEL_OPTION_KEY,
+    ]);
     if (!normalized) {
       return undefined;
     }
@@ -795,18 +811,43 @@ export class GenericAIProvider extends BaseAIProvider {
     if (typeof raw === 'boolean') {
       return raw;
     }
-    if (typeof raw !== 'string') {
-      return undefined;
+    if (typeof raw === 'string') {
+      const normalized = raw.trim().toLowerCase();
+      if (normalized === 'true' || normalized === 'enabled' || normalized === 'adaptive') {
+        return true;
+      }
+      if (normalized === 'false' || normalized === 'disabled' || normalized === 'none' || normalized === 'non-think') {
+        return false;
+      }
+      if (normalized === 'think') {
+        return this.readBooleanModelOption(modelOptions, ENABLE_THINKING_MODEL_OPTION_KEY) === false ? false : true;
+      }
     }
 
-    const normalized = raw.trim().toLowerCase();
-    if (normalized === 'true' || normalized === 'enabled' || normalized === 'adaptive' || normalized === 'think') {
-      return true;
-    }
-    if (normalized === 'false' || normalized === 'disabled' || normalized === 'none' || normalized === 'non-think') {
+    return this.readBooleanModelOption(modelOptions, ENABLE_THINKING_MODEL_OPTION_KEY) === false ? false : undefined;
+  }
+
+  private isResponsesThinkingDisabled(modelOptions: unknown): boolean {
+    if (!modelOptions || typeof modelOptions !== 'object' || Array.isArray(modelOptions)) {
       return false;
     }
-    return undefined;
+
+    const raw = (modelOptions as RequestModelOptions)[THINKING_TYPE_MODEL_OPTION_KEY];
+    if (typeof raw === 'string') {
+      const normalized = raw.trim().toLowerCase();
+      if (
+        normalized === 'disabled' ||
+        normalized === 'false' ||
+        normalized === 'none' ||
+        normalized === 'non-think'
+      ) {
+        return true;
+      }
+    } else if (raw === false) {
+      return true;
+    }
+
+    return this.readBooleanModelOption(modelOptions, ENABLE_THINKING_MODEL_OPTION_KEY) === false;
   }
 
   private readChatThinkingFromModelOptions(modelOptions: unknown): 'enabled' | 'disabled' | 'default' | undefined {
@@ -815,19 +856,34 @@ export class GenericAIProvider extends BaseAIProvider {
     }
 
     const raw = (modelOptions as RequestModelOptions)[THINKING_TYPE_MODEL_OPTION_KEY];
-    if (typeof raw !== 'string') {
-      return undefined;
+    if (typeof raw === 'string') {
+      const normalized = raw.trim().toLowerCase();
+      if (normalized === 'enabled') {
+        return 'enabled';
+      }
+      if (normalized === 'disabled') {
+        return 'disabled';
+      }
+      if (normalized === 'default') {
+        return this.readBooleanModelOption(modelOptions, ENABLE_THINKING_MODEL_OPTION_KEY) === false
+          ? 'disabled'
+          : 'default';
+      }
     }
 
-    const normalized = raw.trim().toLowerCase();
-    if (normalized === 'enabled') {
-      return 'enabled';
-    }
-    if (normalized === 'disabled') {
-      return 'disabled';
-    }
-    if (normalized === 'default') {
-      return 'default';
+    const enableThinking = this.readBooleanModelOption(modelOptions, ENABLE_THINKING_MODEL_OPTION_KEY);
+    return enableThinking === false ? 'disabled' : undefined;
+  }
+
+  private readFirstNormalizedModelOptionString(
+    modelOptions: unknown,
+    keys: Array<keyof RequestModelOptions>,
+  ): string | undefined {
+    for (const key of keys) {
+      const normalized = this.readNormalizedModelOptionString(modelOptions, key);
+      if (normalized) {
+        return normalized;
+      }
     }
     return undefined;
   }
@@ -839,6 +895,29 @@ export class GenericAIProvider extends BaseAIProvider {
 
     const raw = (modelOptions as RequestModelOptions)[key];
     return typeof raw === 'string' && raw.trim().length > 0 ? raw.trim().toLowerCase() : undefined;
+  }
+
+  private readBooleanModelOption(modelOptions: unknown, key: keyof RequestModelOptions): boolean | undefined {
+    if (!modelOptions || typeof modelOptions !== 'object' || Array.isArray(modelOptions)) {
+      return undefined;
+    }
+
+    const raw = (modelOptions as RequestModelOptions)[key];
+    if (typeof raw === 'boolean') {
+      return raw;
+    }
+    if (typeof raw !== 'string') {
+      return undefined;
+    }
+
+    const normalized = raw.trim().toLowerCase();
+    if (normalized === 'true') {
+      return true;
+    }
+    if (normalized === 'false') {
+      return false;
+    }
+    return undefined;
   }
 
   protected createModel(modelInfo: AIModelConfig): BaseLanguageModel {
