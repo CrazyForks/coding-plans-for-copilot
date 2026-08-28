@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-08-27T18:57:52.862Z",
-  "generatedAtBeijing": "2026年8月28日 02:57:52",
-  "sourceGeneratedAt": "2026-08-27T18:56:35.829Z",
-  "sourceGeneratedAtBeijing": "2026年8月28日 02:56:35",
-  "sourceMetricsGeneratedAt": "2026-08-27T18:56:46.769Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月28日 02:56:46",
+  "generatedAt": "2026-08-28T19:58:45.585Z",
+  "generatedAtBeijing": "2026年8月29日 03:58:45",
+  "sourceGeneratedAt": "2026-08-28T19:57:30.287Z",
+  "sourceGeneratedAtBeijing": "2026年8月29日 03:57:30",
+  "sourceMetricsGeneratedAt": "2026-08-28T19:57:43.800Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月29日 03:57:43",
   "summary": {
-    "openrouterProviderCount": 103,
-    "metricsProviderCount": 49,
-    "resolvedMetricsProviderCount": 49,
+    "openrouterProviderCount": 104,
+    "metricsProviderCount": 46,
+    "resolvedMetricsProviderCount": 46,
     "unresolvedMetricsProviderCount": 0,
     "structuredProviderCount": 8,
     "heuristicProviderCount": 7,
     "providersWithPlans": 15,
-    "pendingCount": 34,
+    "pendingCount": 31,
     "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
@@ -60,7 +60,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/c4168434338ea869501403624dd9c120.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/389fb00226dc05ba237dbb64ad22370a.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -997,16 +997,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://www.atlascloud.ai",
       "pricingPageUrl": "https://www.atlascloud.ai/pricing/models",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.068 / $0.061 / $0.05）",
-      "blocked": false
-    },
-    {
-      "slug": "azure",
-      "openrouterName": "Azure",
-      "providerId": null,
-      "officialWebsiteUrl": "https://www.microsoft.com",
-      "pricingPageUrl": "https://learn.microsoft.com/en-us/windows-hardware/drivers/",
-      "reason": "官网价格页探测失败：https://www.microsoft.com/pricing: HTTP 404",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.02 / $0.05 / $0.068）",
       "blocked": false
     },
     {
@@ -1015,7 +1006,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://www.baseten.co",
       "pricingPageUrl": "https://www.baseten.co/pricing/",
-      "reason": "检测到套餐页线索，但未解析到月/年订阅价格（样例: $0 per mo / $0.15 / $0.03）",
+      "reason": "检测到套餐页线索，但未解析到月/年订阅价格（样例: $0 per mo / $1.40 / $0.14）",
       "blocked": false
     },
     {
@@ -1118,15 +1109,6 @@
       "blocked": false
     },
     {
-      "slug": "ionstream",
-      "openrouterName": "Ionstream",
-      "providerId": null,
-      "officialWebsiteUrl": "https://ionstream.ai",
-      "pricingPageUrl": "https://ionstream.ai",
-      "reason": "官网价格页探测失败：https://ionstream.ai/pricing: HTTP 404",
-      "blocked": false
-    },
-    {
       "slug": "makora",
       "openrouterName": "Makora",
       "providerId": null,
@@ -1170,15 +1152,6 @@
       "pricingPageUrl": "https://www.morphllm.com",
       "reason": "官网价格页探测失败：https://www.morphllm.com/pricing: HTTP 429",
       "blocked": true
-    },
-    {
-      "slug": "nebius",
-      "openrouterName": "Nebius",
-      "providerId": null,
-      "officialWebsiteUrl": "https://docs.nebius.com",
-      "pricingPageUrl": "https://docs.nebius.com",
-      "reason": "官网价格页探测失败：https://docs.nebius.com/pricing: HTTP 404",
-      "blocked": false
     },
     {
       "slug": "nextbit",
