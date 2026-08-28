@@ -1,0 +1,140 @@
+{
+  "date": "2026-08-28",
+  "generatedAt": "2026-08-28T18:17:53.751Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 56,
+    "postsAfterKeywordFilter": 14,
+    "relevantPosts": 3,
+    "discussionsCreated": 3,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "OpenAI": 1,
+      "Kimi, Ollama": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1237982",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1237982",
+      "title": "折腾了一圈 ChatGPT Plus 国内充值，聊聊我最后留下的几种方案",
+      "content": "做开发十几年了，这两年基本每天都会用到 ChatGPT 。 一开始主要拿来查文档、补代码，后来 Codex 用得越来越多，Plus 基本也就成了固定开销。ChatGPT 本身没什么好说的，真正麻烦的反而一直是付款。 国内用户应该都懂，20 美元本身不算什么，麻烦的是怎么把这 20 美元稳定付出去。 这两年我自己前前后后试过海外卡、App Store 礼品卡、虚拟卡，也研究过不少所谓的 ChatGPT 代充。折腾到现在，反而更看重稳定和省事。 先说结论： 能自己走官方支付，肯定优先自己付。没有合适支付方式，再考虑礼品卡或者代充。 海外银行卡：最省脑子，但前提是你得有 我最早一直是银行卡直接订阅。 如果手里本身有能正常做海外线上支付的 Visa 或 Mastercard ，这个方案其实没什么可讨论的，直接订阅就行。 问题是很多国内开发者卡在这里。 有的卡压根过不了，有的是第一次能付，续费的时候被拒，还有账单地址、发卡地区之类的问题。 所以我现在不会为了订一个 ChatGPT ，专门建议别人去折腾一张海外银行卡。 你已经有，那最好。 没有，就没必要为了这一个订阅给自己增加一堆维护成本。 Ap",
+      "author": "wenyu8888",
+      "createdAt": "2026-08-28T15:16:16.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 1,
+        "supplier": "OpenAI",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "作者分享了国内用户充值 ChatGPT Plus 的几种方案，包括海外银行卡、App Store 礼品卡、虚拟卡和代充，并强调了稳定性和账号隐私的重要性。",
+        "topics": [
+          "付款方式",
+          "稳定性",
+          "隐私",
+          "代充",
+          "ChatGPT Plus"
+        ],
+        "planMentioned": "ChatGPT Plus",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/349",
+      "analyzedAt": "2026-08-28T18:24:32.812Z"
+    },
+    {
+      "id": "v2ex-1237968",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1237968",
+      "title": "毒瘾犯了, 又续费了 200 美金 claude",
+      "content": "工厂老板毒瘾犯了, 今天又续费了 200 美刀套餐, 我正好也用一下, 挺爽. 参考 https://v2ex.com/t/1232590?p=1#reply55 好消息是他的程序快完成了, 和他想要的基本一样, 他感觉到太满意了, 钱花的真值.",
+      "author": "wises",
+      "createdAt": "2026-08-28T13:20:40.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": null,
+        "supplierCategory": null,
+        "sentiment": "positive",
+        "sentimentConfidence": 0.92,
+        "summary": "工厂老板续费了200美元的Claude订阅，表示非常满意，程序完成了工作。",
+        "topics": [
+          "订阅",
+          "续费",
+          "价格",
+          "体验",
+          "满意"
+        ],
+        "planMentioned": "Claude订阅 (200美元)",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/350",
+      "analyzedAt": "2026-08-28T18:24:37.279Z"
+    },
+    {
+      "id": "v2ex-1237940",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1237940",
+      "title": "Kimi ¥199 vs Ollama Pro： K3 额度实测",
+      "content": "控制变量：相同 CLIProxyAPI 、相同请求、 high 推理、单并发、无缓存、无重试、关闭超额付费。 指标 Kimi K3 1M Kimi K3-256K Ollama Pro K3 月费 ¥199 ¥199 $20 数据来源 实测 半费率推算 实测 5 小时工作单元 24 约 48 19 5 小时成功请求 72 约 144 57 5 小时输入量 218 万 tokens 约 436 万 173 万 tokens 5 小时池占周额度 20% 预计 20% 约 18% 每周 5 小时池 5 个 5 个 约 5.56 个 每周工作单元 120 约 240 约 105.6 平均每月工作单元 约 522 约 1,044 约 459 平均每月等效输入 约 4,750 万 约 9,500 万 约 4,190 万 tokens 平均延迟 12.85 秒 未实测 3.54 秒 相对月容量 100% 约 200% 约 88% 结论： 普通 K3：Kimi 月总量约比 Ollama 多 13.7% k3-256k ：理论月总量约为 Ollama 的 2.27 倍 Ollama 平均约快 3.6 倍",
+      "author": "dongzhimin",
+      "createdAt": "2026-08-28T10:51:02.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Kimi, Ollama",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.8,
+        "summary": "这篇文章对比了Kimi ¥199的K3额度与Ollama Pro $20的性能，实测了5小时工作单元、请求量、token量等指标，结论是Kimi在容量上占优，Ollama在速度上占优，建议根据项目规模选择。",
+        "topics": [
+          "定价",
+          "套餐对比",
+          "实测",
+          "K3额度",
+          "容量",
+          "速度",
+          "Kimi",
+          "Ollama"
+        ],
+        "planMentioned": "Kimi ¥199",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/351",
+      "analyzedAt": "2026-08-28T18:24:44.058Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}
