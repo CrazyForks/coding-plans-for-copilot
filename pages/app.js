@@ -2064,7 +2064,7 @@ async function loadAllPlanData() {
     }
 
     appState.mergedProviders = mergeAllProviderData(pricingData, openrouterData);
-    appState.pricingGeneratedAt = pricingData.generatedAt || null;
+    appState.pricingGeneratedAt = pricingData.updatedAt || pricingData.generatedAt || null;
     appState.openrouterPlansGeneratedAt =
       openrouterData.generatedAtBeijing || formatDateInBeijing(openrouterData.generatedAt);
     appState.openrouterPendingData = Array.isArray(openrouterData.pending) ? openrouterData.pending : [];

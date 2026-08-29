@@ -2304,11 +2304,12 @@ async function main() {
   pending.sort((left, right) => left.openrouterName.localeCompare(right.openrouterName));
 
   const generatedAt = new Date().toISOString();
+  const pricingUpdatedAt = providerPricingData?.updatedAt || providerPricingData?.generatedAt || null;
   const output = {
     generatedAt,
     generatedAtBeijing: formatBeijingTime(generatedAt),
-    sourceGeneratedAt: providerPricingData?.generatedAt || null,
-    sourceGeneratedAtBeijing: formatBeijingTime(providerPricingData?.generatedAt || ''),
+    sourceGeneratedAt: pricingUpdatedAt,
+    sourceGeneratedAtBeijing: formatBeijingTime(pricingUpdatedAt || ''),
     sourceMetricsGeneratedAt: metricsData?.generatedAt || null,
     sourceMetricsGeneratedAtBeijing: formatBeijingTime(metricsData?.generatedAt || ''),
     summary: {

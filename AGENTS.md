@@ -40,7 +40,7 @@
 ## Script and Page Contracts
 
 - `pages/app.js` depends on the following field structures; keep them compatible when modifying script output:
-  - `provider-pricing.json`: `providers[].provider/plans/sourceUrls`, top-level `generatedAt/failures`
+  - `provider-pricing.json`: `providers[].provider/plans/sourceUrls`, top-level `updatedAt/failures`
   - `openrouter-provider-metrics.json`: `generatedAt(Beijing)`, `captureWindow`, `config`, `models[]`, `failures`
   - `openrouter-provider-plans.json`: `providers[]`, `pending[]`, `summary`, `generatedAt(Beijing)`
 - `scripts/serve-pricing-page.js` maps the following routes to `assets/` files:

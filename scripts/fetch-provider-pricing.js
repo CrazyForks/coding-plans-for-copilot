@@ -662,15 +662,40 @@ async function loadExistingPricingSnapshot(outputFile = OUTPUT_FILE) {
     const raw = await fs.readFile(outputFile, 'utf8');
     const parsed = JSON.parse(raw);
     return {
+      updatedAt:
+        typeof parsed?.updatedAt === 'string'
+          ? parsed.updatedAt
+          : typeof parsed?.generatedAt === 'string'
+            ? parsed.generatedAt
+            : null,
       providers: Array.isArray(parsed?.providers) ? parsed.providers : [],
       failures: Array.isArray(parsed?.failures) ? parsed.failures : [],
     };
   } catch {
     return {
+      updatedAt: null,
       providers: [],
       failures: [],
     };
   }
+}
+
+function determinePricingUpdatedAt(existingSnapshot, newProviders, newFailures, nowIso = new Date().toISOString()) {
+  if (!existingSnapshot || !existingSnapshot.updatedAt) {
+    return nowIso;
+  }
+  const prevPayload = JSON.stringify({
+    providers: existingSnapshot.providers || [],
+    failures: existingSnapshot.failures || [],
+  });
+  const nextPayload = JSON.stringify({
+    providers: newProviders || [],
+    failures: newFailures || [],
+  });
+  if (prevPayload === nextPayload) {
+    return existingSnapshot.updatedAt;
+  }
+  return nowIso;
 }
 
 function extractProviderIdFromFailure(failureMessage) {
@@ -4427,8 +4452,10 @@ async function main() {
   const normalizedProviders = normalizeProviderCurrencySymbols(providersWithFallback);
   normalizedProviders.sort((left, right) => String(left?.provider || '').localeCompare(String(right?.provider || '')));
 
+  const updatedAt = determinePricingUpdatedAt(existingSnapshot, normalizedProviders, failures);
+
   const output = {
-    generatedAt: new Date().toISOString(),
+    updatedAt,
     providers: normalizedProviders,
     failures,
   };
@@ -4468,8 +4495,10 @@ module.exports = {
   STALE_PROVIDER_NOTICE,
   buildStaleProviderFallback,
   buildXAioPlansFromBundle,
+  determinePricingUpdatedAt,
   extractProviderIdFromFailure,
   isRetryableFetchError,
+  loadExistingPricingSnapshot,
   buildKimiCodePlansFromGoodsPayload,
   parseChutesPlansFromText,
   parseAliyunServiceDetailsFromDocsHtml,

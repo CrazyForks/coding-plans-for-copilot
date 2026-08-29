@@ -136,7 +136,7 @@ test('抓取失败的 provider 不渲染套餐卡片', async ({ page }) => {
     await route.fulfill({
       contentType: 'application/json',
       body: JSON.stringify({
-        generatedAt: '2026-05-02T03:06:32.976Z',
+        updatedAt: '2026-05-02T03:06:32.976Z',
         providers: [
           {
             provider: 'aliyun-ai',
@@ -192,7 +192,7 @@ test('Moonshot Kimi 海内外套餐按人民币和美元分开展示', async ({ 
     await route.fulfill({
       contentType: 'application/json',
       body: JSON.stringify({
-        generatedAt: '2026-05-02T03:06:32.976Z',
+        updatedAt: '2026-05-02T03:06:32.976Z',
         providers: [
           {
             provider: 'kimi-ai',
@@ -409,7 +409,7 @@ test('官网启发式价格旧数据缺少 serviceDetails 时页面兜底展示�
     await route.fulfill({
       contentType: 'application/json',
       body: JSON.stringify({
-        generatedAt: '2026-06-26T00:00:00.000Z',
+        updatedAt: '2026-06-26T00:00:00.000Z',
         providers: [],
         failures: [],
       }),

@@ -21,7 +21,9 @@ const {
   parseXfyunCodingPlansFromHtml,
   parseBaiduCodingPlansFromHtml,
   buildXAioPlansFromBundle,
+  determinePricingUpdatedAt,
   isRetryableFetchError,
+  loadExistingPricingSnapshot,
   navigateTencentCodingPlanPage,
   restoreFailedProvidersFromSnapshot,
 } = require('../../scripts/fetch-provider-pricing.js');
@@ -63,6 +65,94 @@ test('restoreFailedProvidersFromSnapshot keeps previous plans and marks them sta
 test('restoreFailedProvidersFromSnapshot skips providers without snapshot data', () => {
   const restored = restoreFailedProvidersFromSnapshot([], ['jdcloud-ai: parse failed'], []);
   assert.deepEqual(restored, []);
+});
+
+test('determinePricingUpdatedAt keeps existing updatedAt when providers and failures are unchanged', () => {
+  const previousSnapshot = {
+    updatedAt: '2026-08-28T06:58:03.352Z',
+    providers: [
+      {
+        provider: 'kimi-ai',
+        sourceUrls: ['https://kimi.com'],
+        plans: [{ name: 'Andante', currentPriceText: '¥49/月' }],
+      },
+    ],
+    failures: [],
+  };
+
+  const unchangedProviders = [
+    {
+      provider: 'kimi-ai',
+      sourceUrls: ['https://kimi.com'],
+      plans: [{ name: 'Andante', currentPriceText: '¥49/月' }],
+    },
+  ];
+
+  const nowIso = '2026-08-30T10:00:00.000Z';
+  const resolvedUpdatedAt = determinePricingUpdatedAt(
+    previousSnapshot,
+    unchangedProviders,
+    [],
+    nowIso,
+  );
+
+  assert.equal(resolvedUpdatedAt, '2026-08-28T06:58:03.352Z');
+});
+
+test('determinePricingUpdatedAt updates to current timestamp when providers change', () => {
+  const previousSnapshot = {
+    updatedAt: '2026-08-28T06:58:03.352Z',
+    providers: [
+      {
+        provider: 'kimi-ai',
+        sourceUrls: ['https://kimi.com'],
+        plans: [{ name: 'Andante', currentPriceText: '¥49/月' }],
+      },
+    ],
+    failures: [],
+  };
+
+  const changedProviders = [
+    {
+      provider: 'kimi-ai',
+      sourceUrls: ['https://kimi.com'],
+      plans: [{ name: 'Andante', currentPriceText: '¥59/月' }],
+    },
+  ];
+
+  const nowIso = '2026-08-30T10:00:00.000Z';
+  const resolvedUpdatedAt = determinePricingUpdatedAt(
+    previousSnapshot,
+    changedProviders,
+    [],
+    nowIso,
+  );
+
+  assert.equal(resolvedUpdatedAt, nowIso);
+});
+
+test('determinePricingUpdatedAt updates to current timestamp when failures change', () => {
+  const previousSnapshot = {
+    updatedAt: '2026-08-28T06:58:03.352Z',
+    providers: [],
+    failures: [],
+  };
+
+  const nowIso = '2026-08-30T10:00:00.000Z';
+  const resolvedUpdatedAt = determinePricingUpdatedAt(
+    previousSnapshot,
+    [],
+    ['aliyun-ai: fetch failed'],
+    nowIso,
+  );
+
+  assert.equal(resolvedUpdatedAt, nowIso);
+});
+
+test('determinePricingUpdatedAt returns nowIso when no previous snapshot exists', () => {
+  const nowIso = '2026-08-30T10:00:00.000Z';
+  assert.equal(determinePricingUpdatedAt(null, [], [], nowIso), nowIso);
+  assert.equal(determinePricingUpdatedAt({ updatedAt: null }, [], [], nowIso), nowIso);
 });
 
 test('isRetryableFetchError identifies transient network failures', () => {
