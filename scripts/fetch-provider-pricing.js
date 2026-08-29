@@ -1149,26 +1149,12 @@ const KIMI_DOMESTIC_HELP_HEADERS = {
 };
 
 async function fetchKimiDomesticMembershipHtmlWithPlaywright() {
-  const chromium = await loadPlaywrightChromium('Kimi domestic membership parser');
-  const browser = await chromium.launch(getPlaywrightLaunchOptions());
-  try {
-    const page = await browser.newPage();
-    await blockNonEssentialPlaywrightRequests(page);
-    await page.goto(KIMI_DOMESTIC_MEMBERSHIP_URL, {
-      waitUntil: 'domcontentloaded',
-      timeout: 20_000,
-    });
-    await page.waitForFunction(
-      () => {
-        const text = String(document.body?.innerText || '');
-        return /订阅方式与价格/.test(text) && /Kimi Code/.test(text) && /人民币|¥/.test(text);
-      },
-      { timeout: 20_000 },
-    );
-    return page.evaluate(() => String(document.documentElement?.outerHTML || ''));
-  } finally {
-    await browser.close();
-  }
+  const { html } = await fetchRenderedPageHtml(KIMI_DOMESTIC_MEMBERSHIP_URL, 'Kimi domestic membership parser', {
+    waitForText: /订阅方式与价格/,
+    timeoutMs: 12_000,
+    waitForTimeoutMs: 8_000,
+  });
+  return html;
 }
 
 async function resolveKimiDomesticMembershipPlans() {
@@ -1176,6 +1162,7 @@ async function resolveKimiDomesticMembershipPlans() {
   try {
     const domesticHelpHtml = await fetchText(KIMI_DOMESTIC_MEMBERSHIP_URL, {
       headers: KIMI_DOMESTIC_HELP_HEADERS,
+      timeoutMs: 8_000,
     });
     const domesticHelpText = htmlToVisibleText(domesticHelpHtml);
     if (kimiDomesticMembershipTextHasPricingMarkers(domesticHelpText)) {
@@ -1205,8 +1192,8 @@ async function resolveKimiDomesticMembershipPlans() {
 }
 
 async function parseKimiCodingPlans() {
-  const [pageHtml, payload] = await Promise.all([
-    fetchText(KIMI_OVERSEAS_CODE_URL),
+  const [pageHtmlResult, payloadResult, domesticResult] = await Promise.allSettled([
+    fetchText(KIMI_OVERSEAS_CODE_URL, { timeoutMs: 8_000 }),
     fetchJson(KIMI_GOODS_API_URL, {
       method: 'POST',
       headers: {
@@ -1217,37 +1204,61 @@ async function parseKimiCodingPlans() {
         referer: KIMI_OVERSEAS_CODE_URL,
       },
       body: '{}',
+      timeoutMs: 8_000,
     }),
+    resolveKimiDomesticMembershipPlans(),
   ]);
 
-  const { plans: domesticPlans } = await resolveKimiDomesticMembershipPlans();
+  const domesticPlans = domesticResult.status === 'fulfilled' ? domesticResult.value?.plans || [] : [];
+  const payload = payloadResult.status === 'fulfilled' ? payloadResult.value : null;
+  const pageHtml = pageHtmlResult.status === 'fulfilled' ? pageHtmlResult.value : null;
 
-  const commonScriptRaw =
-    pageHtml.match(/\/\/statics\.moonshot\.cn\/kimi-web-seo\/assets\/common-[^"'\s]+\.js/i)?.[0] || null;
-  const commonScriptUrl = commonScriptRaw ? absoluteUrl(commonScriptRaw, KIMI_OVERSEAS_CODE_URL) : null;
+  let commonScriptUrl = null;
   let featureCandidates = [];
-  if (commonScriptUrl) {
-    try {
-      const commonScriptText = await fetchText(commonScriptUrl);
-      featureCandidates = parseKimiFeatureCandidates(commonScriptText);
-    } catch {
-      featureCandidates = [];
+  if (pageHtml) {
+    const commonScriptRaw =
+      pageHtml.match(/\/\/statics\.moonshot\.cn\/kimi-web-seo\/assets\/(?:common|index)-[^"'\s]+\.js/i)?.[0] || null;
+    commonScriptUrl = commonScriptRaw ? absoluteUrl(commonScriptRaw, KIMI_OVERSEAS_CODE_URL) : null;
+    if (commonScriptUrl) {
+      try {
+        const commonScriptText = await fetchText(commonScriptUrl, { timeoutMs: 5_000 });
+        featureCandidates = parseKimiFeatureCandidates(commonScriptText);
+      } catch {
+        featureCandidates = [];
+      }
     }
   }
-  // The goods API also returns mainland (REGION_CN / REGION_MAINLAND) plans with
-  // fewer details than the domestic help page, so keep those out to avoid duplicates.
-  const overseasPlans = buildKimiCodePlansFromGoodsPayload(payload, {
-    featureCandidates,
-    excludeRegions: ['REGION_CN', 'REGION_MAINLAND'],
-  });
-  const plans = dedupePlans([...domesticPlans, ...overseasPlans]);
+
+  const overseasPlans = payload
+    ? buildKimiCodePlansFromGoodsPayload(payload, {
+        featureCandidates,
+        excludeRegions: ['REGION_CN', 'REGION_MAINLAND'],
+      })
+    : [];
+
+  const fallbackDomesticPlans =
+    domesticPlans.length === 0 && payload
+      ? buildKimiCodePlansFromGoodsPayload(payload, {
+          featureCandidates,
+          defaultRegion: 'REGION_CN',
+        })
+      : [];
+
+  const plans = dedupePlans([...domesticPlans, ...overseasPlans, ...fallbackDomesticPlans]);
   if (plans.length === 0) {
-    throw new Error('Unable to build Kimi domestic or overseas plans');
+    const domesticErr = domesticResult.status === 'rejected' ? domesticResult.reason?.message : 'no domestic plans';
+    const payloadErr = payloadResult.status === 'rejected' ? payloadResult.reason?.message : 'no goods payload';
+    throw new Error(`Unable to build Kimi domestic or overseas plans (domestic: ${domesticErr}; goods: ${payloadErr})`);
   }
 
   return {
     provider: PROVIDER_IDS.KIMI,
-    sourceUrls: unique([KIMI_DOMESTIC_MEMBERSHIP_URL, KIMI_OVERSEAS_CODE_URL, KIMI_GOODS_API_URL, commonScriptUrl]),
+    sourceUrls: unique([
+      KIMI_DOMESTIC_MEMBERSHIP_URL,
+      KIMI_OVERSEAS_CODE_URL,
+      KIMI_GOODS_API_URL,
+      commonScriptUrl,
+    ]),
     fetchedAt: new Date().toISOString(),
     plans,
   };
@@ -3156,9 +3167,14 @@ function parseAliyunTokenPlansFromDocsHtml(html) {
   const docsUrl = 'https://help.aliyun.com/zh/model-studio/token-plan-overview';
   // Token Plan team pricing is presented as columns in the current docs page.
   const cleanupDocsCell = (value) => normalizeText(value).replace(/\\n/g, ' ').replace(/\s+/g, ' ').trim();
-  const teamTableMatch = String(html || '').match(/<table\b[^>]*\bid=(["'])tp-ov-tbl-team\1[^>]*>[\s\S]*?<\/table>/i);
+  const allTables = String(html || '').match(/<table\b[^>]*>[\s\S]*?<\/table>/gi) || [];
+  const teamTableMatch =
+    allTables.find((table) => /id=(["'])tp-ov-tbl-team\1/i.test(table)) ||
+    allTables.find((table) => /标准(?:座|坐)席/.test(table)) ||
+    allTables.find((table) => /座席/.test(table)) ||
+    null;
   const teamRows = teamTableMatch
-    ? extractRows(teamTableMatch[0]).map((row) => row.map((cell) => cleanupDocsCell(cell)))
+    ? extractRows(teamTableMatch).map((row) => row.map((cell) => cleanupDocsCell(cell)))
     : [];
   const findTeamRow = (label) => teamRows.find((row) => label.test(row[0] || ''));
   const headerRow = teamRows.find((row) => row.some((cell) => /标准(?:座|坐)席/.test(cell)));
@@ -3258,7 +3274,7 @@ function parseAliyunTokenPlansFromDocsHtml(html) {
         currentPriceText: priceText,
         currentPrice: Number.isFinite(price) ? price : null,
         originalPriceText: sharedPackageRow[3] || null,
-        unit: null,
+        unit: '个/月',
         notes: null,
         serviceDetails: normalizeServiceDetails([credits ? `额度: ${credits}` : null, '跨座席共享的弹性用量包']),
       }),
@@ -3284,8 +3300,21 @@ function parseAliyunTokenPlansFromDocsHtml(html) {
 
 async function parseAliyunTokenPlans() {
   const docsUrl = 'https://help.aliyun.com/zh/model-studio/token-plan-overview';
-  const docsHtml = await fetchText(docsUrl);
-  return parseAliyunTokenPlansFromDocsHtml(docsHtml);
+  try {
+    const docsHtml = await fetchText(docsUrl);
+    return parseAliyunTokenPlansFromDocsHtml(docsHtml);
+  } catch (directError) {
+    try {
+      const { html } = await fetchRenderedPageHtml(docsUrl, 'Aliyun Token Plan docs', {
+        waitForText: /标准(?:座|坐)席/,
+        timeoutMs: 12_000,
+        waitForTimeoutMs: 8_000,
+      });
+      return parseAliyunTokenPlansFromDocsHtml(html);
+    } catch (playwrightError) {
+      throw new Error(`${directError.message}; Playwright fallback failed: ${playwrightError.message}`);
+    }
+  }
 }
 
 function normalizeVolcCurrentPriceText(rawText) {

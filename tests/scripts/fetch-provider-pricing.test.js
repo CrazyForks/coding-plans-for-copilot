@@ -773,6 +773,33 @@ test('parseAliyunTokenPlansFromDocsHtml reads the current column-oriented team p
   assert.match(result.plans[3].serviceDetails.join('\n'), /625,000 Credits\/个/);
 });
 
+test('parseAliyunTokenPlansFromDocsHtml handles tables without id attribute', () => {
+  const html = `
+    <table>
+      <thead><tr><th></th><th>Lite 套餐</th><th>Standard 套餐</th><th>Pro 套餐</th><th>用量包</th></tr></thead>
+      <tbody><tr><td>定价</td><td>39 元/月</td><td>139 元/月</td><td>499 元/月</td><td>100 元/个/月</td></tr></tbody>
+    </table>
+    <table>
+      <thead><tr><th></th><th>标准座席 Standard</th><th>高级座席 Pro</th><th>尊享座席 Max</th><th>共享用量包 Extra Bundle</th></tr></thead>
+      <tbody>
+        <tr><td>定价</td><td>原价 198 元/座席/月 限时 150 元/座席/月</td><td>原价 698 元/座席/月 限时 550 元/座席/月</td><td>1,398 元/座席/月</td><td>5,000 元/个/月</td></tr>
+        <tr><td>每月总额度</td><td>25,000 Credits/座席/月</td><td>100,000 Credits/座席/月</td><td>250,000 Credits/座席/月</td><td>625,000 Credits/个</td></tr>
+        <tr><td>7 天限额</td><td colspan="4">无限制</td></tr>
+        <tr><td>模型</td><td colspan="4">支持文本生成、图像生成等多种模型</td></tr>
+      </tbody>
+    </table>
+  `;
+
+  const result = parseAliyunTokenPlansFromDocsHtml(html);
+
+  assert.equal(result.provider, 'aliyun-token-plan');
+  assert.equal(result.plans.length, 4);
+  assert.equal(result.plans[0].name, 'Token Plan 标准座席');
+  assert.equal(result.plans[0].currentPriceText, '¥150/座席/月');
+  assert.equal(result.plans[3].name, 'Token Plan 共享用量包');
+  assert.equal(result.plans[3].currentPriceText, '¥5,000/个/月');
+});
+
 test('parseHuaweiTokenPlans returns the four 华为云 Token Plan tiers', async () => {
   const result = await parseHuaweiTokenPlans();
 

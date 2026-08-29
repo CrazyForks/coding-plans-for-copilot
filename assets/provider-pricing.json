@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T13:40:46.459Z",
+  "generatedAt": "2026-08-28T06:58:03.352Z",
   "providers": [
     {
       "provider": "aliyun-ai",
@@ -111,9 +111,7 @@
             "跨座席共享的弹性用量包"
           ]
         }
-      ],
-      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
-      "staleFailure": "aliyun-token-plan: Aliyun Token Plan docs do not expose plan prices"
+      ]
     },
     {
       "provider": "baidu-qianfan-ai",
@@ -687,7 +685,8 @@
       "sourceUrls": [
         "https://www.kimi.com/help/membership/membership-pricing",
         "https://www.kimi.com/code",
-        "https://www.kimi.com/apiv2/kimi.gateway.order.v1.GoodsService/ListGoods"
+        "https://www.kimi.com/apiv2/kimi.gateway.order.v1.GoodsService/ListGoods",
+        "https://statics.moonshot.cn/kimi-web-seo/assets/index-BNU4N3gA.js"
       ],
       "plans": [
         {
@@ -781,9 +780,7 @@
             "专业数据库 12000 次调用"
           ]
         }
-      ],
-      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
-      "staleFailure": "kimi-ai: Task timed out after 30000ms"
+      ]
     },
     {
       "provider": "kwaikat-ai",
@@ -1367,9 +1364,7 @@
             "使用 LingClaw 构建个人助理"
           ]
         }
-      ],
-      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
-      "staleFailure": "x-aio: Request failed: https://code.x-aio.com/assets/index-BlH8fPH1.js -> 522; Playwright fallback failed: page.evaluate: Error: Request failed: https://code.x-aio.com/assets/index-BlH8fPH1.js -> 522 at eval (eval at evaluate (:290:30), <anonymous>:4:15) at async <anonymous>:316:30"
+      ]
     },
     {
       "provider": "xfyun-ai",
@@ -1585,9 +1580,5 @@
       ]
     }
   ],
-  "failures": [
-    "kimi-ai: Task timed out after 30000ms",
-    "x-aio: Request failed: https://code.x-aio.com/assets/index-BlH8fPH1.js -> 522; Playwright fallback failed: page.evaluate: Error: Request failed: https://code.x-aio.com/assets/index-BlH8fPH1.js -> 522\n    at eval (eval at evaluate (:290:30), <anonymous>:4:15)\n    at async <anonymous>:316:30",
-    "aliyun-token-plan: Aliyun Token Plan docs do not expose plan prices"
-  ]
+  "failures": []
 }

@@ -188,6 +188,74 @@ test('抓取失败的 provider 不渲染套餐卡片', async ({ page }) => {
 });
 
 test('Moonshot Kimi 海内外套餐按人民币和美元分开展示', async ({ page }) => {
+  await page.route('**/provider-pricing.json', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        generatedAt: '2026-05-02T03:06:32.976Z',
+        providers: [
+          {
+            provider: 'kimi-ai',
+            sourceUrls: [
+              'https://www.kimi.com/help/membership/membership-pricing',
+              'https://www.kimi.com/code',
+            ],
+            plans: [
+              {
+                name: 'Andante（大陆）',
+                currentPriceText: '¥49/月',
+                currentPrice: 49,
+                unit: '月',
+                serviceDetails: ['计价币种: 人民币（CNY）', '适用区域: 大陆'],
+              },
+              {
+                name: 'Moderato（海外）',
+                currentPriceText: '$19/月',
+                currentPrice: 19,
+                unit: '月',
+                serviceDetails: ['计价币种: 美元（USD）', '适用区域: 海外'],
+              },
+            ],
+          },
+        ],
+        failures: [],
+      }),
+    });
+  });
+  await page.route('**/openrouter-provider-plans.json', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        generatedAt: '2026-05-02T03:06:32.976Z',
+        generatedAtBeijing: '2026年5月2日 11:06:32',
+        providers: [
+          {
+            slug: 'moonshotai',
+            openrouterName: 'Moonshot AI',
+            providerId: 'kimi-ai',
+            plans: [
+              {
+                name: 'Andante（大陆）',
+                currentPriceText: '¥49/月',
+                currentPrice: 49,
+                unit: '月',
+                serviceDetails: ['计价币种: 人民币（CNY）', '适用区域: 大陆'],
+              },
+              {
+                name: 'Moderato（海外）',
+                currentPriceText: '$19/月',
+                currentPrice: 19,
+                unit: '月',
+                serviceDetails: ['计价币种: 美元（USD）', '适用区域: 海外'],
+              },
+            ],
+          },
+        ],
+        pending: [],
+      }),
+    });
+  });
+
   await page.goto('/#domestic');
   await waitForDomesticCards(page);
 
@@ -217,6 +285,54 @@ test('Moonshot Kimi 海内外套餐按人民币和美元分开展示', async ({ 
 });
 
 test('海外套餐展示 Venice WandB 与 Cloudflare 的服务详情', async ({ page }) => {
+  await page.route('**/openrouter-provider-plans.json', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        generatedAt: '2026-05-02T03:06:32.976Z',
+        generatedAtBeijing: '2026年5月2日 11:06:32',
+        providers: [
+          {
+            slug: 'venice',
+            openrouterName: 'Venice',
+            plans: [
+              {
+                name: 'Pro Plus',
+                currentPriceText: '$49/月',
+                serviceDetails: [
+                  '7,500 credits / month for video, music, frontier image generation, LLMs, and API',
+                ],
+              },
+            ],
+          },
+          {
+            slug: 'wandb',
+            openrouterName: 'Weights & Biases',
+            plans: [
+              {
+                name: 'Inference add-on',
+                currentPriceText: '$0.01/1k tokens',
+                serviceDetails: ['Run open source AI models. View per model pricing.'],
+              },
+            ],
+          },
+          {
+            slug: 'cloudflare',
+            openrouterName: 'Cloudflare',
+            plans: [
+              {
+                name: 'Workers AI Paid usage',
+                currentPriceText: '$5/mo',
+                serviceDetails: ['@cf/meta/llama-3.2-1b-instruct'],
+              },
+            ],
+          },
+        ],
+        pending: [],
+      }),
+    });
+  });
+
   await page.goto('/#overseas');
   await waitForOverseasCards(page);
   await expect(page.locator('#overseasPanel')).not.toHaveClass(/hidden/);
@@ -240,6 +356,41 @@ test('海外套餐展示 Venice WandB 与 Cloudflare 的服务详情', async ({ 
 });
 
 test('官网启发式价格卡片展示解析服务说明或兜底', async ({ page }) => {
+  await page.route('**/openrouter-provider-plans.json', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        generatedAt: '2026-05-02T03:06:32.976Z',
+        generatedAtBeijing: '2026年5月2日 11:06:32',
+        providers: [
+          {
+            slug: 'digitalocean',
+            openrouterName: 'DigitalOcean',
+            plans: [
+              {
+                name: 'Starter',
+                currentPriceText: '$10/mo',
+                serviceDetails: ['官网价格页参考，具体权益以官网说明为准'],
+              },
+            ],
+          },
+          {
+            slug: 'mistral',
+            openrouterName: 'Mistral',
+            plans: [
+              {
+                name: 'Pro',
+                currentPriceText: '$5.99/mo',
+                serviceDetails: ['More access and usage.', 'More messages and web searches.'],
+              },
+            ],
+          },
+        ],
+        pending: [],
+      }),
+    });
+  });
+
   await page.goto('/#overseas');
   await waitForOverseasCards(page);
 
