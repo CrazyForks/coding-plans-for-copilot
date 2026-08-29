@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T08:38:16.152Z",
+  "generatedAt": "2026-08-29T13:40:46.459Z",
   "providers": [
     {
       "provider": "aliyun-ai",
@@ -1367,7 +1367,9 @@
             "使用 LingClaw 构建个人助理"
           ]
         }
-      ]
+      ],
+      "staleReason": "最近一次抓取解析失败，当前展示的是上次成功抓取结果，可能信息已过时。",
+      "staleFailure": "x-aio: Request failed: https://code.x-aio.com/assets/index-BlH8fPH1.js -> 522; Playwright fallback failed: page.evaluate: Error: Request failed: https://code.x-aio.com/assets/index-BlH8fPH1.js -> 522 at eval (eval at evaluate (:290:30), <anonymous>:4:15) at async <anonymous>:316:30"
     },
     {
       "provider": "xfyun-ai",
@@ -1585,6 +1587,7 @@
   ],
   "failures": [
     "kimi-ai: Task timed out after 30000ms",
+    "x-aio: Request failed: https://code.x-aio.com/assets/index-BlH8fPH1.js -> 522; Playwright fallback failed: page.evaluate: Error: Request failed: https://code.x-aio.com/assets/index-BlH8fPH1.js -> 522\n    at eval (eval at evaluate (:290:30), <anonymous>:4:15)\n    at async <anonymous>:316:30",
     "aliyun-token-plan: Aliyun Token Plan docs do not expose plan prices"
   ]
 }
