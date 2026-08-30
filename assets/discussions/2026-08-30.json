@@ -1,0 +1,106 @@
+{
+  "date": "2026-08-30",
+  "generatedAt": "2026-08-30T11:26:03.830Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 53,
+    "postsAfterKeywordFilter": 18,
+    "relevantPosts": 2,
+    "discussionsCreated": 2,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "V2EX, 智谱 GLM": 1,
+      "Claude": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1238187",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1238187",
+      "title": "使用 OpenCode 调用 V2EX AI API 的配置文件例子",
+      "content": "之前的 OpenCode 配置例子帖子中的配置文件非常 bare bone： https://edge.v2ex.com/t/1227634 所以其实很多 OpenCode 的额外功能会因此没有打开。 这里是一个我目前测试过的更完整的配置文件例子： 文件位置 ~/.config/opencode/opencode.jsonc 内容是目前 V2EX 上能够提供的 3 个 GLM 模型及其能力，其中 GLM 5.3 Flash 能支持图片。 { \"$schema\": \"https://opencode.ai/config.json\", \"disabled_providers\": [], \"provider\": { \"v2ex\": { \"name\": \"v2ex\", \"npm\": \"@ai-sdk/openai-compatible\", \"options\": { \"baseURL\": \"https://edge.v2ex.com/chat/v1\" }, \"models\": { \"coder\": { \"name\": \"GLM-5.2\", \"reasoning\": true, \"temperat",
+      "author": "Livid",
+      "createdAt": "2026-08-30T09:52:48.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.72,
+        "supplier": "V2EX, 智谱 GLM",
+        "supplierCategory": "aggregator",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.75,
+        "summary": "分享在 OpenCode 中调用 V2EX AI API 的更完整配置文件示例，支持 GLM-5.2、GLM-5.3 和 GLM-5.3-Flash 三个模型，可显示思考过程、context 占用和费用预估。",
+        "topics": [
+          "配置分享",
+          "OpenCode",
+          "API 调用",
+          "GLM 模型",
+          "费用预估"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/352",
+      "analyzedAt": "2026-08-30T11:32:28.026Z"
+    },
+    {
+      "id": "v2ex-1238160",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1238160",
+      "title": "Claude Max 20x 的周限真的能用满吗",
+      "content": "我 8 月 26 日上午买的，到了今天（也就是 8 月 30 日周日）上午 11 点重置，刚好满 4 天，只用到了周限的 37%。 我每天最少用 8 小时，只用 opus 5 ，开 worktree 并行 3 ~ 5 个任务，不停的开任务 + 3 轮 code review high ，结果只用了周限的 37%。按一周工作 6 天算，最多用到周限的 60%。 顺便吐槽一句这定价是真的刀法精准，5x 不够用，20x 又根本用不完。我看到没用完的额度就觉得亏了，到处拿着锤子找钉子",
+      "author": "milkleeeeee",
+      "createdAt": "2026-08-30T07:02:00.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 1,
+        "supplier": "Claude",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.9,
+        "summary": "用户分享了使用Claude Max 20x套餐的体验，指出周限难以用满，并批评定价策略过于精准，导致额度浪费。",
+        "topics": [
+          "周限",
+          "定价",
+          "使用体验",
+          "额度",
+          "订阅"
+        ],
+        "planMentioned": "Claude Max 20x",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/353",
+      "analyzedAt": "2026-08-30T11:32:32.425Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}
