@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-29T13:42:03.247Z",
-  "generatedAtBeijing": "2026年8月29日 21:42:03",
-  "sourceGeneratedAt": "2026-08-29T13:40:46.459Z",
-  "sourceGeneratedAtBeijing": "2026年8月29日 21:40:46",
-  "sourceMetricsGeneratedAt": "2026-08-29T13:41:01.057Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月29日 21:41:01",
+  "generatedAt": "2026-08-30T13:39:49.895Z",
+  "generatedAtBeijing": "2026年8月30日 21:39:49",
+  "sourceGeneratedAt": "2026-08-30T13:38:38.369Z",
+  "sourceGeneratedAtBeijing": "2026年8月30日 21:38:38",
+  "sourceMetricsGeneratedAt": "2026-08-30T13:38:46.383Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年8月30日 21:38:46",
   "summary": {
     "openrouterProviderCount": 105,
     "metricsProviderCount": 46,
@@ -495,94 +495,78 @@
       "providerId": "kimi-ai",
       "plans": [
         {
-          "name": "Andante（大陆）",
-          "currentPrice": 49,
-          "currentPriceText": "¥49/月",
+          "name": "Adagio（海外）",
+          "currentPrice": 0,
+          "currentPriceText": "$0/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": "试用计划",
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 免费试用",
+            "Kimi Code 试用套餐权益"
+          ]
+        },
+        {
+          "name": "Moderato（海外）",
+          "currentPrice": 19,
+          "currentPriceText": "$19/月",
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "计价币种: 人民币（CNY）",
-            "适用区域: 大陆",
-            "套餐定位: 日常使用",
-            "Agent 用量约 30 个",
-            "Agent 优先生成队列（4 倍速）",
-            "Office 文件处理、深度研究、网站部署",
-            "Kimi Code 可调用",
-            "定制化看板，含小组件任务（6 个）、定时任务（6 个）",
-            "精选插件（15+ 种可调用）",
-            "专业数据库 1000 次调用",
-            "制作并发布带数据库的网站",
-            "项目数 20 个，项目存储空间 20GB"
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 基础会员",
+            "Kimi Code 月度订阅权益"
           ]
         },
         {
-          "name": "Moderato（大陆）",
+          "name": "Allegretto（海外）",
+          "currentPrice": 39,
+          "currentPriceText": "$39/月",
+          "originalPrice": null,
+          "originalPriceText": null,
+          "unit": "月",
+          "notes": null,
+          "serviceDetails": [
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 进阶会员",
+            "Kimi Code 月度订阅权益"
+          ]
+        },
+        {
+          "name": "Allegro（海外）",
           "currentPrice": 99,
-          "currentPriceText": "¥99/月",
+          "currentPriceText": "$99/月",
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "计价币种: 人民币（CNY）",
-            "适用区域: 大陆",
-            "套餐定位: 效率升级",
-            "Agent 用量约 60 个",
-            "Agent 任务并行 2 个",
-            "Agent 集群可用 25 次（2 个子任务并行）",
-            "梦境记忆、自进化技能",
-            "定时任务、小组件任务各 10 个",
-            "Kimi Code 可调用",
-            "专业数据库 2000 次调用"
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 高级会员",
+            "Kimi Code 月度订阅权益"
           ]
         },
         {
-          "name": "Allegretto（大陆）",
+          "name": "Vivace（海外）",
           "currentPrice": 199,
-          "currentPriceText": "¥199/月",
+          "currentPriceText": "$199/月",
           "originalPrice": null,
           "originalPriceText": null,
           "unit": "月",
           "notes": null,
           "serviceDetails": [
-            "计价币种: 人民币（CNY）",
-            "适用区域: 大陆",
-            "套餐定位: 专业优选",
-            "Agent 用量约 150 个",
-            "Agent 任务并行 2 个",
-            "Agent 集群可用 50 次（4 个子任务并行）",
-            "梦境记忆、自进化技能",
-            "目标模式，Agent 自主推进完成",
-            "专属 Kimi Claw，支持 10 个 Kimi Claw 群聊",
-            "定时任务、小组件任务各 15 个",
-            "Kimi Code 可调用",
-            "专业数据库 5000 次调用"
-          ]
-        },
-        {
-          "name": "Allegro（大陆）",
-          "currentPrice": 699,
-          "currentPriceText": "¥699/月",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": null,
-          "serviceDetails": [
-            "计价币种: 人民币（CNY）",
-            "适用区域: 大陆",
-            "套餐定位: 全能尊享",
-            "Agent 用量约 360 个",
-            "Agent 任务并行 4 个",
-            "Agent 集群可用 120 次（8 个子任务并行）",
-            "梦境记忆、自进化技能",
-            "目标模式，Agent 自主推进完成",
-            "专属 Kimi Claw，支持 10 个 Kimi Claw 群聊",
-            "支持百万 Tokens 超长对话容量",
-            "定时任务、小组件任务各 20 个，项目数 100 个，项目存储空间 50GB",
-            "Kimi Code 可调用",
-            "专业数据库 12000 次调用"
+            "计价币种: 美元（USD）",
+            "适用区域: 海外",
+            "会员等级: 旗舰会员",
+            "Kimi Code 月度订阅权益"
           ]
         }
       ],
@@ -590,6 +574,7 @@
         "https://www.kimi.com/help/membership/membership-pricing",
         "https://www.kimi.com/code",
         "https://www.kimi.com/apiv2/kimi.gateway.order.v1.GoodsService/ListGoods",
+        "https://statics.moonshot.cn/kimi-web-seo/assets/index-ClQo9lLB.js",
         "https://platform.moonshot.ai"
       ],
       "pricingPageUrl": "https://www.kimi.com/help/membership/membership-pricing",
