@@ -1,6 +1,6 @@
 {
   "date": "2026-08-30",
-  "generatedAt": "2026-08-30T11:26:03.830Z",
+  "generatedAt": "2026-08-31T12:56:42.814Z",
   "config": {
     "sources": [
       "v2ex",
@@ -24,14 +24,14 @@
     "relevanceThreshold": 0.7
   },
   "summary": {
-    "totalPostsFetched": 53,
-    "postsAfterKeywordFilter": 18,
-    "relevantPosts": 2,
-    "discussionsCreated": 2,
+    "totalPostsFetched": 55,
+    "postsAfterKeywordFilter": 14,
+    "relevantPosts": 3,
+    "discussionsCreated": 3,
     "discussionsSkipped": 0,
     "supplierMentions": {
-      "V2EX, 智谱 GLM": 1,
-      "Claude": 1
+      "Cursor, Kiro": 1,
+      "Zhipu, Codex, Trellis, Zcode": 1
     }
   },
   "posts": [
@@ -96,11 +96,44 @@
       },
       "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/353",
       "analyzedAt": "2026-08-30T11:32:32.425Z"
+    },
+    {
+      "id": "v2ex-1238217",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1238217",
+      "title": "记一次 GLM 开发严重事故，花了 8 亿 token，买了个教训",
+      "content": "本周末使用 Codex + Trellis + Zcode 新开了一个项目，Codex 负责 brainstorm + prd ，Trellis 负责 Agent 之间的开发衔接，Zcode 负责实际的实现，加上本周末智谱送的 3 亿 token 以及 token plan pro 的额度，感觉本来没啥问题，昨天跑了一天十分的顺，glm5.3 flash 也是比较快，代码也都用 git 管理，只是没有上传到 github 。 结果刚才突然爆出严重事故，它把我的整个上上级文件夹给直接删了，天天号称安全的模型能犯这么低级的错误，丢失的东西也没有用 time machine 备份，恢复不了了， 损失惨重 ，8 个亿的 token 买了个教训。 希望大家引以为戒吧， 谨慎使用完全访问，可以使用个有 codex “帮我批准”这种功能的 harness; 开发目录最好干净一点，不要和别的放在一起，删了也不心疼，不过它要是删/，也没啥屌办法； 还是每次都 push 吧； 国产模型的跑分谨慎看待吧，感觉这一波蒸馏+后训练把跑分都搞起来了，实际还是坑很多。 紧急事故报告：工作区被误删，Phase 14 ",
+      "author": "IC0ZB",
+      "createdAt": "2026-08-30T13:04:36.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "Zhipu, Codex, Trellis, Zcode",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.85,
+        "summary": "用户分享了使用智谱 GLM 及相关 AI 编码工具（Codex、Trellis、Zcode）时的严重事故，因工具执行了大小写不敏感的 rm -rf 命令导致整个工作文件夹被删，损失惨重，并消耗了大量 token，以此提醒其他开发者谨慎使用完全访问权限。",
+        "topics": [
+          "GLM",
+          "token消耗",
+          "文件误删",
+          "安全风险",
+          "完全访问",
+          "套餐额度"
+        ],
+        "planMentioned": "token plan pro",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/356",
+      "analyzedAt": "2026-08-31T13:02:38.250Z"
     }
   ],
   "failures": [
     "linuxdo: https://linux.do/latest.rss → 429",
     "linuxdo: https://linux.do/latest.json → 429",
-    "linuxdo: https://linux.do/latest.json → 429"
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1238493: The operation was aborted due to timeout"
   ]
 }
