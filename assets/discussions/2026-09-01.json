@@ -1,0 +1,112 @@
+{
+  "date": "2026-09-01",
+  "generatedAt": "2026-09-01T11:14:44.812Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 57,
+    "postsAfterKeywordFilter": 10,
+    "relevantPosts": 2,
+    "discussionsCreated": 2,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "Codex": 1,
+      "Kimi, 智谱 GLM, Cursor": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1238711",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1238711",
+      "title": "[限 20 位长期用户] Codex 纯 Pro 高性能线路｜主打速度和稳定，性价比拉满",
+      "content": "自己长期维护的一套 Codex Pro 线路，目前想固定下来一批长期用户。 不准备做大，也不追求大量注册，计划最多留 20 位左右有长期使用需求的用户，满了之后就不再主动推广。 线路定位比较明确： 纯 Pro 资源池 主打速度和稳定性 高峰期也尽量保持体验 适合长期 Coding 、自动化、Agent 、高频调用 有 RPM / 并发需求可以单独配置 我更希望找的是这种用户： 每天都有稳定使用量，对速度、稳定性、RPM 比较敏感，希望长期找一条省心线路。 目前实际长期使用的用户反馈主要也是两个字：快、稳。 [实测数据] 平均首字约 0.88s 24h 曾稳定跑过 40000+ 请求 / 40 亿+ Token 。 可以先少量体验，自己跑真实任务测试，觉得合适再长期使用，不合适就不用买。 [价格] 定额额度和月度套餐都有，长期高需求建议用套餐；临时爆量也可以单独补额度。套餐单价不到 0.1 ，定额 0.2 。 不在帖子里搞复杂促销，需要的话注册后可以直接看套餐。 访问网址： https://codex.zhuanyedaili.com 体验说明：注册送 2 刀额度，公共体验池是 Plus",
+      "author": "wcngbc",
+      "createdAt": "2026-09-01T08:09:17.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.9,
+        "supplier": "Codex",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.9,
+        "summary": "这是一个限时招募20名长期用户的Codex Pro高性能线路服务，专注于速度和稳定性，适合编码、自动化、Agent等高频调用场景，提供定额和月度套餐，注册可获2额度体验。",
+        "topics": [
+          "定价",
+          "套餐",
+          "体验卡",
+          "注册赠送",
+          "速度",
+          "稳定性",
+          "长期用户",
+          "高频调用",
+          "自动化",
+          "代理",
+          "Codex"
+        ],
+        "planMentioned": "Pro",
+        "language": "zh",
+        "category": "Announcements"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/357",
+      "analyzedAt": "2026-09-01T11:20:09.155Z"
+    },
+    {
+      "id": "v2ex-1238644",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1238644",
+      "title": "国模 kimi 和 glm 等哪个更划算",
+      "content": "我看 kimi 的 allegro 和 glm 的 pro 差不多，不知道额度差距多少，听说 kimi 额度更少，我做前端的，还是 jsp 配 vue3 老古董了，我现在使用 Cursor60 刀感觉额度凑合，重度就不行了",
+      "author": "atreus1891832889",
+      "createdAt": "2026-09-01T05:14:29.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.92,
+        "supplier": "Kimi, 智谱 GLM, Cursor",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.75,
+        "summary": "用户对比国产 Kimi 和智谱 GLM 编程套餐的划算程度，关心额度差异，并提到当前使用 Cursor 60 美元套餐感觉额度勉强够用。",
+        "topics": [
+          "套餐对比",
+          "额度",
+          "定价",
+          "国产替代"
+        ],
+        "planMentioned": "Cursor Pro",
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/358",
+      "analyzedAt": "2026-09-01T11:20:14.991Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1238612: LLM returned invalid JSON: Unexpected token 'U', \"User Safety: safe\" is not valid JSON"
+  ]
+}
