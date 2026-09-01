@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-31T15:57:03.771Z",
-  "generatedAtBeijing": "2026年8月31日 23:57:03",
-  "sourceGeneratedAt": "2026-08-31T15:55:55.717Z",
-  "sourceGeneratedAtBeijing": "2026年8月31日 23:55:55",
-  "sourceMetricsGeneratedAt": "2026-08-31T15:55:57.281Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年8月31日 23:55:57",
+  "generatedAt": "2026-09-01T13:13:29.928Z",
+  "generatedAtBeijing": "2026年9月1日 21:13:29",
+  "sourceGeneratedAt": "2026-09-01T13:12:25.786Z",
+  "sourceGeneratedAtBeijing": "2026年9月1日 21:12:25",
+  "sourceMetricsGeneratedAt": "2026-09-01T13:12:27.366Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年9月1日 21:12:27",
   "summary": {
     "openrouterProviderCount": 105,
     "metricsProviderCount": 46,
@@ -60,7 +60,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/c592fd7ed72ea8cbb0b8b0d853d6809a.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/0318e7a0b910a3d9af3ac0f3bb419abb.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -574,7 +574,7 @@
         "https://www.kimi.com/help/membership/membership-pricing",
         "https://www.kimi.com/code",
         "https://www.kimi.com/apiv2/kimi.gateway.order.v1.GoodsService/ListGoods",
-        "https://statics.moonshot.cn/kimi-web-seo/assets/index-BeXo_90o.js",
+        "https://statics.moonshot.cn/kimi-web-seo/assets/index-D4a-3FzI.js",
         "https://platform.moonshot.ai"
       ],
       "pricingPageUrl": "https://www.kimi.com/help/membership/membership-pricing",
@@ -740,13 +740,14 @@
         }
       ],
       "sourceUrls": [
-        "https://platform.stepfun.com/step-plan?channel=step-dev"
+        "https://platform.stepfun.com/step-plan?channel=step-dev",
+        "https://platform.stepfun.ai"
       ],
       "pricingPageUrl": "https://platform.stepfun.com/step-plan?channel=step-dev",
-      "officialWebsiteUrl": null,
-      "websiteSource": "unavailable",
+      "officialWebsiteUrl": "https://platform.stepfun.ai",
+      "websiteSource": "terms_of_service_url",
       "privacyPolicyUrl": null,
-      "termsOfServiceUrl": null,
+      "termsOfServiceUrl": "https://platform.stepfun.ai/docs/en/agreement/userservice",
       "statusPageUrl": null,
       "parseMode": "provider-pricing-structured"
     },
@@ -982,7 +983,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://www.atlascloud.ai",
       "pricingPageUrl": "https://www.atlascloud.ai/pricing/models",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.02 / $0.05 / $0.052）",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.02 / $0.0475 / $0.05）",
       "blocked": false
     },
     {
@@ -1054,7 +1055,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://friendli.ai",
       "pricingPageUrl": "https://friendli.ai/pricing",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $ 2.9 / $ 3.9 / $ 4.5）",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $ 2.9 / $ 4.0 / $ 3.9）",
       "blocked": false
     },
     {
