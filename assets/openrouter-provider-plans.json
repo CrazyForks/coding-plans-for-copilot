@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-09-01T13:13:29.928Z",
-  "generatedAtBeijing": "2026年9月1日 21:13:29",
-  "sourceGeneratedAt": "2026-09-01T13:12:25.786Z",
-  "sourceGeneratedAtBeijing": "2026年9月1日 21:12:25",
-  "sourceMetricsGeneratedAt": "2026-09-01T13:12:27.366Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年9月1日 21:12:27",
+  "generatedAt": "2026-09-02T12:38:50.611Z",
+  "generatedAtBeijing": "2026年9月2日 20:38:50",
+  "sourceGeneratedAt": "2026-09-02T12:37:47.807Z",
+  "sourceGeneratedAtBeijing": "2026年9月2日 20:37:47",
+  "sourceMetricsGeneratedAt": "2026-09-02T12:37:56.291Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年9月2日 20:37:56",
   "summary": {
     "openrouterProviderCount": 105,
-    "metricsProviderCount": 46,
-    "resolvedMetricsProviderCount": 46,
+    "metricsProviderCount": 47,
+    "resolvedMetricsProviderCount": 47,
     "unresolvedMetricsProviderCount": 0,
     "structuredProviderCount": 8,
-    "heuristicProviderCount": 7,
-    "providersWithPlans": 15,
-    "pendingCount": 31,
+    "heuristicProviderCount": 6,
+    "providersWithPlans": 14,
+    "pendingCount": 33,
     "blockedPendingCount": 2,
     "probeConcurrency": 4,
     "probeMaxCandidates": 6
@@ -60,7 +60,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/0318e7a0b910a3d9af3ac0f3bb419abb.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/f3fd54702d11deab2a71be471b89f417.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -574,7 +574,7 @@
         "https://www.kimi.com/help/membership/membership-pricing",
         "https://www.kimi.com/code",
         "https://www.kimi.com/apiv2/kimi.gateway.order.v1.GoodsService/ListGoods",
-        "https://statics.moonshot.cn/kimi-web-seo/assets/index-D4a-3FzI.js",
+        "https://statics.moonshot.cn/kimi-web-seo/assets/index-Cbn2AGeJ.js",
         "https://platform.moonshot.ai"
       ],
       "pricingPageUrl": "https://www.kimi.com/help/membership/membership-pricing",
@@ -897,65 +897,6 @@
       "termsOfServiceUrl": "https://venice.ai/legal/tos",
       "statusPageUrl": null,
       "parseMode": "official-website-heuristic"
-    },
-    {
-      "slug": "z-ai",
-      "openrouterName": "Z.AI",
-      "providerId": null,
-      "plans": [
-        {
-          "name": "官网价格参考",
-          "currentPrice": 18,
-          "currentPriceText": "$18/mo",
-          "originalPrice": null,
-          "originalPriceText": null,
-          "unit": "月",
-          "notes": "来源: https://z.ai/subscribe",
-          "serviceDetails": [
-            "官网价格页参考，具体权益以官网说明为准"
-          ]
-        }
-      ],
-      "sourceUrls": [
-        "https://z.ai",
-        "https://z.ai/subscribe",
-        "https://z.ai/_next/static/chunks/ea6070cd-5e7ba81760cc86ab.js",
-        "https://z.ai/_next/static/chunks/523-d737efcb48c2d4c2.js",
-        "https://z.ai/_next/static/chunks/main-app-6d04acb6efcff2a9.js",
-        "https://z.ai/_next/static/chunks/3275-2acefeafb87e29c2.js",
-        "https://z.ai/_next/static/chunks/3637-3b27a01117e08752.js",
-        "https://z.ai/_next/static/chunks/1315-623a826a44871b55.js",
-        "https://z.ai/_next/static/chunks/2232-cfbef78d21391659.js",
-        "https://z.ai/_next/static/chunks/8465-994ca7df40b262fe.js",
-        "https://z.ai/_next/static/chunks/4304-a8c9740ddefe83df.js",
-        "https://z.ai/_next/static/chunks/4909-b479c7cce05b73aa.js",
-        "https://z.ai/_next/static/chunks/2470-4600d81a6b6c1ec8.js",
-        "https://z.ai/_next/static/chunks/4504-43a26f5d45ca29f6.js",
-        "https://z.ai/_next/static/chunks/4184-e2632833508a093c.js",
-        "https://z.ai/_next/static/chunks/1203-ed8b3732cfc398c2.js",
-        "https://z.ai/_next/static/chunks/7536-24ac3c966fcf37ee.js",
-        "https://z.ai/_next/static/chunks/3588-ddd2e7f9cbb9f41a.js",
-        "https://z.ai/_next/static/chunks/9438-983d3793bca0f534.js",
-        "https://z.ai/_next/static/chunks/3768-339bf58482f3b5e7.js",
-        "https://z.ai/_next/static/chunks/7853-00f043ed9411923a.js",
-        "https://z.ai/_next/static/chunks/3975-125a80cd9c15376a.js",
-        "https://z.ai/_next/static/chunks/663-840fd3e249083e37.js",
-        "https://z.ai/_next/static/chunks/4029-2d2cbc4a8e10c5df.js",
-        "https://z.ai/_next/static/chunks/3496-5883b1ad260e4db7.js",
-        "https://z.ai/_next/static/chunks/2166-df01cedcc71c8c77.js",
-        "https://z.ai/_next/static/chunks/6746-577ca1bfcee32005.js",
-        "https://z.ai/_next/static/chunks/8338-3a2774b6011ae976.js",
-        "https://z.ai/_next/static/chunks/5163-59f45b5cebdea9f1.js",
-        "https://z.ai/_next/static/chunks/9857-45fcd76d22966710.js",
-        "https://z.ai/_next/static/chunks/8519-2879b762fffa3bcb.js"
-      ],
-      "pricingPageUrl": "https://z.ai/subscribe",
-      "officialWebsiteUrl": "https://z.ai",
-      "websiteSource": "override",
-      "privacyPolicyUrl": "https://chat.z.ai/legal-agreement/privacy-policy",
-      "termsOfServiceUrl": "https://chat.z.ai/legal-agreement/terms-of-service",
-      "statusPageUrl": null,
-      "parseMode": "official-website-heuristic"
     }
   ],
   "pending": [
@@ -1092,6 +1033,15 @@
       "officialWebsiteUrl": "https://io.net",
       "pricingPageUrl": "https://io.net",
       "reason": "官网价格页探测失败：https://io.net/pricing: HTTP 404",
+      "blocked": false
+    },
+    {
+      "slug": "ionstream",
+      "openrouterName": "Ionstream",
+      "providerId": null,
+      "officialWebsiteUrl": "https://ionstream.ai",
+      "pricingPageUrl": "https://ionstream.ai",
+      "reason": "官网价格页探测失败：https://ionstream.ai/pricing: HTTP 404",
       "blocked": false
     },
     {
@@ -1236,6 +1186,15 @@
       "officialWebsiteUrl": "https://www.wafer.ai",
       "pricingPageUrl": "https://www.wafer.ai",
       "reason": "官网价格页探测失败：https://www.wafer.ai/pricing: HTTP 404",
+      "blocked": false
+    },
+    {
+      "slug": "z-ai",
+      "openrouterName": "Z.AI",
+      "providerId": null,
+      "officialWebsiteUrl": "https://z.ai",
+      "pricingPageUrl": "https://z.ai/subscribe",
+      "reason": "官网未发现可解析的套餐价格页",
       "blocked": false
     }
   ]
