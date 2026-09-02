@@ -1,0 +1,138 @@
+{
+  "date": "2026-09-02",
+  "generatedAt": "2026-09-02T10:48:40.509Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 58,
+    "postsAfterKeywordFilter": 18,
+    "relevantPosts": 3,
+    "discussionsCreated": 3,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "gpt-reserve": 1,
+      "Claude": 1,
+      "Cursor, GitHub Copilot": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1239003",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1239003",
+      "title": "gpt-reserve Weekly limit 是啥，感觉有问题啊",
+      "content": "gpt-reserve Weekly limit 是啥，我的 weekly limit 用到 0 了，然后这个 gpt-reserve Weekly limit 是满的，但是切换 luna 低级思考强度，还是提示额度用完了，感觉就是摆设呢，还不能用吗？有大佬在用这个么",
+      "author": "wraithcorps11",
+      "createdAt": "2026-09-02T09:59:46.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.8,
+        "supplier": "gpt-reserve",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.8,
+        "summary": "用户询问 gpt-reserve 的周限额已用完，即使切换 luna 低级思考强度仍显示额度用尽，觉得功能受限且像是摆设。",
+        "topics": [
+          "周限",
+          "额度",
+          "使用问题"
+        ],
+        "planMentioned": "gpt-reserve",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/359",
+      "analyzedAt": "2026-09-02T10:53:52.830Z"
+    },
+    {
+      "id": "v2ex-1238998",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1238998",
+      "title": "有人 App Store 订阅 claude 从 5x 升级到 20x 的吗？会退差价吗",
+      "content": "rt ，fable 5.1 一个任务给我 5h 限额干没了，任务还没干完",
+      "author": "Fike",
+      "createdAt": "2026-09-02T09:44:04.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Claude",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.9,
+        "summary": "有人询问在App Store订阅Claude并从5x升级到20x时是否会退还差价",
+        "topics": [
+          "升级",
+          "定价",
+          "差价",
+          "Claude",
+          "App Store"
+        ],
+        "planMentioned": "Claude 5x/20x",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/360",
+      "analyzedAt": "2026-09-02T10:53:58.964Z"
+    },
+    {
+      "id": "v2ex-1238928",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1238928",
+      "title": "Cursor/Copilot 的\"高级请求\"额度， Agent 模式几分钟就能刷完",
+      "content": "最近发现一个坑：Cursor 、GitHub Copilot 这类工具按\"高级请求数\"计费封顶，单次代码补全消耗很少，但开 Agent 模式（让它自己读文件、跑测试、多轮改代码）时，每一步操作都可能各算一次请求，几分钟就能把平时几天的额度用完，账单上却只显示一个笼统的总数，很难当场意识到消耗速度差这么多。 写了篇拆解，讲清楚为什么 Agent 模式消耗更快、怎么在工具后台核查请求类型细分、怎么根据任务类型选补全模式还是 Agent 模式控制成本： https://ponr.org/articles/ai-coding-agent-request-quota-burn.html 顺便说一句，这是我自己在维护的一个记录 AI 服务订阅/账单/API 机制的站，不是接单推广，纯粹踩坑记录，看看对大家有没有用。",
+      "author": "llfworker",
+      "createdAt": "2026-09-02T06:45:26.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Cursor, GitHub Copilot",
+        "supplierCategory": "international-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.75,
+        "summary": "Cursor 和 GitHub Copilot 按\"高级请求数\"计费，Agent 模式几分钟就能耗尽平时几天的额度，账单透明度差。作者分享了请求消耗拆解及成本控制建议。",
+        "topics": [
+          "高级请求",
+          "Agent模式",
+          "额度消耗",
+          "计费机制",
+          "账单透明度",
+          "成本控制"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/361",
+      "analyzedAt": "2026-09-02T10:54:07.323Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1238999: LLM returned invalid JSON: Unexpected token 'U', \"User Safety: safe\" is not valid JSON"
+  ]
+}
