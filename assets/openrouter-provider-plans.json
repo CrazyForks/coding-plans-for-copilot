@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-09-02T12:38:50.611Z",
-  "generatedAtBeijing": "2026年9月2日 20:38:50",
-  "sourceGeneratedAt": "2026-09-02T12:37:47.807Z",
-  "sourceGeneratedAtBeijing": "2026年9月2日 20:37:47",
-  "sourceMetricsGeneratedAt": "2026-09-02T12:37:56.291Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年9月2日 20:37:56",
+  "generatedAt": "2026-09-03T12:41:01.979Z",
+  "generatedAtBeijing": "2026年9月3日 20:41:01",
+  "sourceGeneratedAt": "2026-09-03T12:40:04.398Z",
+  "sourceGeneratedAtBeijing": "2026年9月3日 20:40:04",
+  "sourceMetricsGeneratedAt": "2026-09-03T12:40:06.923Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年9月3日 20:40:06",
   "summary": {
     "openrouterProviderCount": 105,
     "metricsProviderCount": 47,
@@ -60,7 +60,7 @@
       ],
       "sourceUrls": [
         "https://www.aliyun.com/benefit/scene/codingplan",
-        "https://cloud-assets.alicdn.com/lowcode/entry/prod/f3fd54702d11deab2a71be471b89f417.js",
+        "https://cloud-assets.alicdn.com/lowcode/entry/prod/502cf02df761a9fbf6ab675832f8f4f5.js",
         "https://t.aliyun.com/abs/promotion/queryPrice",
         "https://help.aliyun.com/zh/model-studio/coding-plan",
         "https://www.alibabacloud.com"
@@ -574,7 +574,7 @@
         "https://www.kimi.com/help/membership/membership-pricing",
         "https://www.kimi.com/code",
         "https://www.kimi.com/apiv2/kimi.gateway.order.v1.GoodsService/ListGoods",
-        "https://statics.moonshot.cn/kimi-web-seo/assets/index-Cbn2AGeJ.js",
+        "https://statics.moonshot.cn/kimi-web-seo/assets/index-B9v9wYr_.js",
         "https://platform.moonshot.ai"
       ],
       "pricingPageUrl": "https://www.kimi.com/help/membership/membership-pricing",
@@ -924,7 +924,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://www.atlascloud.ai",
       "pricingPageUrl": "https://www.atlascloud.ai/pricing/models",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.02 / $0.0475 / $0.05）",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $0.02 / $0.38 / $0.4）",
       "blocked": false
     },
     {
@@ -969,7 +969,7 @@
       "providerId": null,
       "officialWebsiteUrl": "https://deepinfra.com",
       "pricingPageUrl": "https://deepinfra.com/pricing",
-      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $107 / $0.08 / $0.016）",
+      "reason": "仅检测到按量计费价格，未识别到套餐订阅价格（样例: $107 / $0.2156 / $0.0686）",
       "blocked": false
     },
     {
