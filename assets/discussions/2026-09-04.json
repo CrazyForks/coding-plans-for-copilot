@@ -1,0 +1,142 @@
+{
+  "date": "2026-09-04",
+  "generatedAt": "2026-09-04T10:51:31.731Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 49,
+    "postsAfterKeywordFilter": 17,
+    "relevantPosts": 3,
+    "discussionsCreated": 3,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "小米": 1,
+      "OpenAI, Anthropic, Google, xAI, DeepSeek, GLM, Kimi, Qwen, MiniMax": 1,
+      "CodeX Pro": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1239535",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1239535",
+      "title": "小米 token plan 的 lite 版本用 pro 模型两天就干了一半的量",
+      "content": "最近开始逐家体验各自的 token plan ，全部都买最低版本，看看对应实际的工作量到底经不经用，这才第一个，就发现两天就用了一半了，小米这个 34 块钱 41e 的 credits ，感觉有点虚啊，还是说 pro 版本，本身消耗就很大 ps：其实还有个点，就是普通的 2.5 非 pro 模型我用的这两天，经常没反应，不知道是不是用的人太多了，不管是 mimo code 还是 opencode ，经常连思考过程都进入不了，之前用 ds flash 基本没有这种问题",
+      "author": "mk3s",
+      "createdAt": "2026-09-04T08:31:03.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "小米",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.85,
+        "summary": "用户测试了多家AI编码助手token套餐，发现小米lite版本使用pro模型两天就消耗了一半credits，认为性价比不高；同时遇到非pro模型（2.5）经常无响应的问题。",
+        "topics": [
+          "定价",
+          "套餐",
+          "小米",
+          "token",
+          "pro 模型",
+          "体验",
+          "故障排查"
+        ],
+        "planMentioned": "小米token计划lite版本",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/362",
+      "analyzedAt": "2026-09-04T10:58:32.094Z"
+    },
+    {
+      "id": "v2ex-1239522",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1239522",
+      "title": "做了一个九厂 AI 模型横评，选完模型还能继续比渠道价格",
+      "content": "现在选 AI API 往往有两个不同的问题：先决定用哪家当前最强的模型，再决定从官方、云厂商还是聚合平台调用它。把同系列旧版本全摆在一起，信息很多，但对实际选型帮助不大。 所以我把页面改成两层：第一层每家只放一个当前可购买的通用领先模型，覆盖 OpenAI 、Anthropic 、Google 、xAI 、DeepSeek 、GLM 、Kimi 、Qwen 和 MiniMax ；第二层进入精确模型后，再比较它的全部 API 渠道。 目前底层数据快照包含： 343 个有价格的模型； 479 个当前可用渠道； 21 家提供商。 今天 OpenAI 已经发布 GPT-6 Astra ，并将它称为当前最强模型；不过官方文档同时说明，普通 API 和订阅方案要在未来几天才开放。所以页面会显示这条发布状态，但在确认到实际可用渠道前，OpenAI 行暂时保留 GPT-5.6 Sol ，不把“已经发布”写成“现在可买”。 领先模型的选择规则是： 每家厂商只保留当前可买到的通用模型； 有 Agent Arena 分数时优先按分数选择，没有时才按发布时间； 不把“刚发布”自动等同于“最强”，例如当前数据中",
+      "author": "hd264",
+      "createdAt": "2026-09-04T07:56:32.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "OpenAI, Anthropic, Google, xAI, DeepSeek, GLM, Kimi, Qwen, MiniMax",
+        "supplierCategory": "aggregator",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.85,
+        "summary": "The author created an AI model comparison site (aiplans.dev) that lets users first pick the leading model from each provider, then compare API channel prices across official, cloud, and aggregator platforms. They seek community feedback on model selection rules, pricing accuracy, and channel availability.",
+        "topics": [
+          "模型横评",
+          "API定价",
+          "渠道比较",
+          "套餐对比",
+          "开源项目"
+        ],
+        "planMentioned": null,
+        "language": "zh",
+        "category": "社区资讯"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/363",
+      "analyzedAt": "2026-09-04T10:58:41.957Z"
+    },
+    {
+      "id": "v2ex-1239520",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1239520",
+      "title": "chatgpt astra 模型预览",
+      "content": "我自己的中转站，20 个 codex pro 订阅号池， Astra 上线第一时间即可使用。 网站： https://realapi.zhensnow.uk/home",
+      "author": "yetianxingshi",
+      "createdAt": "2026-09-04T07:53:52.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "CodeX Pro",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.85,
+        "summary": "The author describes their personal middleware station with 20 CodeX Pro subscriptions and notes that Astra was available first. They provide the website URL for reference.",
+        "topics": [
+          "订阅",
+          "codex pro",
+          "Astra",
+          "中转站",
+          "计划"
+        ],
+        "planMentioned": "codex pro 订阅号池",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/364",
+      "analyzedAt": "2026-09-04T10:58:49.465Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "analysis failed for v2ex-1239512: The operation was aborted due to timeout",
+    "analysis failed for v2ex-1239504: The operation was aborted due to timeout"
+  ]
+}
