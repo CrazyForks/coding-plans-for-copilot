@@ -1,0 +1,171 @@
+{
+  "date": "2026-09-05",
+  "generatedAt": "2026-09-05T10:05:45.327Z",
+  "config": {
+    "sources": [
+      "v2ex",
+      "linuxdo"
+    ],
+    "keywords": [
+      "套餐",
+      "coding",
+      "plan",
+      "claude",
+      "gpt",
+      "openai",
+      "kimi",
+      "zhipu",
+      "moonshot",
+      "qwen",
+      "glm",
+      "deepseek"
+    ],
+    "llmModel": "openrouter/free",
+    "relevanceThreshold": 0.7
+  },
+  "summary": {
+    "totalPostsFetched": 57,
+    "postsAfterKeywordFilter": 22,
+    "relevantPosts": 4,
+    "discussionsCreated": 4,
+    "discussionsSkipped": 0,
+    "supplierMentions": {
+      "阿里": 1,
+      "Codex": 1,
+      "OpenAI": 1
+    }
+  },
+  "posts": [
+    {
+      "id": "v2ex-1239698",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1239698",
+      "title": "和朋友共用 GPT Pro 的最佳姿势是什么",
+      "content": "rt, 最近打算和现实里关系蛮好的朋友合租一个 GPT Pro 20x，想问下两个人登录同一个账号会容易导致封号吗？用 CPA 共享需要云服务器吗",
+      "author": "Pig930",
+      "createdAt": "2026-09-05T08:45:26.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": null,
+        "supplierCategory": null,
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.85,
+        "summary": "The post asks about the best way to share GPT Pro 20x between two roommates and whether using the same account would risk account banning, while questioning if CPA sharing requires cloud servers.",
+        "topics": [
+          "GPT Pro",
+          "账号共享",
+          "封号风险",
+          "云服务器",
+          "合租"
+        ],
+        "planMentioned": "GPT Pro 20x",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/365",
+      "analyzedAt": "2026-09-05T10:15:04.003Z"
+    },
+    {
+      "id": "v2ex-1239690",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1239690",
+      "title": "阿里的 coding plan 无时无刻不在 429",
+      "content": "qwen 3.8 不管哪个版本，都好用，就是阿里的算力太拉了。",
+      "author": "235777178",
+      "createdAt": "2026-09-05T08:03:26.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.85,
+        "supplier": "阿里",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "negative",
+        "sentimentConfidence": 0.7,
+        "summary": "用户分享了对阿里Qwen 3.8模型的使用体验，称赞模型好用但抱怨算力不足，并提到遇到429错误",
+        "topics": [
+          "算力",
+          "429错误",
+          "Qwen",
+          "模型体验"
+        ],
+        "planMentioned": "Qwen 3.8",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/366",
+      "analyzedAt": "2026-09-05T10:15:08.172Z"
+    },
+    {
+      "id": "v2ex-1239670",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1239670",
+      "title": "[GPT-6 已上线] 喜大普奔，速速来蹬！",
+      "content": "刚把 GPT-6 接进现有 Codex 线路。 GPT-6 已支持 Pro 账号池 高 RPM 长期稳定线路 支持月付 仅向包月和按量付费用户开通（详情看我帖子），不做公益线路。 [地址] ： https://codex.zhuanyedaili.com [联系方式] ： QQ 群：1106944249 https://codex.zhuanyedaili.com/scripts/codex-qq-group.jpg",
+      "author": "wcngbc",
+      "createdAt": "2026-09-05T05:58:02.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.95,
+        "supplier": "Codex",
+        "supplierCategory": "chinese-provider",
+        "sentiment": "positive",
+        "sentimentConfidence": 0.85,
+        "summary": "The post announces the integration of GPT-6 with Codex and promotes its new subscription model featuring monthly payment options for Pro account holders, emphasizing long-term stability and high RPM performance without offering a free tier.",
+        "topics": [
+          "GPT-6",
+          "Codex",
+          "订阅",
+          "定价",
+          "Pro账号",
+          "月付"
+        ],
+        "planMentioned": "Pro 账号池",
+        "language": "zh",
+        "category": "使用体验"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/367",
+      "analyzedAt": "2026-09-05T10:15:12.910Z"
+    },
+    {
+      "id": "v2ex-1239659",
+      "source": "v2ex",
+      "sourceUrl": "https://www.v2ex.com/t/1239659",
+      "title": "认真请教一个问题，关于菲区 GPT PRO",
+      "content": "我一直来都是开的美区 GPT ，想换成更划算的菲区或者其他地区的 GPT PRO 会员，额度是否一样呢？ 1 、如果不适用 sub2api ，正常登录使用 codex ，额度正常吗 使用体验有没有区别 2 、如果使用 sub2api ，让 Agent 调用，是否风控严格 有没有大佬知道呢～",
+      "author": "edanfintech",
+      "createdAt": "2026-09-05T04:10:14.000Z",
+      "analysis": {
+        "isRelevant": true,
+        "isCodingPlan": true,
+        "relevance": 0.72,
+        "supplier": "OpenAI",
+        "supplierCategory": "international-provider",
+        "sentiment": "neutral",
+        "sentimentConfidence": 0.85,
+        "summary": "用户在询问关于菲律宾区和其他地区GPT PRO会员的额度是否与美国区一致，以及在不同区域使用Codex（AI编程模型）时的额度和体验区别，还涉及sub2api工具的风控问题。",
+        "topics": [
+          "GPT PRO",
+          "区域订阅",
+          "Codex",
+          "额度",
+          "sub2api",
+          "风控",
+          "API调用"
+        ],
+        "planMentioned": "GPT PRO",
+        "language": "zh",
+        "category": "经验分享"
+      },
+      "discussionUrl": "https://github.com/jqknono/coding-plans-for-copilot/discussions/368",
+      "analyzedAt": "2026-09-05T10:15:17.862Z"
+    }
+  ],
+  "failures": [
+    "linuxdo: https://linux.do/latest.rss → 429",
+    "linuxdo: https://linux.do/latest.json → 429",
+    "linuxdo: https://linux.do/latest.json → 429"
+  ]
+}
