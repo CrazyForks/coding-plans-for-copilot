@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-09-05T11:43:42.720Z",
-  "generatedAtBeijing": "2026年9月5日 19:43:42",
-  "sourceGeneratedAt": "2026-09-05T06:41:20.869Z",
-  "sourceGeneratedAtBeijing": "2026年9月5日 14:41:20",
-  "sourceMetricsGeneratedAt": "2026-09-05T11:42:52.320Z",
-  "sourceMetricsGeneratedAtBeijing": "2026年9月5日 19:42:52",
+  "generatedAt": "2026-09-06T12:01:20.676Z",
+  "generatedAtBeijing": "2026年9月6日 20:01:20",
+  "sourceGeneratedAt": "2026-09-06T12:00:24.568Z",
+  "sourceGeneratedAtBeijing": "2026年9月6日 20:00:24",
+  "sourceMetricsGeneratedAt": "2026-09-06T12:00:26.272Z",
+  "sourceMetricsGeneratedAtBeijing": "2026年9月6日 20:00:26",
   "summary": {
     "openrouterProviderCount": 106,
     "metricsProviderCount": 48,
